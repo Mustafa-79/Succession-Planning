@@ -11,7 +11,7 @@ router.use(
     })
 )
 
-router.get('/', test)
+router.get('/', loginUser)
 router.post('/signup', registerUser)
 router.post('/login', loginUser)
 router.get('/profile', getProfile)
