@@ -84,9 +84,10 @@ const loginUser = async (reqs, resp) => {
             }) 
         }
 
-        if (s_img != user.security_img) {
+        if (s_img.toString() != user.two_factor_answer) {
+            console.log(s_img, user.two_factor_answer)
             return resp.json({
-                error: 'Incorrect security image selected'
+                error: 'Incorrect two factor image selected'
             })
         }
 

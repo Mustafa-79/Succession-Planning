@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Employee = require('./models/employee');
+const {hashPassword} = require('./helpers/auth');
 
 async function init_db(conn) {
     const db = conn;
@@ -21,7 +22,7 @@ async function init_db(conn) {
                 "employeeID": "1001",
                 "name": "John Doe",
                 "email": "john.doe@example.com",
-                "password": "password123",
+                "password": await hashPassword("password123"),
                 "contactNumber": "123-456-7890",
                 "age": 30,
                 "gender": "Male",
@@ -46,7 +47,7 @@ async function init_db(conn) {
                 "employeeID": "1002",
                 "name": "Jane Smith",
                 "email": "jane.smith@example.com",
-                "password": "securepassword",
+                "password": await hashPassword("securepassword"),
                 "contactNumber": "987-654-3210",
                 "age": 28,
                 "gender": "Female",
@@ -54,7 +55,7 @@ async function init_db(conn) {
                 "skills": ["Python", "Django", "SQL"],
                 "security_question": "What is your mother's maiden name?",
                 "security_answer": "Johnson",
-                "two_factor_answer": "0",
+                "two_factor_answer": "10",
                 "mentor_ID": "2002",
                 "task_completion_rate": 0.85,
                 "attendance_rate": 0.98,
