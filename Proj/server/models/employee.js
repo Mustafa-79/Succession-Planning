@@ -6,14 +6,20 @@ const employeeSchema = new mongoose.Schema({
     email :{
         type: String,
         unique: true
+    employeeID : {
+        type:String,
+        unique: true 
     },
+    name : String,
+    email : String,
     password : String,
     contactNumber : String,
     age : Number,
+    gender : String,
     positionID : String,
-    skills : [String],
-    two_factor_question : String,
-    two_factor_answer : String,
+    security_question : String,
+    security_answer : String,
+    two_factor_answer : Number,
     mentor_ID : String,
     task_completion_rate : Number,
     attendance_rate : Number,
@@ -21,6 +27,9 @@ const employeeSchema = new mongoose.Schema({
     education : [String],
     certifications : [String],
     awards : [String],
+    workshops_taken : [String],
+    courses_taken : [String],
+    assessement_results : [String],
     profile_picture : String,
 });
 
