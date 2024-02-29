@@ -1,11 +1,6 @@
 const mongoose = require('mongoose')
 
 const employeeSchema = new mongoose.Schema({
-    employeeID : String,
-    name : String,
-    email :{
-        type: String,
-        unique: true
     employeeID : {
         type:String,
         unique: true 
