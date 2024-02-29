@@ -4,13 +4,14 @@ const test = (reqs, resp) => {
 }
 
 const User = require('../models/users')
+const Employee = require('../models/employee')
 const {hashPassword, comparePassword} = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
 // Register Endpoint
 const registerUser = async (reqs, resp) => {
     try {
-        const {name, email, password} = reqs.body;
+        const {name, email, password, empID, s_img} = reqs.body;
 
         console.log(name, email, password)
 
@@ -28,24 +29,27 @@ const registerUser = async (reqs, resp) => {
             })
         }
 
+        if(!s_img) {
+            return resp.json({
+                error: 'Security image is required'
+            })
+        }
+
         // Check email
-        const exists = await User.findOne({email})
+        const exists = await Employee.findOne({email})
         if (exists) {
             return resp.json({
                 error: "Email is already used"
             })
         }
 
+        // Create hash for password
         const hashedPassword = await hashPassword(password)
 
-        // Create user
-        const user = await User.create({
-            name, 
-            email, 
-            password: hashedPassword
-        })
+        // Update user
+        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {email, password: hashedPassword, security_img: s_img}, { new: true, runValidators: true })
 
-        return resp.json(user)
+        return resp.json(updatedUser)
 
     } catch (error) {
         console.log(error)
@@ -55,13 +59,13 @@ const registerUser = async (reqs, resp) => {
 // Login Endpoint
 const loginUser = async (reqs, resp) => {
     try {
-        const {email, password} = reqs.body 
+        const {email, password, s_img} = reqs.body 
 
         // Check if user exists
-        const user = await User.findOne({email})
+        const user = await Employee.findOne({email})
         if (!user) {
             return resp.json({
-                error: 'No user found'
+                error: 'No such user exists'
             })
         }
 
@@ -78,6 +82,12 @@ const loginUser = async (reqs, resp) => {
             return resp.json({
                 error: 'Incorrect password'
             }) 
+        }
+
+        if (s_img != user.security_img) {
+            return resp.json({
+                error: 'Incorrect security image selected'
+            })
         }
 
     } catch (error) {
@@ -100,9 +110,34 @@ const getProfile = (reqs, resp) => {
 
 }
 
+const retrieveName = async (reqs, resp) => {
+    try {
+        const {name, email, password, empID} = reqs.body;
+
+        const exists = await Employee.findOne({employeeID: empID})
+        console.log(exists)
+        if (!exists) {
+            return resp.json({
+                error: 'No such employee record exists'
+            }) 
+        } else if (exists.password){
+            return resp.json({
+                error: 'Employee already registered'
+            }) 
+        } else {
+            resp.json(exists)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     test,
     registerUser,
     loginUser,
-    getProfile
+    getProfile,
+    retrieveName
 }
+
+// {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}
