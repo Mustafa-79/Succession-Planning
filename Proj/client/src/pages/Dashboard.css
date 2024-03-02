@@ -4,6 +4,7 @@ html {
     width: 100%;
  }
  
+ /*To ensure page is covered entriely with the help of a div overlaid on top*/
  body {
     margin: 0px;
     min-height: 100%;
@@ -21,6 +22,7 @@ html {
     z-index:1000;
   }
 
+  /*Forming the basic structure*/
   .wrapper{
     height: 100%;
     display: grid;
@@ -29,6 +31,7 @@ html {
     border: 10px;
   }
 
+/*Sidebar. Grid/Flexbox combined*/
 .sidebar
 {
     display: grid;
@@ -38,6 +41,7 @@ html {
     color: white;
     align-items: center;
 }
+
 
 .logo > div
 {
@@ -64,6 +68,8 @@ html {
   color: black;
   font-family: 'Montserrat';
 }
+
+/*Sidebar pages*/
 .menu > div {
   border-radius: 10px;
   margin: 30px;
@@ -93,14 +99,16 @@ html {
   color: rgb(137,189,254); /* Change color for active menu item */
 }
 
+/*The right page divided into the 3 sections - about, function cards, data table*/
 .content
 {
     display: grid;
-    grid: 1fr 7fr / 1fr;
+    grid: 1fr 1.2fr 4fr / 1fr;
     max-height: 100vh;
     background-color: #FAFBFC;
 }
 
+/*About and Profile*/
 .header
 {
   display: flex;
@@ -127,6 +135,75 @@ html {
 }
 
 .header > a:hover {
+  border-radius: 10px;
+  background-color: #d9e3f0; /* Light grey background color on hover */
+}
+
+/* Employee function cards - High potential, all, at risk*/
+.employeeFunctions
+{
+  display: flex;
+  justify-content: space-around;
+}
+
+.employeeFunction
+{
+  width: 18%;
+  height: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-bottom: 10px solid rgb(52,133,247);
+  display: flex;
+  flex-direction: column;
+  align-items:center ;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+}
+
+.func{
+  margin-top: 5px;
+  font-family: 'Source Sans 3';
+  font-weight: 500;
+  font-size: larger;
+  color: #818184;
+
+}
+
+.countAndView
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 90%;
+  width: 100%;
+}
+
+.funcCount
+{
+  font-size:65px;
+  color: rgb(40,78,145);
+  font-family: 'Source Sans 3';
+  font-weight: 900;
+}
+
+.iconAndView
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.iconAndView > a
+{
+  margin-top: 10px;
+  text-decoration: none;
+  font-family: 'Source Sans 3';
+  font-size: larger;
+  font-weight: 700;
+  color: #818184 ;
+  transition: background-color 0.3s;
+
+}
+
+.iconAndView > a:hover {
   border-radius: 10px;
   background-color: #d9e3f0; /* Light grey background color on hover */
 }
