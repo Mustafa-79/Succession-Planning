@@ -43,7 +43,7 @@ html {
 {
   display: flex;
   align-items: center;
-  margin-left: 50px;
+  margin: 5%;
 }
 
 .logo > div > span
@@ -56,6 +56,7 @@ html {
 }
 
 .menu > div {
+  border-radius: 10px;
   margin: 30px;
   display: flex;
   align-items: center;
@@ -68,7 +69,7 @@ html {
 .menu > div > a
 {
   margin-left: 10%;
-  color: rgb(196,196,202);
+  color: #818184;
   text-decoration: none;
   font-family: 'Montserrat'
 
@@ -88,5 +89,35 @@ html {
     display: grid;
     grid: 1fr 7fr / 1fr;
     max-height: 100vh;
-    background-color: rgb(226,232,240);
+    background-color: #FAFBFC;
+}
+
+.header
+{
+  display: flex;
+  margin: 30px;
+  justify-content: right;
+  align-items: center;
+  border-bottom: 3px solid #EBEBFF;
+}
+
+.header > span{
+  margin-right: 60px;
+  margin-left: 30px;
+  color: #818184;
+}
+
+.header > a{
+  margin-right: 50px;
+  margin-left: 20px;
+  text-decoration: none;
+  font-family: 'Monsterrat';
+  font-size: x-large;
+  color: #818184;
+  transition: background-color 0.3s;
+}
+
+.header > a:hover {
+  border-radius: 10px;
+  background-color: #d9e3f0; /* Light grey background color on hover */
 }

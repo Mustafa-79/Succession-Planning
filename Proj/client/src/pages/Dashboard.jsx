@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import './Dashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding,faUser } from '@fortawesome/free-solid-svg-icons';
 import './fonts.css';
 
 
@@ -38,7 +38,12 @@ export default function Dashboard() {
                   </div>
               </div>
               <div className='content'>
-                  <div className='header'></div>
+                  <div className='header'>
+                    <a href="">About</a>
+                    <span>|</span>
+                    <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)'/>
+                    <a href="">{user.name}</a>
+                  </div>
                   <div className='employeeFunctions'></div>
                   <div className='employeeSection'>
                       <div className='searchAndAdd'></div>
