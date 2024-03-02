@@ -1,12 +1,12 @@
-import {useContext} from 'react'
-import {UserContext} from '../../context/userContext'
+import {useLocation} from 'react-router-dom'
 
 export default function Dashboard() {
-    const {user} = useContext(UserContext)
+  const location = useLocation();
+
   return (
     <div>
         <h1>Dashboard</h1>
-        {!! user && (<h2>Hi {user.name}!</h2>)}
+        <h2>Hi {location.state.name}!</h2>
     </div>
   )
 }

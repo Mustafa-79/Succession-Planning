@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import axios from 'axios'
 import {toast} from 'react-hot-toast'
 import {useNavigate} from 'react-router-dom'
@@ -22,7 +22,22 @@ export default function Login() {
     s_img: 0,
   })
 
-// mongodb pswd: vv69RlqX1n4nn9BH
+  const imgSources= [[img1, 1], [img2, 2], [img3, 3], [img4, 4], [img5, 5], [img6, 6], [img7, 7], [img8, 8], [img9, 9], [img10, 10]]
+  const [randomizedImages, setRandomizedImages] = useState(imgSources);
+
+  const sequenceImg = (list) => {
+    let array = [...list]
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  useEffect(() => {
+    setRandomizedImages(sequenceImg([...imgSources]))
+    console.log(randomizedImages)
+  }, [])
 
   const loginUser = async (e) => {
     e.preventDefault()
@@ -35,26 +50,19 @@ export default function Login() {
       })
       if (data.error) {
         toast.error(data.error)
+        setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
       } else {
+        console.log(data)
         setData({})
-        navigate('/dashboard')
+        navigate('/dashboard', { state: {name: data.name} })
       }
     } catch (error) {
-      
+      console.log(error)
     }
 
   }
 
   return (
-    // <div>
-    //   <form onSubmit={loginUser}>
-    //     <label>Email</label>
-    //     <input type='email' placeholder='Enter email...' value={data.email} onChange={(e) => setData({...data, email: e.target.value})}/>
-    //     <label>Password</label>
-    //     <input type='password' placeholder='Enter password...' value={data.password} onChange={(e) => setData({...data, password: e.target.value})}/>
-    //     <button type='submit'>Login</button>
-    //   </form>
-    // </div>
     <body>
     <div class="login-container">
       <div class="login-box">
@@ -72,23 +80,27 @@ export default function Login() {
         <div className="security-image-selection">
           <p>Select security image </p>
           <div className="security-images">
-            <img src={img1} alt="Security Icon 1" className={`security-image ${data.s_img === 1 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 1})} />
-            <img src={img2} alt="Security Icon 2" className={`security-image ${data.s_img === 2 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 2})} />
-            <img src={img3} alt="Security Icon 3" className={`security-image ${data.s_img === 3 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 3})} />
-            <img src={img4} alt="Security Icon 4" className={`security-image ${data.s_img === 4 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 4})} />
-            <img src={img5} alt="Security Icon 5" className={`security-image ${data.s_img === 5 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 5})} />
+            <img src={randomizedImages[0][0]} alt="Security Icon 1" className={`security-image ${data.s_img === randomizedImages[0][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[0][1]})} />
+            <img src={randomizedImages[1][0]} alt="Security Icon 2" className={`security-image ${data.s_img === randomizedImages[1][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[1][1]})} />
+            <img src={randomizedImages[2][0]} alt="Security Icon 3" className={`security-image ${data.s_img === randomizedImages[2][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[2][1]})} />
+            <img src={randomizedImages[3][0]} alt="Security Icon 4" className={`security-image ${data.s_img === randomizedImages[3][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[3][1]})} />
+            <img src={randomizedImages[4][0]} alt="Security Icon 5" className={`security-image ${data.s_img === randomizedImages[4][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[4][1]})} />
           </div>
           <div className="security-images">
-            <img src={img6} alt="Security Icon 6" className={`security-image ${data.s_img === 6 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 6})} />
-            <img src={img7} alt="Security Icon 7" className={`security-image ${data.s_img === 7 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 7})} />
-            <img src={img8} alt="Security Icon 8" className={`security-image ${data.s_img === 8 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 8})} />
-            <img src={img9} alt="Security Icon 9" className={`security-image ${data.s_img === 9 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 9})} />
-            <img src={img10} alt="Security Icon 10" className={`security-image ${data.s_img === 10 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 10})} />
+            <img src={randomizedImages[5][0]} alt="Security Icon 1" className={`security-image ${data.s_img === randomizedImages[5][1]  ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[5][1]})} />
+            <img src={randomizedImages[6][0]} alt="Security Icon 2" className={`security-image ${data.s_img === randomizedImages[6][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[6][1]})} />
+            <img src={randomizedImages[7][0]} alt="Security Icon 3" className={`security-image ${data.s_img === randomizedImages[7][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[7][1]})} />
+            <img src={randomizedImages[8][0]} alt="Security Icon 4" className={`security-image ${data.s_img === randomizedImages[8][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[8][1]})} />
+            <img src={randomizedImages[9][0]} alt="Security Icon 5" className={`security-image ${data.s_img === randomizedImages[9][1] ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: randomizedImages[9][1]})} />
           </div>
         </div>
 
         <div class="input-group">
               <button type="submit" class="login-btn">Login</button>
+        </div>
+
+        <div class="forgot-password">
+          <a href="/resetPassword">Forgot Password?</a>
         </div>
         </form>
       </div>
