@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './Dashboard.css'; // Assuming you have a CSS file for additional styling
-import './fonts.css'; // Import the CSS file where you imported the font
+import './Dashboard.css';
+import './fonts.css';
 
 export default function Dashboard() {
     const { user } = useContext(UserContext);
