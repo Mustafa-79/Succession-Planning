@@ -173,7 +173,6 @@ const resetPassword = async (reqs, resp) => {
             }) 
         }
 
-
         const user = await Employee.findOne({employeeID: empID})
 
         console.log(secA, user.security_answer)
@@ -208,11 +207,15 @@ const setPassword = async (reqs, resp) => {
         console.log('Bye')
         const {empID, password, samePassword} = reqs.body
 
-        console.log(empID, password, samePassword)
-
+        
         const user = await Employee.findOne({employeeID: empID})
+        console.log(empID, password, samePassword, user.password)
 
-        if (comparePassword(password, user.password)) {
+        const result = await comparePassword(password, user.password)
+
+        console.log(result)
+
+        if (result) {
             return resp.json({
                 error: 'you can not enter same password as original'
             })  
