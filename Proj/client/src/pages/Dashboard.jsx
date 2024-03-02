@@ -3,6 +3,8 @@ import { UserContext } from '../../context/userContext';
 import './Dashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding } from '@fortawesome/free-solid-svg-icons';
+import './fonts.css';
+
 
 export default function Dashboard() {
   const { user } = useContext(UserContext);

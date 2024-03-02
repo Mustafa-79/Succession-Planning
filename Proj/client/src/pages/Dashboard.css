@@ -52,10 +52,11 @@ html {
   font-size:xx-large;
   font-weight: 700;
   color: black;
+  font-family: 'Montserrat'
 }
 
 .menu > div {
-  margin: 50px;
+  margin: 30px;
   display: flex;
   align-items: center;
   transition: background-color 0.3s; /*  transition for smooth effect */
@@ -69,6 +70,8 @@ html {
   margin-left: 10%;
   color: rgb(196,196,202);
   text-decoration: none;
+  font-family: 'Montserrat'
+
 }
 
 
