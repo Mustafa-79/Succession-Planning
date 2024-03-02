@@ -89,7 +89,6 @@ export default function Signup() {
     //     <button type='submit'>Submit</button>
     //   </form>
     // </div>
-    <body>
       <div class="signup-container">
         <div class="signup-box">
           <h1>Employee Registration</h1>
@@ -126,7 +125,8 @@ export default function Signup() {
               <div className="security-images">
                 <img src={img1} alt="Security Icon 1" className={`security-image ${data.s_img === 1 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 1})} />
                 <img src={img2} alt="Security Icon 2" className={`security-image ${data.s_img === 2 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 2})} />
-                <img src={img3} alt="Security Icon 3" className={`security-image ${data.s_img === 3 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 3})} />
+                <img src={img3} alt="Security Icon 3" className={`security-image ${data.s_
+                   === 3 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 3})} />
                 <img src={img4} alt="Security Icon 4" className={`security-image ${data.s_img === 4 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 4})} />
                 <img src={img5} alt="Security Icon 5" className={`security-image ${data.s_img === 5 ? "selected" : ""}`} onClick={(e) => setData({...data, s_img: 5})} />
               </div>
@@ -145,6 +145,5 @@ export default function Signup() {
           </form>
         </div>
       </div>
-    </body>
   )
 }
