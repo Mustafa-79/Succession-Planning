@@ -92,11 +92,11 @@ html {
 
 
 .menu > div.active > .icon {
-    color: rgb(137,189,254); /* Change color on hover and when active for the icon */
+    color: rgb(52,133,247); /* Change color on hover and when active for the icon */
 }
 
 .menu > div.active > a {
-  color: rgb(137,189,254); /* Change color for active menu item */
+  color: rgb(52,133,247); /* Change color for active menu item */
 }
 
 /*The right page divided into the 3 sections - about, function cards, data table*/
@@ -206,4 +206,169 @@ html {
 .iconAndView > a:hover {
   border-radius: 10px;
   background-color: #d9e3f0; /* Light grey background color on hover */
+}
+
+
+.searchAndAdd {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchAndAdd input[type="text"] {
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-left: 50px;
+  width: 300px;
+}
+
+
+/*Used from the internet*/
+.searchAndAdd button {
+  margin-right: 50px;
+  background: rgb(52,133,247);
+  border-radius: 999px;
+  box-shadow: rgb(21,146,212) 0 10px 20px -10px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: fit-content;
+  word-break: break-word;
+  border: 0;
+  height: 50px;
+}
+
+
+.searchAndAdd button:hover {
+  background-color: #0056b3;
+}
+
+/* Employee data table*/
+.employeeData {
+  max-height: 70%; 
+  overflow-y: auto; /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.employeeData table {
+  width: 90%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Adjust the spacing between rows */
+}
+
+.employeeData th, .employeeData td {
+  padding: 20px;
+  text-align: center;
+  margin: 20px;
+}
+
+.employeeData th {
+  background-color: #FFFFFF;
+  font-weight: bold;
+  color: #284E91;
+}
+
+.employeeData td button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.employeeData table tbody tr {
+  border-radius: 60px;
+}
+
+.employeeData td button:hover {
+  background-color: #f2f2f2;
+  border-radius: 100px;
+
+}
+
+.employeeData tr {
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 60px;
+
+}
+
+.employeeData tr:hover {
+  background-color: #f2f2f2;
+
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 80%;
+}
+
+.closeModal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #aaa;
+}
+
+.addEmployeeForm {
+  display: grid;
+  gap: 10px;
+}
+
+.formGroup {
+  display: grid;
+  gap: 5px;
+}
+
+.formGroup label {
+  font-weight: bold;
+}
+
+.formGroup input, .formGroup select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.formGroup input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formGroup input[type="submit"]:hover {
+  background-color: #0056b3;
 }
