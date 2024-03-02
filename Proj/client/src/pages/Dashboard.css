@@ -46,15 +46,24 @@ html {
   margin: 5%;
 }
 
-.logo > div > span
-{
-  margin-left: 15%;
-  font-size:xx-large;
-  font-weight: 700;
-  color: black;
-  font-family: 'Montserrat'
+.logo-icon-container {
+  width: 100px; 
+  height: 100px; 
+  background-color: white; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px; 
+  margin-right: 20px;
 }
 
+.logo > div > span {
+  margin-left: 15px; 
+  font-size: xx-large;
+  font-weight: 700;
+  color: black;
+  font-family: 'Montserrat';
+}
 .menu > div {
   border-radius: 10px;
   margin: 30px;
