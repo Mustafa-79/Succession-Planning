@@ -101,6 +101,9 @@ export default function Login() {
         <div class="forgot-password">
           <a href="/resetPassword">Forgot Password?</a>
         </div>
+        <div class="forgot-security-img">
+          <a href="/resetSecurityImage">Forgot Security Image?</a>
+        </div>
         </form>
       </div>
     </div>

@@ -232,6 +232,81 @@ const setPassword = async (reqs, resp) => {
     }
 }
 
+const resetSecurityImage = async (reqs, resp) => {
+    try {
+        const { empID, newImage } = reqs.body;
+        console.log(`Updating security image for employee ${empID} to ${newImage}`);
+
+        // Find the user by employee ID
+        const user = await Employee.findOne({ employeeID: empID });
+        
+        // Check if user exists
+        if (!user) {
+            console.log('Employee not found');
+            return resp.json({
+                error: 'No such employee exists'
+            });
+        }
+
+        // Update the security image
+        const updatedUser = await Employee.findOneAndUpdate(
+            { employeeID: empID },
+            { two_factor_answer: newImage },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+            console.log('Failed to update the security image');
+            return resp.json({
+                error: 'Could not update the security image'
+            });
+        }
+
+        console.log('Security image updated successfully');
+        resp.json({
+            message: 'Security image updated successfully',
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.log('Error during the security image reset:', error);
+        resp.status(500).json({
+            error: 'Server error during the security image reset'
+        });
+    }
+}
+
+const verifySecurityAnswer = async (reqs, resp) => {
+    try {
+        const {empID, secA} = reqs.body
+        // console.log('hello', s_img)
+
+        const user = await Employee.findOne({employeeID: empID})
+
+        console.log(secA, user.security_answer)
+
+        if (!user) {
+            return resp.json({
+                error: 'No such employee exists'
+            })
+        } else if (!user.password) {
+            return resp.json({
+                error: 'You are not registerd yet'
+            }) 
+        } else if (secA == user.security_answer) {
+            resp.json('next')
+        } else {
+            return resp.json({
+                error: 'Incorrect answer'
+            })  
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 module.exports = {
     test,
     registerUser,
@@ -240,7 +315,9 @@ module.exports = {
     retrieveName,
     retrieveSecurityQuestion,
     resetPassword,
-    setPassword
+    setPassword,
+    resetSecurityImage,
+    verifySecurityAnswer
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}

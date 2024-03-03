@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const cors = require('cors')
-const {test, registerUser, loginUser, getProfile, retrieveName, resetPassword, retrieveSecurityQuestion, setPassword} = require('../controllers/authControllers')
+const {test, registerUser, loginUser, getProfile, retrieveName, resetPassword, retrieveSecurityQuestion, setPassword, resetSecurityImage, verifySecurityAnswer} = require('../controllers/authControllers')
 
 //middleware
 router.use(
@@ -19,5 +19,7 @@ router.post('/registerUser', retrieveName)
 router.post('/resetPassword', resetPassword)
 router.post('/retrieveSecurityQuestion', retrieveSecurityQuestion)
 router.post('/resetPasswordFinalStep', setPassword)
+router.post('/resetSecurityImage', resetSecurityImage)
+router.post('/verifySecurityAnswer', verifySecurityAnswer)
 
 module.exports = router

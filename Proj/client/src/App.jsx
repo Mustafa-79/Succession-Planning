@@ -14,7 +14,7 @@ import AssessFeedback from './pages/AssessFeedback';
 import CreateAssessment from './pages/CreateAssessment';
 import EmployeeData from './pages/EmployeeData';
 import AdminSettings from './pages/AdminSettings';
-
+import ForgetSecurityImage from './pages/forgetsecimg';
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
 
@@ -35,6 +35,7 @@ function App() {
 
       <Route path='/resetPassword' element={<ResetPwd /> } />
       <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd/>} />
+      <Route path='/resetSecurityImage' element={<ForgetSecurityImage/>} />
     </Routes>
     </UserContextProvider>
   )
