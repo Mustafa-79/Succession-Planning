@@ -43,11 +43,28 @@ const addEmployeeFromAdminDashboard = async (reqs, resp) => {
     }
 }
 
+const deleteEmployeefromAdminDashboard = async (reqs, resp) => {
+    try {
+        console.log(reqs)
+        const employeeID = reqs.params.id;
+        const deletedEmployee = await Employee.findOneAndDelete({ employeeID: employeeID });
+
+        if (!deletedEmployee) {
+            return resp.status(400).json({ message: "Employee not found" })
+        }
+        return resp.json({ message: "Employee deleted successfully" })
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
 
 module.exports = {
     dashboardEmployees,
     positionIDtoName,
-    addEmployeeFromAdminDashboard
+    addEmployeeFromAdminDashboard,
+    deleteEmployeefromAdminDashboard
 }
 
 

@@ -127,7 +127,7 @@ export default function Dashboard() {
                     toast.error('Failed to fetch employees');
                 });
 
-                
+
 
             closeModal();
         } catch (error) {
@@ -136,9 +136,32 @@ export default function Dashboard() {
         }
     };
 
-    const deleteEmployee = (id) => {
-      setEmployees(employees.filter(employee => employee.id !== id));
-  };
+    // deleteEmployee(employee.id)}
+    const deleteEmployee = async (id) => {
+        try {
+            console.log('Deleting employee:', id);
+            const response = await axios.post(`/deleteEmployee/${id}`);
+            console.log('Employee deleted:', response.data);
+            // setEmployees(employees.filter(employee => employee.id !== id));
+
+            // Fetch all employees again to update the list
+            axios.get('/dashboard-employees')
+                .then(res => {
+                    console.log(res.data);
+                    setEmployees(res.data);
+
+                    toast.success('Employee deleted successfully');
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error('Failed to fetch employees');
+                });
+
+        } catch (error) {
+            console.error('Failed to delete employee:', error);
+            // Handle error
+        }
+    }
 
     return (
         <div className='overlay'>
@@ -167,6 +190,21 @@ export default function Dashboard() {
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
                         <a href="">Arbaaz Butt</a>
+                        <button
+                            onClick={() => navigate('/login')}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#f44336',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '15px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Logout
+                        </button>
+
+
                     </div>
                     <div className='employeeFunctions'>
                         <div className='employeeFunction'>
@@ -238,7 +276,7 @@ export default function Dashboard() {
                                               {/* <td>{employee.hoursWorked}</td> */}
                                               <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
                                               <td>
-                                                  <button onClick={() => deleteEmployee(employee.id)}>
+                                                  <button onClick={() => deleteEmployee(employee.employeeID)}>
                                                       <FontAwesomeIcon icon={faTrash} size='xl' />
                                                   </button>
                                               </td>
