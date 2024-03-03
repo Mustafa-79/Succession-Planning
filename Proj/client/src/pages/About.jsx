@@ -3,7 +3,7 @@ import './About.css'
 
 export default function About() {
   return (
-    <div style={{ textAlign: 'left' }}>
+    <div style={{ textAlign: 'left' ,paddingTop: 100}}>
       <h1>About Us</h1>
       <p>DevsInc is a global software development and consultancy company which provides low-cost quality software services to customers worldwide. We also do long terms strategic alliances with companies, software development firms and individuals for offering our software services. Our prime goal is to combine creativity and experience to develop and deliver quality information solutions.
          We are dedicated to produce a new generation of products and services. Our most valuable assets are our experience, understanding of specific industry workflows, processes and our expertise in developing technology solutions that ready to face the future ahead.</p>  
