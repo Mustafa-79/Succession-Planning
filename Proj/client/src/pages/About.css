@@ -1,47 +1,44 @@
 .about-container {
     text-align: left;
-    background-image: url('imageb.png'); /* Adjust the path based on your file structure */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-  }
-
-  .about-container p {
-    margin-top: 0; /* Remove top margin */
-    /* Add other styles as needed */
-    margin: 0;
-    padding: 0;
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('img/img2.jpg'); /* Make sure the filename is correct */
-    background-size: cover;
-    background-position: center;
-    font-family: 'Arial', sans-serif;
+    background-color: #fff; /* Set background color to white */
+    padding: 20px; /* Add padding for better spacing */
+    max-height: calc(100vh - 40px); /* Set max height to viewport height minus button height and padding */
+    overflow-y: auto; /* Add vertical scrollbar when content exceeds max height */
   }
   
-  .about-container h1, .about-container h2 {
-    font-size: 24px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    color: white; /* Ensures text is visible against the background */
-  }
-  
-  .about-container p {
+  .back-arrow {
+    position: fixed; /* Fix the button at the top */
+    top: 20px;
+    left: 20px; 
+    background-color: #fff;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
     font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    color: white; /* Ensures text is visible against the background */
+    z-index: 999; /* Ensure button is above other content */
   }
   
+  .back-arrow:hover {
+    background-color: #0056b3;
+  }
+  
+  .about-container h1 {
+    font-size: 32px; /* Increase heading size for emphasis */
+    color: #333; /* Darken the text color for better readability */
+    margin-bottom: 20px; /* Add space between headings and paragraphs */
+  }
+  
+  .about-container h2 {
+    font-size: 24px;
+    color: #555; /* Darken the text color */
+    margin-bottom: 10px;
+  }
+  
+  .about-container p {
+    font-size: 18px; /* Increase font size for better readability */
+    line-height: 1.6; /* Add some space between lines for better readability */
+    color: #666; /* Darken the text color */
+    margin-bottom: 20px;
+  }
