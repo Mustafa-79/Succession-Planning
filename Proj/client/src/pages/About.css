@@ -27,7 +27,7 @@
     background-image: url('img/img2.jpg'); /* Make sure the filename is correct */
     background-size: cover;
     background-position: center;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Times New Roman', sans-serif;
   }
   
   .about-container h1, .about-container h2 {
