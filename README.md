@@ -1,71 +1,43 @@
-**Project title:**
+Succession Planning Software Project
+Welcome to the Succession Planning Software Project. This innovative software is designed to assist managers in monitoring employee performance, tracking promotions, and facilitating efficient talent development. By focusing on merit-based evaluations, our software aims to eliminate hidden biases, ensuring a fair and transparent process for all employees. The ultimate goal is to strategically fill leadership gaps based on each employee's domain expertise, thereby minimizing disruptions and maximizing organizational throughput.
 
-Succession Planning
+Features
+Our software comes packed with a robust set of features to enhance user experience and management efficiency:
 
-**Project Description:**
+User Registration: Easy sign-up process for new users.
+User Login: Secure access for returning users.
+Admin Dashboard: A comprehensive overview for administrators to manage operations effectively.
+Employee Dashboard: Personalized dashboard for employees to track their progress and updates.
+View Employee Information (Admin): Allows admins to view detailed profiles of employees.
+About the Portal: Information about the software and its benefits.
+Two-Factor Authorization: An extra layer of security for user accounts.
+Encryption: Protects sensitive data through advanced encryption methods.
+User Authentication: Verifies the identity of first-time users efficiently.
+Feedback Form for Courses and Workshops: Enables employees to provide feedback directly through their dashboard.
+Role-Based Access Control: Ensures users have access only to the features and information relevant to their role.
+Delighters
+Forgot Password: Recovery options for users who have forgotten their passwords.
+Forgot Security Image: Additional recovery option for enhanced security.
+Installation Guide
+Cloning the Repository
+Open your terminal in VSCode.
+Clone the repository with the following command: git clone [repository URL]
+Setting Up the Environment
+After cloning the repository, you will find a folder named proj containing two subfolders: client and server.
 
-Welcome to Succession Planning Software Project. The project aims to develop Succession Planning software that aids managers in overseeing the performances of their employees and tracking promotions, streamlining decision-making for efficient talent development. The software, designed systematically, would help ward off hidden biases against employees by holistically looking at the relevant metrics, inculcating a culture of meritocracy. A timely and strategic decision would help fill up leadership gaps according to the employee's domain of expertise, minimizing disruptions and enhancing the organization's throughput. 
-
-**Features that have been implemented:**
-
-*User Registration
-
-*User Login
-
-*View Admin Dshboard
-
-*View Employee Dashboard
-
-*View Employee Information (Admin)
-
-*About the portal
-
-*Two factor Authorization
-
-*Encryption
-
-*User Authentication (first time users are verified accordingly)
-
-*Feedback form for courses and workshops (Employee dashboard)
-
-*Role Based Access Control
-
-**Delighters:**
-
-*Forgot Password
-
-*Forgot Security Image
-
-**How to run the files:**
-
-*Clone the repository by copying the url code of the main branch, paste this in VsCode terminal and run the following command:
-**git clone code**
-
-*Once you have cloned the repository, you will see a folder named proj followed by two sub folders: client and server.
-
-*Open two separate terminals, one for the client side and one for the server side.
-
-*Run the command: **npm i** in both terminals. This will install all necessary node js modules for you.
-
-***Important**: Run the command: **npm install bcrypt**. This will ensure that the encryption we have implemented works and you face no errors.
-
-*Once you have installed the necessary dependancies, run **npm start** on server side to start the server. 
-
-*Run **npm run dev** on client side to load the website.
-
-*Once you open the website, you will be directed onto our login page. 
-
-**How it works:**
-
-The login page is there for already existing employees and admins. 
-
-*Admins will be redirected to their dashboard once they login while employees will be redirected to their dashboard once they login. This is done to ensure role based access control and no one is granted priveleges more than what they are allowed.
-
-*For new employees, admin will enter the following information while adding an employee to the database: name, employee and position id. 
-
-*Once the employee information has been added, the employee can signup by entering their unique employee id which will fetch their name and they can add information about them while signing up.
-
-*Rest of the readme file will be updated as we implement more of our project. 
+Open two separate terminals: one for the client and one for the server.
+In both terminals, run npm i to install all necessary Node.js modules.
+Important: Run npm install bcrypt to ensure encryption functionalities are properly set up.
+Running the Software
+On the server side, execute npm start to launch the server.
+On the client side, run npm run dev to load the website.
+Navigate to the website's login page to access the software.
+How It Works
+For Existing Users: The login page facilitates access for already registered employees and admins. Admins are redirected to their dashboard, while employees access their personalized dashboard upon login, maintaining strict role-based access control.
+For New Employees: Admins add new employees by entering their name, employee ID, and position. New employees can then sign up using their unique employee ID, which retrieves their name and allows them to complete their profile.
+Stay tuned for further updates as we continue to enhance and expand our project!
 
 
-**STAY TUNED!!!**
+
+
+
