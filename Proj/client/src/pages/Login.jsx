@@ -50,27 +50,53 @@ export default function Login() {
         console.log(randomizedImages);
     }, []);
 
+    // const loginUser = async (e) => {
+    //     e.preventDefault();
+    //     const { email, password, s_img } = data;
+    //     try {
+    //         const { data } = await axios.post("/login", {
+    //             email,
+    //             password,
+    //             s_img,
+    //         });
+    //         if (data.error) {
+    //             toast.error(data.error);
+    //             setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0);
+    //         } else {
+    //             console.log(data);
+    //             setData({});
+    //             navigate("/dashboard", { state: { name: data.name } });
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
     const loginUser = async (e) => {
-        e.preventDefault();
-        const { email, password, s_img } = data;
+        e.preventDefault()
+        const {email, password, s_img} = data
         try {
-            const { data } = await axios.post("/login", {
-                email,
-                password,
-                s_img,
-            });
-            if (data.error) {
-                toast.error(data.error);
-                setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0);
-            } else {
-                console.log(data);
-                setData({});
-                navigate("/dashboard", { state: { name: data.name } });
-            }
+          const {data} = await axios.post('/login', {
+            email,
+            password,
+            s_img
+          })
+          if (data.error) {
+            toast.error(data.error)
+            setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
+          } else if (data.no == 1) {
+            console.log(data)
+            setData({})
+            navigate('/employeeDashboard', { state: {name: data.name} })
+          } else if (data.no == 2) {
+            console.log(data)
+            setData({})
+            navigate('/dashboard', { state: {name: data.name} })
+          }
         } catch (error) {
-            console.log(error);
+          console.log(error)
         }
-    };
+    }
 
     return (
         <div class="login-container">

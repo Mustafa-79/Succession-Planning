@@ -16,6 +16,9 @@ import EmployeeData from './pages/EmployeeData';
 import AdminSettings from './pages/AdminSettings';
 import ForgetSecurityImage from './pages/forgetsecimg'
 import About from './pages/About'
+import EmployeeDashboard from './pages/EmpDashboard';
+import Feedback from './pages/Feedback';
+import FeedbackForm from './pages/FeedbackForm';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -40,6 +43,12 @@ function App() {
       <Route path='/resetPassword' element={<ResetPwd /> } />
       <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd/>} />
       <Route path='/resetSecurityImage' element={<ForgetSecurityImage/>} />
+
+      <Route path='/employeeDashboard' element={<EmployeeDashboard /> } />
+      <Route path='/feedback' element={<Feedback/>} />
+      <Route path='/feedbackForm' element={<FeedbackForm/>} />
+
+
     </Routes>
     </UserContextProvider>
   )

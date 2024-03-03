@@ -4,6 +4,7 @@ const test = (reqs, resp) => {
 }
 
 const User = require('../models/users')
+const HR_AdminModel = require('../models/hr_admin')
 const Employee = require('../models/employee')
 const {hashPassword, comparePassword} = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
@@ -57,41 +58,103 @@ const registerUser = async (reqs, resp) => {
 }
 
 // Login Endpoint
+
+// const loginUser = async (reqs, resp) => {
+//     try {
+//         const {email, password, s_img} = reqs.body 
+
+//         // Check if user exists
+//         const user = await Employee.findOne({email})
+//         if (!user) {
+//             return resp.json({
+//                 error: 'No such user exists'
+//             })
+//         }
+
+//         // Check if password match
+//         const match = await comparePassword(password, user.password)
+//         if (match) {
+//             jwt.sign({email: user.email, id: user._id, name: user.name}, 'jhgjyhfhmgfy', {}, (err, token) => {
+//                 if (err) {
+//                     throw err
+//                 }
+//                 resp.cookie('token', token).json(user)
+//             })
+//         } else {
+//             return resp.json({
+//                 error: 'Incorrect password'
+//             }) 
+//         }
+
+//         if (s_img.toString() != user.two_factor_answer) {
+//             console.log(s_img, user.two_factor_answer)
+//             return resp.json({
+//                 error: 'Incorrect two factor image selected'
+//             })
+//         }
+
+//         return resp.json(user)
+
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
 const loginUser = async (reqs, resp) => {
     try {
         const {email, password, s_img} = reqs.body 
 
         // Check if user exists
         const user = await Employee.findOne({email})
-        if (!user) {
+        const user1 = await HR_AdminModel.findOne({email})
+
+        if (!user && !user1) {
             return resp.json({
                 error: 'No such user exists'
             })
         }
 
+        if (user) {
         // Check if password match
-        const match = await comparePassword(password, user.password)
-        if (match) {
-            jwt.sign({email: user.email, id: user._id, name: user.name}, 'jhgjyhfhmgfy', {}, (err, token) => {
-                if (err) {
-                    throw err
-                }
-                resp.cookie('token', token).json(user)
-            })
-        } else {
-            return resp.json({
-                error: 'Incorrect password'
-            }) 
-        }
+            const match = await comparePassword(password, user.password)
+            if (match) {
+                jwt.sign({email: user.email, id: user._id, name: user.name}, 'jhgjyhfhmgfy', {}, (err, token) => {
+                    if (err) {
+                        throw err
+                    }
+                    resp.cookie('token', token).json(user)
+                })
+            } else {
+                return resp.json({
+                    error: 'Incorrect password'
+                }) 
+            }
 
-        if (s_img.toString() != user.two_factor_answer) {
-            console.log(s_img, user.two_factor_answer)
+            if (s_img.toString() != user.two_factor_answer) {
+                console.log(s_img, user.two_factor_answer)
+                return resp.json({
+                    error: 'Incorrect two factor image selected'
+                })
+            }
+
             return resp.json({
-                error: 'Incorrect two factor image selected'
+                user: user,
+                no: 1
+            })
+
+        } else if (user1) {
+            const match = await comparePassword(password, user1.password)
+            if (!match) {
+                return resp.json({
+                    error: 'Incorrect password'
+                }) 
+            }
+
+            return resp.json({
+                user: user1,
+                no: 2
             })
         }
-
-        return resp.json(user)
 
     } catch (error) {
         console.log(error)
@@ -306,6 +369,42 @@ const verifySecurityAnswer = async (reqs, resp) => {
     }
 }
 
+const submitFeedback = async (reqs, resp) => {
+    try {
+        console.log('HELLo')
+        const {courseID, feedback, empID, rating} = reqs.body
+
+        if (!courseID) {
+            return resp.json({
+                error: 'course ID can not be empty'
+            })  
+        }
+
+        if (!feedback) {
+            return resp.json({
+                error: 'Feedback can not be empty'
+            })     
+        }
+
+        const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
+
+        // Create a new feedback record
+        const newFeedback = new Feedback({
+            feedbackID: feedbackID.toString(),
+            courseID,
+            rating,
+            employeeID: empID,
+            feedback,
+            date: new Date() // Use the current date
+        });
+
+        await newFeedback.save();
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 module.exports = {
     test,
@@ -317,7 +416,8 @@ module.exports = {
     resetPassword,
     setPassword,
     resetSecurityImage,
-    verifySecurityAnswer
+    verifySecurityAnswer,
+    submitFeedback
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}
