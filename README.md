@@ -17,6 +17,7 @@ Our software comes packed with a robust set of features to enhance user experien
 - **User Authentication**: Verifies the identity of first-time users efficiently.
 - **Feedback Form for Courses and Workshops**: Enables employees to provide feedback directly through their dashboard.
 - **Role-Based Access Control**: Ensures users have access only to the features and information relevant to their role.
+- **Log out**: Ensures employees log out of their account successfully.
 
 ### Delighters
 
