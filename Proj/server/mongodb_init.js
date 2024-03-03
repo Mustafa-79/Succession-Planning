@@ -51,7 +51,8 @@ async function init_db(conn) {
                 "courses_taken": ["Node.js Basics", "MongoDB Basics"],
                 "workshops_taken": ["Angular Workshop"],
                 "awards": ["Employee of the Month"],
-                "profile_picture": "https://example.com/profile.jpg"
+                "profile_picture": "https://example.com/profile.jpg",
+                "registered_status": true
             },
 
             {
@@ -60,7 +61,8 @@ async function init_db(conn) {
                 "email": "jane.smith@example.com",
                 "password": await hashPassword("securepassword"),
                 "contactNumber": "987-654-3210",
-                "age": 28,
+                // "age": 28,
+                "date_of_birth": new Date("1993-07-15"),
                 "gender": "Female",
                 "positionID": "P002",
                 "skills": ["Python", "Django", "SQL"],
@@ -75,17 +77,20 @@ async function init_db(conn) {
                 "certifications": ["Google Analytics Certified"],
                 "workshops_taken": ["Data Visualization Workshop"],
                 "awards": ["Best Newcomer Award"],
-                "profile_picture": "https://example.com/profile2.jpg"
+                "profile_picture": "https://example.com/profile2.jpg",
+                "registered_status": true
             },
-            {
-                "employeeID": "1003",
-                "name": "Arbaaz Butt",
-                "positionID": "P002"
-            },
+            // {
+            //     "employeeID": "1003",
+            //     "name": "Arbaaz Butt",
+            //     "positionID": "P002",
+            //     "registered_status": false,
+            // },
             // {
             //     "employeeID": "1004",
             //     "name": "Shera",
-            //     "positionID": "P001"
+            //     "positionID": "P001",
+            //     "registered_status": false,
             // }
         ];
         

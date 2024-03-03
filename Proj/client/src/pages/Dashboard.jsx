@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 import './fonts.css';
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 
 export default function Dashboard() {
@@ -23,8 +25,57 @@ export default function Dashboard() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [employees, setEmployees] = useState([
-        { id: 1, role: "Manager", age: 30, contact: "123-456-7890", hoursWorked: 40, status: "Active" }
+        // { id: 1, role: "Manager", age: 30, contact: "123-456-7890", hoursWorked: 40, status: "Active" }
     ]);
+
+    // Fetching all employees from the database
+    useEffect(() => {
+        axios.get('/dashboard-employees')
+            .then(res => {
+                console.log(res.data);
+                setEmployees(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Failed to fetch employees');
+            });
+    }, []);
+
+
+
+    const [positionTitles, setPositionTitles] = useState([]);
+    useEffect(() => {
+        axios.get('/dashboard-position-titles')
+            .then(res => {
+                setPositionTitles(res.data);
+                console.log(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error('Failed to fetch position titles');
+            });
+    }, []);
+    
+    // function to convert positionID to position title
+    const getPositionTitle = (positionID) => {
+        const position = positionTitles.find(position => position.positionID === positionID);
+        return position ? position.title : "Unknown";
+    };
+
+    // function to get age from date of birth
+    const getAge = (dateOfBirth) => {
+        if (!dateOfBirth) return "Unknown";
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
+
     const [newEmployeeData, setNewEmployeeData] = useState({
         role: "",
         age: "",
@@ -99,7 +150,7 @@ export default function Dashboard() {
                         <a href="" onClick={()=>navigate('/about')}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">{user.name}</a>
+                        <a href="">Arbaaz Butt</a>
                     </div>
                     <div className='employeeFunctions'>
                         <div className='employeeFunction'>
@@ -146,10 +197,12 @@ export default function Dashboard() {
                                 <thead>
                                     <tr>
                                         <th>Employee ID</th>
-                                        <th>Role Qualification</th>
+                                        <th>Name</th>
+                                        <th>Position ID</th>
+                                        <th>Position Title</th>
                                         <th>Age</th>
-                                        <th>Contact</th>
-                                        <th>Hours Worked</th>
+                                        {/* <th>Contact</th>
+                                        <th>Hours Worked</th> */}
                                         <th>Status</th>
                                         <th>Delete Employee</th>
                                         <th>View Performance</th>
@@ -157,15 +210,17 @@ export default function Dashboard() {
                                 </thead>
                                 <tbody>
                                   {employees
-                                      .filter(employee => employee.id.toString().includes(searchTerm))
+                                      .filter(employee => employee.employeeID.toString().includes(searchTerm))
                                       .map(employee => (
-                                          <tr key={employee.id}>
-                                              <td>{employee.id}</td>
-                                              <td>{employee.role}</td>
-                                              <td>{employee.age}</td>
-                                              <td>{employee.contact}</td>
-                                              <td>{employee.hoursWorked}</td>
-                                              <td>{employee.status}</td>
+                                          <tr key={employee.employeeID}>
+                                              <td>{employee.employeeID}</td>
+                                              <td>{employee.name}</td>
+                                              <td>{employee.positionID}</td>
+                                              <td>{getPositionTitle(employee.positionID)}</td>
+                                              <td>{getAge(employee.date_of_birth)}</td>
+                                              {/* <td>{employee.contact}</td> */}
+                                              {/* <td>{employee.hoursWorked}</td> */}
+                                              <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
                                               <td>
                                                   <button onClick={() => deleteEmployee(employee.id)}>
                                                       <FontAwesomeIcon icon={faTrash} size='xl' />

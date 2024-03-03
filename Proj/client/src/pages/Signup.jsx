@@ -220,6 +220,7 @@ export default function Signup() {
                                 <div key={index} className="certification-input">
                                 <input
                                     type="text"
+                                    required
                                     placeholder={`Certification ${index + 1}`}
                                     value={certification}
                                     onChange={(e) => {
@@ -256,6 +257,7 @@ export default function Signup() {
                                 <div key={index} className="award-input">
                                 <input
                                     type="text"
+                                    required
                                     placeholder={`Award ${index + 1}`}
                                     value={award}
                                     onChange={(e) => {

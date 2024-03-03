@@ -47,7 +47,7 @@ const registerUser = async (reqs, resp) => {
         const hashedPassword = await hashPassword(password)
 
         // Update user
-        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, security_question: question, security_answer: answer}, { new: true, runValidators: true })
+        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, security_question: question, security_answer: answer, registered_status: true}, { new: true, runValidators: true })
 
         return resp.json(updatedUser)
 

@@ -99,7 +99,7 @@ export default function EmployeeData() {
                         <a href="">About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">{user.name}</a>
+                        <a href="">Arbaaz Butt</a>
                     </div>
                     <div className='employeeFunctions'>
                             <h1>To be Implemented. Mauj Masti ruk gayi sari 3</h1>

@@ -6,6 +6,7 @@ const employeeSchema = new mongoose.Schema({
         unique: true 
     },
     name : String,
+    // email : String,
     email : String,
     password : String,
     contactNumber : String,
@@ -28,7 +29,9 @@ const employeeSchema = new mongoose.Schema({
     profile_picture : {
         data: Buffer,
         contentType: String
-    }
+    },
+    registered_status : Boolean,
+
 });
 
 const EmployeeModel = mongoose.model('Employee', employeeSchema)
