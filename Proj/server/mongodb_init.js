@@ -24,13 +24,14 @@ async function init_db(conn) {
                 "email": "john.doe@example.com",
                 "password": await hashPassword("password123"),
                 "contactNumber": "123-456-7890",
-                "age": 30,
+                // "age": 30,
+                "date_of_birth": new Date("1991-04-10"),
                 "gender": "Male",
                 "positionID": "P001",
                 "skills": ["JavaScript", "Node.js", "MongoDB"],
                 "security_question": "What is your favorite color?", // for password reset
                 "security_answer": "Blue", // for password reset
-                "two_factor_answer": "3", // for two-factor authentication
+                "two_factor_answer": "3", // 3 is lightbulb
                 "mentor_ID": "2001",
                 "task_completion_rate": 0.75,
                 "attendance_rate": 0.95,
@@ -65,12 +66,163 @@ async function init_db(conn) {
                 "workshops_taken": ["Data Visualization Workshop"],
                 "awards": ["Best Newcomer Award"],
                 "profile_picture": "https://example.com/profile2.jpg"
+            },
+            {
+                "employeeID": "1003",
+                "name": "Arbaaz Butt",
+                "positionID": "P002"
+            },
+            {
+                "employeeID": "1004",
+                "name": "Shera",
+                "positionID": "P001"
             }
         ];
         
+        const AdminsData = [
+            {
+                adminID: 'A0001',
+                name: 'Deez Nuts',
+                email: 'deez@gmail.com',
+                password: await hashPassword('abcd1234')
+            },
+            {
+                adminID: 'A0002',
+                name: 'Booshan Khan',
+                email: 'booshan@devsinc.com',
+                password: await hashPassword('q1w2e3r4')
+            },
+            {
+                adminID: 'A0003',
+                name: 'Alice Johnson',
+                email: 'alice.johnson@devsinc.com',
+                password: await hashPassword('password123')
+            },
+            {
+                adminID: 'A0004',
+                name: 'Bob Brown',
+                email: 'bob.brown@lums.edu.pk',
+                password: await hashPassword('password123')
+            },
+            {
+                adminID: 'A0005',
+                name: 'Eve Williams',
+                email: 'eve.williams@example.com',
+                password: await hashPassword('aaaaaaaa')
+            },
+        ];
+
+        const FeedbacksData = [
+            {
+                feedbackID: 'F0001',
+                employeeID: 'E1001',
+                feedback: 'Great work!',
+                date: new Date('2024-03-01T08:00:00Z'),
+            },
+            {
+                feedbackID: 'F0002',
+                employeeID: 'E1001',
+                feedback: 'Needs improvement.',
+                date: new Date('2024-03-02T08:00:00Z'),
+            },
+            {
+                feedbackID: 'F0003',
+                employeeID: 'E1001',
+                feedback: 'Excellent job!',
+                date: new Date('2024-03-03T08:00:00Z'),
+            },
+            {
+                feedbackID: 'F0004',
+                employeeID: 'E1002',
+                feedback: 'Keep up the good work!',
+                date: new Date('2024-03-04T08:00:00Z'),
+            },
+            {
+                feedbackID: 'F0005',
+                employeeID: 'E1002',
+                feedback: 'Well done!',
+                date: new Date('2024-03-05T08:00:00Z'),
+            },
+        ];
+
+        const WorkshopsData = [
+            {
+                "workshopID": "W001",
+                "title": "Angular Workshop",
+                "date": new Date("2024-03-01T08:00:00Z"),
+                "description": "Learn Angular from scratch."
+            },
+            {
+                "workshopID": "W002",
+                "title": "Data Visualization Workshop",
+                "date": new Date("2024-03-02T08:00:00Z"),
+                "description": "Learn to visualize data using Python libraries."
+            },
+            {
+                "workshopID": "W003",
+                "title": "React Workshop",
+                "date": new Date("2024-03-03T08:00:00Z"),
+                "description": "Learn React basics."
+            },
+        ];
+
+        const CoursesData = [
+            {
+                "courseID": "C001",
+                "title": "Node.js Basics",
+                "start_date": new Date("2024-03-01T08:00:00Z"),
+                "duration": 5,
+                "description": "Learn Node.js basics."
+            },
+            {
+                "courseID": "C002",
+                "title": "MongoDB Basics",
+                "start_date": new Date("2024-03-02T08:00:00Z"),
+                "duration": 7,
+                "description": "Learn MongoDB basics."
+            },
+            {
+                "courseID": "C003",
+                "title": "Python Basics",
+                "start_date": new Date("2024-03-03T08:00:00Z"),
+                "duration": 10,
+                "description": "Learn Python basics."
+            },
+        ];
+
+        const PositionsData = [
+            {
+                "positionID": "P001",
+                "title": "Software Engineer",
+                "vacant": false,
+                "required_skills": ["JavaScript", "Node.js", "MongoDB"],
+                "held_by": ["E1001"]
+            },
+            {
+                "positionID": "P002",
+                "title": "Data Analyst",
+                "vacant": false,
+                "required_skills": ["Python", "Django", "SQL"],
+                "held_by": ["E1002"]
+            },
+            {
+                "positionID": "P003",
+                "title": "Frontend Developer",
+                "vacant": true,
+                "required_skills": ["HTML", "CSS", "JavaScript"],
+                "held_by": []
+            },
+        ];
+
+
         // Save employee data to the database
         await Promise.all([
-            Employee.insertMany(employeeData)
+            Employee.insertMany(employeeData),
+            HR_Admin.insertMany(AdminsData),
+            Feedback.insertMany(FeedbacksData),
+            Workshop.insertMany(WorkshopsData),
+            Course.insertMany(CoursesData),
+            Positions.insertMany(PositionsData),
         ]);
 
         console.log('Employee data saved to database')
