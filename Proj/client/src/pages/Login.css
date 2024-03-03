@@ -45,6 +45,17 @@
     border-radius: 4px;
     font-size: 16px;
   }
+
+  .signup-link > button {
+    width: 100%; /* Input width considering button */
+    padding: 10px;
+    /* border: none; */
+    border-radius: 4px;
+    border-color: #305496; /* A shade of blue */
+    background-color: white; /*white*/
+    color: #305496; /* A shade of blue */
+    cursor: pointer;
+  }
   
   .forgot-password {
     color: #305496;
