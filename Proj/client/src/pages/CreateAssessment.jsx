@@ -2,12 +2,12 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './Dashboard.css';
+import './CreateAssessment.css';
 import './fonts.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 
-export default function Dashboard() {
+export default function CreateAssessment() {
     const { user } = useContext(UserContext);
     const navigate = useNavigate(); // Initialize useNavigate
 
@@ -102,83 +102,7 @@ export default function Dashboard() {
                         <a href="">{user.name}</a>
                     </div>
                     <div className='employeeFunctions'>
-                        <div className='employeeFunction'>
-                            <div className='func'>High Potential Employees</div>
-                            <div className='countAndView'>
-                                <div className='funcCount'>06</div>
-                                <div className='iconAndView'>
-                                    <FontAwesomeIcon icon={faFileLines} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='employeeFunction'>
-                            <div className='func'>Total Employees</div>
-                            <div className='countAndView'>
-                                <div className='funcCount'>{employees.length}</div>
-                                <div className='iconAndView'>
-                                    <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='employeeFunction'>
-                            <div className='func'>Employees at Risk</div>
-                            <div className='countAndView'>
-                                <div className='funcCount'>12</div>
-                                <div className='iconAndView'>
-                                    <FontAwesomeIcon icon={faTriangleExclamation} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='employeeSection'>
-                        <div className='searchAndAdd'>
-                            <div>
-                                <input type="text" placeholder="Search by Employee ID..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                                <FontAwesomeIcon icon={faSearch} />
-                            </div>
-                            <button onClick={addEmployee}>+ Add New Employee</button>
-                        </div>
-                        <div className='employeeData'>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Employee ID</th>
-                                        <th>Role Qualification</th>
-                                        <th>Age</th>
-                                        <th>Contact</th>
-                                        <th>Hours Worked</th>
-                                        <th>Status</th>
-                                        <th>Delete Employee</th>
-                                        <th>View Performance</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  {employees
-                                      .filter(employee => employee.id.toString().includes(searchTerm))
-                                      .map(employee => (
-                                          <tr key={employee.id}>
-                                              <td>{employee.id}</td>
-                                              <td>{employee.role}</td>
-                                              <td>{employee.age}</td>
-                                              <td>{employee.contact}</td>
-                                              <td>{employee.hoursWorked}</td>
-                                              <td>{employee.status}</td>
-                                              <td>
-                                                  <button onClick={() => deleteEmployee(employee.id)}>
-                                                      <FontAwesomeIcon icon={faTrash} size='xl' />
-                                                  </button>
-                                              </td>
-                                              <td>
-                                                  <a href=""><FontAwesomeIcon icon={faEye} size='xl'/></a>
-                                              </td>
-                                          </tr>
-                                      ))}
-                              </tbody>
-                            </table>
-                        </div>
+                            <h1>To be Implemented. Mauj Masti ruk gayi sari 2</h1>
                     </div>
                 </div>
             </div>
