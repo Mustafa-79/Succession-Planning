@@ -25,9 +25,29 @@ const positionIDtoName = async (reqs, resp) => {
     }
 }
 
+const addEmployeeFromAdminDashboard = async (reqs, resp) => {
+    try {
+        // i got employeeID, name, positionID, and registered_status from the request
+        const {employeeID, name, positionID, registered_status} = reqs.body
+        const newEmployee = new Employee({
+            employeeID,
+            name,
+            positionID,
+            registered_status
+        })
+        await newEmployee.save()
+        return resp.json({message: "Employee added successfully"})
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
 module.exports = {
     dashboardEmployees,
-    positionIDtoName
+    positionIDtoName,
+    addEmployeeFromAdminDashboard
 }
 
 

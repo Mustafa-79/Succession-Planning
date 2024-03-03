@@ -77,11 +77,10 @@ export default function Dashboard() {
 
 
     const [newEmployeeData, setNewEmployeeData] = useState({
-        role: "",
-        age: "",
-        contact: "",
-        hoursWorked: "",
-        status: ""
+        employeeID: "",
+        name: "",
+        positionID: "",
+        registered_status: false
     });
     const [showModal, setShowModal] = useState(false);
 
@@ -109,15 +108,32 @@ export default function Dashboard() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(newEmployeeData);
-        const newEmployee = {
-            id: employees.length + 1,
-            ...newEmployeeData
-        };
-        setEmployees([...employees, newEmployee]);
-        closeModal();
+        try {
+            const response = await axios.post('/addEmployeeFromAdminDashboard', newEmployeeData);
+            console.log('Employee added:', response.data);
+            // setEmployees([...employees, response.data]);
+
+            // Fetch all employees again to update the list
+            axios.get('/dashboard-employees')
+                .then(res => {
+                    console.log(res.data);
+                    setEmployees(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error('Failed to fetch employees');
+                });
+
+                
+
+            closeModal();
+        } catch (error) {
+            console.error('Failed to add employee:', error);
+            // Handle error
+        }
     };
 
     const deleteEmployee = (id) => {
@@ -244,27 +260,21 @@ export default function Dashboard() {
                         <h2>Add New Employee</h2>
                         <form className="addEmployeeForm" onSubmit={handleSubmit}>
                             <div className="formGroup">
-                                <label htmlFor="role">Role Qualification:</label>
-                                <input type="text" id="role" value={newEmployeeData.role} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, role: e.target.value })} />
+                                <label htmlFor="employeeID">Employee ID:</label>
+                                <input type="text" id="employeeID" value={newEmployeeData.employeeID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, employeeID: e.target.value })} />
                             </div>
                             <div className="formGroup">
-                                <label htmlFor="age">Age:</label>
-                                <input type="number" id="age" value={newEmployeeData.age} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, age: e.target.value })} />
+                                <label htmlFor="name">Name:</label>
+                                <input type="text" id="name" value={newEmployeeData.name} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, name: e.target.value })} />
                             </div>
                             <div className="formGroup">
-                                <label htmlFor="contact">Contact:</label>
-                                <input type="text" id="contact" value={newEmployeeData.contact} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, contact: e.target.value })} />
+                                <label htmlFor="positionID">Position ID:</label>
+                                <input type="text" id="positionID" value={newEmployeeData.positionID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, positionID: e.target.value })} />
                             </div>
                             <div className="formGroup">
-                                <label htmlFor="hoursWorked">Hours Worked:</label>
-                                <input type="number" id="hoursWorked" value={newEmployeeData.hoursWorked} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, hoursWorked: e.target.value })} />
-                            </div>
-                            <div className="formGroup">
-                                <label htmlFor="status">Status:</label>
-                                <select id="status" value={newEmployeeData.status} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, status: e.target.value })}>
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
+                                <label htmlFor="registered_status">Registered Status:</label>
+                                <select id="registered_status" value={newEmployeeData.registered_status} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, registered_status: e.target.value })}>
+                                    <option value="Unregistered">Unregistered</option>
                                 </select>
                             </div>
                             <button type="submit">Add Employee</button>
