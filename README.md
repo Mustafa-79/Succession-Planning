@@ -23,7 +23,7 @@ Welcome to Succession Planning Software Project. The project aims to develop Suc
 
 **How to run the files:**
 *Clone the repository by copying the url code of the main branch, paste this in VsCode terminal and run the following command:
-**git clone <code>**
+**git clone code**
 
 *Once you have cloned the repository, you will see a folder named proj followed by two sub folders: client and server.
 *Open two separate terminals, one for the client side and one for the server side.
