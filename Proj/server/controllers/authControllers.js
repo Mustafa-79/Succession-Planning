@@ -91,6 +91,8 @@ const loginUser = async (reqs, resp) => {
             })
         }
 
+        return resp.json(user)
+
     } catch (error) {
         console.log(error)
     }
@@ -133,12 +135,112 @@ const retrieveName = async (reqs, resp) => {
     }
 }
 
+const retrieveSecurityQuestion = async (reqs, resp) => {
+    try {
+        const {empID} = reqs.body
+
+        console.log('key', empID)
+
+        const user = await Employee.findOne({employeeID: empID})
+
+        console.log(user)
+
+        if (!user) {
+            return resp.json({
+                error: 'No such employee exists'
+            })
+        } else if (!user.password) {
+            return resp.json({
+                error: 'You are not registerd yet'
+            }) 
+        } else {
+            resp.json(user.security_question)
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const resetPassword = async (reqs, resp) => {
+    try {
+        const {empID, secQ, secA, s_img} = reqs.body
+        console.log('hello', s_img)
+
+        if (!s_img) {
+            return resp.json({
+                error: 'You are required to select the security image'
+            }) 
+        }
+
+        const user = await Employee.findOne({employeeID: empID})
+
+        console.log(secA, user.security_answer)
+
+        if (!user) {
+            return resp.json({
+                error: 'No such employee exists'
+            })
+        } else if (!user.password) {
+            return resp.json({
+                error: 'You are not registerd yet'
+            }) 
+        } else if (s_img.toString() != user.two_factor_answer) {
+            return resp.json({
+                error: 'Incorrect security image selected'
+            }) 
+        } else if (secA == user.security_answer) {
+            resp.json('next')
+        } else {
+            return resp.json({
+                error: 'Incorrect answer'
+            })  
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const setPassword = async (reqs, resp) => {
+    try {
+        console.log('Bye')
+        const {empID, password, samePassword} = reqs.body
+
+        
+        const user = await Employee.findOne({employeeID: empID})
+        console.log(empID, password, samePassword, user.password)
+
+        const result = await comparePassword(password, user.password)
+
+        console.log(result)
+
+        if (result) {
+            return resp.json({
+                error: 'you can not enter same password as original'
+            })  
+        }
+
+        const hashedPassword = await hashPassword(password)
+
+        // Update user
+        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {password: hashedPassword}, { new: true, runValidators: true })
+
+        return resp.json(updatedUser)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     test,
     registerUser,
     loginUser,
     getProfile,
-    retrieveName
+    retrieveName,
+    retrieveSecurityQuestion,
+    resetPassword,
+    setPassword
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}

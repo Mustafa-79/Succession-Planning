@@ -4,6 +4,8 @@ import Navbar from '../src/components/Navbar';
 import Home from '../src/pages/Home';
 import Signup from './pages/Signup';
 import Login from '../src/pages/Login';
+import ResetPwd from './pages/resetPwd';
+import ResetFinalPwd from './pages/resetPg2'
 import axios from 'axios';
 import {Toaster} from 'react-hot-toast';
 import { UserContextProvider } from '../context/userContext';
@@ -21,6 +23,8 @@ function App() {
       <Route path='/signup' element={<Signup /> } />
       <Route path='/login' element={<Login /> } />
       <Route path='/dashboard' element={<Dashboard /> } />
+      <Route path='/resetPassword' element={<ResetPwd /> } />
+      <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd/>} />
     </Routes>
     </UserContextProvider>
   )

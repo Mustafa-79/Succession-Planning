@@ -29,7 +29,7 @@ async function init_db(conn) {
                 "positionID": "P001",
                 "skills": ["JavaScript", "Node.js", "MongoDB"],
                 "security_question": "What is your favorite color?", // for password reset
-                "secuirty_answer": "Blue", // for password reset
+                "security_answer": "Blue", // for password reset
                 "two_factor_answer": "3", // for two-factor authentication
                 "mentor_ID": "2001",
                 "task_completion_rate": 0.75,
