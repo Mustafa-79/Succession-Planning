@@ -87,11 +87,11 @@ export default function Login() {
           } else if (data.no == 1) {
             console.log(data)
             setData({})
-            navigate('/employeeDashboard', { state: {name: data.name} })
+            navigate('/employeeDashboard', { state: {name: data.user.name} })
           } else if (data.no == 2) {
             console.log(data)
             setData({})
-            navigate('/dashboard', { state: {name: data.name} })
+            navigate('/dashboard', { state: {name: data.user.name} })
           }
         } catch (error) {
           console.log(error)
