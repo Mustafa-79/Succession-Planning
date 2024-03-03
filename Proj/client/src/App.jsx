@@ -14,6 +14,7 @@ import AssessFeedback from './pages/AssessFeedback';
 import CreateAssessment from './pages/CreateAssessment';
 import EmployeeData from './pages/EmployeeData';
 import AdminSettings from './pages/AdminSettings';
+import About from './pages/About';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -32,6 +33,8 @@ function App() {
       <Route path='/create_assessment' element={<CreateAssessment /> } />
       <Route path='/employee_data' element={<EmployeeData /> } />
       <Route path='/admin_settings' element={<AdminSettings /> } />
+      <Route path='/about' element={<About /> } />
+
 
       <Route path='/resetPassword' element={<ResetPwd /> } />
       <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd/>} />
