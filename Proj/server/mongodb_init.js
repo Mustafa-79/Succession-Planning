@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 const Employee = require('./models/employee');
+const HR_Admin = require('./models/hr_admin')
+const Feedback = require('./models/feedback')
+const Workshop = require('./models/workshop')
+const Course = require('./models/course')
+const Positions = require('./models/positions')
 const {hashPassword} = require('./helpers/auth');
 
 async function init_db(conn) {
@@ -8,7 +13,12 @@ async function init_db(conn) {
     db.once('open', async () => {
         try {
             await Promise.all([
-                db.collection('employees').deleteMany()
+                db.collection('employees').deleteMany(),
+                db.collection('hr_admins').deleteMany(),
+                db.collection('feedbacks').deleteMany(),
+                db.collection('workshops').deleteMany(),
+                db.collection('courses').deleteMany(),
+                db.collection('positions').deleteMany(),
             ]);
             console.log('Database initialized');
     } catch (err) {
@@ -72,11 +82,11 @@ async function init_db(conn) {
                 "name": "Arbaaz Butt",
                 "positionID": "P002"
             },
-            {
-                "employeeID": "1004",
-                "name": "Shera",
-                "positionID": "P001"
-            }
+            // {
+            //     "employeeID": "1004",
+            //     "name": "Shera",
+            //     "positionID": "P001"
+            // }
         ];
         
         const AdminsData = [

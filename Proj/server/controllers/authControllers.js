@@ -11,9 +11,9 @@ const jwt = require('jsonwebtoken')
 // Register Endpoint
 const registerUser = async (reqs, resp) => {
     try {
-        const {name, email, password, empID, s_img} = reqs.body;
+        const {name, email, password, empID, s_img, phone, dob, gender, education, certifications, awards, question, answer } = reqs.body;
 
-        console.log(name, email, password)
+        console.log(reqs.body)
 
         // Check if name was entered
         if (!name) {
@@ -47,7 +47,7 @@ const registerUser = async (reqs, resp) => {
         const hashedPassword = await hashPassword(password)
 
         // Update user
-        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {email, password: hashedPassword, security_img: s_img}, { new: true, runValidators: true })
+        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, security_question: question, security_answer: answer}, { new: true, runValidators: true })
 
         return resp.json(updatedUser)
 

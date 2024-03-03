@@ -9,7 +9,7 @@ const employeeSchema = new mongoose.Schema({
     email : String,
     password : String,
     contactNumber : String,
-    age : Number,
+    date_of_birth : Date,
     gender : String,
     positionID : String,
     security_question : String,
@@ -25,7 +25,10 @@ const employeeSchema = new mongoose.Schema({
     workshops_taken : [String],
     courses_taken : [String],
     assessement_results : [String],
-    profile_picture : String,
+    profile_picture : {
+        data: Buffer,
+        contentType: String
+    }
 });
 
 const EmployeeModel = mongoose.model('Employee', employeeSchema)
