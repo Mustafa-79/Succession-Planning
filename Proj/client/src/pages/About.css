@@ -1,0 +1,46 @@
+.about-container {
+    text-align: left;
+    background-image: url('imageb.png'); /* Adjust the path based on your file structure */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .about-container p {
+    margin-top: 0; /* Remove top margin */
+    /* Add other styles as needed */
+    margin: 0;
+    padding: 0;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('img/img2.jpg'); /* Make sure the filename is correct */
+    background-size: cover;
+    background-position: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .about-container h1, .about-container h2 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: white; /* Ensures text is visible against the background */
+  }
+  
+  .about-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: white; /* Ensures text is visible against the background */
+  }
+  

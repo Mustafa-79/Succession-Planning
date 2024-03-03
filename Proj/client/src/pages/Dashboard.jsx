@@ -96,7 +96,7 @@ export default function Dashboard() {
                 </div>
                 <div className='content'>
                     <div className='header'>
-                        <a href="">About</a>
+                        <a href="" onClick={()=>navigate('/about')}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
                         <a href="">{user.name}</a>
