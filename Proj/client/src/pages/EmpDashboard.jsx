@@ -12,10 +12,10 @@ export default function EmployeeDashboard() {
     const navigate = useNavigate();
 
     const menuItems = [
-        { name: "Career Path", icon: faHouse, margin: 0, path: "/feedback" },
-        { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/feedback" },
+        { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
+        { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
         { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
-        { name: "Settings", icon: faGear, margin: 0, path: "/feedback" }
+        { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
@@ -41,7 +41,7 @@ export default function EmployeeDashboard() {
                         {menuItems.map(item => (
                             <div key={item.name} className={activeMenuItem === item.name ? "active" : ""}>
                                 <FontAwesomeIcon icon={item.icon} className={activeMenuItem === item.name ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                <a onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
                             </div>
                         ))}
                     </div>
@@ -55,14 +55,14 @@ export default function EmployeeDashboard() {
                     </div>
 
                     <div className='promotionsWrapper'>
-                        <div className='promotionItem'>
-                            <h3>Promotional Positions Available</h3>
+                        <div className='promotionItem' id='position'>
+                            <div >Promotional Positions Available.</div>
                         </div>
-                        <div className='promotionItem'>
-                            <h3>Promotion Skill Set Required</h3>
+                        <div className='promotionItem' id='skills'>
+                            <div>Promotion Skill Set Required.</div>
                         </div>
-                        <div className='promotionItem'>
-                            <h3>Promotion Progress</h3>
+                        <div className='promotionItem' id='progress'>
+                            <div>View Promotion Progress.</div>
                         </div>
                     </div>
                 </div>

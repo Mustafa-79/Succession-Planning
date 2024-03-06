@@ -12,10 +12,10 @@ export default function Feedback() {
     const navigate = useNavigate();
 
     const menuItems = [
-        { name: "Career Path", icon: faHouse, margin: 0, path: "/feedback" },
-        { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/feedback" },
+        { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
+        { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
         { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
-        { name: "Settings", icon: faGear, margin: 0, path: "/feedback" }
+        { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
@@ -41,7 +41,7 @@ export default function Feedback() {
                         {menuItems.map(item => (
                             <div key={item.name} className={activeMenuItem === item.name ? "active" : ""}>
                                 <FontAwesomeIcon icon={item.icon} className={activeMenuItem === item.name ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                <a onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
                             </div>
                         ))}
                     </div>
