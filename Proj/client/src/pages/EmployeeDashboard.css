@@ -100,7 +100,7 @@ html {
 }
 
 /*The right page divided into the 3 sections - about, function cards, data table*/
-.content
+.contentDashClient
 {
     display: grid;
     grid: 1fr 5.0fr / 1fr;

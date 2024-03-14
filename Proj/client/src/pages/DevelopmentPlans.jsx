@@ -14,7 +14,7 @@ export default function DevelopmentPlans() {
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
-        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
+        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedbackForm" },
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 

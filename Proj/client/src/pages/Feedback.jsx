@@ -14,7 +14,7 @@ export default function Feedback() {
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
-        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
+        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedbackForm" },
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
@@ -22,7 +22,7 @@ export default function Feedback() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { name: user } });
     };
 
     return (
