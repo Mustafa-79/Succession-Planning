@@ -97,8 +97,8 @@ async function init_db(conn) {
         const AdminsData = [
             {
                 adminID: 'A0001',
-                name: 'Deez Nuts',
-                email: 'deez@gmail.com',
+                name: 'Muhammad Ali',
+                email: 'muhammad@devsinc.com',
                 password: await hashPassword('abcd1234')
             },
             {

@@ -3,9 +3,13 @@ const test = (reqs, resp) => {
     resp.json('test is working')
 }
 
+const mongoose = require('mongoose')
+
 const User = require('../models/users')
 const HR_AdminModel = require('../models/hr_admin')
 const Employee = require('../models/employee')
+const Feedback = require('../models/feedback')
+const Course = require('../models/course')
 const {hashPassword, comparePassword} = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -371,19 +375,33 @@ const verifySecurityAnswer = async (reqs, resp) => {
 
 const submitFeedback = async (reqs, resp) => {
     try {
-        console.log('HELLo')
+        console.log(reqs.body)
         const {courseID, feedback, empID, rating} = reqs.body
 
         if (!courseID) {
-            return resp.json({
-                error: 'course ID can not be empty'
-            })  
+            // Send error response to the client with code 400
+            return resp.status(400).json({
+                error: 'Course ID is required'
+            });
         }
 
+        // Fetch all courseIDs 
+        const courses = await Course.find({})
+        const courseIDs = courses.map(course => course.courseID)
+
+        // Check if courseID is valid
+        if (!courseIDs.includes(courseID)) {
+            // Send error response to the client with code 400
+            return resp.status(400).json({
+                error: 'Course does not exist with the given ID'
+            });
+        }
+
+
         if (!feedback) {
-            return resp.json({
-                error: 'Feedback can not be empty'
-            })     
+            return resp.status(400).json({
+                error: 'Feedback is required'
+            });
         }
 
         const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
@@ -399,6 +417,12 @@ const submitFeedback = async (reqs, resp) => {
         });
 
         await newFeedback.save();
+
+        // send response to the client
+        resp.json({
+            message: 'Feedback submitted successfully',
+            feedback: newFeedback
+        });
 
     } catch (error) {
         console.log(error)
