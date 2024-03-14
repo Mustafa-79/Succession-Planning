@@ -31,6 +31,7 @@ const StarRatingInput = ({ value, onRatingChange }) => {
   );
 };
 
+
 export default function FeedbackForm() {
   const location = useLocation();
   const user = location.state.name;
@@ -97,7 +98,7 @@ export default function FeedbackForm() {
             ))}
           </div>
         </div>
-        <div className='content'>
+        <div className='contentForm'>
           <div className='header'>
             <a href="">About</a>
             <span>|</span>

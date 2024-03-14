@@ -96,7 +96,7 @@ html {
   /* The right page divided into the 2 sections - about page, form interface */
   .contentForm {
     display: grid;
-    grid: 1fr 1.2fr 4fr / 1fr;
+    grid: 1fr 5fr / 1fr;
     max-height: 100vh;
     background-color: #fafbfc;
   }
@@ -104,7 +104,6 @@ html {
   /* About and Profile */
   .header {
     display: flex;
-    margin: 30px;
     justify-content: right;
     align-items: center;
     border-bottom: 3px solid #ebebff;
@@ -132,16 +131,13 @@ html {
   }
   
   .main-body {
-    height: 100%;
     font-family: 'Source Sans 3';
-
   }
   
   .form-heading {
     background-color: white;
     font-size: x-large;
     padding: 20px;
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -163,10 +159,9 @@ html {
   
   .feedback-form {
     display: flex;
+    max-height: 70vh;
     align-items: center;
-    height: 80%;
     justify-content: space-around;
-    margin-top: 20px;
     font-family: 'Source Sans 3';
   }
   
@@ -180,7 +175,8 @@ html {
   .feedback-form textarea {
     width: 80%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    height: 80%;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
@@ -190,7 +186,7 @@ html {
   }
   
   .feedback-form textarea {
-    height: 70%;
+    height: auto;
   }
   
   .feedback-form textarea {
@@ -198,19 +194,17 @@ html {
   }
   
   .give-rating {
-    margin-top: 20px;
-    font-family: 'Monsterrat';
+    font-family: 'Source Sans 3';
   }
   
   .give-rating h2 {
-    margin-bottom: 10px;
-    font-family: 'Monsterrat';
+    font-family: 'Source Sans 3';
   }
   
   .feedbackButton[type='submit'] {
-    background: rgb(52, 133, 247);
+    background: rgb(69,127,191);
     border-radius: 999px;
-    box-shadow: rgb(21, 146, 212) 0 10px 20px -10px;
+    box-shadow: rgb(1, 48, 73) 0 10px 20px -10px;
     box-sizing: border-box;
     color: #ffffff;
     cursor: pointer;
@@ -226,11 +220,12 @@ html {
     width: fit-content;
     word-break: break-word;
     border: 0;
+    margin-bottom: 20px;
     height: 50px;
     width: 300px;
   }
   
-  button[type='submit']:hover {
-    background-color: #0056b3;
+  .feedbackButton[type='submit']:hover {
+    background-color: #002145;
   }
   
