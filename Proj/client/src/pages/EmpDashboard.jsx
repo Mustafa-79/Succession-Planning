@@ -52,6 +52,19 @@ export default function EmployeeDashboard() {
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
                         <a href="">{user}</a>
+                        <button
+                            onClick={() => navigate('/login')}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#f44336',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '15px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Logout
+                        </button>
                     </div>
 
                     <div className='promotionsWrapper'>
