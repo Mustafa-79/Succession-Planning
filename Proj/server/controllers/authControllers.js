@@ -10,13 +10,13 @@ const HR_AdminModel = require('../models/hr_admin')
 const Employee = require('../models/employee')
 const Feedback = require('../models/feedback')
 const Course = require('../models/course')
-const {hashPassword, comparePassword} = require('../helpers/auth')
+const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
 // Register Endpoint
 const registerUser = async (reqs, resp) => {
     try {
-        const {name, email, password, empID, s_img, phone, dob, gender, education, certifications, awards, question, answer } = reqs.body;
+        const { name, email, password, empID, s_img, phone, dob, gender, education, certifications, awards, question, answer } = reqs.body;
 
         console.log(reqs.body)
 
@@ -34,14 +34,14 @@ const registerUser = async (reqs, resp) => {
             })
         }
 
-        if(!s_img) {
+        if (!s_img) {
             return resp.json({
                 error: 'Security image is required'
             })
         }
 
         // Check email
-        const exists = await Employee.findOne({email})
+        const exists = await Employee.findOne({ email })
         if (exists) {
             return resp.json({
                 error: "Email is already used"
@@ -52,7 +52,7 @@ const registerUser = async (reqs, resp) => {
         const hashedPassword = await hashPassword(password)
 
         // Update user
-        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, security_question: question, security_answer: answer, registered_status: true}, { new: true, runValidators: true })
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, security_question: question, security_answer: answer, registered_status: true }, { new: true, runValidators: true })
 
         return resp.json(updatedUser)
 
@@ -106,11 +106,11 @@ const registerUser = async (reqs, resp) => {
 
 const loginUser = async (reqs, resp) => {
     try {
-        const {email, password, s_img} = reqs.body 
+        const { email, password, s_img } = reqs.body
 
         // Check if user exists
-        const user = await Employee.findOne({email})
-        const user1 = await HR_AdminModel.findOne({email})
+        const user = await Employee.findOne({ email })
+        const user1 = await HR_AdminModel.findOne({ email })
 
         if (!user && !user1) {
             return resp.json({
@@ -119,10 +119,10 @@ const loginUser = async (reqs, resp) => {
         }
 
         if (user) {
-        // Check if password match
+            // Check if password match
             const match = await comparePassword(password, user.password)
             if (match) {
-                jwt.sign({email: user.email, id: user._id, name: user.name}, 'jhgjyhfhmgfy', {}, (err, token) => {
+                jwt.sign({ email: user.email, id: user._id, name: user.name }, 'jhgjyhfhmgfy', {}, (err, token) => {
                     if (err) {
                         throw err
                     }
@@ -131,7 +131,7 @@ const loginUser = async (reqs, resp) => {
             } else {
                 return resp.json({
                     error: 'Incorrect password'
-                }) 
+                })
             }
 
             if (s_img.toString() != user.two_factor_answer) {
@@ -151,7 +151,7 @@ const loginUser = async (reqs, resp) => {
             if (!match) {
                 return resp.json({
                     error: 'Incorrect password'
-                }) 
+                })
             }
 
             return resp.json({
@@ -166,7 +166,7 @@ const loginUser = async (reqs, resp) => {
 }
 
 const getProfile = (reqs, resp) => {
-    const {token} = reqs.cookies
+    const { token } = reqs.cookies
     if (token) {
         jwt.verify(token, 'jhgjyhfhmgfy', {}, (err, user) => {
             if (err) {
@@ -182,18 +182,18 @@ const getProfile = (reqs, resp) => {
 
 const retrieveName = async (reqs, resp) => {
     try {
-        const {name, email, password, empID} = reqs.body;
+        const { name, email, password, empID } = reqs.body;
 
-        const exists = await Employee.findOne({employeeID: empID})
+        const exists = await Employee.findOne({ employeeID: empID })
         console.log(exists)
         if (!exists) {
             return resp.json({
                 error: 'No such employee record exists'
-            }) 
-        } else if (exists.password){
+            })
+        } else if (exists.password) {
             return resp.json({
                 error: 'Employee already registered'
-            }) 
+            })
         } else {
             resp.json(exists)
         }
@@ -204,11 +204,11 @@ const retrieveName = async (reqs, resp) => {
 
 const retrieveSecurityQuestion = async (reqs, resp) => {
     try {
-        const {empID} = reqs.body
+        const { empID } = reqs.body
 
         console.log('key', empID)
 
-        const user = await Employee.findOne({employeeID: empID})
+        const user = await Employee.findOne({ employeeID: empID })
 
         console.log(user)
 
@@ -219,7 +219,7 @@ const retrieveSecurityQuestion = async (reqs, resp) => {
         } else if (!user.password) {
             return resp.json({
                 error: 'You are not registerd yet'
-            }) 
+            })
         } else {
             resp.json(user.security_question)
         }
@@ -231,16 +231,16 @@ const retrieveSecurityQuestion = async (reqs, resp) => {
 
 const resetPassword = async (reqs, resp) => {
     try {
-        const {empID, secQ, secA, s_img} = reqs.body
+        const { empID, secQ, secA, s_img } = reqs.body
         console.log('hello', s_img)
 
         if (!s_img) {
             return resp.json({
                 error: 'You are required to select the security image'
-            }) 
+            })
         }
 
-        const user = await Employee.findOne({employeeID: empID})
+        const user = await Employee.findOne({ employeeID: empID })
 
         console.log(secA, user.security_answer)
 
@@ -251,17 +251,17 @@ const resetPassword = async (reqs, resp) => {
         } else if (!user.password) {
             return resp.json({
                 error: 'You are not registerd yet'
-            }) 
+            })
         } else if (s_img.toString() != user.two_factor_answer) {
             return resp.json({
                 error: 'Incorrect security image selected'
-            }) 
+            })
         } else if (secA == user.security_answer) {
             resp.json('next')
         } else {
             return resp.json({
                 error: 'Incorrect answer'
-            })  
+            })
         }
 
     } catch (error) {
@@ -272,10 +272,10 @@ const resetPassword = async (reqs, resp) => {
 const setPassword = async (reqs, resp) => {
     try {
         console.log('Bye')
-        const {empID, password, samePassword} = reqs.body
+        const { empID, password, samePassword } = reqs.body
 
-        
-        const user = await Employee.findOne({employeeID: empID})
+
+        const user = await Employee.findOne({ employeeID: empID })
         console.log(empID, password, samePassword, user.password)
 
         const result = await comparePassword(password, user.password)
@@ -285,13 +285,13 @@ const setPassword = async (reqs, resp) => {
         if (result) {
             return resp.json({
                 error: 'you can not enter same password as original'
-            })  
+            })
         }
 
         const hashedPassword = await hashPassword(password)
 
         // Update user
-        const updatedUser = await Employee.findOneAndUpdate({employeeID: empID}, {password: hashedPassword}, { new: true, runValidators: true })
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { password: hashedPassword }, { new: true, runValidators: true })
 
         return resp.json(updatedUser)
     } catch (error) {
@@ -306,7 +306,7 @@ const resetSecurityImage = async (reqs, resp) => {
 
         // Find the user by employee ID
         const user = await Employee.findOne({ employeeID: empID });
-        
+
         // Check if user exists
         if (!user) {
             console.log('Employee not found');
@@ -345,10 +345,10 @@ const resetSecurityImage = async (reqs, resp) => {
 
 const verifySecurityAnswer = async (reqs, resp) => {
     try {
-        const {empID, secA} = reqs.body
+        const { empID, secA } = reqs.body
         // console.log('hello', s_img)
 
-        const user = await Employee.findOne({employeeID: empID})
+        const user = await Employee.findOne({ employeeID: empID })
 
         console.log(secA, user.security_answer)
 
@@ -359,13 +359,13 @@ const verifySecurityAnswer = async (reqs, resp) => {
         } else if (!user.password) {
             return resp.json({
                 error: 'You are not registerd yet'
-            }) 
+            })
         } else if (secA == user.security_answer) {
             resp.json('next')
         } else {
             return resp.json({
                 error: 'Incorrect answer'
-            })  
+            })
         }
 
     } catch (error) {
@@ -376,7 +376,7 @@ const verifySecurityAnswer = async (reqs, resp) => {
 const submitFeedback = async (reqs, resp) => {
     try {
         console.log(reqs.body)
-        const {courseID, feedback, empID, rating} = reqs.body
+        const { courseID, feedback, empID, rating } = reqs.body
 
         if (!courseID) {
             // Send error response to the client with code 400

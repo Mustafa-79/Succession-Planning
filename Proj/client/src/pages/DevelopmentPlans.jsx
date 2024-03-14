@@ -22,7 +22,7 @@ export default function DevelopmentPlans() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { name: user } });
     };
 
     return (
@@ -55,7 +55,7 @@ export default function DevelopmentPlans() {
                     </div>
 
                     <div className='promotionsWrapper'>
-                       <h1>To be Implemented. Mauj Masti ruk gayi sari 1</h1>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 1</h1>
                     </div>
                 </div>
             </div>
