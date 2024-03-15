@@ -61,20 +61,29 @@ export default function FeedbackForm() {
     e.preventDefault();
     const { courseID, feedback, empID, rating } = data;
     try {
-      const { data } = await axios.post('/submitFeedback', {
-        courseID, feedback, empID, rating
-      });
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        console.log(data);
-        setData({});
-        toast.success('Feedback submitted successfully');
-      }
+        const response = await axios.post("/submitFeedback", {
+            courseID,
+            feedback,
+            empID,
+            rating,
+        });
+        console.log("Feedback response")
+        console.log(response);
+        if (response.status !== 200) {
+            toast.error(response.error);
+            // setData({});
+        } else {
+            console.log("Feedback submitted successfully")
+            console.log(response);
+            setData({});
+            toast.success("Feedback submitted successfully");
+        }
     } catch (error) {
-      console.log(error);
+        console.log(error.response.data.error)
+        toast.error(error.response.data.error);
+        // setData({});    
     }
-  };
+};
 
   return (
     <div className='overlay'>
@@ -99,45 +108,76 @@ export default function FeedbackForm() {
         </div>
         <div className='content'>
           <div className='header'>
-              <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
-              <span>|</span>
-              <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-              <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
-              <button
-                  onClick={(e) => handleMenuItemClick('/login', e)}
-                  style={{
-                      padding: '8px 16px',
-                      backgroundColor: '#f44336',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '15px',
-                      cursor: 'pointer'
-                  }}
-              >
-                  Logout
-              </button>
+            <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
+            <span>|</span>
+            <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
+            <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+            <button
+              onClick={(e) => handleMenuItemClick('/login', e)}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#f44336',
+                color: 'white',
+                border: 'none',
+                borderRadius: '15px',
+                cursor: 'pointer'
+              }}
+            >
+              Logout
+            </button>
           </div>
-          <div className='main-body'>
+          <div className="main-body">
             <div className="form-heading">
-              <FontAwesomeIcon icon={faFileLines} size="2x" color='rgb(34, 137, 255)' />
+              <FontAwesomeIcon
+                icon={faFileLines}
+                size="2x"
+                color="rgb(34, 137, 255)"
+              />
               <h1>Feedback Form</h1>
             </div>
-            <form className='feedback-form' onSubmit={sumbitFeedback}>
-              <label htmlFor='course-id' style={{ fontSize: "25px" }}>Course ID</label>
-              <input type='text' id='course-id' name='courseid' placeholder='Enter Course ID' value={data.courseID} onChange={(e) => setData({ ...data, courseID: e.target.value })} />
-              <label htmlFor='feedback' style={{ fontSize: "25px" }}>Feedback</label>
-              <textarea id='feedback' name='feedback' rows={8} cols={70} placeholder="Please provide your feedback or answer the following questions:
+            <form className="feedback-form" onSubmit={sumbitFeedback}>
+              <label htmlFor="course-id" style={{ fontSize: "25px" }}>
+                Course ID
+              </label>
+              <input
+                type="text"
+                id="course-id"
+                name="courseid"
+                placeholder="Enter Course ID"
+                value={data.courseID}
+                onChange={(e) => setData({ ...data, courseID: e.target.value })}
+              />
+              <label htmlFor="feedback" style={{ fontSize: "25px" }}>
+                Feedback
+              </label>
+              <textarea
+                id="feedback"
+                name="feedback"
+                rows={8}
+                cols={70}
+                placeholder="Please provide your feedback or answer the following questions:
 
                 1. What did you like about the course?
                 
                 2. What could be improved?
 
-                3. Any additional comments or suggestions?" required value={data.feedback} onChange={(e) => setData({ ...data, feedback: e.target.value })}></textarea>
+                3. Any additional comments or suggestions?"
+                required
+                value={data.feedback}
+                onChange={(e) => setData({ ...data, feedback: e.target.value })}
+              ></textarea>
               <div className="give-rating">
                 <h2>Rate This Course</h2>
-                <StarRatingInput value={data.rating} onRatingChange={(newRating) => setData({ ...data, rating: newRating })} />
+                <StarRatingInput
+                  value={data.rating}
+                  onRatingChange={(newRating) =>
+                    setData({ ...data, rating: newRating })
+                  }
+                />
               </div>
-              <button className='feedbackButton' type='submit'>Submit Feedback</button>
+              <button className="feedbackButton" type="submit">
+                Submit Feedback
+              </button>
             </form>
           </div>
         </div>
