@@ -29,6 +29,7 @@ router.use(
     })
 );
 
+// Routes for the authControllers
 router.get("/", loginUser);
 router.post("/signup", registerUser);
 router.post("/login", loginUser);
