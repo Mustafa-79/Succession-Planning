@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom'; 
 import './About.css';
 
-export default function About() {
+export default function AboutAdmin() {
 
   const location = useLocation();
   const user = location.state.name;

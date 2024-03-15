@@ -15,14 +15,14 @@ import CreateAssessment from './pages/CreateAssessment';
 import EmployeeData from './pages/EmployeeData';
 import AdminSettings from './pages/AdminSettings';
 import ForgetSecurityImage from './pages/forgetsecimg'
-import About from './pages/About'
+import AboutEmployee from './pages/About'
 import EmployeeDashboard from './pages/EmpDashboard';
 import Feedback from './pages/Feedback';
 import FeedbackForm from './pages/FeedbackForm';
 import UserProfile from './pages/UserProfile';
 import EmployeeSettings from './pages/EmployeeSettings';
 import DevelopmentPlans from './pages/DevelopmentPlans';
-import AboutAdmin from './pages/About';
+import AboutAdmin from './pages/AboutAdmin';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -41,7 +41,7 @@ function App() {
       <Route path='/create_assessment' element={<CreateAssessment /> } />
       <Route path='/employee_data' element={<EmployeeData /> } />
       <Route path='/admin_settings' element={<AdminSettings /> } />
-      <Route path='/about' element={<About/> } />
+      <Route path='/about' element={<AboutEmployee/> } />
 
 
       <Route path='/resetPassword' element={<ResetPwd /> } />

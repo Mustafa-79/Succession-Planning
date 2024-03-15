@@ -2,7 +2,7 @@
 const User = require('../models/users')
 const Employee = require('../models/employee')
 const Position = require('../models/positions')
-const {hashPassword, comparePassword} = require('../helpers/auth')
+const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
 // Get all employees for admin dashboard
@@ -28,7 +28,7 @@ const positionIDtoName = async (reqs, resp) => {
 const addEmployeeFromAdminDashboard = async (reqs, resp) => {
     try {
         // i got employeeID, name, positionID, and registered_status from the request
-        const {employeeID, name, positionID, registered_status} = reqs.body
+        const { employeeID, name, positionID, registered_status } = reqs.body
         const newEmployee = new Employee({
             employeeID,
             name,
@@ -36,7 +36,7 @@ const addEmployeeFromAdminDashboard = async (reqs, resp) => {
             registered_status
         })
         await newEmployee.save()
-        return resp.json({message: "Employee added successfully"})
+        return resp.json({ message: "Employee added successfully" })
     }
     catch (error) {
         console.log(error)

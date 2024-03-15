@@ -74,27 +74,27 @@ export default function Login() {
 
     const loginUser = async (e) => {
         e.preventDefault()
-        const {email, password, s_img} = data
+        const { email, password, s_img } = data
         try {
-          const {data} = await axios.post('/login', {
-            email,
-            password,
-            s_img
-          })
-          if (data.error) {
-            toast.error(data.error)
-            setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
-          } else if (data.no == 1) {
-            console.log(data)
-            setData({})
-            navigate('/employeeDashboard', { state: {name: data.user.name} })
-          } else if (data.no == 2) {
-            console.log(data)
-            setData({})
-            navigate('/dashboard', { state: {name: data.user.name} })
-          }
+            const { data } = await axios.post('/login', {
+                email,
+                password,
+                s_img
+            })
+            if (data.error) {
+                toast.error(data.error)
+                setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
+            } else if (data.no == 1) {
+                console.log(data)
+                setData({})
+                navigate('/employeeDashboard', { state: { name: data.user.name } })
+            } else if (data.no == 2) {
+                console.log(data)
+                setData({})
+                navigate('/dashboard', { state: { name: data.user.name } })
+            }
         } catch (error) {
-          console.log(error)
+            console.log(error)
         }
     }
 

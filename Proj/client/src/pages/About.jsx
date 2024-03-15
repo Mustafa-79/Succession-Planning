@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom'; 
 import './About.css';
 
-export default function AboutAdmin() {
+export default function AboutEmployee() {
 
   const location = useLocation();
   const user = location.state.name;
@@ -15,7 +15,7 @@ export default function AboutAdmin() {
 
   return (
     <div className="about-container">
-      <button className='back-arrow' onClick={(e) => handleMenuItemClick('/dashboard', e)}>Go back</button>
+      <button className='back-arrow' onClick={(e) => handleMenuItemClick('/employeeDashboard', e)}>Go back</button>
       <div>
         <h1>About Us</h1>
         <p>DevsInc is a global software development and consultancy company which provides low-cost quality software services to customers worldwide. We also do long terms strategic alliances with companies, software development firms and individuals for offering our software services. Our prime goal is to combine creativity and experience to develop and deliver quality information solutions.

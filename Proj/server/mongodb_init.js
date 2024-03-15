@@ -5,7 +5,7 @@ const Feedback = require('./models/feedback')
 const Workshop = require('./models/workshop')
 const Course = require('./models/course')
 const Positions = require('./models/positions')
-const {hashPassword} = require('./helpers/auth');
+const { hashPassword } = require('./helpers/auth');
 
 async function init_db(conn) {
     const db = conn;
@@ -21,10 +21,10 @@ async function init_db(conn) {
                 db.collection('positions').deleteMany(),
             ]);
             console.log('Database initialized');
-    } catch (err) {
-        console.error("Error clearing database:", err);
-    }
-});
+        } catch (err) {
+            console.error("Error clearing database:", err);
+        }
+    });
 
     try {
         const employeeData = [
@@ -93,12 +93,12 @@ async function init_db(conn) {
             //     "registered_status": false,
             // }
         ];
-        
+
         const AdminsData = [
             {
                 adminID: 'A0001',
-                name: 'Deez Nuts',
-                email: 'deez@gmail.com',
+                name: 'Muhammad Ali',
+                email: 'muhammad@devsinc.com',
                 password: await hashPassword('abcd1234')
             },
             {
