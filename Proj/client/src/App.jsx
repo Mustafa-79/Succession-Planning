@@ -19,8 +19,10 @@ import About from './pages/About'
 import EmployeeDashboard from './pages/EmpDashboard';
 import Feedback from './pages/Feedback';
 import FeedbackForm from './pages/FeedbackForm';
+import UserProfile from './pages/UserProfile';
 import EmployeeSettings from './pages/EmployeeSettings';
 import DevelopmentPlans from './pages/DevelopmentPlans';
+import AboutAdmin from './pages/About';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -50,10 +52,9 @@ function App() {
       <Route path='/feedback' element={<Feedback/>} />
       <Route path='/feedbackForm' element={<FeedbackForm/>} />
       <Route path='/employeeSettings' element={<EmployeeSettings/>} />
+      <Route path='/userProfile' element={<UserProfile/>} />
       <Route path='/developmentPlans' element={<DevelopmentPlans/>} />
-
-
-      
+      <Route path='/aboutAdmin' element={<AboutAdmin/>} />
 
 
     </Routes>

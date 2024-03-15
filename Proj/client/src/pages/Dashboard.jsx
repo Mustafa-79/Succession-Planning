@@ -4,14 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 import './fonts.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
 
 export default function Dashboard() {
-    const { user } = useContext(UserContext);
-    const navigate = useNavigate(); // Initialize useNavigate
+    const location = useLocation();
+    const user = location.state.name;
+    const navigate = useNavigate();
 
 
     const menuItems = [
@@ -89,8 +90,9 @@ export default function Dashboard() {
     };
 
 
-    const handleMenuItemClick = (path) => {
-        navigate(path); // Use navigate instead of history.push
+    const handleMenuItemClick = (path, e) => {
+        e.preventDefault()
+        navigate(path, { state: {name: user}}); 
     };
 
     const addEmployee = () => {
@@ -179,17 +181,17 @@ export default function Dashboard() {
                         {menuItems.map(item => (
                                 <div key={item.name} className={isActive(item.path) ? "active" : ""}>
                                     <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="#" onClick={() => handleMenuItemClick(item.path)}>{item.name}</a>
+                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
                                 </div>
                         ))}
                     </div>
                 </div>
                 <div className='content'>
                     <div className='header'>
-                        <a href="" onClick={()=>navigate('/about')}>About</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">Arbaaz Butt</a>
+                        <a href="">{user}</a>
                         <button
                             onClick={() => navigate('/login')}
                             style={{

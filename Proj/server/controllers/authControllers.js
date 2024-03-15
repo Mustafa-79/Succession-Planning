@@ -6,6 +6,7 @@ const test = (reqs, resp) => {
 const User = require('../models/users')
 const HR_AdminModel = require('../models/hr_admin')
 const Employee = require('../models/employee')
+const PositionModel = require('../models/positions')
 const {hashPassword, comparePassword} = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -172,6 +173,29 @@ const getProfile = (reqs, resp) => {
         })
     } else {
         resp.json(null)
+    }
+
+}
+
+const returnProfile = async (reqs, resp) => {
+    try {
+        const {name} = reqs.body;
+
+        console.log('Name', name)
+
+        const exists = await Employee.findOne({name: name})
+
+        console.log(exists)
+        if (!exists) {
+            return resp.json({
+                error: 'No such employee record exists'
+            }) 
+        } else {
+            const position = await PositionModel.findOne({positionID: exists.positionID})
+            resp.json({record1: exists, record2: position})
+        }
+    } catch (error) {
+        console.log(error)
     }
 
 }
@@ -417,7 +441,8 @@ module.exports = {
     setPassword,
     resetSecurityImage,
     verifySecurityAnswer,
-    submitFeedback
+    submitFeedback,
+    returnProfile
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}

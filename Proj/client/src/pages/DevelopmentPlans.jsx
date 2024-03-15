@@ -48,10 +48,23 @@ export default function DevelopmentPlans() {
                 </div>
                 <div className='content'>
                     <div className='header'>
-                        <a href="">About</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <button
+                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#f44336',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '15px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Logout
+                        </button>
                     </div>
 
                     <div className='promotionsWrapper'>
