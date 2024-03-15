@@ -70,8 +70,8 @@ export default function AssessFeedback() {
     };
 
     const deleteEmployee = (id) => {
-      setEmployees(employees.filter(employee => employee.id !== id));
-  };
+        setEmployees(employees.filter(employee => employee.id !== id));
+    };
 
     return (
         <div className='overlay'>
@@ -87,10 +87,10 @@ export default function AssessFeedback() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="#" onClick={() => handleMenuItemClick(item.path)}>{item.name}</a>
-                                </div>
+                            <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                                <a href="#" onClick={() => handleMenuItemClick(item.path)}>{item.name}</a>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -102,7 +102,7 @@ export default function AssessFeedback() {
                         <a href="">Arbaaz Butt</a>
                     </div>
                     <div className='employeeFunctions'>
-                            <h1>To be Implemented. Mauj Masti ruk gayi sari 1</h1>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 1</h1>
                     </div>
                 </div>
             </div>

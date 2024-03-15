@@ -11,6 +11,7 @@ Our software comes packed with a robust set of features to enhance user experien
 - **Admin Dashboard**: A comprehensive overview for administrators to manage operations effectively.
 - **Employee Dashboard**: Personalized dashboard for employees to track their progress and updates.
 - **View Employee Information (Admin)**: Allows admins to view detailed profiles of employees.
+- **View feedback form (Employee)**: Allows employees to give their suggestions and opinions about the course and workshops they have taken.
 - **About the Portal**: Information about the software and its benefits.
 - **Two-Factor Authorization**: An extra layer of security for user accounts.
 - **Encryption**: Protects sensitive data through advanced encryption methods.

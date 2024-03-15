@@ -79,6 +79,27 @@ export default function Signup() {
         "What is the name of your best friend?",
     ];
 
+    const [passwordValidations, setPasswordValidations] = useState({
+        isLongEnough: false,
+        hasUpper: false,
+        hasLower: false,
+        hasNumber: false,
+        hasSpecial: false,
+    });
+
+    const onPasswordChange = (password) => {
+        setData({ ...data, password });
+        setPasswordValidations({
+            isLongEnough: password.length >= 8,
+            hasUpper: /[A-Z]/.test(password),
+            hasLower: /[a-z]/.test(password),
+            hasNumber: /\d/.test(password),
+            hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+        });
+    };
+
+
+
     const fetchData = async (e) => {
         const { name, email, password, empID, s_img } = data;
         try {
@@ -207,12 +228,30 @@ export default function Signup() {
                             <div class="input-group">
                                 <input
                                     type="password"
-                                    placeholder="Password (6 or more characters)"
+                                    placeholder="Password"
                                     value={data.password}
                                     onChange={(e) =>
-                                        setData({ ...data, password: e.target.value })
+                                        onPasswordChange(e.target.value)
                                     }
                                 />
+                            </div>
+
+                            <div className="password-criteria">
+                                <p>Password must:</p>
+                                <ul>
+                                    <li className={passwordValidations.isLongEnough ? "valid" : ""}>
+                                        Be at least 8 characters long
+                                    </li>
+                                    <li className={passwordValidations.hasUpper ? "valid" : ""}>
+                                        Contain an uppercase and a lowercase letter (A, z)
+                                    </li>
+                                    <li className={passwordValidations.hasNumber ? "valid" : ""}>
+                                        Contain a number
+                                    </li>
+                                    <li className={passwordValidations.hasSpecial ? "valid" : ""}>
+                                        Contain a special character (!, %, @, #, etc.)
+                                    </li>
+                                </ul>
                             </div>
 
                             <div className="security-image-selection">

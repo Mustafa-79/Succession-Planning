@@ -56,8 +56,10 @@ body {
 }
 
 .input-group button:disabled {
-    background-color: #5e5e5e; /* Keep background color grey when disabled */
-    cursor: not-allowed; /* Change cursor to not-allowed when disabled */
+    background-color: #5e5e5e;
+    /* Keep background color grey when disabled */
+    cursor: not-allowed;
+    /* Change cursor to not-allowed when disabled */
 }
 
 .input-group select {

@@ -22,7 +22,7 @@ export default function EmployeeSettings() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { name: user } });
     };
 
     return (
@@ -48,14 +48,14 @@ export default function EmployeeSettings() {
                 </div>
                 <div className='content'>
                     <div className='header'>
-                        <a href="" onClick={navigate('/about', { state: {name: user}})}>About</a>
+                        <a href="" onClick={navigate('/about', { state: { name: user } })}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
                         <a href="">{user}</a>
                     </div>
 
                     <div className='promotionsWrapper'>
-                       <h1>To be Implemented. Mauj Masti ruk gayi sari 2.</h1>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 2.</h1>
                     </div>
                 </div>
             </div>
