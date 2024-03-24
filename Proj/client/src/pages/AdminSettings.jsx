@@ -72,8 +72,8 @@ export default function AdminSettings() {
     };
 
     const deleteEmployee = (id) => {
-      setEmployees(employees.filter(employee => employee.id !== id));
-  };
+        setEmployees(employees.filter(employee => employee.id !== id));
+    };
 
     return (
         <div className='overlay'>
@@ -117,7 +117,7 @@ export default function AdminSettings() {
                         </button>
                     </div>
                     <div className='employeeFunctions'>
-                            <h1>To be Implemented. Mauj Masti ruk gayi sari 4</h1>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 4</h1>
                     </div>
                 </div>
             </div>

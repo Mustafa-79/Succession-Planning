@@ -22,7 +22,7 @@ export default function EmployeeDashboard() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { name: user } });
     };
 
     return (

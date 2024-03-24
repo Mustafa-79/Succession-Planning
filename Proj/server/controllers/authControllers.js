@@ -55,6 +55,7 @@ const registerUser = async (reqs, resp) => {
         // Update user
         const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, security_question: question, security_answer: answer, registered_status: true }, { new: true, runValidators: true })
 
+        // Send response to the client
         return resp.json(updatedUser)
 
     } catch (error) {
@@ -62,49 +63,7 @@ const registerUser = async (reqs, resp) => {
     }
 }
 
-// Login Endpoint
-
-// const loginUser = async (reqs, resp) => {
-//     try {
-//         const {email, password, s_img} = reqs.body 
-
-//         // Check if user exists
-//         const user = await Employee.findOne({email})
-//         if (!user) {
-//             return resp.json({
-//                 error: 'No such user exists'
-//             })
-//         }
-
-//         // Check if password match
-//         const match = await comparePassword(password, user.password)
-//         if (match) {
-//             jwt.sign({email: user.email, id: user._id, name: user.name}, 'jhgjyhfhmgfy', {}, (err, token) => {
-//                 if (err) {
-//                     throw err
-//                 }
-//                 resp.cookie('token', token).json(user)
-//             })
-//         } else {
-//             return resp.json({
-//                 error: 'Incorrect password'
-//             }) 
-//         }
-
-//         if (s_img.toString() != user.two_factor_answer) {
-//             console.log(s_img, user.two_factor_answer)
-//             return resp.json({
-//                 error: 'Incorrect two factor image selected'
-//             })
-//         }
-
-//         return resp.json(user)
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
+// Endpoint to login
 const loginUser = async (reqs, resp) => {
     try {
         const { email, password, s_img } = reqs.body
@@ -113,12 +72,14 @@ const loginUser = async (reqs, resp) => {
         const user = await Employee.findOne({ email })
         const user1 = await HR_AdminModel.findOne({ email })
 
+        // If no user then send error
         if (!user && !user1) {
             return resp.json({
                 error: 'No such user exists'
             })
         }
 
+        // If the user is an employee
         if (user) {
             // Check if password match
             const match = await comparePassword(password, user.password)
@@ -127,6 +88,7 @@ const loginUser = async (reqs, resp) => {
                     if (err) {
                         throw err
                     }
+                    // Send token and user details
                     resp.cookie('token', token).json(user)
                 })
             } else {
@@ -135,6 +97,7 @@ const loginUser = async (reqs, resp) => {
                 })
             }
 
+            // Check if security image is selected and  matches
             if (s_img.toString() != user.two_factor_answer) {
                 console.log(s_img, user.two_factor_answer)
                 return resp.json({
@@ -142,11 +105,13 @@ const loginUser = async (reqs, resp) => {
                 })
             }
 
+            // Send user response
             return resp.json({
                 user: user,
                 no: 1
             })
 
+        // If the user is an HR Admin
         } else if (user1) {
             const match = await comparePassword(password, user1.password)
             if (!match) {
@@ -166,6 +131,7 @@ const loginUser = async (reqs, resp) => {
     }
 }
 
+// Endpoint to get profile
 const getProfile = (reqs, resp) => {
     const { token } = reqs.cookies
     if (token) {
@@ -181,6 +147,7 @@ const getProfile = (reqs, resp) => {
 
 }
 
+// Endpoint to retrieve name of user
 const retrieveName = async (reqs, resp) => {
     try {
         const { name, email, password, empID } = reqs.body;
@@ -203,6 +170,7 @@ const retrieveName = async (reqs, resp) => {
     }
 }
 
+// Endpoint to retrieve security question
 const retrieveSecurityQuestion = async (reqs, resp) => {
     try {
         const { empID } = reqs.body
@@ -218,6 +186,7 @@ const retrieveSecurityQuestion = async (reqs, resp) => {
                 error: 'No such employee exists'
             })
         } else if (!user.password) {
+            // Only send security question if user is not registered
             return resp.json({
                 error: 'You are not registerd yet'
             })
@@ -230,11 +199,13 @@ const retrieveSecurityQuestion = async (reqs, resp) => {
     }
 }
 
+// Endpoint to reset password
 const resetPassword = async (reqs, resp) => {
     try {
         const { empID, secQ, secA, s_img } = reqs.body
         console.log('hello', s_img)
 
+        // Check if security image is selected
         if (!s_img) {
             return resp.json({
                 error: 'You are required to select the security image'
@@ -246,6 +217,7 @@ const resetPassword = async (reqs, resp) => {
         console.log(secA, user.security_answer)
 
         if (!user) {
+            // No user with that employee ID
             return resp.json({
                 error: 'No such employee exists'
             })
@@ -270,6 +242,7 @@ const resetPassword = async (reqs, resp) => {
     }
 }
 
+// Find and update password. New password cannot be the same as previous
 const setPassword = async (reqs, resp) => {
     try {
         console.log('Bye')
@@ -300,6 +273,7 @@ const setPassword = async (reqs, resp) => {
     }
 }
 
+// Endpoint for if the user forgets their security image
 const resetSecurityImage = async (reqs, resp) => {
     try {
         const { empID, newImage } = reqs.body;
@@ -344,6 +318,7 @@ const resetSecurityImage = async (reqs, resp) => {
     }
 }
 
+// Endpoint for verifying security answer
 const verifySecurityAnswer = async (reqs, resp) => {
     try {
         const { empID, secA } = reqs.body
@@ -374,6 +349,7 @@ const verifySecurityAnswer = async (reqs, resp) => {
     }
 }
 
+// Endpoint to submit feedback
 const submitFeedback = async (reqs, resp) => {
     try {
         console.log(reqs.body)
@@ -398,13 +374,13 @@ const submitFeedback = async (reqs, resp) => {
             });
         }
 
-
         if (!feedback) {
             return resp.status(400).json({
                 error: 'Feedback is required'
             });
         }
 
+        // Assign unique ID to feedback
         const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
 
         // Create a new feedback record

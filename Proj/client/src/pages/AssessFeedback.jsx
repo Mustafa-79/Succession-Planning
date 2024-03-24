@@ -72,8 +72,8 @@ export default function AssessFeedback() {
     };
 
     const deleteEmployee = (id) => {
-      setEmployees(employees.filter(employee => employee.id !== id));
-  };
+        setEmployees(employees.filter(employee => employee.id !== id));
+    };
 
     return (
         <div className='overlay'>
@@ -117,7 +117,7 @@ export default function AssessFeedback() {
                         </button>
                     </div>
                     <div className='employeeFunctions'>
-                            <h1>To be Implemented. Mauj Masti ruk gayi sari 1</h1>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 1</h1>
                     </div>
                 </div>
             </div>

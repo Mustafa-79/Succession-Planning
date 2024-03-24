@@ -56,7 +56,7 @@ export default function Dashboard() {
                 toast.error('Failed to fetch position titles');
             });
     }, []);
-    
+
     // function to convert positionID to position title
     const getPositionTitle = (positionID) => {
         const position = positionTitles.find(position => position.positionID === positionID);
@@ -265,29 +265,29 @@ export default function Dashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  {employees
-                                      .filter(employee => employee.employeeID.toString().includes(searchTerm))
-                                      .map(employee => (
-                                          <tr key={employee.employeeID}>
-                                              <td>{employee.employeeID}</td>
-                                              <td>{employee.name}</td>
-                                              <td>{employee.positionID}</td>
-                                              <td>{getPositionTitle(employee.positionID)}</td>
-                                              <td>{getAge(employee.date_of_birth)}</td>
-                                              {/* <td>{employee.contact}</td> */}
-                                              {/* <td>{employee.hoursWorked}</td> */}
-                                              <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
-                                              <td>
-                                                  <button onClick={() => deleteEmployee(employee.employeeID)}>
-                                                      <FontAwesomeIcon icon={faTrash} size='xl' />
-                                                  </button>
-                                              </td>
-                                              <td>
-                                                  <a href=""><FontAwesomeIcon icon={faEye} size='xl'/></a>
-                                              </td>
-                                          </tr>
-                                      ))}
-                              </tbody>
+                                    {employees
+                                        .filter(employee => employee.employeeID.toString().includes(searchTerm))
+                                        .map(employee => (
+                                            <tr key={employee.employeeID}>
+                                                <td>{employee.employeeID}</td>
+                                                <td>{employee.name}</td>
+                                                <td>{employee.positionID}</td>
+                                                <td>{getPositionTitle(employee.positionID)}</td>
+                                                <td>{getAge(employee.date_of_birth)}</td>
+                                                {/* <td>{employee.contact}</td> */}
+                                                {/* <td>{employee.hoursWorked}</td> */}
+                                                <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
+                                                <td>
+                                                    <button onClick={() => deleteEmployee(employee.employeeID)}>
+                                                        <FontAwesomeIcon icon={faTrash} size='xl' />
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <a href=""><FontAwesomeIcon icon={faEye} size='xl' /></a>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                </tbody>
                             </table>
                         </div>
                     </div>

@@ -1,61 +1,89 @@
-import React, { useContext, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { UserContext } from '../../context/userContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './FeedbackForm.css';
-import './fonts.css';
+import React, { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { UserContext } from "../../context/userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faHouse,
+    faFileArrowDown,
+    faFileArrowUp,
+    faStreetView,
+    faGear,
+    faBuilding,
+    faUser,
+    faFileLines,
+    faTriangleExclamation,
+    faEye,
+    faTrash,
+    faSearch,
+} from "@fortawesome/free-solid-svg-icons";
+import "./FeedbackForm.css";
+import "./fonts.css";
 
 const StarRatingInput = ({ value, onRatingChange }) => {
-  const stars = Array.from({ length: 5 }, (_, index) => index + 1);
+    const stars = Array.from({ length: 5 }, (_, index) => index + 1);
 
-  return (
-    <div>
-      {stars.map((star) => (
-        <span
-          key={star}
-          style={{
-            cursor: 'pointer',
-            fontSize: '24px',
-            color: star <= value ? 'gold' : 'gray',
-            marginRight: '5px',
-          }}
-          onClick={() => onRatingChange(star)}
-        >
-          &#9733;
-        </span>
-      ))}
-    </div>
-  );
+    return (
+        <div>
+            {stars.map((star) => (
+                <span
+                    key={star}
+                    style={{
+                        cursor: "pointer",
+                        fontSize: "24px",
+                        color: star <= value ? "gold" : "gray",
+                        marginRight: "5px",
+                    }}
+                    onClick={() => onRatingChange(star)}
+                >
+                    &#9733;
+                </span>
+            ))}
+        </div>
+    );
 };
 
 export default function FeedbackForm() {
-  const location = useLocation();
-  const user = location.state.name;
-  const navigate = useNavigate();
+    const location = useLocation();
+    const user = location.state.name;
+    const navigate = useNavigate();
 
-  const menuItems = [
-    { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
-    { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
-    { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedbackForm" },
-    { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
-  ];
+    const menuItems = [
+        {
+            name: "Career Path",
+            icon: faHouse,
+            margin: 0,
+            path: "/employeeDashboard",
+        },
+        {
+            name: "Personal Development Plans",
+            icon: faFileArrowDown,
+            margin: 4,
+            path: "/developmentPlans",
+        },
+        {
+            name: "Feedback Tools",
+            icon: faFileArrowUp,
+            margin: 7,
+            path: "/feedbackForm",
+        },
+        { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" },
+    ];
 
-  const [activeMenuItem, setActiveMenuItem] = useState("");
+    const [activeMenuItem, setActiveMenuItem] = useState("");
 
-  const [data, setData] = useState({
-    courseID: '',
-    feedback: '',
-    empID: '',
-    rating: 0
-  });
+    const [data, setData] = useState({
+        courseID: "",
+        feedback: "",
+        empID: "",
+        rating: 0,
+    });
 
-  const handleMenuItemClick = (path, e) => {
-    e.preventDefault();
-    navigate(path, { state: { name: user } });
-  };
+    const handleMenuItemClick = (path, e) => {
+        e.preventDefault();
+        navigate(path, { state: { name: user } });
+    };
 
   const sumbitFeedback = async (e) => {
     e.preventDefault();
