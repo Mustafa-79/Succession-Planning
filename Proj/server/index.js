@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config()
 const cors = require('cors')
 const { mongoose } = require('mongoose')
 const init_db = require('./mongodb_init')
+const bodyParser = require('body-parser');
 const app = express()
 const cookieParser = require('cookie-parser')
 
@@ -21,11 +22,13 @@ init_db(db);
 
 
 // middleware
-app.use(express.json())
+// app.use(express.json())
 app.use(cookieParser())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+
 
 app.use('/', require('./routes/authRoutes'))
 
 const port = 8000
-app.listen(port, () => console.log('Server is running on port', port))
+app.listen(port, '0.0.0.0' ,() => console.log('Server is running on port', port))

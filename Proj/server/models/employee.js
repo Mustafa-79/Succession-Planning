@@ -26,10 +26,7 @@ const employeeSchema = new mongoose.Schema({
     workshops_taken: [String],
     courses_taken: [String],
     assessement_results: [String],
-    profile_picture: {
-        data: Buffer,
-        contentType: String
-    },
+    profile_picture: String,
     registered_status: Boolean,
 
 });

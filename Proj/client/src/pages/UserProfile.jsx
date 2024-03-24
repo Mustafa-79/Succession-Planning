@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from "react-hot-toast";
 import { UserContext } from '../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +20,8 @@ export default function UserProfile() {
         email: '',
         contactNumber: '',
         gender: '',
-        employeeID: ''
+        employeeID: '',
+        profileImg: ''
     })
 
     useEffect(() => {
@@ -35,7 +37,7 @@ export default function UserProfile() {
             if (resp.data.error) {
                 setData({})
             } else {
-                setData({name: resp.data.record1.name, position: resp.data.record2.title, email: resp.data.record1.email, contactNumber: resp.data.record1.contactNumber, gender: resp.data.record1.gender, employeeID: resp.data.record1.employeeID })
+                setData({name: resp.data.record1.name, position: resp.data.record2.title, email: resp.data.record1.email, contactNumber: resp.data.record1.contactNumber, gender: resp.data.record1.gender, employeeID: resp.data.record1.employeeID, profileImg: resp.data.record1.profile_picture })
             }
 
         } catch (error) {
@@ -51,11 +53,26 @@ export default function UserProfile() {
     ];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
+    const [isButtonVisible, setIsButtonVisible] = useState(false);
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: {name: user}}); 
     };
+
+    const handleImageUpload = async (e) => {
+        const img = e.target.files[0]
+        const base64 = await convertToBase64(img)
+        console.log(base64)
+        setData({...data, profileImg: base64})
+        setIsButtonVisible(true); 
+    }
+
+    const handleImageSubmit = (e) => {
+        e.preventDefault();
+        uploadImage(data.profileImg)
+        setIsButtonVisible(false); 
+    }
 
     const userData = {
         firstName: 'Nicolas',
@@ -64,6 +81,35 @@ export default function UserProfile() {
         email: 'nicolas@geekytechie.com',
     };
     
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader()
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result)
+            }
+            fileReader.onerror = (err) => {
+                reject(err)
+            }
+        })
+    }
+
+    const uploadImage = async (img) => {
+        try {
+            axios.post('/uploadImage', {
+                empID: data.employeeID,
+                profileImg: img
+            })
+            if (data.error) {
+                toast.error(data.error)
+                setData({...data, profileImg: ''})
+            } else {
+                toast.success('Profile picture updated successfully')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <div className='overlay'>
@@ -106,9 +152,22 @@ export default function UserProfile() {
                             Logout
                         </button>
                     </div>
-                    <div class="profile-header">
-                        <img src={defaultImg} alt="Profile Image" class="profile-image"/>
-                    </div>
+                    <div className="profile-header">
+                <label htmlFor='profile-image' className='profile-image-label'>
+                    <img src={data.profileImg || defaultImg} alt="Profile" className='profile-image-pic'/>
+                </label>
+                <input
+                    type='file'
+                    id='profile-image'
+                    name='newImg'
+                    accept='.jpeg, .png, .jpg'
+                    style={{ display: 'none' }} // Hide the actual input element
+                    onChange={(e) => handleImageUpload(e)}
+                />
+                {isButtonVisible && (
+                    <button onClick={handleImageSubmit}>Update Profile Picture</button>
+                )}
+            </div>
                     <div class="profile-settings">
                         <h1>User Profile</h1>
                         <form>

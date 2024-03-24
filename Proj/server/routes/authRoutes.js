@@ -13,7 +13,8 @@ const {
     resetSecurityImage,
     verifySecurityAnswer,
     submitFeedback,
-    returnProfile
+    returnProfile,
+    uploadImage
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
@@ -30,6 +31,9 @@ router.use(
     })
 );
 
+// router.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+// router.use(bodyParser());
+
 router.get("/", loginUser);
 router.post("/signup", registerUser);
 router.post("/login", loginUser);
@@ -45,6 +49,7 @@ router.get("/dashboard-position-titles", positionIDtoName);
 router.post("/addEmployeeFromAdminDashboard", addEmployeeFromAdminDashboard);
 router.post("/submitFeedback", submitFeedback);
 router.post('/getProfile', returnProfile)
+router.post('/uploadImage', uploadImage)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);

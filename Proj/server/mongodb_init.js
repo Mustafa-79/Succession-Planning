@@ -51,7 +51,7 @@ async function init_db(conn) {
                 "courses_taken": ["Node.js Basics", "MongoDB Basics"],
                 "workshops_taken": ["Angular Workshop"],
                 "awards": ["Employee of the Month"],
-                "profile_picture": "https://example.com/profile.jpg",
+                "profile_picture": "",
                 "registered_status": true
             },
 
@@ -77,7 +77,7 @@ async function init_db(conn) {
                 "certifications": ["Google Analytics Certified"],
                 "workshops_taken": ["Data Visualization Workshop"],
                 "awards": ["Best Newcomer Award"],
-                "profile_picture": "https://example.com/profile2.jpg",
+                "profile_picture": "",
                 "registered_status": true
             },
             // {
