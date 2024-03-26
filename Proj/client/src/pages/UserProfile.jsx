@@ -169,7 +169,7 @@ export default function UserProfile() {
                 )}
             </div>
                     <div class="profile-settings">
-                        <h1>User Profile</h1>
+                        <h1>{data.name}</h1>
                         <form>
                             <label for="empID">Employee ID</label>
                             <input 
@@ -177,14 +177,7 @@ export default function UserProfile() {
                                 value={data.employeeID}
                                 disabled={true}
                             />
-
-                            <label for="name">Name</label>
-                            <input 
-                                type="text"
-                                value={data.name}
-                                disabled={true}
-                            />
-
+                            
                             <label for="position">Position Title</label>
                             <input 
                                 type="text"

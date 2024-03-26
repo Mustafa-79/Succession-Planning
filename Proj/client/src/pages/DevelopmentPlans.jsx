@@ -25,6 +25,10 @@ export default function DevelopmentPlans() {
         navigate(path, { state: {name: user}}); 
     };
 
+    const isActive = (path) => {
+        return location.pathname === path; // Check if the current location matches the path
+    };  
+
     return (
         <div className='overlay'>
             <div className='wrapper'>
@@ -39,10 +43,10 @@ export default function DevelopmentPlans() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                            <div key={item.name} className={activeMenuItem === item.name ? "active" : ""}>
-                                <FontAwesomeIcon icon={item.icon} className={activeMenuItem === item.name ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                            </div>
+                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                                </div>
                         ))}
                     </div>
                 </div>
