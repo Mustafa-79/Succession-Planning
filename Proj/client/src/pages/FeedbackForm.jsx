@@ -73,12 +73,16 @@ export default function FeedbackForm() {
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
-    const [data, setData] = useState({
-        courseID: "",
-        feedback: "",
-        empID: "",
-        rating: 0,
-    });
+  const [data, setData] = useState({
+    courseID: '',
+    feedback: '',
+    empID: '',
+    rating: 0
+  });
+
+  const isActive = (path) => {
+    return location.pathname === path; // Check if the current location matches the path
+  };  
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault();
@@ -127,10 +131,10 @@ export default function FeedbackForm() {
           </div>
           <div className="menu">
             {menuItems.map(item => (
-              <div key={item.name} className={activeMenuItem === item.name ? "active" : ""}>
-                <FontAwesomeIcon icon={item.icon} className={activeMenuItem === item.name ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-              </div>
+                    <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                        <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                        <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                    </div>
             ))}
           </div>
         </div>
