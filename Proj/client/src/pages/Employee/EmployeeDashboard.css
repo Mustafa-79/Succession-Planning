@@ -102,9 +102,9 @@ body {
 }
 
 /*The right page divided into the 3 sections - about, function cards, data table*/
-.content {
+.contentDashClient {
     display: grid;
-    grid: 1fr 1.2fr 4fr / 1fr;
+    grid: 1fr 5.0fr / 1fr;
     max-height: 100vh;
     background-color: #FAFBFC;
 }
@@ -371,4 +371,111 @@ body {
 
 .formGroup input[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+/* Employee Dashboard*/
+.promotionsWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 10px;
+    /* Spacing between items */
+}
+
+#skills {
+    background-image: url('../img/tools.jpg');
+    background-size: cover;
+}
+
+#position {
+    background-image: url('../img/positions.jpg');
+    background-size: cover;
+}
+
+#progress {
+    background-image: url('../img/progress.jpg');
+    background-size: cover;
+}
+
+.promotionItem {
+
+    background-color: #ffffff;
+    color: white;
+    border: 10px solid white;
+    border-radius: 5px;
+    /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow */
+    height: 80%;
+    width: 40%;
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.promotionItem>div {
+    margin-left: 2px;
+    color: rgb(255, 255, 255);
+    font-family: 'Source Sans 3';
+    font-weight: 900;
+    font-size: 45px;
+
+
+}
+
+.promotionItem:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    /* Shadow gets larger on hover */
+    transform: translateY(-2px);
+    /* Slight lift effect */
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-form label {
+    margin-top: 10px;
+}
+
+.feedback-form input,
+.feedback-form textarea {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.feedback-form .give-rating h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.feedback-form button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.feedback-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the stars in the rating component */
+span {
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+    color: gold;
 }

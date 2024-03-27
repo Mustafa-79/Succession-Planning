@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
@@ -186,7 +186,7 @@ export default function Dashboard() {
                         ))}
                     </div>
                 </div>
-                <div className='content'>
+                <div className='contentAdminDash'>
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>

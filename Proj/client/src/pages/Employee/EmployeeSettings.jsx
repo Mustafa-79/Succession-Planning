@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeDashboard.css';
 import './fonts.css';
 
-export default function EmployeeDashboard() {
+export default function EmployeeSettings() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function EmployeeDashboard() {
                         ))}
                     </div>
                 </div>
-                <div className='contentDashClient'>
+                <div className='content'>
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
@@ -71,18 +71,8 @@ export default function EmployeeDashboard() {
                         </button>
                     </div>
 
-
-
                     <div className='promotionsWrapper'>
-                        <div className='promotionItem' id='position'>
-                            <div >Promotional Positions Available.</div>
-                        </div>
-                        <div className='promotionItem' id='skills'>
-                            <div>Promotion Skill Set Required.</div>
-                        </div>
-                        <div className='promotionItem' id='progress'>
-                            <div>View Promotion Progress.</div>
-                        </div>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 2.</h1>
                     </div>
                 </div>
             </div>

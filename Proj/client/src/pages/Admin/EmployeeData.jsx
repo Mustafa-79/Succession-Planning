@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './CreateAssessment.css';
+import './EmployeeData.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 
-export default function CreateAssessment() {
+export default function EmployeeData() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
@@ -37,7 +37,6 @@ export default function CreateAssessment() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
-
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
@@ -116,7 +115,7 @@ export default function CreateAssessment() {
                         </button>
                     </div>
                     <div className='employeeFunctions'>
-                        <h1>To be Implemented. Mauj Masti ruk gayi sari 2</h1>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 3</h1>
                     </div>
                 </div>
             </div>

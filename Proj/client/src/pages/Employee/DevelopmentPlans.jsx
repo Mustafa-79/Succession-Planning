@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeDashboard.css';
 import './fonts.css';
 
-export default function EmployeeSettings() {
+export default function DevelopmentPlans() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
@@ -72,7 +72,7 @@ export default function EmployeeSettings() {
                     </div>
 
                     <div className='promotionsWrapper'>
-                        <h1>To be Implemented. Mauj Masti ruk gayi sari 2.</h1>
+                        <h1>To be Implemented. Mauj Masti ruk gayi sari 1</h1>
                     </div>
                 </div>
             </div>
