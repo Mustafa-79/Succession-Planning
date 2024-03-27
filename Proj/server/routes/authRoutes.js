@@ -14,7 +14,9 @@ const {
     verifySecurityAnswer,
     submitFeedback,
     returnProfile,
-    uploadImage
+    uploadImage,
+    changePassword,
+    changeSecurityImg
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
@@ -50,6 +52,8 @@ router.post("/addEmployeeFromAdminDashboard", addEmployeeFromAdminDashboard);
 router.post("/submitFeedback", submitFeedback);
 router.post('/getProfile', returnProfile)
 router.post('/uploadImage', uploadImage)
+router.post('/changePassword', changePassword)
+router.post('/changeSecurityImage', changeSecurityImg)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);

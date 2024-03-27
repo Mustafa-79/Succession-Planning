@@ -450,6 +450,62 @@ const uploadImage = async (reqs, resp) => {
     }
 }
 
+const changePassword = async (reqs, resp) => {
+    try {
+        const { empID, password, samePassword } = reqs.body
+
+
+        const user = await Employee.findOne({ employeeID: empID })
+        console.log(empID, password, samePassword, user.password)
+
+        const result = await comparePassword(password, user.password)
+
+        if (!result) {
+            return resp.json({
+                error: 'you have entered invalid current password'
+            })
+        }
+
+        const compare = await comparePassword(samePassword, user.password)
+
+        if (compare) {
+            return resp.json({
+                error: 'New password must be different from current'
+            })
+        }
+
+        const hashedPassword = await hashPassword(samePassword)
+
+        // Update user
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { password: hashedPassword }, { new: true, runValidators: true })
+
+        return resp.json(updatedUser)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const changeSecurityImg = async (reqs, resp) => {
+    try {
+        const { empID, currentImg, newImg } = reqs.body
+
+
+        const user = await Employee.findOne({ employeeID: empID })
+
+        if (user.two_factor_answer != currentImg) {
+            return resp.json({
+                error: 'you have selected invalid security image'
+            })
+        }
+
+        // Update user
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { two_factor_answer: newImg }, { new: true, runValidators: true })
+
+        return resp.json(updatedUser)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 module.exports = {
     test,
@@ -464,7 +520,9 @@ module.exports = {
     verifySecurityAnswer,
     submitFeedback,
     returnProfile,
-    uploadImage
+    uploadImage,
+    changePassword,
+    changeSecurityImg
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}
