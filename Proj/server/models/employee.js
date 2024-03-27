@@ -13,6 +13,7 @@ const employeeSchema = new mongoose.Schema({
     date_of_birth: Date,
     gender: String,
     positionID: String,
+    skills: [String],
     security_question: String,
     security_answer: String,
     two_factor_answer: Number,
