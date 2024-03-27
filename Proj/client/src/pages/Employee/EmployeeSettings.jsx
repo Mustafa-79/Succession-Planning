@@ -4,18 +4,18 @@ import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeSettings.css';
-import defaultImg from './img/profile-default.svg'
+import defaultImg from '../img/profile-default.svg'
 import './fonts.css';
-import img1 from "./img/s_img1.png";
-import img2 from "./img/s_img2.png";
-import img3 from "./img/s_img3.png";
-import img4 from "./img/s_img4.png";
-import img5 from "./img/s_img5.png";
-import img6 from "./img/s_img6.png";
-import img7 from "./img/s_img7.png";
-import img8 from "./img/s_img8.png";
-import img9 from "./img/s_img9.png";
-import img10 from "./img/s_img10.png";
+import img1 from "../img/s_img1.png";
+import img2 from "../img/s_img2.png";
+import img3 from "../img/s_img3.png";
+import img4 from "../img/s_img4.png";
+import img5 from "../img/s_img5.png";
+import img6 from "../img/s_img6.png";
+import img7 from "../img/s_img7.png";
+import img8 from "../img/s_img8.png";
+import img9 from "../img/s_img9.png";
+import img10 from "../img/s_img10.png";
 
 export default function EmployeeSettings() {
     const location = useLocation();
