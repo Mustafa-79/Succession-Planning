@@ -5,73 +5,73 @@ import { toast } from "react-hot-toast";
 import { UserContext } from "../../../context/userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faHouse,
-    faFileArrowDown,
-    faFileArrowUp,
-    faStreetView,
-    faGear,
-    faBuilding,
-    faUser,
-    faFileLines,
-    faTriangleExclamation,
-    faEye,
-    faTrash,
-    faSearch,
+  faHouse,
+  faFileArrowDown,
+  faFileArrowUp,
+  faStreetView,
+  faGear,
+  faBuilding,
+  faUser,
+  faFileLines,
+  faTriangleExclamation,
+  faEye,
+  faTrash,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import "./FeedbackForm.css";
 import "./fonts.css";
 
 const StarRatingInput = ({ value, onRatingChange }) => {
-    const stars = Array.from({ length: 5 }, (_, index) => index + 1);
+  const stars = Array.from({ length: 5 }, (_, index) => index + 1);
 
-    return (
-        <div>
-            {stars.map((star) => (
-                <span
-                    key={star}
-                    style={{
-                        cursor: "pointer",
-                        fontSize: "24px",
-                        color: star <= value ? "gold" : "gray",
-                        marginRight: "5px",
-                    }}
-                    onClick={() => onRatingChange(star)}
-                >
-                    &#9733;
-                </span>
-            ))}
-        </div>
-    );
+  return (
+    <div>
+      {stars.map((star) => (
+        <span
+          key={star}
+          style={{
+            cursor: "pointer",
+            fontSize: "24px",
+            color: star <= value ? "gold" : "gray",
+            marginRight: "5px",
+          }}
+          onClick={() => onRatingChange(star)}
+        >
+          &#9733;
+        </span>
+      ))}
+    </div>
+  );
 };
 
 export default function FeedbackForm() {
-    const location = useLocation();
-    const user = location.state.name;
-    const navigate = useNavigate();
+  const location = useLocation();
+  const user = location.state.name;
+  const navigate = useNavigate();
 
-    const menuItems = [
-        {
-            name: "Career Path",
-            icon: faHouse,
-            margin: 0,
-            path: "/employeeDashboard",
-        },
-        {
-            name: "Personal Development Plans",
-            icon: faFileArrowDown,
-            margin: 4,
-            path: "/developmentPlans",
-        },
-        {
-            name: "Feedback Tools",
-            icon: faFileArrowUp,
-            margin: 7,
-            path: "/feedbackForm",
-        },
-        { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" },
-    ];
+  const menuItems = [
+    {
+      name: "Career Path",
+      icon: faHouse,
+      margin: 0,
+      path: "/employeeDashboard",
+    },
+    {
+      name: "Personal Development Plans",
+      icon: faFileArrowDown,
+      margin: 4,
+      path: "/developmentPlans",
+    },
+    {
+      name: "Feedback Tools",
+      icon: faFileArrowUp,
+      margin: 7,
+      path: "/feedbackForm",
+    },
+    { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" },
+  ];
 
-    const [activeMenuItem, setActiveMenuItem] = useState("");
+  const [activeMenuItem, setActiveMenuItem] = useState("");
 
   const [data, setData] = useState({
     courseID: '',
@@ -82,40 +82,40 @@ export default function FeedbackForm() {
 
   const isActive = (path) => {
     return location.pathname === path; // Check if the current location matches the path
-  };  
+  };
 
-    const handleMenuItemClick = (path, e) => {
-        e.preventDefault();
-        navigate(path, { state: { name: user } });
-    };
+  const handleMenuItemClick = (path, e) => {
+    e.preventDefault();
+    navigate(path, { state: { name: user } });
+  };
 
   const sumbitFeedback = async (e) => {
     e.preventDefault();
     const { courseID, feedback, empID, rating } = data;
     try {
-        const response = await axios.post("/submitFeedback", {
-            courseID,
-            feedback,
-            empID,
-            rating,
-        });
-        console.log("Feedback response")
+      const response = await axios.post("/submitFeedback", {
+        courseID,
+        feedback,
+        empID,
+        rating,
+      });
+      console.log("Feedback response")
+      console.log(response);
+      if (response.status !== 200) {
+        toast.error(response.error);
+        // setData({});
+      } else {
+        console.log("Feedback submitted successfully")
         console.log(response);
-        if (response.status !== 200) {
-            toast.error(response.error);
-            // setData({});
-        } else {
-            console.log("Feedback submitted successfully")
-            console.log(response);
-            setData({});
-            toast.success("Feedback submitted successfully");
-        }
+        setData({});
+        toast.success("Feedback submitted successfully");
+      }
     } catch (error) {
-        console.log(error.response.data.error)
-        toast.error(error.response.data.error);
-        // setData({});    
+      console.log(error.response.data.error)
+      toast.error(error.response.data.error);
+      // setData({});    
     }
-};
+  };
 
   return (
     <div className='overlay'>
@@ -131,14 +131,14 @@ export default function FeedbackForm() {
           </div>
           <div className="menu">
             {menuItems.map(item => (
-                    <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                        <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                        <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                    </div>
+              <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+              </div>
             ))}
           </div>
         </div>
-        <div className='content'>
+        <div className='contentForm'>
           <div className='header'>
             <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
             <span>|</span>

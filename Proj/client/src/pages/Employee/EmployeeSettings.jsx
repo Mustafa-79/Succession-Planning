@@ -526,7 +526,7 @@ export default function EmployeeSettings() {
                         ))}
                     </div>
                 </div>
-                <div className='content'>
+                <div className='contentForm'>
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
