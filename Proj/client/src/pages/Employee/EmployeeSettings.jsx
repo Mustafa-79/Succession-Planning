@@ -4,6 +4,7 @@ import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeSettings.css';
+import axios from 'axios';
 import defaultImg from '../img/profile-default.svg'
 import './fonts.css';
 import img1 from "../img/s_img1.png";
