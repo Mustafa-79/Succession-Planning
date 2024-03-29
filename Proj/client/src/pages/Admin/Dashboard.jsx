@@ -303,7 +303,7 @@ export default function Dashboard() {
                 <div className="modalOverlay">
                     <div className="modalContent">
                         <span className="closeModal" onClick={closeModal}>&times;</span>
-                        <h2>Add New Employee</h2>
+                        <h2>Add Employee Form</h2>
                         <form className="addEmployeeForm" onSubmit={handleSubmit}>
                             <div className="formGroup">
                                 <label htmlFor="employeeID">Employee ID:</label>
@@ -323,7 +323,7 @@ export default function Dashboard() {
                                     <option value="Unregistered">Unregistered</option>
                                 </select>
                             </div>
-                            <button type="submit">Add Employee</button>
+                            <button type="submit" id='addEmployeeButton'>Add Employee</button>
                         </form>
                     </div>
                 </div>

@@ -322,11 +322,16 @@ body {
 }
 
 .modalContent {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 80%;
+    width: 30vw;
+    height: 70vh;
+    font-family: 'Source Sans 3';
+    color: #68686d;
+    font-weight: 800;
+
 }
 
 .closeModal {
@@ -334,13 +339,15 @@ body {
     top: 10px;
     right: 10px;
     cursor: pointer;
-    font-size: 24px;
-    color: #aaa;
+    font-size: 50px;
+    color: #ff0000;
 }
 
 .addEmployeeForm {
     display: grid;
-    gap: 10px;
+    gap: 5px;
+    height: 100%;
+    font-family: 'Source Sans 3';
 }
 
 .formGroup {
@@ -355,7 +362,7 @@ body {
 .formGroup input,
 .formGroup select {
     width: 100%;
-    padding: 8px;
+    padding: 4px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
@@ -371,4 +378,54 @@ body {
 
 .formGroup input[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+#addEmployeeButton {
+
+    margin-bottom: 0px;
+    margin-top: 5%;
+    background: rgb(52, 133, 247);
+    border-radius: 999px;
+    box-shadow: rgb(21, 146, 212) 0 10px 20px -10px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    word-break: break-word;
+    border: 0;
+    height: 50px;
+
+}
+
+#addEmployeeButton:hover {
+
+    margin-bottom: 0px;
+    margin-top: 5%;
+    background: rgb(5, 48, 108);
+    border-radius: 999px;
+    box-shadow: rgb(21, 146, 212) 0 10px 20px -10px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    word-break: break-word;
+    border: 0;
+    height: 50px;
+
 }
