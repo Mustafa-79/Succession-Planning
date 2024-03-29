@@ -95,6 +95,12 @@ export default function Dashboard() {
         navigate(path, { state: {name: user}}); 
     };
 
+    const viewPerformance = (path,e,employee) => {
+        console.log("hi", employee)
+        e.preventDefault()
+        navigate(path, { state: {name: user, info:employee}}); 
+    }
+
     const addEmployee = () => {
         setShowModal(true);
     };
@@ -283,7 +289,7 @@ export default function Dashboard() {
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <a href=""><FontAwesomeIcon icon={faEye} size='xl' /></a>
+                                                    <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a>
                                                 </td>
                                             </tr>
                                         ))}

@@ -23,6 +23,7 @@ import UserProfile from './pages/UserProfile';
 import EmployeeSettings from './pages/Employee/EmployeeSettings';
 import DevelopmentPlans from './pages/Employee/DevelopmentPlans';
 import AboutAdmin from './pages/Admin/AboutAdmin';
+import EmployeePerformance from './pages/Admin/EmployeePerformance';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -36,25 +37,26 @@ function App() {
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/login' element={<Login />} />
 
-      <Route path='/dashboard' element={<Dashboard /> } />
-      <Route path='/assess_feedback' element={<AssessFeedback /> } />
-      <Route path='/create_assessment' element={<CreateAssessment /> } />
-      <Route path='/employee_data' element={<EmployeeData /> } />
-      <Route path='/admin_settings' element={<AdminSettings /> } />
-      <Route path='/about' element={<AboutEmployee/> } />
+                <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/dashboard/performance' element={<EmployeePerformance/>} />
+                <Route path='/assess_feedback' element={<AssessFeedback />} />
+                <Route path='/create_assessment' element={<CreateAssessment />} />
+                <Route path='/employee_data' element={<EmployeeData />} />
+                <Route path='/admin_settings' element={<AdminSettings />} />
+                <Route path='/about' element={<AboutEmployee />} />
 
 
                 <Route path='/resetPassword' element={<ResetPwd />} />
                 <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd />} />
                 <Route path='/resetSecurityImage' element={<ForgetSecurityImage />} />
 
-      <Route path='/employeeDashboard' element={<EmployeeDashboard /> } />
-      <Route path='/feedback' element={<Feedback/>} />
-      <Route path='/feedbackForm' element={<FeedbackForm/>} />
-      <Route path='/employeeSettings' element={<EmployeeSettings/>} />
-      <Route path='/userProfile' element={<UserProfile/>} />
-      <Route path='/developmentPlans' element={<DevelopmentPlans/>} />
-      <Route path='/aboutAdmin' element={<AboutAdmin/>} />
+                <Route path='/employeeDashboard' element={<EmployeeDashboard />} />
+                <Route path='/feedback' element={<Feedback />} />
+                <Route path='/feedbackForm' element={<FeedbackForm />} />
+                <Route path='/employeeSettings' element={<EmployeeSettings />} />
+                <Route path='/userProfile' element={<UserProfile />} />
+                <Route path='/developmentPlans' element={<DevelopmentPlans />} />
+                <Route path='/aboutAdmin' element={<AboutAdmin />} />
 
 
             </Routes>
