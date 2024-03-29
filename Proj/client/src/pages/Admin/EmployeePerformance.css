@@ -175,6 +175,8 @@ display: none; /* Chrome, Safari, and Opera */
 
 .infoContainer {
     font-size: 15px;
+    font-family: 'Source Sans 3';
+    font-weight: 600;
     width: 200px;
     background-color: #3485F7;
     color: #EBEBFF;
@@ -223,6 +225,7 @@ display: none; /* Chrome, Safari, and Opera */
 .kpiNameBar {
     display: flex;
     font-family: 'Source Sans 3';
+    font-weight: 600;
     background-color: #FFFFFF;
     color: #7D7D7D;
     display: flex;
