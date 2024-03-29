@@ -81,7 +81,8 @@ export default function Dashboard() {
         employeeID: "",
         name: "",
         positionID: "",
-        registered_status: false
+        registered_status: false,
+        email: "",
     });
     const [showModal, setShowModal] = useState(false);
 
@@ -111,15 +112,19 @@ export default function Dashboard() {
             role: "",
             age: "",
             contact: "",
-            hoursWorked: "",
-            status: ""
+            status: "",
+            email: "",
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(newEmployeeData);
         try {
+            // set the email to the employeeID + @lums.edu.pk
+            newEmployeeData.email = newEmployeeData.employeeID + '@lums.edu.pk';
+            // setNewEmployeeData({ ...newEmployeeData, email: newEmployeeData.employeeID + '@lums.edu.pk' });
+
+            console.log(newEmployeeData);
             const response = await axios.post('/addEmployeeFromAdminDashboard', newEmployeeData);
             console.log('Employee added:', response.data);
             // setEmployees([...employees, response.data]);
@@ -307,15 +312,15 @@ export default function Dashboard() {
                         <form className="addEmployeeForm" onSubmit={handleSubmit}>
                             <div className="formGroup">
                                 <label htmlFor="employeeID">Employee ID:</label>
-                                <input type="text" id="employeeID" value={newEmployeeData.employeeID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, employeeID: e.target.value })} />
+                                <input type="text" required id="employeeID" value={newEmployeeData.employeeID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, employeeID: e.target.value })} />
                             </div>
                             <div className="formGroup">
                                 <label htmlFor="name">Name:</label>
-                                <input type="text" id="name" value={newEmployeeData.name} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, name: e.target.value })} />
+                                <input type="text" required id="name" value={newEmployeeData.name} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, name: e.target.value })} />
                             </div>
                             <div className="formGroup">
                                 <label htmlFor="positionID">Position ID:</label>
-                                <input type="text" id="positionID" value={newEmployeeData.positionID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, positionID: e.target.value })} />
+                                <input type="text" required id="positionID" value={newEmployeeData.positionID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, positionID: e.target.value })} />
                             </div>
                             <div className="formGroup">
                                 <label htmlFor="registered_status">Registered Status:</label>

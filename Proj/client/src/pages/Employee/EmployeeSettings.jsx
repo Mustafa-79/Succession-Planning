@@ -17,6 +17,7 @@ import img7 from "../img/s_img7.png";
 import img8 from "../img/s_img8.png";
 import img9 from "../img/s_img9.png";
 import img10 from "../img/s_img10.png";
+import { toast } from "react-hot-toast";
 
 export default function EmployeeSettings() {
     const location = useLocation();
