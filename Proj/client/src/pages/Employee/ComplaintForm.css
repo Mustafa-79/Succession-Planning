@@ -383,18 +383,18 @@ body {
     /* Spacing between items */
 }
 
-#skills {
-    background-image: url('../img/tools.jpg');
+#courseFeedback {
+    background-image: url('../img/course.jpg');
     background-size: cover;
 }
 
-#position {
-    background-image: url('../img/positions.jpg');
+#complaintForm {
+    background-image: url('../img/complaint.jpg');
     background-size: cover;
 }
 
-#progress {
-    background-image: url('../img/progress.jpg');
+#pendingAssessments {
+    background-image: url('../img/assessment.jpg');
     background-size: cover;
 }
 
@@ -432,7 +432,7 @@ body {
 .promotionItem:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     /* Shadow gets larger on hover */
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     /* Slight lift effect */
 }
 

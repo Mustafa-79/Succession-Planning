@@ -383,18 +383,18 @@ body {
     /* Spacing between items */
 }
 
-#skills {
-    background-image: url('../img/tools.jpg');
+#courseFeedback {
+    background-image: url('../img/course.jpg');
     background-size: cover;
 }
 
-#position {
-    background-image: url('../img/positions.jpg');
+#complaintForm {
+    background-image: url('../img/complaint.jpg');
     background-size: cover;
 }
 
-#progress {
-    background-image: url('../img/progress.jpg');
+#pendingAssessments {
+    background-image: url('../img/assessment.jpg');
     background-size: cover;
 }
 

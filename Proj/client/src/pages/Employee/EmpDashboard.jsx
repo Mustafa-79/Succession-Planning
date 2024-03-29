@@ -14,7 +14,7 @@ export default function EmployeeDashboard() {
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
-        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedbackForm" },
+        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
@@ -27,7 +27,7 @@ export default function EmployeeDashboard() {
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
-    };  
+    };
 
     return (
         <div className='overlay'>
@@ -43,10 +43,10 @@ export default function EmployeeDashboard() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                                </div>
+                            <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -70,9 +70,6 @@ export default function EmployeeDashboard() {
                             Logout
                         </button>
                     </div>
-
-
-
                     <div className='promotionsWrapper'>
                         <div className='promotionItem' id='position'>
                             <div >Promotional Positions Available.</div>

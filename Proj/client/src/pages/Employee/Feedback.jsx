@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './EmployeeDashboard.css';
+import './Feedback.css';
 import './fonts.css';
 
 export default function Feedback() {
@@ -14,7 +14,7 @@ export default function Feedback() {
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
-        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedbackForm" },
+        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
@@ -28,7 +28,6 @@ export default function Feedback() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
-
 
     return (
         <div className='overlay'>
@@ -44,27 +43,42 @@ export default function Feedback() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                            <div key={item.name} className={activeMenuItem === item.name ? "active" : ""}>
-                                <FontAwesomeIcon icon={item.icon} className={activeMenuItem === isActive(item.name) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                            <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
                                 <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className='content'>
+                <div className='contentDashClient'>
                     <div className='header'>
-                        <a href="">About</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <button
+                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#f44336',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '15px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Logout
+                        </button>
                     </div>
-
                     <div className='promotionsWrapper'>
-                        <div className='promotionItem'>
-                            <h3 onClick={(e) => handleMenuItemClick('/feedbackForm', e)}>Feedback Form</h3>
+                        <div className='promotionItem' id='courseFeedback' onClick={(e) => handleMenuItemClick('/feedback/feedbackForm', e)}>
+                            <div>Provide Course Feedback.</div>
                         </div>
-                        <div className='promotionItem'>
-                            <h3>Complaint Form</h3>
+                        <div className='promotionItem' id='complaintForm' onClick={(e) => handleMenuItemClick('/feedback/complaintForm', e)}>
+                            <div >Generate a Complaint.</div>
+                        </div>
+                        <div className='promotionItem' id='pendingAssessments' onClick={(e) => handleMenuItemClick('/feedback/pendingAssessments', e)}>
+                            <div>View Pending Assessments.</div>
                         </div>
                     </div>
                 </div>

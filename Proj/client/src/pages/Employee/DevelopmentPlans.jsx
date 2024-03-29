@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './EmployeeDashboard.css';
+import './DevelopmentPlans.css';
 import './fonts.css';
 
 export default function DevelopmentPlans() {
@@ -14,7 +14,7 @@ export default function DevelopmentPlans() {
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
-        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedbackForm" },
+        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 

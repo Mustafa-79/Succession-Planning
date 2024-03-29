@@ -24,6 +24,8 @@ import EmployeeSettings from './pages/Employee/EmployeeSettings';
 import DevelopmentPlans from './pages/Employee/DevelopmentPlans';
 import AboutAdmin from './pages/Admin/AboutAdmin';
 import EmployeePerformance from './pages/Admin/EmployeePerformance';
+import ComplaintForm from './pages/Employee/ComplaintForm';
+import PendingAssessments from './pages/Employee/PendingAssessments';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -52,7 +54,9 @@ function App() {
 
                 <Route path='/employeeDashboard' element={<EmployeeDashboard />} />
                 <Route path='/feedback' element={<Feedback />} />
-                <Route path='/feedbackForm' element={<FeedbackForm />} />
+                <Route path='/feedback/feedbackForm' element={<FeedbackForm />} />
+                <Route path='/feedback/complaintForm' element={<ComplaintForm />} />
+                <Route path='/feedback/pendingAssessments' element={<PendingAssessments />} />
                 <Route path='/employeeSettings' element={<EmployeeSettings />} />
                 <Route path='/userProfile' element={<UserProfile />} />
                 <Route path='/developmentPlans' element={<DevelopmentPlans />} />
