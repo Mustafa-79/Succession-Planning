@@ -20,6 +20,13 @@ const employeeSchema = new mongoose.Schema({
     mentor_ID: String,
     task_completion_rate: Number,
     attendance_rate: Number,
+
+    punctuality: Number,
+    efficiency: Number,
+    professionalism: Number,
+    collaboration: Number,
+    leadership: Number,
+
     job_history: [String],
     education: [String],
     certifications: [String],
