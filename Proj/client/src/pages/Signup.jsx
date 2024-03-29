@@ -140,6 +140,10 @@ export default function Signup() {
     const registerUserStep1 = async (e) => {
         e.preventDefault();
         try {
+            if (!data.name) {
+                toast.error("Please search for employee record first");
+                throw new Error("Please search for employee record first");
+            }
             toast.success("Step 1 Successful!");
             // go to next step
             setStep(2);
@@ -165,7 +169,20 @@ export default function Signup() {
         const { question, answer } = step3data;
         // merge data from step 1 and step 2 and step 3
         const mergedData = { ...data, ...step2data, ...step3data };
-        console.log("Meged data:", mergedData);
+        console.log("Merged data:", mergedData);
+
+        // Extract the profile picture from the data
+        const profilePicture = step2data.profilePicture;
+
+        console.log("Profile Picture:", profilePicture);
+        // Now, upload the profile picture
+        if (profilePicture) {
+            uploadImage(mergedData.empID, profilePicture);
+        }
+
+        // Remove the profile picture from the data
+        delete mergedData.profilePicture;
+
         try {
             const { data } = await axios.post("/signup", mergedData);
             if (data.error) {
@@ -178,7 +195,38 @@ export default function Signup() {
         } catch (error) {
             console.log(error);
         }
+
     };
+
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader()
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result)
+            }
+            fileReader.onerror = (err) => {
+                reject(err)
+            }
+        })
+    }
+
+    const uploadImage = async (id, img) => {
+        try {
+            axios.post('/uploadImage', {
+                empID: id,
+                profileImg: img
+            })
+            if (data.error) {
+                toast.error(data.error)
+                setData({ ...data, profileImg: '' })
+            } else {
+                toast.success('Profile picture updated successfully')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <body>
@@ -208,6 +256,7 @@ export default function Signup() {
                                     type="text"
                                     placeholder="Name"
                                     value={data.name}
+                                    required
                                     onChange={(e) => {
                                         /* Handle changes if needed */
                                     }}
@@ -390,15 +439,32 @@ export default function Signup() {
                             </div>
 
                             <div class="input-group">
-                                <input
-                                    type="text"
-                                    placeholder="Education"
+                                <select
                                     value={step2data.education}
-                                    onChange={(e) =>
-                                        setStep2Data({ ...step2data, education: e.target.value })
-                                    }
+                                    onChange={(e) => setStep2Data({ ...step2data, education: e.target.value })}
+                                >
+                                    <option value="">Select Education</option>
+                                    <option value="Bachelors">Bachelors</option>
+                                    <option value="Masters">Masters</option>
+                                    <option value="PhD">PhD</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Profile Picture:</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files[0];
+                                        convertToBase64(file).then((base64) => {
+                                            setStep2Data({ ...step2data, profilePicture: base64 });
+                                        });
+                                    }}
                                 />
                             </div>
+
 
                             <div className="input-group">
                                 <label>Certifications:</label>

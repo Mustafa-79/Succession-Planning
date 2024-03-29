@@ -397,14 +397,18 @@ async function init_db(conn) {
                 "security_answer": "Islamabad",
                 "two_factor_answer": "3",
                 "mentor_ID": "1013",
+
                 "task_completion_rate": 0.80,
                 "attendance_rate": 0.88,
-
                 "punctuality": 0.91,
                 "efficiency": 0.89,
                 "professionalism": 0.92,
                 "collaboration": 0.85,
                 "leadership": 0.81,
+
+                // w1 * KPI1 + w2 * KPI2 + w3 * KPI3 + w4 * KPI4 + w5 * KPI5 + w6 * KPI6
+                // calculate for each employee
+                // Sort employees based on this score to get the ranking
 
                 "job_history": ["Intern at Systems Ltd.", "Junior Software Developer at Systems Ltd.", "Junior Software Developer at Devsinc"],
                 "education": ["BS in Computer Science"],
@@ -429,9 +433,9 @@ async function init_db(conn) {
                 "security_answer": "Ali",
                 "two_factor_answer": "5",
                 "mentor_ID": "1014",
+
                 "task_completion_rate": 0.69,
                 "attendance_rate": 0.79,
-
                 "punctuality": 0.71,
                 "efficiency": 0.68,
                 "professionalism": 0.92,
@@ -574,15 +578,15 @@ async function init_db(conn) {
                 "awards": [],
                 "profile_picture": "",
                 "registered_status": true
-            }
+            },
 
 
-            // {
-            //     "employeeID": "1003",
-            //     "name": "Arbaaz Butt",
-            //     "positionID": "P002",
-            //     "registered_status": false,
-            // },
+            {
+                "employeeID": "1021",
+                "name": "Shera",
+                "positionID": "P011",
+                "registered_status": false,
+            },
             // {
             //     "employeeID": "1004",
             //     "name": "Shera",
@@ -810,7 +814,7 @@ async function init_db(conn) {
                 title: "Intern",
                 vacant: false,
                 required_skills: [],
-                held_by: ["1012", "1019", "1020"],
+                held_by: ["1012", "1019", "1020", "1021"],
                 hierarchy_level: 6
             }
         ];
