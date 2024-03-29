@@ -253,13 +253,25 @@ body {
 
 /* Employee data table*/
 .employeeData {
-    max-height: 70%;
-    overflow-y: auto;
     /* Enable vertical scrolling */
+    max-height: 50vh;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(52, 133, 247) white;
 }
+
+.employeeData::-webkit-scrollbar {
+    width: 14px;
+    border-radius: 10px;
+    background-color: transparent; /* Color of the track (scrollbar background) */
+}
+.employeeData::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+}
+
 
 .employeeData table {
     width: 90%;
