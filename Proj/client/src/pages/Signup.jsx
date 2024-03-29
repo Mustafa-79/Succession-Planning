@@ -61,7 +61,7 @@ export default function Signup() {
         education: "",
         certifications: [""],
         awards: [""],
-        profilePicture: null,
+        profilePicture: "",
     });
 
     const [step3data, setStep3Data] = useState({
@@ -170,18 +170,6 @@ export default function Signup() {
         // merge data from step 1 and step 2 and step 3
         const mergedData = { ...data, ...step2data, ...step3data };
         console.log("Merged data:", mergedData);
-
-        // Extract the profile picture from the data
-        const profilePicture = step2data.profilePicture;
-
-        console.log("Profile Picture:", profilePicture);
-        // Now, upload the profile picture
-        if (profilePicture) {
-            uploadImage(mergedData.empID, profilePicture);
-        }
-
-        // Remove the profile picture from the data
-        delete mergedData.profilePicture;
 
         try {
             const { data } = await axios.post("/signup", mergedData);
@@ -414,6 +402,7 @@ export default function Signup() {
                         // Step 2: Gather additional information such as phone number, date of birth, education, certifications, and awards
                         <form onSubmit={registerUserStep2}>
                             <div class="input-group">
+                                <label>Phone:</label>
                                 <input
                                     type="text"
                                     placeholder="Phone"
@@ -439,6 +428,7 @@ export default function Signup() {
                             </div>
 
                             <div class="input-group">
+                                <label>Education</label>
                                 <select
                                     value={step2data.education}
                                     onChange={(e) => setStep2Data({ ...step2data, education: e.target.value })}
