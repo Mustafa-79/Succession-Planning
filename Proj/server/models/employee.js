@@ -37,6 +37,8 @@ const employeeSchema = new mongoose.Schema({
     profile_picture: String,
     registered_status: Boolean,
 
+    about_me: String,
+
 });
 
 const EmployeeModel = mongoose.model('Employee', employeeSchema)
