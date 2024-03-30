@@ -55,8 +55,8 @@ async function init_db(conn) {
                 "job_history": ["Software Engineer at ABC Inc.", "Intern at XYZ Corp."],
                 "education": ["Bachelor's in Computer Science"],
                 "certifications": ["AWS Certified Developer"],
-                "courses_taken": ["Node.js Basics", "MongoDB Basics"],
-                "workshops_taken": ["Angular Workshop"],
+                "courses_taken": ["Node.js Basics", "MongoDB Basics","Strategic Planning Course","Machine Learning Course", "Agile Development Course","Public Speaking Course"],
+                "workshops_taken": ["Leadership Seminar","Financial Management Workshop","Project Management Workshop","Digital Marketing Workshop"],
                 "awards": ["Employee of the Month"],
                 "profile_picture": "",
                 "registered_status": true
@@ -88,12 +88,16 @@ async function init_db(conn) {
                 "job_history": ["Data Analyst at XYZ Corp.", "Intern at PQR Ltd."],
                 "education": ["Master's in Data Science"],
                 "certifications": ["Google Analytics Certified"],
-                "workshops_taken": ["Data Visualization Workshop"],
+                
+                "courses_taken": ["Node.js Basics", "MongoDB Basics","Strategic Planning Course","Machine Learning Course", "Agile Development Course","Public Speaking Course","Digital Marketing Course","Public Speaking Course"],
+
+                "workshops_taken": ["Leadership Seminar","Financial Management Workshop","Project Management Workshop","Digital Marketing Workshop"],
+                
                 "awards": ["Best Newcomer Award"],
                 "profile_picture": "",
                 "registered_status": true
             },
-            
+
             {
                 "employeeID": "1003",
                 "name": "Arbaaz Butt",
@@ -103,7 +107,7 @@ async function init_db(conn) {
                 "date_of_birth": new Date("1995-12-25"),
                 "gender": "Male",
                 "positionID": "P003",
-                "skills": ["Financial Management", "Accounting", "Risk Management", "Leadership", "Python"], 
+                "skills": ["Financial Management", "Accounting", "Risk Management", "Leadership", "Python"],
                 "security_question": "What city were you born in?",
                 "security_answer": "Lahore",
                 "two_factor_answer": "8",
@@ -119,8 +123,11 @@ async function init_db(conn) {
                 "job_history": ["Intern at Devsinc", "Junior Accountant at Devsinc", "Senior Accountant at Devsinc", "Accounting Manager at Devsinc", "CFO at Devsinc"],
                 "education": ["BS in Accounting and Finance", "MBA in Finance"],
                 "certifications": ["ACCA", "CFA Level 1", "CIMA"],
-                "courses_taken": ["Leadership and Management", "HR Management", "Financial Management"],
-                "workshops_taken": ["Leadership Workshop", "Finance Workshop"],
+                
+                "courses_taken": ["Strategic Planning Course","Public Speaking Course","Public Speaking Course","Financial Analysis Course"],
+
+                "workshops_taken": [ "Financial Management Workshop"],
+
                 "awards": ["Employee of the Year", "Best Accountant Award"],
                 "profile_picture": "",
                 "registered_status": true
@@ -151,8 +158,8 @@ async function init_db(conn) {
                 "job_history": ["Intern at Devsinc", "Junior Software Developer at Devsinc", "Software Developer at Devsinc", "Senior Software Developer at Devsinc"],
                 "education": ["BS in Computer Science"],
                 "certifications": ["AWS Certified Developer", "Oracle Certified Professional"],
-                "courses_taken": ["Software Development", "Project Management", "Team Management"],
-                "workshops_taken": ["Software Development Workshop", "Leadership Workshop"],
+                "courses_taken": ["Node.js Basics","MongoDB Basics","Python Basics","SEO Course","Public Speaking Course","Financial Analysis Course"],
+                "workshops_taken": ["Angular Workshop","Python for Data Analysis Workshop","Digital Marketing Workshop","Leadership Seminar"],
                 "awards": ["Employee of the Month", "Best Developer Award"],
                 "profile_picture": "",
                 "registered_status": true
@@ -167,7 +174,7 @@ async function init_db(conn) {
                 "date_of_birth": new Date("1996-10-20"),
                 "gender": "Female",
                 "positionID": "P005",
-                "skills": ["Software Development", "Problem Solving", "Teamwork", "Leadership"],      
+                "skills": ["Software Development", "Problem Solving", "Teamwork", "Leadership"],
                 "security_question": "What is your favorite movie?",
                 "security_answer": "Inception",
                 "two_factor_answer": "7",
@@ -184,8 +191,8 @@ async function init_db(conn) {
                 "job_history": ["Intern at Devsinc", "Junior Software Developer at Devsinc"],
                 "education": ["BS in Computer Science"],
                 "certifications": ["Microsoft Certified Professional"],
-                "courses_taken": ["Software Development", "Problem Solving", "Teamwork"],
-                "workshops_taken": ["Software Development Workshop", "Problem Solving Workshop"],
+                "courses_taken": ["Node.js Basics","MongoDB Basics","Python Basics","SEO Course","Strategic Planning Course","Public Speaking Course","Financial Analysis Course"],
+                "workshops_taken": ["Angular Workshop","Python for Data Analysis Workshop","Digital Marketing Workshop"],
                 "awards": ["Employee of the Month"],
                 "profile_picture": "",
                 "registered_status": true
@@ -216,8 +223,8 @@ async function init_db(conn) {
                 "job_history": ["Intern at Devsinc", "Junior UI/UX Designer at Devsinc"],
                 "education": ["BS in Computer Science", "MS in HCI"],
                 "certifications": ["Adobe Certified Expert"],
-                "courses_taken": ["UI/UX Design", "Wireframing", "Prototyping"],
-                "workshops_taken": [],
+                "courses_taken": ["Node.js Basics","MongoDB Basics","Python Basics","SEO Course","Strategic Planning Course","Public Speaking Course","Financial Analysis Course", "UI/UX Design Masterclass","UX Research Course"],
+                "workshops_taken": ["Python for Data Analysis Workshop","UI/UX Design Thinking Workshop"],
                 "awards": [],
                 "profile_picture": "",
                 "registered_status": true
@@ -248,8 +255,8 @@ async function init_db(conn) {
                 "job_history": ["Intern at Devsinc", "Junior Data Analyst at Devsinc"],
                 "education": ["BS in Computer Science"],
                 "certifications": ["Tableau Certified Professional"],
-                "courses_taken": ["Data Analysis", "Data Visualization", "SQL", "Python"],
-                "workshops_taken": ["Python Workshop"],
+                "courses_taken": ["Public Speaking Course","Financial Analysis Course", ,"UX Research Course","Data Science Course"],
+                "workshops_taken": ["Python for Data Analysis Workshop"],
                 "awards": [],
                 "profile_picture": "",
                 "registered_status": true
@@ -280,8 +287,8 @@ async function init_db(conn) {
                 "job_history": ["IT Support Specialist at Devsinc"],
                 "education": ["BS in Computer Science"],
                 "certifications": ["CompTIA A+"],
-                "courses_taken": ["Technical Support", "Troubleshooting", "Customer Service"],
-                "workshops_taken": ["Customer Service Workshop"],
+                "courses_taken": ["Public Speaking Course","Strategic Planning Course", ,"UX Research Course","Data Science Course"],
+                "workshops_taken": ["Python for Data Analysis Workshop","SEO Workshop"],
                 "awards": [],
                 "profile_picture": "",
                 "registered_status": true
@@ -344,8 +351,8 @@ async function init_db(conn) {
                 "job_history": ["Intern at Arbisoft", "Junior Software Developer at Arbisoft", "Software Developer at Devsinc", "Senior Software Developer at Devsinc"],
                 "education": ["BS in Computer Science", "MS in Data Science"],
                 "certifications": ["Google Certified Professional Cloud Architect", "Microsoft Certified: Azure Solutions Architect Expert"],
-                "courses_taken": ["Software Development", "Problem Solving", "Teamwork", "Leadership"],
-                "workshops_taken": ["Software Development Workshop", "Problem Solving Workshop"],
+                "courses_taken": ["Node.js Basics","MongoDB Basics","Python Basics","SEO Course","Public Speaking Course",  "Strategic Planning Course"],
+                "workshops_taken": ["Angular Workshop","Python for Data Analysis Workshop","Digital Marketing Workshop","Leadership Seminar"],
                 "awards": ["Employee of the Month", "Employee of the Year"],
                 "profile_picture": "",
                 "registered_status": true
@@ -377,8 +384,8 @@ async function init_db(conn) {
                 "job_history": ["Intern at Devsinc", "Junior UI/UX Designer at Devsinc"],
                 "education": ["BS in Computer Science", "MS in HCI"],
                 "certifications": [],
-                "courses_taken": ["UI/UX Design", "User Research", "Teamwork", "Leadership"],
-                "workshops_taken": ["UI/UX Design Workshop", "User Research Workshop"],
+                "courses_taken": ["SEO Course","Strategic Planning Course","Public Speaking Course","Financial Analysis Course", "UI/UX Design Masterclass","UX Research Course"],
+                "workshops_taken": ["Python for Data Analysis Workshop"],
                 "awards": [],
                 "profile_picture": "",
                 "registered_status": true
@@ -445,8 +452,8 @@ async function init_db(conn) {
                 "job_history": ["IT Support Specialist at Devsinc", "Junior Software Developer at Devsinc"],
                 "education": ["BS in Computer Science"],
                 "certifications": ["CompTIA A+"],
-                "courses_taken": ["Software Development", "Problem Solving", "Teamwork", "Communication"],
-                "workshops_taken": ["Software Development Workshop", "Problem Solving Workshop"],
+                "courses_taken": ["Node.js Basics","MongoDB Basics", "Strategic Planning Course"],
+                "workshops_taken": ["Angular Workshop"],
                 "awards": [],
                 "profile_picture": "",
                 "registered_status": true
@@ -477,8 +484,8 @@ async function init_db(conn) {
                 "job_history": ["Intern at Wavetec", "Junior Data Analyst at Devsinc"],
                 "education": ["BS in Computer Science"],
                 "certifications": ["Tableau Certified Professional"],
-                "courses_taken": ["Data Analysis", "Data Visualization", "SQL", "Python"],
-                "workshops_taken": ["Python Workshop"],
+                "courses_taken": ["Node.js Basics","MongoDB Basics","Python Basics","SEO Course","UI/UX Design Masterclass"],
+                "workshops_taken": ["UI/UX Design Thinking Workshop"],
                 "awards": ["Employee of the Month"],
                 "profile_picture": "",
                 "registered_status": true
@@ -509,8 +516,8 @@ async function init_db(conn) {
                 "job_history": ["IT Support Specialist at Devsinc"],
                 "education": ["BS in Computer Science"],
                 "certifications": ["Oracle Certified Professional"],
-                "courses_taken": ["Technical Support", "Troubleshooting", "Customer Service"],
-                "workshops_taken": ["Customer Service Workshop"],
+                "courses_taken": ["Node.js Basics","MongoDB Basics"],
+                "workshops_taken": ["Python for Data Analysis Workshop"],
                 "awards": [],
                 "profile_picture": "",
                 "registered_status": true
@@ -593,7 +600,7 @@ async function init_db(conn) {
             //     "positionID": "P001",
             //     "registered_status": false,
             // }
-            
+
         ];
 
         const AdminsData = [
@@ -681,6 +688,108 @@ async function init_db(conn) {
                 "date": new Date("2024-03-03T08:00:00Z"),
                 "description": "Learn React basics."
             },
+            {
+                "workshopID": "W004",
+                "title": "Leadership Seminar",
+                "date": new Date("2024-03-04T08:00:00Z"),
+                "description": "Enhance your leadership skills."
+            },
+            {
+                "workshopID": "W005",
+                "title": "Financial Management Workshop",
+                "date": new Date("2024-03-05T08:00:00Z"),
+                "description": "Learn financial management strategies."
+            },
+            {
+                "workshopID": "W006",
+                "title": "Python for Data Analysis Workshop",
+                "date": new Date("2024-03-06T08:00:00Z"),
+                "description": "Explore data analysis with Python."
+            },
+            {
+                "workshopID": "W007",
+                "title": "UI/UX Design Thinking Workshop",
+                "date": new Date("2024-03-07T08:00:00Z"),
+                "description": "Master design thinking techniques."
+            },
+            {
+                "workshopID": "W008",
+                "title": "Project Management Workshop",
+                "date": new Date("2024-03-08T08:00:00Z"),
+                "description": "Learn effective project management."
+            },
+            {
+                "workshopID": "W009",
+                "title": "Digital Marketing Workshop",
+                "date": new Date("2024-03-09T08:00:00Z"),
+                "description": "Learn digital marketing strategies."
+            },
+            {
+                "workshopID": "W010",
+                "title": "Cybersecurity Workshop",
+                "date": new Date("2024-03-10T08:00:00Z"),
+                "description": "Understand cybersecurity fundamentals."
+            },
+            {
+                "workshopID": "W011",
+                "title": "Machine Learning Workshop",
+                "date": new Date("2024-03-11T08:00:00Z"),
+                "description": "Introduction to machine learning concepts."
+            },
+            {
+                "workshopID": "W012",
+                "title": "Agile Development Workshop",
+                "date": new Date("2024-03-12T08:00:00Z"),
+                "description": "Learn Agile development methodologies."
+            },
+            {
+                "workshopID": "W013",
+                "title": "Ethical Hacking Workshop",
+                "date": new Date("2024-03-13T08:00:00Z"),
+                "description": "Understand ethical hacking techniques."
+            },
+            {
+                "workshopID": "W014",
+                "title": "Public Speaking Workshop",
+                "date": new Date("2024-03-14T08:00:00Z"),
+                "description": "Improve your public speaking skills."
+            },
+            {
+                "workshopID": "W015",
+                "title": "Artificial Intelligence Workshop",
+                "date": new Date("2024-03-15T08:00:00Z"),
+                "description": "Introduction to artificial intelligence."
+            },
+            {
+                "workshopID": "W016",
+                "title": "Blockchain Workshop",
+                "date": new Date("2024-03-16T08:00:00Z"),
+                "description": "Understanding blockchain technology."
+            },
+            {
+                "workshopID": "W017",
+                "title": "Cloud Computing Workshop",
+                "date": new Date("2024-03-17T08:00:00Z"),
+                "description": "Introduction to cloud computing."
+            },
+            {
+                "workshopID": "W018",
+                "title": "SEO Workshop",
+                "date": new Date("2024-03-18T08:00:00Z"),
+                "description": "Master search engine optimization."
+            },
+            {
+                "workshopID": "W019",
+                "title": "Data Science Workshop",
+                "date": new Date("2024-03-19T08:00:00Z"),
+                "description": "Introduction to data science."
+            },
+            {
+                "workshopID": "W020",
+                "title": "UX Research Workshop",
+                "date": new Date("2024-03-20T08:00:00Z"),
+                "description": "Learn user experience research techniques."
+            }
         ];
 
         const CoursesData = [
@@ -705,37 +814,138 @@ async function init_db(conn) {
                 "duration": 10,
                 "description": "Learn Python basics."
             },
+            {
+                "courseID": "C004",
+                "title": "Strategic Planning Course",
+                "start_date": new Date("2024-03-04T08:00:00Z"),
+                "duration": 7,
+                "description": "Learn strategic planning techniques."
+            },
+            {
+                "courseID": "C005",
+                "title": "UI/UX Design Masterclass",
+                "start_date": new Date("2024-03-05T08:00:00Z"),
+                "duration": 14,
+                "description": "Master UI/UX design principles."
+            },
+            {
+                "courseID": "C006",
+                "title": "Financial Analysis Course",
+                "start_date": new Date("2024-03-06T08:00:00Z"),
+                "duration": 10,
+                "description": "Learn financial analysis techniques."
+            },
+            {
+                "courseID": "C007",
+                "title": "Advanced Data Visualization Course",
+                "start_date": new Date("2024-03-07T08:00:00Z"),
+                "duration": 14,
+                "description": "Advance your data visualization skills."
+            },
+            {
+                "courseID": "C008",
+                "title": "Leadership Development Program",
+                "start_date": new Date("2024-03-08T08:00:00Z"),
+                "duration": 21,
+                "description": "Develop leadership qualities and skills."
+            },
+            {
+                "courseID": "C009",
+                "title": "Digital Marketing Course",
+                "start_date": new Date("2024-03-09T08:00:00Z"),
+                "duration": 14,
+                "description": "Master digital marketing strategies."
+            },
+            {
+                "courseID": "C010",
+                "title": "Cybersecurity Course",
+                "start_date": new Date("2024-03-10T08:00:00Z"),
+                "duration": 21,
+                "description": "Understand cybersecurity principles."
+            },
+            {
+                "courseID": "C011",
+                "title": "Machine Learning Course",
+                "start_date": new Date("2024-03-11T08:00:00Z"),
+                "duration": 21,
+                "description": "Explore machine learning algorithms."
+            },
+            {
+                "courseID": "C012",
+                "title": "Agile Development Course",
+                "start_date": new Date("2024-03-12T08:00:00Z"),
+                "duration": 14,
+                "description": "Learn Agile development methodologies."
+            },
+            {
+                "courseID": "C013",
+                "title": "Ethical Hacking Course",
+                "start_date": new Date("2024-03-13T08:00:00Z"),
+                "duration": 21,
+                "description": "Understand ethical hacking techniques."
+            },
+            {
+                "courseID": "C014",
+                "title": "Public Speaking Course",
+                "start_date": new Date("2024-03-14T08:00:00Z"),
+                "duration": 10,
+                "description": "Improve your public speaking skills."
+            },
+            {
+                "courseID": "C015",
+                "title": "Artificial Intelligence Course",
+                "start_date": new Date("2024-03-15T08:00:00Z"),
+                "duration": 21,
+                "description": "Introduction to artificial intelligence."
+            },
+            {
+                "courseID": "C016",
+                "title": "Blockchain Course",
+                "start_date": new Date("2024-03-16T08:00:00Z"),
+                "duration": 21,
+                "description": "Understanding blockchain technology."
+            },
+            {
+                "courseID": "C017",
+                "title": "Cloud Computing Course",
+                "start_date": new Date("2024-03-17T08:00:00Z"),
+                "duration": 21,
+                "description": "Introduction to cloud computing."
+            },
+            {
+                "courseID": "C018",
+                "title": "SEO Course",
+                "start_date": new Date("2024-03-18T08:00:00Z"),
+                "duration": 14,
+                "description": "Master search engine optimization."
+            },
+            {
+                "courseID": "C019",
+                "title": "Data Science Course",
+                "start_date": new Date("2024-03-19T08:00:00Z"),
+                "duration": 21,
+                "description": "Introduction to data science."
+            },
+            {
+                "courseID": "C020",
+                "title": "UX Research Course",
+                "start_date": new Date("2024-03-20T08:00:00Z"),
+                "duration": 14,
+                "description": "Learn user experience research techniques."
+            }
         ];
 
+        
         const PositionsData = [
-            // {
-            //     "positionID": "P001",
-            //     "title": "Software Engineer",
-            //     "vacant": false,
-            //     "required_skills": ["JavaScript", "Node.js", "MongoDB"],
-            //     "held_by": ["E1001"]
-            // },
-            // {
-            //     "positionID": "P002",
-            //     "title": "Data Analyst",
-            //     "vacant": false,
-            //     "required_skills": ["Python", "Django", "SQL"],
-            //     "held_by": ["E1002"]
-            // },
-            // {
-            //     "positionID": "P003",
-            //     "title": "Frontend Developer",
-            //     "vacant": true,
-            //     "required_skills": ["HTML", "CSS", "JavaScript"],
-            //     "held_by": []
-            // },
             {
                 positionID: "P001",
                 title: "CEO",
                 vacant: false,
                 required_skills: ["Leadership", "Strategic Planning", "Financial Management"],
                 held_by: ["1001"],
-                hierarchy_level: 1
+                hierarchy_level: 1,
+                courses: ["C004", "C008","C012","C011","C010","C006","C014"],
+                workshops: ["W004", "W005", "W008","W009"]
             },
             {
                 positionID: "P002",
@@ -743,7 +953,9 @@ async function init_db(conn) {
                 vacant: false,
                 required_skills: ["Technical Leadership", "Innovation", "Technology Strategy", "Product Development"],
                 held_by: ["1002"],
-                hierarchy_level: 1
+                hierarchy_level: 1,
+                courses: ["C001", "C002", "C003","C009", "C014"],
+                workshops: ["W001", "W002", "W003","W009"]
             },
             {
                 positionID: "P003",
@@ -751,7 +963,9 @@ async function init_db(conn) {
                 vacant: false,
                 required_skills: ["Financial Management", "Accounting", "Risk Management"],
                 held_by: ["1003"],
-                hierarchy_level: 1
+                hierarchy_level: 1,
+                courses: ["C006","C004","C014","C009"],
+                workshops: ["W005"]
             },
             {
                 positionID: "P004",
@@ -759,7 +973,9 @@ async function init_db(conn) {
                 vacant: true,
                 required_skills: ["Software Development", "Team Management", "Project Management"],
                 held_by: [],
-                hierarchy_level: 2
+                hierarchy_level: 2,
+                courses: ["C003", "C008","C012","C004","C010"],
+                workshops: ["W006", "W008"]
             },
             {
                 positionID: "P005",
@@ -767,7 +983,9 @@ async function init_db(conn) {
                 vacant: false,
                 required_skills: ["Software Development", "Problem Solving", "Communication", "Teamwork", "Leadership"],
                 held_by: ["1004", "1005", "1013"],
-                hierarchy_level: 3
+                hierarchy_level: 3,
+                courses: ["C001","C002", "C003", "C0018","C004"],
+                workshops: ["W001", "W006"]
             },
             {
                 positionID: "P006",
@@ -775,7 +993,9 @@ async function init_db(conn) {
                 vacant: true,
                 required_skills: ["Data Analysis", "Data Visualization", "SQL", "Python"],
                 held_by: [],
-                hierarchy_level: 3
+                hierarchy_level: 3,
+                courses: ["C002", "C007","C008","C004"],
+                workshops: ["W002", "W006", "W007"]
             },
             {
                 positionID: "P007",
@@ -783,23 +1003,29 @@ async function init_db(conn) {
                 vacant: false,
                 required_skills: ["UI/UX Design", "Wireframing", "Prototyping", "User Research"],
                 held_by: ["1008", "1014"],
-                hierarchy_level: 3
-            }, 
+                hierarchy_level: 3,
+                courses: ["C005","C008","C004","C020"],
+                workshops: ["W007"]
+            },
             {
                 positionID: "P008",
                 title: "Junior Software Developer",
                 vacant: false,
                 required_skills: ["Software Development", "Problem Solving", "Communication", "Teamwork"],
                 held_by: ["1015", "1016"],
-                hierarchy_level: 4
+                hierarchy_level: 4,
+                courses: ["C001", "C003","C002","C017"],
+                workshops: ["W001"]
             },
             {
                 positionID: "P009",
                 title: "Junior Data Analyst",
                 vacant: false,
                 required_skills: ["Data Analysis", "Data Visualization", "SQL", "Python"],
-                held_by: ["1010", "1017"],
-                hierarchy_level: 4
+                held_by: ["1010", "1017","C015"],
+                hierarchy_level: 4,
+                courses: ["C002","C019"],
+                workshops: ["W002", "W006"]
             },
             {
                 positionID: "P010",
@@ -807,7 +1033,9 @@ async function init_db(conn) {
                 vacant: false,
                 required_skills: ["Technical Support", "Troubleshooting", "Customer Service"],
                 held_by: ["1011", "1018"],
-                hierarchy_level: 5
+                hierarchy_level: 5,
+                courses: [],
+                workshops: ["W008"]
             },
             {
                 positionID: "P011",
@@ -815,9 +1043,124 @@ async function init_db(conn) {
                 vacant: false,
                 required_skills: [],
                 held_by: ["1012", "1019", "1020", "1021"],
-                hierarchy_level: 6
+                hierarchy_level: 6,
+                courses: [],
+                workshops: []
             }
         ];
+
+
+        // const PositionsData = [
+        //     // {
+        //     //     "positionID": "P001",
+        //     //     "title": "Software Engineer",
+        //     //     "vacant": false,
+        //     //     "required_skills": ["JavaScript", "Node.js", "MongoDB"],
+        //     //     "held_by": ["E1001"]
+        //     // },
+        //     // {
+        //     //     "positionID": "P002",
+        //     //     "title": "Data Analyst",
+        //     //     "vacant": false,
+        //     //     "required_skills": ["Python", "Django", "SQL"],
+        //     //     "held_by": ["E1002"]
+        //     // },
+        //     // {
+        //     //     "positionID": "P003",
+        //     //     "title": "Frontend Developer",
+        //     //     "vacant": true,
+        //     //     "required_skills": ["HTML", "CSS", "JavaScript"],
+        //     //     "held_by": []
+        //     // },
+        //     {
+        //         positionID: "P001",
+        //         title: "CEO",
+        //         vacant: false,
+        //         required_skills: ["Leadership", "Strategic Planning", "Financial Management"],
+        //         held_by: ["1001"],
+        //         hierarchy_level: 1
+        //     },
+        //     {
+        //         positionID: "P002",
+        //         title: "CTO",
+        //         vacant: false,
+        //         required_skills: ["Technical Leadership", "Innovation", "Technology Strategy", "Product Development"],
+        //         held_by: ["1002"],
+        //         hierarchy_level: 1
+        //     },
+        //     {
+        //         positionID: "P003",
+        //         title: "CFO",
+        //         vacant: false,
+        //         required_skills: ["Financial Management", "Accounting", "Risk Management"],
+        //         held_by: ["1003"],
+        //         hierarchy_level: 1
+        //     },
+        //     {
+        //         positionID: "P004",
+        //         title: "Software Development Manager",
+        //         vacant: true,
+        //         required_skills: ["Software Development", "Team Management", "Project Management"],
+        //         held_by: [],
+        //         hierarchy_level: 2
+        //     },
+        //     {
+        //         positionID: "P005",
+        //         title: "Senior Software Engineer",
+        //         vacant: false,
+        //         required_skills: ["Software Development", "Problem Solving", "Communication", "Teamwork", "Leadership"],
+        //         held_by: ["1004", "1005", "1013"],
+        //         hierarchy_level: 3
+        //     },
+        //     {
+        //         positionID: "P006",
+        //         title: "Senior Data Analyst",
+        //         vacant: true,
+        //         required_skills: ["Data Analysis", "Data Visualization", "SQL", "Python"],
+        //         held_by: [],
+        //         hierarchy_level: 3
+        //     },
+        //     {
+        //         positionID: "P007",
+        //         title: "Senior UI/UX Designer",
+        //         vacant: false,
+        //         required_skills: ["UI/UX Design", "Wireframing", "Prototyping", "User Research"],
+        //         held_by: ["1008", "1014"],
+        //         hierarchy_level: 3
+        //     }, 
+        //     {
+        //         positionID: "P008",
+        //         title: "Junior Software Developer",
+        //         vacant: false,
+        //         required_skills: ["Software Development", "Problem Solving", "Communication", "Teamwork"],
+        //         held_by: ["1015", "1016"],
+        //         hierarchy_level: 4
+        //     },
+        //     {
+        //         positionID: "P009",
+        //         title: "Junior Data Analyst",
+        //         vacant: false,
+        //         required_skills: ["Data Analysis", "Data Visualization", "SQL", "Python"],
+        //         held_by: ["1010", "1017"],
+        //         hierarchy_level: 4
+        //     },
+        //     {
+        //         positionID: "P010",
+        //         title: "IT Support Specialist",
+        //         vacant: false,
+        //         required_skills: ["Technical Support", "Troubleshooting", "Customer Service"],
+        //         held_by: ["1011", "1018"],
+        //         hierarchy_level: 5
+        //     },
+        //     {
+        //         positionID: "P011",
+        //         title: "Intern",
+        //         vacant: false,
+        //         required_skills: [],
+        //         held_by: ["1012", "1019", "1020", "1021"],
+        //         hierarchy_level: 6
+        //     }
+        // ];
 
 
         // Save employee data to the database

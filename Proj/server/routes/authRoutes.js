@@ -16,13 +16,16 @@ const {
     returnProfile,
     uploadImage,
     changePassword,
-    changeSecurityImg
+    changeSecurityImg,
+
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
     positionIDtoName,
     addEmployeeFromAdminDashboard,
     deleteEmployeefromAdminDashboard,
+    fetchCourses,
+    fetchWorkshops,
 } = require("../controllers/dashboardAdmin");
 
 //middleware
@@ -48,6 +51,8 @@ router.post("/resetSecurityImage", resetSecurityImage);
 router.post("/verifySecurityAnswer", verifySecurityAnswer);
 router.get("/dashboard-employees", dashboardEmployees);
 router.get("/dashboard-position-titles", positionIDtoName);
+router.get("/dashboard-course-data",fetchCourses);
+router.get("/dashboard-workshop-data",fetchWorkshops);
 router.post("/addEmployeeFromAdminDashboard", addEmployeeFromAdminDashboard);
 router.post("/submitFeedback", submitFeedback);
 router.post('/getProfile', returnProfile)

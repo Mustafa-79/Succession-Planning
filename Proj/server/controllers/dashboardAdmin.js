@@ -2,6 +2,8 @@
 const User = require('../models/users')
 const Employee = require('../models/employee')
 const Position = require('../models/positions')
+const Course = require('../models/course')
+const Workshop = require('../models/workshop')
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -69,12 +71,37 @@ const deleteEmployeefromAdminDashboard = async (reqs, resp) => {
     }
 }
 
+const fetchCourses = async (reqs,resp) => {
+    try {
+        const courses = await Course.find()
+        return resp.json(courses)
+    }
+
+    catch(error){
+        console.log(error)
+    }
+}
+
+const fetchWorkshops = async (reqs,resp) => {
+    try {
+        const workshops = await Workshop.find()
+        return resp.json(workshops)
+    }
+
+    catch(error){
+        console.log(error)
+    }
+}
+
+
 
 module.exports = {
     dashboardEmployees,
     positionIDtoName,
     addEmployeeFromAdminDashboard,
-    deleteEmployeefromAdminDashboard
+    deleteEmployeefromAdminDashboard,
+    fetchCourses,
+    fetchWorkshops,
 }
 
 

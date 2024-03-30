@@ -9,7 +9,9 @@ const positionSchema = new mongoose.Schema({
     vacant: Boolean,
     required_skills: [String],
     held_by: [String],
-    hierarchy_level: Number
+    hierarchy_level: Number,
+    courses: [String],
+    workshops: [String],
 });
 
 const PositionModel = mongoose.model('Position', positionSchema)

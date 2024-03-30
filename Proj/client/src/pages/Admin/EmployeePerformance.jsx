@@ -79,70 +79,158 @@ export default function EmployeePerformance() {
         setEmployees(employees.filter(employee => employee.id !== id));
     };
 
-    const performanceIndicators = [
-        {name: 'Punctuality', score:90},
-        {name: 'Efficiency', score:80},
-        {name: 'Task Completion', score:60},
-        {name: 'Workshop Completion', score:30},
-        {name: 'Professional Development', score:30},
-        {name: 'Leadership skills', score:30},
-        {name: 'Collaboration skills', score:38}
-
-    ]
 
     const ProgressBar = (props) => {
         const { bgcolor, completed } = props;
-      
+
+        let barColor = bgcolor
+        if(completed < 60){
+            barColor = "red"
+        }else if(completed < 80){
+            barColor = "orange"
+        }
+
         const containerStyles = {
-          height: 20,
-          width: '25vw',
-          backgroundColor: "#e0e0de",
-          borderRadius: 20,
-          margin: 50
+            height: 20,
+            width: '25vw',
+            backgroundColor: "#e0e0de",
+            borderRadius: 20,
+            margin: 50
         }
-      
+
         const fillerStyles = {
-          height: '100%',
-          width: `${completed}%`,
-          backgroundColor: bgcolor,
-          borderRadius: 'inherit',
-          textAlign: 'right'
+            height: '100%',
+            width: `${completed}%`,
+            backgroundColor: barColor,
+            borderRadius: 'inherit',
+            textAlign: 'right'
         }
-      
+
         const labelStyles = {
-          color: 'white',
-          fontWeight: 'bold'
+            color: 'white',
+            fontWeight: 'bold'
         }
-      
+
         return (
-          <div style={containerStyles}>
-            <div style={fillerStyles}>
-              <span style={labelStyles}>{`${completed}%`}</span>
+            <div style={containerStyles}>
+                <div style={fillerStyles}>
+                    <span style={labelStyles}>{`${completed}%`}</span>
+                </div>
             </div>
-          </div>
         );
-      };
+    };
 
-      const [positionTitles, setPositionTitles] = useState([]);
-      useEffect(() => {
-          axios.get('/dashboard-position-titles')
-              .then(res => {
-                  setPositionTitles(res.data);
-                  console.log(res.data);
-              })
-              .catch(err => {
-                  console.error(err);
-                  toast.error('Failed to fetch position titles');
-              });
-      }, []);
-  
-      // function to convert positionID to position title
-      const getPositionTitle = (positionID) => {
-          const position = positionTitles.find(position => position.positionID === positionID);
-          return position ? position.title : "Unknown";
-      };
+    const [positionTitles, setPositionTitles] = useState([]);
+    const [courses, setCourses] = useState([])
+    const [workshops, setWorkshops] = useState([])
 
-      const getAge = (dateOfBirth) => {
+
+    useEffect(() => {
+        axios.get('/dashboard-position-titles')
+            .then(res => {
+                setPositionTitles(res.data);
+                console.log(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error('Failed to fetch position titles');
+            });
+
+        axios.get('/dashboard-course-data')
+            .then(res => {
+                console.log(res.data)
+                setCourses(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+                toast.error('Failed to fetch courses')
+            });
+
+        axios.get('/dashboard-workshop-data')
+            .then(res => {
+                console.log(res.data)
+                setWorkshops(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+                toast.error('Failed to fetch workshops')
+            })
+    }, []);
+
+    // function to convert positionID to position title
+    const getPositionTitle = (positionID) => {
+        const position = positionTitles.find(position => position.positionID === positionID);
+        return position ? position.title : "Unknown";
+    };
+
+    const getPositionalCourses = (positionID) => {
+        const position = positionTitles.find(position => position.positionID === positionID);
+
+        return position ? position.courses : []
+    }
+    const getPositionalWorkshops = (positionID) => {
+        const position = positionTitles.find(position => position.positionID === positionID);
+        return position ? position.workshops : []
+    }
+
+    const getCourseTitle = (courseID) => {
+        const course = courses.find(course => course.courseID === courseID)
+        return course ? course.title : []
+    }
+
+    const getWorkshopTitle = (workshopID) => {
+        const workshop = workshops.find(workshop => workshop.workshopID === workshopID)
+        return workshop ? workshop.title : []
+    }
+
+
+    const getCourseCompletion = (()=>{
+        const requiredCourses = getPositionalCourses(employeeInfo.positionID).map((courseID)=>getCourseTitle(courseID))
+        const coursesTaken = employeeInfo.courses_taken
+
+        if(requiredCourses.length == 0)
+        {
+            return 1
+        }
+
+
+        let progress = 0
+        for(const course of requiredCourses){
+            if(coursesTaken.includes(course))
+            {
+                progress++
+            }
+        }
+
+        return (progress/requiredCourses.length)
+
+
+    })
+
+    const getWorkshopCompletion = (()=> {
+        const requiredWorkshops = getPositionalWorkshops(employeeInfo.positionID).map((workshopID)=>getWorkshopTitle(workshopID))
+        const workshopsTaken = employeeInfo.workshops_taken
+
+
+        if(requiredWorkshops.length == 0)
+        {
+            return 1;
+        }
+
+
+        let progress= 0
+        for(const workshop of requiredWorkshops){
+            if(workshopsTaken.includes(workshop))
+            {
+                progress++
+            }
+        }
+
+        return (progress/requiredWorkshops.length)
+
+    })
+
+    const getAge = (dateOfBirth) => {
         if (!dateOfBirth) return "Unknown";
         const today = new Date();
         const birthDate = new Date(dateOfBirth);
@@ -154,7 +242,21 @@ export default function EmployeePerformance() {
         return age;
     };
 
-      
+
+    const performanceIndicators = [
+        { name: 'Attendance Rate', score: employeeInfo.attendance_rate * 100 },
+        { name: 'Punctuality Score', score: employeeInfo.punctuality * 100 },
+        { name: 'Work Ethic Score', score: employeeInfo.efficiency * 100 },
+        { name: 'Task Completion Rate', score: employeeInfo.task_completion_rate * 100 },
+        { name: 'Workshop Completion Rate', score: getWorkshopCompletion()*100 },
+        { name: 'Course Completion Rate', score: getCourseCompletion()*100 },
+        { name: 'Professional Development', score: employeeInfo.professionalism * 100 },
+        { name: 'Leadership skills', score: employeeInfo.leadership * 100 },
+        { name: 'Collaboration skills', score: employeeInfo.collaboration * 100 }
+
+    ]
+
+
 
     return (
         <div className='overlay'>
@@ -197,52 +299,52 @@ export default function EmployeePerformance() {
                             Logout
                         </button>
                     </div>
-                        <div className='employeeInfo'>
-                            <div  className='employeeHeading' style={{marginBottom: "20px"}} >Employee Information</div>
+                    <div className='employeeInfo'>
+                        <div className='employeeHeading' style={{ marginBottom: "20px" }} >Employee Information</div>
+                        <div>
                             <div>
-                                <div>
-                                    <div className='infoType'>Employee ID</div>
-                                    <div className='infoContainer'   >{employeeInfo.employeeID}</div>
-                                </div>
-                                <div>
-                                    <div className='infoType'>Age</div>
-                                    <div className='infoContainer' style={{marginLeft: "45px"}} >{getAge(employeeInfo.date_of_birth)}</div>
-                                </div>
-                                <div>
-                                    <div className='infoType'>Qualification</div>
-                                    <div className='infoContainer'>{employeeInfo.education[0]}</div>
-                                </div>
+                                <div className='infoType'>Employee ID</div>
+                                <div className='infoContainer' style={{ marginLeft: "27px" }} >{employeeInfo.employeeID}</div>
                             </div>
                             <div>
-                                <div>
-                                    <div className='infoType'>Name</div>
-                                    <div className='infoContainer' style={{marginLeft: "75px"}}>{employeeInfo.name}</div>
-                                </div>
-                                <div>
-                                    <div className='infoType'>Contact</div>
-                                    <div className='infoContainer'>{employeeInfo.contactNumber}</div>
-                                </div>
-                                <div>
-                                    <div className='infoType'>Role</div> 
-                                    <div className='infoContainer'  style={{marginLeft: "70px"}}>{getPositionTitle(employeeInfo.positionID)}</div>
-                                </div>
+                                <div className='infoType'>Age</div>
+                                <div className='infoContainer' style={{ marginLeft: "43px" }} >{getAge(employeeInfo.date_of_birth)}</div>
+                            </div>
+                            <div>
+                                <div className='infoType'>Qualification</div>
+                                <div className='infoContainer'>{employeeInfo.education[0]}</div>
                             </div>
                         </div>
-                        <div className='employeePerformance'>
-                            <div className='employeeHeading' style={{marginTop: "0px"}}>Employee Performance</div>
-                            <div className='kpiContainer'>
-                                {performanceIndicators.map((kpi)=>(
-                                    <div className='kpiNameBar'>
-                                        <div>{kpi.name}</div>
-                                        <div className='progressBar'>
-                                            <ProgressBar bgcolor='#30E257' completed = {kpi.score}/>
-                                        </div>
+                        <div>
+                            <div>
+                                <div className='infoType'>Name</div>
+                                <div className='infoContainer' style={{ marginLeft: "75px" }}>{employeeInfo.name}</div>
+                            </div>
+                            <div>
+                                <div className='infoType'>Contact</div>
+                                <div className='infoContainer'>{employeeInfo.contactNumber}</div>
+                            </div>
+                            <div>
+                                <div className='infoType'>Role</div>
+                                <div className='infoContainer' style={{ marginLeft: "70px" }}>{getPositionTitle(employeeInfo.positionID)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='employeePerformance'>
+                        <div className='employeeHeading' style={{ marginTop: "0px" }}>Employee Performance</div>
+                        <div className='kpiContainer'>
+                            {performanceIndicators.map((kpi) => (
+                                <div className='kpiNameBar'>
+                                    <div>{kpi.name}</div>
+                                    <div className='progressBar'>
+                                        <ProgressBar bgcolor='#30E257' completed={kpi.score} />
                                     </div>
+                                </div>
 
-                                ))}
-                            </div>
-
+                            ))}
                         </div>
+
+                    </div>
                 </div>
             </div>
         </div>
