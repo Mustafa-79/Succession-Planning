@@ -507,6 +507,24 @@ const changeSecurityImg = async (reqs, resp) => {
     }
 }
 
+const updateProfile = async (reqs, resp) => {
+    try {
+        const user = reqs.body
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: user.employeeID }, user, { new: true, runValidators: true })
+
+        if (!updatedUser) {
+            return resp.json ({
+                error: 'Unable to update User Profile'
+            })
+        }
+
+        return resp.json(updatedUser)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     test,
     registerUser,
@@ -522,7 +540,8 @@ module.exports = {
     returnProfile,
     uploadImage,
     changePassword,
-    changeSecurityImg
+    changeSecurityImg,
+    updateProfile
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}

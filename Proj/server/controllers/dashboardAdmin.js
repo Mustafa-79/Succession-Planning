@@ -2,6 +2,7 @@
 const User = require('../models/users')
 const Employee = require('../models/employee')
 const Position = require('../models/positions')
+const HR_Admin = require('../models/hr_admin')
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -68,12 +69,30 @@ const deleteEmployeefromAdminDashboard = async (reqs, resp) => {
     }
 }
 
+const returnAdminProfile = async (reqs, resp) => {
+    try {
+        const {name} = reqs.body;
+
+        const exists = await HR_Admin.findOne({name: name})
+
+        if (!exists) {
+            return resp.json({
+                error: 'No such employee record exists'
+            }) 
+        } else {
+            resp.json(exists)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 module.exports = {
     dashboardEmployees,
     positionIDtoName,
     addEmployeeFromAdminDashboard,
-    deleteEmployeefromAdminDashboard
+    deleteEmployeefromAdminDashboard,
+    returnAdminProfile
 }
 
 

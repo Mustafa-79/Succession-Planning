@@ -29,6 +29,7 @@ const employeeSchema = new mongoose.Schema({
     assessement_results: [String],
     profile_picture: String,
     registered_status: Boolean,
+    about: String,
 
 });
 

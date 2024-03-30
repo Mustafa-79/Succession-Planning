@@ -16,13 +16,15 @@ const {
     returnProfile,
     uploadImage,
     changePassword,
-    changeSecurityImg
+    changeSecurityImg,
+    updateProfile
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
     positionIDtoName,
     addEmployeeFromAdminDashboard,
     deleteEmployeefromAdminDashboard,
+    returnAdminProfile
 } = require("../controllers/dashboardAdmin");
 
 //middleware
@@ -54,6 +56,8 @@ router.post('/getProfile', returnProfile)
 router.post('/uploadImage', uploadImage)
 router.post('/changePassword', changePassword)
 router.post('/changeSecurityImage', changeSecurityImg)
+router.post('/updateProfile', updateProfile)
+router.post('/getAdminProfile', returnAdminProfile)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
