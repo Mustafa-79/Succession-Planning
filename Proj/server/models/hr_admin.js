@@ -8,6 +8,9 @@ const HR_AdminSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
+    profile_picture: String,
+    gender: String,
+    contactNumber: String
 });
 
 const HR_AdminModel = mongoose.model('HR_Admin', HR_AdminSchema)

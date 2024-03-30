@@ -23,9 +23,13 @@ import UserProfile from './pages/UserProfile';
 import EmployeeSettings from './pages/Employee/EmployeeSettings';
 import DevelopmentPlans from './pages/Employee/DevelopmentPlans';
 import AboutAdmin from './pages/Admin/AboutAdmin';
+<<<<<<< HEAD
 import EmployeePerformance from './pages/Admin/EmployeePerformance';
 import ComplaintForm from './pages/Employee/ComplaintForm';
 import PendingAssessments from './pages/Employee/PendingAssessments';
+=======
+import AdminProfile from './pages/Admin/AdminProfile';
+>>>>>>> settings-branch
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -52,6 +56,7 @@ function App() {
                 <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd />} />
                 <Route path='/resetSecurityImage' element={<ForgetSecurityImage />} />
 
+<<<<<<< HEAD
                 <Route path='/employeeDashboard' element={<EmployeeDashboard />} />
                 <Route path='/feedback' element={<Feedback />} />
                 <Route path='/feedback/feedbackForm' element={<FeedbackForm />} />
@@ -61,6 +66,16 @@ function App() {
                 <Route path='/userProfile' element={<UserProfile />} />
                 <Route path='/developmentPlans' element={<DevelopmentPlans />} />
                 <Route path='/aboutAdmin' element={<AboutAdmin />} />
+=======
+      <Route path='/employeeDashboard' element={<EmployeeDashboard /> } />
+      <Route path='/feedback' element={<Feedback/>} />
+      <Route path='/feedbackForm' element={<FeedbackForm/>} />
+      <Route path='/employeeSettings' element={<EmployeeSettings/>} />
+      <Route path='/userProfile' element={<UserProfile/>} />
+      <Route path='/developmentPlans' element={<DevelopmentPlans/>} />
+      <Route path='/aboutAdmin' element={<AboutAdmin/>} />
+      <Route path='/AdminProfile' element={<AdminProfile/>} />
+>>>>>>> settings-branch
 
 
             </Routes>

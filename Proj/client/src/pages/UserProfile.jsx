@@ -156,14 +156,6 @@ export default function UserProfile() {
                 <label htmlFor='profile-image' className='profile-image-label'>
                     <img src={data.profileImg || defaultImg} alt="Profile" className='profile-image-pic'/>
                 </label>
-                <input
-                    type='file'
-                    id='profile-image'
-                    name='newImg'
-                    accept='.jpeg, .png, .jpg'
-                    style={{ display: 'none' }} // Hide the actual input element
-                    onChange={(e) => handleImageUpload(e)}
-                />
                 {isButtonVisible && (
                     <button onClick={handleImageSubmit}>Update Profile Picture</button>
                 )}

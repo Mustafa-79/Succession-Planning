@@ -2,8 +2,12 @@
 const User = require('../models/users')
 const Employee = require('../models/employee')
 const Position = require('../models/positions')
+<<<<<<< HEAD
 const Course = require('../models/course')
 const Workshop = require('../models/workshop')
+=======
+const HR_Admin = require('../models/hr_admin')
+>>>>>>> settings-branch
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -71,6 +75,7 @@ const deleteEmployeefromAdminDashboard = async (reqs, resp) => {
     }
 }
 
+<<<<<<< HEAD
 const fetchCourses = async (reqs,resp) => {
     try {
         const courses = await Course.find()
@@ -94,14 +99,37 @@ const fetchWorkshops = async (reqs,resp) => {
 }
 
 
+=======
+const returnAdminProfile = async (reqs, resp) => {
+    try {
+        const {name} = reqs.body;
+
+        const exists = await HR_Admin.findOne({name: name})
+
+        if (!exists) {
+            return resp.json({
+                error: 'No such employee record exists'
+            }) 
+        } else {
+            resp.json(exists)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+>>>>>>> settings-branch
 
 module.exports = {
     dashboardEmployees,
     positionIDtoName,
     addEmployeeFromAdminDashboard,
     deleteEmployeefromAdminDashboard,
+<<<<<<< HEAD
     fetchCourses,
     fetchWorkshops,
+=======
+    returnAdminProfile
+>>>>>>> settings-branch
 }
 
 

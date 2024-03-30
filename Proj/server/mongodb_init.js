@@ -59,7 +59,8 @@ async function init_db(conn) {
                 "workshops_taken": ["Leadership Seminar","Financial Management Workshop","Project Management Workshop","Digital Marketing Workshop"],
                 "awards": ["Employee of the Month"],
                 "profile_picture": "",
-                "registered_status": true
+                "registered_status": true,
+                "about": 'I am king'
             },
 
             {
@@ -608,31 +609,46 @@ async function init_db(conn) {
                 adminID: 'A0001',
                 name: 'Muhammad Ali',
                 email: 'muhammad@devsinc.com',
-                password: await hashPassword('abcd1234')
+                contactNumber: "123-456-7890",
+                password: await hashPassword('abcd1234'),
+                gender: 'Male',
+                profile_picture: ""
             },
             {
                 adminID: 'A0002',
                 name: 'Booshan Khan',
                 email: 'booshan@devsinc.com',
-                password: await hashPassword('q1w2e3r4')
+                contactNumber: "987-654-3210",
+                password: await hashPassword('q1w2e3r4'),
+                gender: 'Male',
+                profile_picture: ""
             },
             {
                 adminID: 'A0003',
                 name: 'Alice Johnson',
                 email: 'alice.johnson@devsinc.com',
-                password: await hashPassword('password123')
+                contactNumber: "123-456-7890",
+                password: await hashPassword('password123'),
+                gender: 'Female',
+                profile_picture: ""
             },
             {
                 adminID: 'A0004',
                 name: 'Bob Brown',
                 email: 'bob.brown@lums.edu.pk',
-                password: await hashPassword('password123')
+                contactNumber: "987-654-3210",
+                password: await hashPassword('password123'),
+                gender: 'Male',
+                profile_picture: ""
             },
             {
                 adminID: 'A0005',
                 name: 'Eve Williams',
                 email: 'eve.williams@example.com',
-                password: await hashPassword('aaaaaaaa')
+                contactNumber: "987-654-3232",
+                password: await hashPassword('aaaaaaaa'),
+                gender: 'Female',
+                profile_picture: ""
             },
         ];
 

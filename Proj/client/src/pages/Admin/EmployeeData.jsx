@@ -99,7 +99,7 @@ export default function EmployeeData() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user}</a>
                         <button
                             onClick={(e) => handleMenuItemClick('/login', e)}
                             style={{

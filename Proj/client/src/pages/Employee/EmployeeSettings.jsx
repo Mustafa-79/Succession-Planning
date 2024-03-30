@@ -7,6 +7,12 @@ import './EmployeeSettings.css';
 import axios from 'axios';
 import defaultImg from '../img/profile-default.svg'
 import './fonts.css';
+import Visibility from "@material-ui/icons/Visibility";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { toast } from "react-hot-toast";
+import axios from 'axios';
 import img1 from "../img/s_img1.png";
 import img2 from "../img/s_img2.png";
 import img3 from "../img/s_img3.png";
@@ -17,7 +23,8 @@ import img7 from "../img/s_img7.png";
 import img8 from "../img/s_img8.png";
 import img9 from "../img/s_img9.png";
 import img10 from "../img/s_img10.png";
-import { toast } from "react-hot-toast";
+import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
+import SmallBox from '../../components/SmallBox';
 
 export default function EmployeeSettings() {
     const location = useLocation();
@@ -38,6 +45,12 @@ export default function EmployeeSettings() {
         userData: null,
         userPosition: ''
     })
+
+    const updateUserData = (update) => {
+        setActiveUser({...activeUser, userData: update})
+        console.log('Hello')
+    }
+
     const [activeTab, setActiveTab] = useState(0);
     const [newPassword, setNewPassword] = useState({
         currentPassword: '',
@@ -59,6 +72,37 @@ export default function EmployeeSettings() {
     });
 
     const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+    const [showPassword, setShowPassword] = useState({
+        field1: false,
+        field2: false,
+        field3: false
+    })
+
+    const [editInfo, setEditInfo] = useState({
+        about: false,
+        skills: false,
+        courses: false,
+        education: false,
+        workshops: false,
+        awards: false,
+        history: false
+    })
+
+    const [enableEdit, setEnableEdit] = useState(false);
+
+    const handleUpdateBox = (edit) => {
+        setEditInfo(edit)
+    }
+
+    const handleEditSubmit = (flag) => {
+        setEnableEdit(false)
+        if (flag) {
+            updateUserProfile()
+        } else {
+            fetchData()
+        }
+    }
 
     const onPasswordChange = (password) => {
         setNewPassword({ ...newPassword, newPassword: password});
@@ -87,6 +131,14 @@ export default function EmployeeSettings() {
         setNewPassword({newPassword: '', currentPassword: '', confirmPassword: ''})
         setPasswordValidations({})
         setPasswordsMatch(false)
+        setEnableEdit(false)
+        setSecurityImg({currentImg: '', newImg: ''})
+        fetchData()
+    }
+
+    const defaultBehavior = () => {
+        // fetchData()
+        setEditInfo(false)
     }
 
     const imgSources = [
@@ -133,51 +185,136 @@ export default function EmployeeSettings() {
         }
     }
 
+    const updateUserProfile = async () => {
+        try {
+            const resp = await axios.post('/updateProfile', activeUser.userData)
+            if (resp.data.error) {
+                fetchData()
+                toast.error(data.error)
+            } else {
+                toast.success('User Profile successfully updated')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };  
 
+    const handleImageUpload = async (e) => {
+        const img = e.target.files[0]
+        const base64 = await convertToBase64(img)
+        console.log(base64)
+        setActiveUser({...activeUser, userData: {...activeUser.userData, profile_picture: base64}})
+    }
+
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader()
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result)
+            }
+            fileReader.onerror = (err) => {
+                reject(err)
+            }
+        })
+    }
+
     const myProfile = () => {
         return (
-            <>
-            <p><h3>About Me:</h3><br/>I am KING</p><br></br>
+            <div class='profil-box'>
             <p>
-                <h3>Skills:</h3><br/>
+                <h3>About Me: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, about: true})}/>}</h3><br/> {activeUser.userData && activeUser.userData.about}
+                {editInfo.about && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <SmallBox type='About' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                        </div>
+                    </div>
+                )}
+            </p><br></br>
+            <p>
+                <h3>Skills: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, skills: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.skills.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
+                {editInfo.skills && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <SmallBox type='Skills' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                        </div>
+                    </div>
+                )}
             </p><br></br>
             <p>
-                <h3>Courses Taken:</h3><br/>
+                <h3>Courses Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, courses: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.courses_taken.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
+                {editInfo.courses && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <SmallBox type='Courses Taken' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                        </div>
+                    </div>
+                )}
             </p><br></br>
             <p>
-                <h3>Education:</h3><br/>
+                <h3>Education: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, education: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.education.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
+                {editInfo.education && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <SmallBox type='Education' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                        </div>
+                    </div>
+                )}
             </p><br></br>
             <p>
-                <h3>Workshops Taken:</h3><br/>
+                <h3>Workshops Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, workshops: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.workshops_taken.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
+                {editInfo.workshops && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <SmallBox type='Workshops Taken' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                        </div>
+                    </div>
+                )}
             </p><br></br>
             <p>
-                <h3>Awards:</h3><br/>
+                <h3>Awards: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, awards: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.awards.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
+                {editInfo.awards && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <SmallBox type='Awards' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                        </div>
+                    </div>
+                )}
             </p><br></br>
             <p>
-                <h3>Job History:</h3><br/>
+                <h3>Job History: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, history: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.job_history.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
+                {editInfo.history && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <SmallBox type='Job History' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                        </div>
+                    </div>
+                )}
             </p><br></br>
-            </>
+            </div>
         )
     }
 
@@ -452,18 +589,27 @@ export default function EmployeeSettings() {
                         type="password"
                         placeholder="Password"
                         value={newPassword.currentPassword}
+                        className="password-input"
                         onChange={(e) => setNewPassword({ ...newPassword, currentPassword: e.target.value })}
                     />
+                    {/* <button className="show-btn" onClick={(e) => setShowPassword({...showPassword, field2: !showPassword.field2})}>
+                        {showPassword.field2 ? <FaEyeSlash /> : <FaEye />}
+                    </button>      */}
                 </div>
 
                 <div class="password-input-group">
                     <label>New Password: </label>
                     <input
-                        type="password"
+                        type={showPassword.field1 ? 'text': 'password'}
                         placeholder="Password"
                         value={newPassword.newPassword}
                         onChange={(e) => onPasswordChange(e.target.value)}
                     />
+                    {/* {!showPassword.field1 ? 
+                        <FaEye onClick={(e) => setShowPassword({...showPassword, field1: !showPassword.field1})}/> 
+                        : 
+                        <FaEyeSlash onClick={(e) => setShowPassword({...showPassword, field1: !showPassword.field1})}/>
+                    } */}
                 </div>
 
                 <div className="password-criteria">
@@ -551,10 +697,23 @@ export default function EmployeeSettings() {
                     {/* <div className='promotionsWrapper'> */}
                     <div class="profile-container">
                         <aside class="profile-sidebar">
-                        <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/>
+                        {/* <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/> */}
+                            <label htmlFor='profile-image' className='profile-picture'>
+                                <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/>
+                            </label>
+                            {!activeTab && enableEdit && <input
+                                type='file'
+                                id='profile-image'
+                                name='newImg'
+                                accept='.jpeg, .png, .jpg'
+                                style={{ display: 'none' }} // Hide the actual input element
+                                onChange={(e) => handleImageUpload(e)}
+                            />}
                             <h2>{activeUser.userData && activeUser.userData.name}</h2>
                             <p>{activeUser.userData && activeUser.userPosition}</p>
-                            <button class="edit-profile-btn">Edit Profile</button>
+                            {!activeTab && !enableEdit && <button class="edit-profile-btn" onClick={() => setEnableEdit(true)}>Edit Profile</button>}
+                            {!activeTab && enableEdit && <button class="edit-profile-btn" onClick={() => handleEditSubmit(true)}>Update Profile</button>}<br></br>
+                            {!activeTab && enableEdit && <button class="cancel-profile-btn" onClick={() => handleEditSubmit(false)}>Cancel</button>}
                         </aside>
                         <main class="profile-main">
                             <section class="profile-section">
@@ -565,9 +724,11 @@ export default function EmployeeSettings() {
                                     </button>
                                 ))}
                             </div>
-                            {!activeTab && myProfile()}
-                            {activeTab == 1 && changePassword()}
-                            {activeTab == 2 && reqChangeSecurityImg()}
+                            <div class='profile-body'>
+                                {!activeTab && myProfile()}
+                                {activeTab == 1 && changePassword()}
+                                {activeTab == 2 && reqChangeSecurityImg()}
+                            </div>
                             </section>
                         </main>
                         </div>
