@@ -54,7 +54,7 @@ export default function AdminProfile() {
             if (resp.data.error) {
                 setData({})
             } else {
-                setData({name: resp.data.name, email: resp.data.email, contactNumber: resp.data.contactNumber, gender: resp.data.gender, adminID: resp.data.employeeID, profileImg: resp.data.profile_picture, adminID: resp.data.adminID })
+                setData({name: resp.data.name, email: resp.data.email, contactNumber: resp.data.contactNumber, gender: resp.data.gender, profileImg: resp.data.profile_picture, adminID: resp.data.adminID })
             }
         } catch (error) {
             console.log(error)
