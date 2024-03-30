@@ -17,23 +17,17 @@ const {
     uploadImage,
     changePassword,
     changeSecurityImg,
-<<<<<<< HEAD
 
-=======
     updateProfile
->>>>>>> settings-branch
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
     positionIDtoName,
     addEmployeeFromAdminDashboard,
     deleteEmployeefromAdminDashboard,
-<<<<<<< HEAD
     fetchCourses,
     fetchWorkshops,
-=======
     returnAdminProfile
->>>>>>> settings-branch
 } = require("../controllers/dashboardAdmin");
 
 //middleware
