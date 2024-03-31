@@ -655,34 +655,36 @@ async function init_db(conn) {
         const FeedbacksData = [
             {
                 feedbackID: 'F0001',
+                courseID: "C013",
+                rating: 2,
                 employeeID: 'E1001',
-                feedback: 'Great work!',
+                feedback: 'Great work! The course was very useful for me. It helped me in learning new skills and applying them effectively in my daily tasks. I especially appreciated the practical examples and hands-on projects.',
                 date: new Date('2024-03-01T08:00:00Z'),
             },
             {
                 feedbackID: 'F0002',
+                courseID: "C013",
+                rating: 2,
                 employeeID: 'E1001',
-                feedback: 'Needs improvement.',
+                feedback: 'Needs improvement. The course content was somewhat outdated, and the examples used didn’t quite match the current industry standards. Additionally, the pacing was a bit off, with some sections moving too quickly.',
                 date: new Date('2024-03-02T08:00:00Z'),
             },
             {
                 feedbackID: 'F0003',
-                employeeID: 'E1001',
-                feedback: 'Excellent job!',
-                date: new Date('2024-03-03T08:00:00Z'),
-            },
-            {
-                feedbackID: 'F0004',
+                courseID: "C013",
+                rating: 3,
                 employeeID: 'E1002',
-                feedback: 'Keep up the good work!',
+                feedback: 'Keep up the good work! This course has a lot of potentials. I found the modules on advanced topics particularly insightful. However, it would be beneficial to update some of the earlier sections with more current information.',
                 date: new Date('2024-03-04T08:00:00Z'),
             },
             {
-                feedbackID: 'F0005',
+                feedbackID: 'F0004',
+                courseID: "C013",
+                rating: 5,
                 employeeID: 'E1002',
-                feedback: 'Well done!',
+                feedback: 'Well done! This course exceeded my expectations with its depth and breadth of topics covered. The instructors were knowledgeable and engaging, making complex topics easy to understand.',
                 date: new Date('2024-03-05T08:00:00Z'),
-            },
+            }
         ];
 
         const WorkshopsData = [

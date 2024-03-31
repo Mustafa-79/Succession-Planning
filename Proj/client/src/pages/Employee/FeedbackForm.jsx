@@ -20,6 +20,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./FeedbackForm.css";
 import "./fonts.css";
+import { useEffect } from "react";
+
 
 const StarRatingInput = ({ value, onRatingChange }) => {
   const stars = Array.from({ length: 5 }, (_, index) => index + 1);
@@ -49,6 +51,42 @@ export default function FeedbackForm() {
   const user = location.state.name;
   const navigate = useNavigate();
 
+  const [data, setData] = useState({
+    courseID: '',
+    feedback: '',
+    empID:'',
+    rating: 0
+  });
+
+//     const [activeUser, setActiveUser] = useState({
+//     userData: null,
+//     userPosition: ''
+// })
+
+      useEffect(() => {
+        fetchData(); // Call the fetch function on component mount
+
+    }, []); // Empty array means it will only run once when component mounts
+
+    const fetchData = async () => {
+        try {
+            const resp = await axios.post('/getProfile', {
+                name: user
+            })
+            if (resp.data.error) {
+                toast.error(data.error)
+            } else {
+                console.log(resp.data)
+    
+
+                setData({...data, empID: "E"+resp.data.record1.employeeID})
+                // setActiveUser({userData: resp.data.record1, userPosition: resp.data.record2.title})
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
   const menuItems = [
     {
       name: "Career Path",
@@ -73,12 +111,7 @@ export default function FeedbackForm() {
 
   const [activeMenuItem, setActiveMenuItem] = useState("");
 
-  const [data, setData] = useState({
-    courseID: '',
-    feedback: '',
-    empID: '',
-    rating: 0
-  });
+
 
   const isActive = (path) => {
     return location.pathname === path; // Check if the current location matches the path

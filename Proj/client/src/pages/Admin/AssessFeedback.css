@@ -1,142 +1,118 @@
-html {
-    margin: 0px;
-    height: 100%;
-    width: 100%;
-}
-
-/*To ensure page is covered entriely with the help of a div overlaid on top*/
-body {
-    margin: 0px;
-    min-height: 100%;
-    min-width: 100%;
-}
-
-
-.overlay {
-    background-color: #ccc;
-    position: fixed;
+.modalOverlay {
+    /* position: fixed; */
+    /* position: relative; */
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    top: 0px;
-    left: 0px;
-    z-index: 1000;
-}
-
-/*Forming the basic structure*/
-.wrapper {
-    height: 100%;
-    display: grid;
-    grid: 1fr / 1.1fr 5fr;
-    background-color: blueviolet;
-    border: 10px;
-}
-
-/*Sidebar. Grid/Flexbox combined*/
-.sidebar {
-    display: grid;
-    grid: 1fr 4fr 2fr/ 1fr;
-    background-color: rgb(241, 241, 254);
-    max-height: 100vh;
-    color: white;
-    align-items: center;
-}
-
-
-.logo>div {
-    display: flex;
-    align-items: center;
-    margin: 5%;
-}
-
-.logo-icon-container {
-    width: 100px;
-    height: 100px;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
-    margin-right: 20px;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-out forwards;
 }
 
-.logo>div>span {
-    margin-left: 15px;
-    font-size: xx-large;
-    font-weight: 700;
-    color: black;
-    font-family: 'Montserrat';
+.modalContent {
+    position: relative;
+    background: #fff;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 90%;
 }
 
-/*Sidebar pages*/
-.menu>div {
-    border-radius: 10px;
-    margin: 30px;
+.modalHeader {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s;
-    /*  transition for smooth effect */
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
 }
 
-.menu>div:hover {
-    background-color: #d9e3f0;
-    /* Light grey background color on hover */
+.closeModal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 24px;
+    /* Ensure this is not overridden by other styles */
 }
 
-.menu>div>a {
-    margin-left: 10%;
-    color: #818184;
-    text-decoration: none;
-    font-family: 'Montserrat'
-
+.closeModal:hover {
+    color: #333; /* Darker color on hover for better visibility */
 }
 
 
-.menu>div.active>.icon {
-    color: rgb(52, 133, 247);
-    /* Change color on hover and when active for the icon */
+.modalBody {
+    overflow-y: auto;
+    padding-right: 10px; /* Adjust based on scrollbar visibility */
 }
 
-.menu>div.active>a {
-    color: rgb(52, 133, 247);
-    /* Change color for active menu item */
+.addEmployeeForm {
+    font-size: 16px;
 }
 
-/*The right page divided into the 3 sections - about, function cards, data table*/
-.content {
-    display: grid;
-    grid: 1fr 1.2fr 4fr / 1fr;
-    max-height: 100vh;
-    background-color: #FAFBFC;
+.formGroup {
+    margin-bottom: 20px;
 }
 
-/*About and Profile*/
-.header {
+.formGroup label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.formGroup h3 {
+    color: #555;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0 0 10px 0;
+}
+
+/* Star Ratings */
+.faStar {
+    margin: 0 2px;
+    font-size: 24px; /* Adjust size of stars */
+}
+
+/* Adjustments for rating container */
+.formGroup div {
     display: flex;
-    margin: 30px;
-    justify-content: right;
+    justify-content: start;
     align-items: center;
-    border-bottom: 3px solid #EBEBFF;
 }
 
-.header>span {
-    margin-right: 60px;
-    margin-left: 30px;
-    color: #818184;
+/* Make the formGroup container flex to align label and content */
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
 
-.header>a {
-    margin-right: 50px;
-    margin-left: 20px;
-    text-decoration: none;
-    font-family: 'Monsterrat';
-    font-size: x-large;
-    color: #818184;
-    transition: background-color 0.3s;
+/* Style adjustments for the rating and feedback response */
+.formGroup>div {
+    flex-direction: row;
+    align-items: center;
 }
 
-.header>a:hover {
-    border-radius: 10px;
-    background-color: #d9e3f0;
-    /* Light grey background color on hover */
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modalContent {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .formGroup label, .formGroup h3 {
+        font-size: 0.9em; /* Slightly reduce font size on smaller screens */
+    }
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

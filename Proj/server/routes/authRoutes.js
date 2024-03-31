@@ -30,6 +30,9 @@ const {
     returnAdminProfile
 } = require("../controllers/dashboardAdmin");
 
+const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
+
+
 //middleware
 router.use(
     cors({
@@ -63,6 +66,7 @@ router.post('/changePassword', changePassword)
 router.post('/changeSecurityImage', changeSecurityImg)
 router.post('/updateProfile', updateProfile)
 router.post('/getAdminProfile', returnAdminProfile)
+router.post('/getFeedback', viewFeedbacks)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
