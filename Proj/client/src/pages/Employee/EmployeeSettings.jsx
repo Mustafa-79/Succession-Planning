@@ -7,12 +7,7 @@ import './EmployeeSettings.css';
 import axios from 'axios';
 import defaultImg from '../img/profile-default.svg'
 import './fonts.css';
-import Visibility from "@material-ui/icons/Visibility";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { toast } from "react-hot-toast";
-import axios from 'axios';
 import img1 from "../img/s_img1.png";
 import img2 from "../img/s_img2.png";
 import img3 from "../img/s_img3.png";
