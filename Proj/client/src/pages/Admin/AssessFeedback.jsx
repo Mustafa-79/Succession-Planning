@@ -429,8 +429,8 @@ export default function Dashboard() {
 
 
                     </div>
-                    <div className='employeeFunctions'>
-                        <div className='employeeFunction'>
+                    {/* <div className='employeeFunctionss'> */}
+                        {/* <div className='employeeFunction'>
                             <div className='func'>High Potential Employees</div>
                             <div className='countAndView'>
                                 <div className='funcCount'>06</div>
@@ -439,19 +439,21 @@ export default function Dashboard() {
                                     <a href="">View</a>
                                 </div>
                             </div>
-                        </div>
-                        <div className='employeeFunction'>
-                            <div className='func'>Total Employees</div>
-                            <div className='countAndView'>
-                                <div className='funcCount'>{employees.length}</div>
-                                <div className='iconAndView'>
-                                    <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
+                        </div> */}
+                        <div className='feedbackHeader'> <h1>Feedbacks</h1>
+                            <div className='employeeFunctionss'>
+                                <div className='func'>Total Feedbacks</div>
+                                <div className='countAndView'>
+                                    <div className='funcCount'>{employees.length}</div>
+                                    <div className='iconAndView'>
+                                        <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
+                                        <a href="">View</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='employeeFunction'>
-                            <div className='func'>Employees at Risk</div>
+                        {/* <div className='employeeFunction'> */}
+                            {/* <div className='func'>Employees at Risk</div>
                             <div className='countAndView'>
                                 <div className='funcCount'>12</div>
                                 <div className='iconAndView'>
@@ -459,15 +461,14 @@ export default function Dashboard() {
                                     <a href="">View</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> */}
+                    {/* </div> */}
                     <div className='employeeSection'>
                         <div className='searchAndAdd'>
                             <div>
                                 <input type="text" placeholder="Search by Employee ID..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                                 <FontAwesomeIcon icon={faSearch} />
                             </div>
-                            <button onClick={addEmployee}>+ Add New Employee</button>
                         </div>
                         <div className='employeeData'>
                             <table>
@@ -481,8 +482,8 @@ export default function Dashboard() {
                                         {/* <th>Contact</th>
                                         <th>Hours Worked</th> */}
                                         <th>Status</th>
-                                        <th>Delete Employee</th>
-                                        <th>View Performance</th>
+                                        {/* <th>Delete Employee</th> */}
+                                        <th>View Feedback</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -498,11 +499,7 @@ export default function Dashboard() {
                                                 {/* <td>{employee.contact}</td> */}
                                                 {/* <td>{employee.hoursWorked}</td> */}
                                                 <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
-                                                <td>
-                                                    <button onClick={() => deleteEmployee(employee.employeeID)}>
-                                                        <FontAwesomeIcon icon={faTrash} size='xl' />
-                                                    </button>
-                                                </td>
+                                                
                                                 <td>
                                                     {/* <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a> */}
                                                     <button onClick={(e) => addEmployee(employee)}><FontAwesomeIcon icon={faEye} size='xl' /></button>
