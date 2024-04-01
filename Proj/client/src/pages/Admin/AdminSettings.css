@@ -276,11 +276,18 @@ body {
 }
 
 .sliders button {
-    background-color: #4CAF50;
+    background-color: rgb(52, 66, 109);
     color: white;
     padding: 16px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     margin: 10px;
+    font-size: 15px;
+}
+
+.sliders button:hover {
+    background-color: rgb(110, 135, 218);
+    transition: background-color 0.3s;
+    animation: pulse 3s infinite;
 }
