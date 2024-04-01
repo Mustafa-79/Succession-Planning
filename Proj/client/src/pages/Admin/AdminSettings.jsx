@@ -182,7 +182,6 @@ export default function AdminSettings() {
                                         value={weights.admin[feature] || 0}
                                         onChange={(e) => handleSliderChange(feature, e.target.value)}
                                     />
-                                    <span>{weights.admin[feature]}</span>
                                 </div>
                             ))}
                             <button

@@ -9,6 +9,8 @@ body {
     margin: 0px;
     min-height: 100%;
     min-width: 100%;
+    overflow: hidden;
+    display: flex;
 }
 
 
@@ -107,6 +109,7 @@ body {
     grid: 1fr 1.2fr 4fr / 1fr;
     max-height: 100vh;
     background-color: #FAFBFC;
+    overflow-y: scroll;
 }
 
 /*About and Profile*/
@@ -152,9 +155,11 @@ body {
 .weights table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-.weights th, .weights td {
+.weights th,
+.weights td {
     padding: 8px;
     border: 1px solid #ddd;
     text-align: left;
@@ -168,9 +173,7 @@ body {
     background-color: #f2f2f2;
 }
 
-/* Sliders */
-/* make it look pretty */
-.slider {
+/* .slider {
     -webkit-appearance: none;
     width: 100%;
     height: 15px;
@@ -180,6 +183,96 @@ body {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+} */
+
+
+/* 
+.sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+} */
+
+
+/* .sliders {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #ffffff;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+} */
+
+.sliders {
+    width: 30%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.slider-container {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.slider-container label {
+    display: block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+.slider-container input[type='range'] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    background: #000;
+    outline: none;
+    border: 5px solid rgb(193, 230, 255);
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+.slider-container input[type='range']:hover {
+    border-color: rgb(161, 217, 255);
+}
+
+.slider-container input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 20px;
+    background: rgb(44, 171, 255);
+    cursor: pointer;
+    border: 4px solid rgb(52, 66, 109);
+    border-radius: 25%;
+    transition: border-color 0.3s, background 0.3s;
+}
+
+.slider-container input[type='range']::-webkit-slider-thumb:hover {
+    background: rgb(110, 135, 218);
+}
+
+.slider-container input[type='range']::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #000;
+    cursor: pointer;
+    border: 5px solid rgb(52, 66, 109);
+    border-radius: 50%;
+    transition: border-color 0.3s, background 0.3s;
+}
+
+.slider-container input[type='range']::-moz-range-thumb:hover {
+    background: rgb(52, 66, 109);
 }
 
 .sliders button {
