@@ -193,7 +193,6 @@ export default function Dashboard() {
         // { id: 1, role: "Manager", age: 30, contact: "123-456-7890", hoursWorked: 40, status: "Active" }
     ]);
     const [empdata,setEmpdata] = useState([]);
-    const[rerender, setRerender] = useState(false);
 
     const[specificE,setSpecificE] = useState({})
 
@@ -252,7 +251,6 @@ export default function Dashboard() {
 
 
 
-
     const [positionTitles, setPositionTitles] = useState([]);
     useEffect(() => {
         axios.get('/dashboard-position-titles')
@@ -305,11 +303,6 @@ export default function Dashboard() {
         navigate(path, { state: {name: user}}); 
     };
 
-    const viewPerformance = (path,e,employee) => {
-        console.log("hi", employee)
-        e.preventDefault()
-        navigate(path, { state: {name: user, info:employee}}); 
-    }
 
     const addEmployee = (employee) => {
         setSpecificE(employee)
@@ -359,33 +352,6 @@ export default function Dashboard() {
         }
     };
 
-    // deleteEmployee(employee.id)}
-    const deleteEmployee = async (id) => {
-        try {
-            console.log('Deleting employee:', id);
-            const response = await axios.post(`/deleteEmployee/${id}`);
-            console.log('Employee deleted:', response.data);
-            // setEmployees(employees.filter(employee => employee.id !== id));
-
-            // Fetch all employees again to update the list
-            axios.get('/dashboard-employees')
-                .then(res => {
-                    console.log(res.data);
-                    setEmployees(res.data);
-
-                    toast.success('Employee deleted successfully');
-                })
-                .catch(err => {
-                    console.log(err);
-                    toast.error('Failed to fetch employees');
-                });
-
-        } catch (error) {
-            console.error('Failed to delete employee:', error);
-            // Handle error
-        }
-    }
-
     return (
         <div className='overlay'>
             <div className='wrapper'>
@@ -429,18 +395,17 @@ export default function Dashboard() {
 
 
                     </div>
-                    {/* <div className='employeeFunctionss'> */}
-                        {/* <div className='employeeFunction'>
-                            <div className='func'>High Potential Employees</div>
-                            <div className='countAndView'>
-                                <div className='funcCount'>06</div>
-                                <div className='iconAndView'>
-                                    <FontAwesomeIcon icon={faFileLines} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
-                                </div>
+
+                        <div className='feedbackHeader'> 
+                        {/* <h1>Feedbacks</h1> */}
+                        <div className="form-heading">
+                            <FontAwesomeIcon
+                                icon={faFileLines}
+                                size="2x"
+                                color="rgb(34, 137, 255)"
+                            />
+                            <h1>Feedback Forms</h1>
                             </div>
-                        </div> */}
-                        <div className='feedbackHeader'> <h1>Feedbacks</h1>
                             <div className='employeeFunctionss'>
                                 <div className='func'>Total Feedbacks</div>
                                 <div className='countAndView'>
@@ -452,17 +417,6 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className='employeeFunction'> */}
-                            {/* <div className='func'>Employees at Risk</div>
-                            <div className='countAndView'>
-                                <div className='funcCount'>12</div>
-                                <div className='iconAndView'>
-                                    <FontAwesomeIcon icon={faTriangleExclamation} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
-                                </div>
-                            </div>
-                        </div> */}
-                    {/* </div> */}
                     <div className='employeeSection'>
                         <div className='searchAndAdd'>
                             <div>
