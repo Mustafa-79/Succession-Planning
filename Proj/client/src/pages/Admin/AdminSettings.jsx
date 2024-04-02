@@ -121,7 +121,7 @@ export default function AdminSettings() {
                     </div>
                 </div>
             </div>
-            {showModal && (
+            {0 && (
                 <div className="modalOverlay">
                     <div className="modalContent">
                         <span className="closeModal" onClick={closeModal}>&times;</span>

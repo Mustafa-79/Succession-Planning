@@ -140,7 +140,7 @@ body {
     /* Light grey background color on hover */
 }
 
-.profile-container {
+.profile-container-e {
     display: flex;
     max-width: 1200px;
     /* height: 10000px; */
@@ -148,12 +148,12 @@ body {
     padding-right: 30cap;
   }
   
-  .profile-sidebar {
+  .profile-sidebar-e {
     width: 250px;
     margin-right: 30px;
   }
   
-  .profile-picture {
+  .profile-picture-e {
     width: 200px;
     height: 250px;
     border-radius: 50%;
@@ -182,7 +182,7 @@ body {
     display: inline-block;
   }
 
-  .profile-body {
+  .profile-e-body {
     overflow: scroll;
     max-height: 40pc;
   }
@@ -192,12 +192,12 @@ body {
     display: block;
   }
   
-  .profile-main {
+  .profile-main-e {
     flex-grow: 1;
     text-align: left;
   }
   
-  .profile-section {
+  .profile-section-e {
     background-color: #b2d5f4ce;
     padding: 20px;
     border-radius: 20px;
@@ -205,12 +205,12 @@ body {
     scroll-behavior: auto;
   }
 
-  .profile-section li {
+  .profile-section-e li {
     padding: 0; /* Add some padding to each list item for spacing */
     margin: 0;
 }
 
-.profile-navbar {
+.profile-navbar-e {
     display: flex;
     justify-content: start;
     background-color: #ffffff;

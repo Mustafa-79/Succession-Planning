@@ -690,36 +690,36 @@ export default function EmployeeSettings() {
                     </div>
 
                     {/* <div className='promotionsWrapper'> */}
-                    <div class="profile-container">
-                        <aside class="profile-sidebar">
+                    <div class="profile-container-e">
+                        <aside class="profile-sidebar-e">
                         {/* <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/> */}
-                            <label htmlFor='profile-image' className='profile-picture'>
-                                <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/>
+                            <label htmlFor='profile-image-e' className='profile-picture-e'>
+                                <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture-e'/>
                             </label>
-                            {!activeTab && enableEdit && <input
+                            {!activeTab && enableEdit && (<input
                                 type='file'
                                 id='profile-image'
                                 name='newImg'
                                 accept='.jpeg, .png, .jpg'
                                 style={{ display: 'none' }} // Hide the actual input element
                                 onChange={(e) => handleImageUpload(e)}
-                            />}
+                            />)}
                             <h2>{activeUser.userData && activeUser.userData.name}</h2>
                             <p>{activeUser.userData && activeUser.userPosition}</p>
                             {!activeTab && !enableEdit && <button class="edit-profile-btn" onClick={() => setEnableEdit(true)}>Edit Profile</button>}
                             {!activeTab && enableEdit && <button class="edit-profile-btn" onClick={() => handleEditSubmit(true)}>Update Profile</button>}<br></br>
                             {!activeTab && enableEdit && <button class="cancel-profile-btn" onClick={() => handleEditSubmit(false)}>Cancel</button>}
                         </aside>
-                        <main class="profile-main">
-                            <section class="profile-section">
-                            <div className="profile-navbar">
+                        <main class="profile-main-e">
+                            <section class="profile-section-e">
+                            <div className="profile-navbar-e">
                                 {tabs.map((tab, index) => (
                                     <button key={index} className={`nav-item ${index === activeTab ? "active" : ""}`} onClick={(e) => handleItemClick(index, e)}>
                                         {tab}
                                     </button>
                                 ))}
                             </div>
-                            <div class='profile-body'>
+                            <div class='profile-e-body'>
                                 {!activeTab && myProfile()}
                                 {activeTab == 1 && changePassword()}
                                 {activeTab == 2 && reqChangeSecurityImg()}
