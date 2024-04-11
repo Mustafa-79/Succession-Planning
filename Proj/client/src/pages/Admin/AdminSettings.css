@@ -104,9 +104,9 @@ body {
 }
 
 /*The right page divided into the 3 sections - about, function cards, data table*/
-.content {
+.contentSettings {
     display: grid;
-    grid: 1fr 1.2fr 4fr / 1fr;
+    grid: 1fr 5.2fr / 1fr;
     max-height: 100vh;
     background-color: #FAFBFC;
     overflow-y: scroll;

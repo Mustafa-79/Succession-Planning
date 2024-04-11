@@ -124,7 +124,7 @@ export default function AdminSettings() {
                         ))}
                     </div>
                 </div>
-                <div className='content'>
+                <div className='contentSettings'>
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
