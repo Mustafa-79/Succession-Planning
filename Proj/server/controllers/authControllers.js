@@ -66,7 +66,7 @@ const registerUser = async (reqs, resp) => {
 const loginUser = async (reqs, resp) => {
     try {
         const { email, password, s_img } = reqs.body
-
+        console.log(email, password, s_img)
         // Check if user exists
         const user = await Employee.findOne({ email })
         const user1 = await HR_AdminModel.findOne({ email })
