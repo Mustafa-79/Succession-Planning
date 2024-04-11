@@ -1,16 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faL } from '@fortawesome/free-solid-svg-icons';
 import './PromotionSkillSet.css';
 import '../fonts.css';
+import axios from 'axios'
+import toast from 'react-hot-toast';
 
-export default function PromotionSkillSet() {
+
+export default function AvailablePositions() {
     const location = useLocation();
     const user = location.state.name;
-    const navigate = useNavigate();
     const allUserInfo = location.state.userInfo;
 
+    const navigate = useNavigate();
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -21,6 +24,85 @@ export default function PromotionSkillSet() {
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
+    const [positions, setPositions] = useState([])
+    const [employees, setEmployees] = useState([])
+    const [availablePositions, setAvailablePositions] = useState([])
+    const [title, setTitle] = useState("")
+    const [noPosition,setNoPosition] = useState(false)
+    const [overlay,setOverlay] = useState(false)
+    
+
+
+    const getCurrentEmployee = (employeeName) => {
+        let employee = employees.find((emp) => emp.name == employeeName)
+        return employee
+    }
+
+    const getPositionHierarchy = (positionID) => {
+        const position = positions.find(position => position.positionID === positionID);
+        return position ? position.hierarchy_level : "Unknown";
+    };
+
+    const getPositionTitle = (positionID) => {
+        const position = positions.find(position => position.positionID === positionID);
+        return position ? position.title : "Unknown";
+    };
+
+
+
+    // Fetching all employees from the database
+    useEffect(() => {
+
+        axios.get('/dashboard-employees')
+            .then(res => {
+                console.log(res.data);
+                setEmployees(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Failed to fetch employees');
+            })
+        axios.get('/dashboard-position-titles')
+            .then(res => {
+                console.log(res.data);
+
+                setPositions(res.data);
+                let currEmployee = allUserInfo
+                console.log("here: ", currEmployee)
+
+                let currHierarchy = getPositionHierarchy(currEmployee.positionID)
+                let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
+     
+                if(new_positions.length==0)
+                {
+                    setNoPosition(true)
+                }
+                setAvailablePositions(new_positions)
+                setTitle(getPositionTitle(currEmployee.positionID))
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Failed to fetch employees data');
+            });
+
+    }, []);
+
+    const availablePositionsSet =()=> {
+                let currEmployee = getCurrentEmployee(user)
+                console.log("here: ", currEmployee)
+
+                let currHierarchy = getPositionHierarchy(currEmployee.positionID)
+                let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
+     
+                if(new_positions.length==0)
+                {
+                    setNoPosition(true)
+                }
+                setAvailablePositions(new_positions)
+                setTitle(getPositionTitle(currEmployee.positionID))
+
+    }
+
     const handleMenuItemClick = (path, e) => {
         navigate(path, { state: { name: user,userInfo:allUserInfo } });
     };
@@ -28,6 +110,11 @@ export default function PromotionSkillSet() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
+
+    const displayInfo = (position) => {
+
+    }
+
 
     return (
         <div className='overlay'>
@@ -70,8 +157,37 @@ export default function PromotionSkillSet() {
                             Logout
                         </button>
                     </div>
-                    <div className='promotionsWrapper'>
-                       <h1>Hi</h1>
+                    <div className='positionsDashboard'>
+
+                        <div className="form-heading">
+                            <FontAwesomeIcon
+                                icon={faUser}
+                                size="2x"
+                                color="rgb(34, 137, 255)"
+                            />
+                            <h1>Review Required Skill Sets</h1>
+                        </div>
+
+                        {title && (
+                            <div className='positionStatus'>
+                                <div className='status'>
+                                    <span id='posHolderAll'>Select a position to view skillset required</span>
+                                </div>
+                            </div>)}
+
+
+                        <div className='positionCardsAll'>
+                            {(positions.map((position) => (
+                                <div className='positionItem' onClick={console.log("hi")}>
+                                    <div className='positionContent'>
+                                        <div className="personImage"> </div>
+                                        <div className="personName">{position.title}</div>
+                                    </div>
+                                </div>
+
+                            )))}
+                             
+                        </div>
                     </div>
                 </div>
             </div>

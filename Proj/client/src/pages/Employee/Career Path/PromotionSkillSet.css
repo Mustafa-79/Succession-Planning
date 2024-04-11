@@ -140,3 +140,103 @@ body {
     /* Light grey background color on hover */
 }
 
+.positionsDashboard{
+    max-height: 83vh;
+    display: grid;
+    grid: 1fr 1fr 5fr / 1fr;
+    border: solid 1px black;
+}
+
+.positionStatus{
+    display: flex;
+    justify-content: space-around;
+}
+.status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Source Sans 3';
+    font-weight: 900;
+    font-size: xx-large;
+}
+.status > div{
+    margin-right: 60%;
+    white-space: nowrap;
+}
+.positionCardsAll {
+    display: flex;
+    overflow-x: scroll;
+}
+
+.positionItem {
+    min-width: 30%;
+    color: white;
+    border: 10px solid white;
+    border-radius: 5px;
+    /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow */
+    height: auto; /* Adjusted from 80% to auto */
+    width: 30%;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column; /* Changed to column layout */
+    justify-content: center;
+    align-items: center; /* Center align items horizontally */
+    
+    background-image: url('../../img/newpos.jpg');
+    background-size: cover;
+    
+
+}
+
+#posTitle {
+    color: #4481c0;
+}
+
+#posHolderAll {
+    color: #818184;
+}
+
+
+.personImage {
+    width: 120px; /* Adjust width of the image */
+    height: 120px; /* Adjust height of the image */
+    border-radius: 50%; /*Make the image round */
+    margin-bottom: 10px; /* Add some space between image and text */
+    background-image: url('../../img/course.jpg');
+    background-size: contain;
+
+}
+
+.personName {
+    margin-bottom: 5px; /* Add some space between name and position ID */
+    font-weight: bold; /* Bold font for the name */
+    font-size: xx-large; /* Adjust font size of the name */
+}
+
+.positionID {
+    font-size: 18px; /* Adjust font size of the position ID */
+}
+
+.positionItem:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    /* Shadow gets larger on hover */
+    transform: translateY(-5px);
+    /* Slight lift effect */
+}
+
+
+.positionContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-image {
+    opacity: 0.3;
+}

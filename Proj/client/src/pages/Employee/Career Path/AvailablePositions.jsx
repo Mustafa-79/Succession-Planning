@@ -174,19 +174,19 @@ export default function AvailablePositions() {
 
                         <div className='positionCards'>
                             {!noPosition && (availablePositions.map((position) => (
-                                <div class='positionItem' >
-                                    <div class='positionContent'>
-                                        <div class="personImage"> </div>
-                                        <div class="personName">{position.title}</div>
+                                <div className='positionItem' >
+                                    <div className='positionContent'>
+                                        <div className="personImage"> </div>
+                                        <div className="personName">{position.title}</div>
                                     </div>
                                 </div>
 
                             )))}
                              {noPosition && (
-                                <div class='positionItem' >
-                                    <div class='positionContent'>
-                                        <div class="personImage"> </div>
-                                        <div class="personName">No Positions Are Currently Available</div>
+                                <div className='positionItem' >
+                                    <div className='positionContent'>
+                                        <div className="personImage"> </div>
+                                        <div className="personName">No Positions Are Currently Available</div>
                                     </div>
                                 </div>
                             )}

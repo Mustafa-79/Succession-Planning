@@ -166,8 +166,8 @@ body {
 }
 .positionCards {
     display: flex;
-    justify-content: center;
     overflow-x: scroll;
+    justify-content: center;
 }
 
 .positionItem {
