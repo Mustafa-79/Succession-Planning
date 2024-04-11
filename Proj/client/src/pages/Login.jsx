@@ -91,7 +91,7 @@ export default function Login() {
             } else if (data.no == 2) {
                 console.log(data)
                 setData({})
-                navigate('/dashboard', { state: { name: data.user.name,  userInfo: data.user  } })
+                navigate('/dashboard', { state: { name: data.user.name,  } })
             }
         } catch (error) {
             console.log(error)
