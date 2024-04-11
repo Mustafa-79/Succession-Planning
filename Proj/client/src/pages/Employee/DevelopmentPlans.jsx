@@ -10,6 +10,7 @@ export default function DevelopmentPlans() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
+    const allUserInfo = location.state.userInfo;
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -22,7 +23,7 @@ export default function DevelopmentPlans() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user } });
+        navigate(path, { state: { name: user,userInfo:allUserInfo } });
     };
 
     const isActive = (path) => {

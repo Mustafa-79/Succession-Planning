@@ -27,6 +27,9 @@ import EmployeePerformance from './pages/Admin/EmployeePerformance';
 import ComplaintForm from './pages/Employee/ComplaintForm';
 import PendingAssessments from './pages/Employee/PendingAssessments';
 import AdminProfile from './pages/Admin/AdminProfile';
+import PromotionSkillSet from './pages/Employee/Career Path/PromotonSkillSet';
+import AvailablePositions from './pages/Employee/Career Path/AvailablePositions';
+import PromotionProgress from './pages/Employee/Career Path/PromotionProgress';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -54,6 +57,9 @@ function App() {
                 <Route path='/resetSecurityImage' element={<ForgetSecurityImage />} />
 
                 <Route path='/employeeDashboard' element={<EmployeeDashboard />} />
+                <Route path='/employeeDashboard/skills' element={<PromotionSkillSet />} />
+                <Route path='/employeeDashboard/positions' element={<AvailablePositions />} />
+                <Route path='/employeeDashboard/progress' element={<PromotionProgress />} />
                 <Route path='/feedback' element={<Feedback />} />
                 <Route path='/feedback/feedbackForm' element={<FeedbackForm />} />
                 <Route path='/feedback/complaintForm' element={<ComplaintForm />} />

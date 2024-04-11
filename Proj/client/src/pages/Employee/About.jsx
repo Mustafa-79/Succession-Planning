@@ -7,11 +7,13 @@ export default function AboutEmployee() {
   const location = useLocation();
   const user = location.state.name;
   const navigate = useNavigate();
+  const allUserInfo = location.state.userInfo;
+
 
   const handleMenuItemClick = (path, e) => {
     e.preventDefault()
-    navigate(path, { state: {name: user}}); 
-};
+    navigate(path, { state: { name: user,userInfo:allUserInfo } });
+  };
 
   return (
     <div className="about-container">

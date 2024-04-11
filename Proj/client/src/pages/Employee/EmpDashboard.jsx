@@ -9,6 +9,7 @@ import './fonts.css';
 export default function EmployeeDashboard() {
     const location = useLocation();
     const user = location.state.name;
+    const allUserInfo = location.state.userInfo;
     const navigate = useNavigate();
 
     const menuItems = [
@@ -21,8 +22,7 @@ export default function EmployeeDashboard() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
     const handleMenuItemClick = (path, e) => {
-        e.preventDefault()
-        navigate(path, { state: { name: user } });
+        navigate(path, { state: { name: user,userInfo:allUserInfo } });
     };
 
     const isActive = (path) => {
@@ -71,14 +71,14 @@ export default function EmployeeDashboard() {
                         </button>
                     </div>
                     <div className='promotionsWrapper'>
-                        <div className='promotionItem' id='position'>
+                        <div className='promotionItem' id='position'  onClick={(e)=>handleMenuItemClick('/employeeDashboard/positions',user)}>
                             <div >Promotional Positions Available.</div>
                         </div>
-                        <div className='promotionItem' id='skills'>
-                            <div>Promotion Skill Set Required.</div>
+                        <div className='promotionItem' id='skills' onClick={(e)=>handleMenuItemClick('/employeeDashboard/skills',user)}>
+                            <div >Promotion Skill Set Required.</div>
                         </div>
-                        <div className='promotionItem' id='progress'>
-                            <div>View Promotion Progress.</div>
+                        <div className='promotionItem' id='progress' onClick={(e)=>handleMenuItemClick('/employeeDashboard/progress',user)}>
+                            <div >View Promotion Progress.</div>
                         </div>
                     </div>
                 </div>

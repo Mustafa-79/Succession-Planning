@@ -48,6 +48,8 @@ export default function PendingAssessments() {
   const location = useLocation();
   const user = location.state.name;
   const navigate = useNavigate();
+  const allUserInfo = location.state.userInfo;
+
 
   const menuItems = [
     {
@@ -86,7 +88,7 @@ export default function PendingAssessments() {
 
   const handleMenuItemClick = (path, e) => {
     e.preventDefault();
-    navigate(path, { state: { name: user } });
+    navigate(path, { state: { name: user,userInfo:allUserInfo } });
   };
 
   const sumbitFeedback = async (e) => {

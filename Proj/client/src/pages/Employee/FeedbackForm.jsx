@@ -48,6 +48,7 @@ export default function FeedbackForm() {
   const location = useLocation();
   const user = location.state.name;
   const navigate = useNavigate();
+  const allUserInfo = location.state.userInfo;
 
   const menuItems = [
     {
@@ -86,7 +87,7 @@ export default function FeedbackForm() {
 
   const handleMenuItemClick = (path, e) => {
     e.preventDefault();
-    navigate(path, { state: { name: user } });
+    navigate(path, { state: { name: user,userInfo:allUserInfo } });
   };
 
   const sumbitFeedback = async (e) => {
