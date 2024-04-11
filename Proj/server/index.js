@@ -3,12 +3,11 @@ const dotenv = require('dotenv').config()
 const cors = require('cors')
 const { mongoose } = require('mongoose')
 const init_db = require('./mongodb_init')
+const init_weights = require('./weights_init')
 const bodyParser = require('body-parser');
 const app = express()
 const cookieParser = require('cookie-parser')
 
-// import employee model
-const Employee = require('./models/employee')
 
 
 // database connection
@@ -19,6 +18,9 @@ mongoose.connect(process.env.MONGO_URL)
 // Initialize database
 const db = mongoose.connection;
 init_db(db);
+
+// Initialize weights
+init_weights(db);
 
 
 // middleware
