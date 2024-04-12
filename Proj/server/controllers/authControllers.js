@@ -52,7 +52,7 @@ const registerUser = async (reqs, resp) => {
         const hashedPassword = await hashPassword(password)
 
         // Update user
-        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { email:email , password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, profile_picture: profilePicture, security_question: question, security_answer: answer, registered_status: true }, { new: true, runValidators: true })
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { email: email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, profile_picture: profilePicture, security_question: question, security_answer: answer, registered_status: true }, { new: true, runValidators: true })
 
         // Send response to the client
         return resp.json(updatedUser)
@@ -110,7 +110,7 @@ const loginUser = async (reqs, resp) => {
                 no: 1
             })
 
-        // If the user is an HR Admin
+            // If the user is an HR Admin
         } else if (user1) {
             const match = await comparePassword(password, user1.password)
             if (!match) {
@@ -407,20 +407,20 @@ const submitFeedback = async (reqs, resp) => {
 
 const returnProfile = async (reqs, resp) => {
     try {
-        const {name} = reqs.body;
+        const { name } = reqs.body;
 
         console.log('Name', name)
 
-        const exists = await Employee.findOne({name: name})
+        const exists = await Employee.findOne({ name: name })
 
         console.log(exists)
         if (!exists) {
             return resp.json({
                 error: 'No such employee record exists'
-            }) 
+            })
         } else {
-            const position = await PositionModel.findOne({positionID: exists.positionID})
-            resp.json({record1: exists, record2: position})
+            const position = await PositionModel.findOne({ positionID: exists.positionID })
+            resp.json({ record1: exists, record2: position })
         }
     } catch (error) {
         console.log(error)
@@ -429,12 +429,12 @@ const returnProfile = async (reqs, resp) => {
 }
 
 const uploadImage = async (reqs, resp) => {
-    const {empID, profileImg} = reqs.body
+    const { empID, profileImg } = reqs.body
     console.log(profileImg)
     const updatedUser = await Employee.findOneAndUpdate(
         { employeeID: empID },
         { profile_picture: profileImg },
-        { new: true}
+        { new: true }
     );
 
     if (!updatedUser) {
@@ -512,7 +512,7 @@ const updateProfile = async (reqs, resp) => {
         const updatedUser = await Employee.findOneAndUpdate({ employeeID: user.employeeID }, user, { new: true, runValidators: true })
 
         if (!updatedUser) {
-            return resp.json ({
+            return resp.json({
                 error: 'Unable to update User Profile'
             })
         }
@@ -523,6 +523,105 @@ const updateProfile = async (reqs, resp) => {
         console.log(error)
     }
 }
+
+// router.get("/mentor/:mentor", getMentorInfo);   
+const getMentorInfo = async (reqs, resp) => {
+    try {
+        const { mentor } = reqs.params
+        const mentorInfo = await Employee.findOne({ employeeID: mentor })
+
+        if (!mentorInfo) {
+            return resp.json({
+                error: 'No such mentor exists'
+            })
+        }
+
+        return resp.json(mentorInfo)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+// axios.get(`/mentorOptions/${positionID}/${employeeID}`)
+const getMentorOptions = async (reqs, resp) => {
+    try {
+        const { positionID, employeeID } = reqs.params
+
+        // Workflow to get mentor options:
+        // 1. Get the position ID of the employee
+        // 2. Get the hierarchy level of the position
+        // 3. If the hierarchy level is 1, then the employee is at the top of the hierarchy and has no mentor
+        // 4. Find all positions with a hierarchy level 1 less than the employee's position
+        // 5. Find all employees with those positions
+        // 6. Use the employee IDs to get the mentor options
+        // 7. Return the mentor options
+
+        // Get the position of the employee
+        positionID
+
+        // Get the hierarchy level of the position
+        const position = await PositionModel.findOne({ positionID: positionID })
+        let hierarchy = 0;
+        if (position) {
+            hierarchy = position.hierarchy_level;
+        }
+
+        // if the hierarchy is 1, then the employee is at the top of the hierarchy and has no mentor
+        if (hierarchy == 1) {
+            return resp.json([])
+        }
+
+        // Find all positions with a hierarchy level 1 less than the employee's position
+        const mentorPositions = await PositionModel.find({ hierarchy_level: hierarchy - 1 })
+
+        // Find all employees with those positions
+        const mentorIDs = mentorPositions.flatMap(position => position.held_by);
+
+        // Use the employee IDs to get the mentor options
+        const mentorOptions = await Promise.all(mentorIDs.map(async mentorID => {
+            const mentor = await Employee.findOne({ employeeID: mentorID });
+            return mentor;
+        }));
+
+        // Return the mentor options
+        return resp.json(mentorOptions);
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
+// Endpoint to assign mentor
+// axios.post(`/saveMentor/${mentorID}/${allUserInfo.employeeID}`)
+
+const assignMentor = async (reqs, resp) => {
+    try {
+        const { mentorID, employeeID } = reqs.params
+
+        // Find the employee
+        const employee = await Employee.findOne({ employeeID: employeeID })
+
+        // Check if the employee exists
+        if (!employee) {
+            return resp.json({
+                error: 'Employee not found'
+            })
+        }
+
+        // Update the mentor ID
+        const updatedEmployee = await Employee.findOneAndUpdate({ employeeID: employeeID }, { mentor_ID: mentorID }, { new: true })
+
+        // Send response to the client
+        return resp.json(updatedEmployee)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 
 module.exports = {
     test,
@@ -540,7 +639,10 @@ module.exports = {
     uploadImage,
     changePassword,
     changeSecurityImg,
-    updateProfile
+    updateProfile,
+    getMentorInfo,
+    getMentorOptions,
+    assignMentor,
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}

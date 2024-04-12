@@ -18,7 +18,10 @@ const {
     changePassword,
     changeSecurityImg,
 
-    updateProfile
+    updateProfile,
+    getMentorInfo,
+    getMentorOptions,
+    assignMentor,
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
@@ -74,5 +77,12 @@ router.post('/getFeedback', viewFeedbacks)
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
 router.get("/weights", getWeights);
 router.post("/updateWeights", saveWeights);
+
+router.get("/mentor/:mentor", getMentorInfo);   
+router.get("/mentorOptions/:positionID/:employeeID", getMentorOptions);
+
+// axios.post(`/saveMentor/${mentorID}/${allUserInfo.employeeID}`)
+router.post("/saveMentor/:mentorID/:employeeID", assignMentor);
+
 
 module.exports = router;

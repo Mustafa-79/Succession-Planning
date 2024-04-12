@@ -42,7 +42,7 @@ async function init_db(conn) {
                 "security_question": "What is your favorite color?", // for password reset
                 "security_answer": "Blue", // for password reset
                 "two_factor_answer": "3", // 3 is lightbulb
-                "mentor_ID": "1002",
+                "mentor_ID": "",
 
                 "task_completion_rate": 0.85,
                 "attendance_rate": 0.95,
@@ -77,7 +77,7 @@ async function init_db(conn) {
                 "security_question": "What is your mother's maiden name?",
                 "security_answer": "Johnson",
                 "two_factor_answer": "10",
-                "mentor_ID": "1001",
+                "mentor_ID": "",
                 "task_completion_rate": 0.85,
                 "attendance_rate": 0.98,
                 "punctuality": 0.99,
@@ -112,7 +112,7 @@ async function init_db(conn) {
                 "security_question": "What city were you born in?",
                 "security_answer": "Lahore",
                 "two_factor_answer": "8",
-                "mentor_ID": "1001",
+                "mentor_ID": "",
                 "task_completion_rate": 0.98,
                 "attendance_rate": 0.99,
                 "punctuality": 1,
@@ -310,7 +310,7 @@ async function init_db(conn) {
                 "mentor_ID": "",
                 "task_completion_rate": 0.65,
                 "attendance_rate": 1,
-
+                
                 "punctuality": 1,
                 "efficiency": 0.73,
                 "professionalism": 0.75,
