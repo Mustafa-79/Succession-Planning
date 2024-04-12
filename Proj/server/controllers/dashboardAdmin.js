@@ -26,7 +26,28 @@ const dashboardEmployees = async (reqs, resp) => {
 const positionIDtoName = async (reqs, resp) => {
     try {
         const positions = await Position.find()
+        console.log(positions)
         return resp.json(positions)
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+const getCourses = async (reqs, resp) => {
+    try {
+        const courses = await Course.find()
+        return resp.json(courses)
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+const getWorkshops = async (reqs, resp) => {
+    try {
+        const workshops = await Workshop.find()
+        return resp.json(workshops)
     }
     catch (error) {
         console.log(error)
@@ -195,7 +216,9 @@ module.exports = {
     getWeights,
     saveWeights,
     setMetrics,
-    changeStatus
+    changeStatus,
+    getCourses,
+    getWorkshops
 }
 
 

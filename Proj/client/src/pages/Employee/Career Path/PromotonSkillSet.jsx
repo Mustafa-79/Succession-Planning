@@ -6,6 +6,7 @@ import './PromotionSkillSet.css';
 import '../fonts.css';
 import axios from 'axios'
 import toast from 'react-hot-toast';
+import ViewPosition from '../../../components/ViewPosition';
 
 
 export default function AvailablePositions() {
@@ -25,67 +26,55 @@ export default function AvailablePositions() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
     const [positions, setPositions] = useState([])
-    const [employees, setEmployees] = useState([])
-    const [availablePositions, setAvailablePositions] = useState([])
-    const [title, setTitle] = useState("")
-    const [noPosition,setNoPosition] = useState(false)
-    const [overlay,setOverlay] = useState(false)
+    const [courses, setCourses] = useState([])
+    const [workshops, setWorkshops] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const [modalPosition, setModalPosition] = useState(null)
     
-
-
-    const getCurrentEmployee = (employeeName) => {
-        let employee = employees.find((emp) => emp.name == employeeName)
-        return employee
-    }
-
-    const getPositionHierarchy = (positionID) => {
-        const position = positions.find(position => position.positionID === positionID);
-        return position ? position.hierarchy_level : "Unknown";
-    };
 
     const getPositionTitle = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.title : "Unknown";
     };
 
+    const getPositionData = async () => {
+        try {
+            const resp = await axios.get('/getPositionsData')
+            setPositions(resp.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
+    const getCoursesData = async () => {
+        try {
+            const resp = await axios.get('/getCoursesData')
+            setCourses(resp.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    
+    const getWorkshopsData = async () => {
+        try {
+            const resp = await axios.get('/getWorkshopsData')
+            setWorkshops(resp.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
-    // Fetching all employees from the database
+    const handleClick = (position) => {
+        setModalPosition(position)
+        setShowModal(true)
+    }
+
     useEffect(() => {
+        getPositionData()
+        getCoursesData()
+        getWorkshopsData()
+    }, [])
 
-        axios.get('/dashboard-employees')
-            .then(res => {
-                console.log(res.data);
-                setEmployees(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error('Failed to fetch employees');
-            })
-        axios.get('/dashboard-position-titles')
-            .then(res => {
-                console.log(res.data);
-
-                setPositions(res.data);
-                let currEmployee = allUserInfo
-                console.log("here: ", currEmployee)
-
-                let currHierarchy = getPositionHierarchy(currEmployee.positionID)
-                let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
-     
-                if(new_positions.length==0)
-                {
-                    setNoPosition(true)
-                }
-                setAvailablePositions(new_positions)
-                setTitle(getPositionTitle(currEmployee.positionID))
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error('Failed to fetch employees data');
-            });
-
-    }, []);
 
     const availablePositionsSet =()=> {
                 let currEmployee = getCurrentEmployee(user)
@@ -110,12 +99,6 @@ export default function AvailablePositions() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
-
-    const displayInfo = (position) => {
-        
-
-    }
-
 
     return (
         <div className='overlay'>
@@ -169,26 +152,30 @@ export default function AvailablePositions() {
                             <h1>Review Required Skill Sets</h1>
                         </div>
 
-                        {title && (
-                            <div className='positionStatus'>
-                                <div className='status'>
-                                    <span id='posHolderAll'>Select a position to view skillset required</span>
-                                </div>
-                            </div>)}
+
+                        <div className='positionStatus'>
+                            <div className='status'>
+                                <span id='posHolderAll'>Select a position to view skillset required</span>
+                            </div>
+                        </div>
 
 
                         <div className='positionCardsAll'>
-                            {(positions.map((position) => (
-                                <div className='positionItem' onClick={console.log("hi")}>
+                            {positions.map((val, idx) => {
+                            return (
+                                <div key={idx} className='positionItem' onClick={(e) => handleClick(val)}>
                                     <div className='positionContent'>
                                         <div className="personImage"> </div>
-                                        <div className="personName">{position.title}</div>
+                                        <div className="personName">{getPositionTitle(val.positionID)}</div>
                                     </div>
-                                </div>
-
-                            )))}
-                             
+                                </div>)})}
                         </div>
+                        {showModal &&
+                            <div className="position-modal">
+                                <ViewPosition position={modalPosition} title={getPositionTitle(modalPosition.positionID)} courses={courses} workshops={workshops}/>
+                                <span className="close-position-modal" onClick={(e) => {setShowModal(false)}} >&times;</span>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

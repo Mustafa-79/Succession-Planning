@@ -251,6 +251,21 @@ body {
     margin-bottom: 15px;
 }
 
+.password-input-group .input-wrapper-n {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input {
+    /* Ensure the input takes up all available space except for the icon */
+}
+
+.password-icon {
+    position: relative;
+    right: 2pc;
+    cursor: pointer;
+}
 
 .password-input-group input {
     width: 50%; /* Full width relative to parent */

@@ -31,7 +31,9 @@ const {
     getWeights,
     saveWeights,
     setMetrics,
-    changeStatus
+    changeStatus,
+    getCourses,
+    getWorkshops
 } = require("../controllers/dashboardAdmin");
 
 const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
@@ -78,5 +80,8 @@ router.post('/change_status', changeStatus)
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
 router.get("/weights", getWeights);
 router.post("/updateWeights", saveWeights);
+router.get("/getPositionsData", positionIDtoName)
+router.get('/getCoursesData', getCourses)
+router.get('/getWorkshopsData', getWorkshops)
 
 module.exports = router;
