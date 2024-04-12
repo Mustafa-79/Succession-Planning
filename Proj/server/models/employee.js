@@ -39,7 +39,8 @@ const employeeSchema = new mongoose.Schema({
     about: String,
 
     about_me: String,
-
+    is_blocked: Boolean,
+    failed_attempts: Number,
 });
 
 const EmployeeModel = mongoose.model('Employee', employeeSchema)

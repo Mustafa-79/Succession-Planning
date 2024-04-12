@@ -245,3 +245,27 @@ body {
     top: 10px;
     right: 10px;
 }
+
+.edit-modal-overlay {
+    z-index: 1046; /* Sit on top */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%; /* Full width */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
+    /* padding-top: 60px; */
+}
+
+.status-dropdown {
+    width: 100%;
+    padding: 4px;
+    border: 1px;
+    /* border-radius: 4px; */
+    background-color: white;
+  }
+  

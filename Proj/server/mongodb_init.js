@@ -60,7 +60,9 @@ async function init_db(conn) {
                 "awards": ["Employee of the Month"],
                 "profile_picture": "",
                 "registered_status": true,
-                "about": 'I am king'
+                "about": 'I am king',
+                "is_blocked": false,
+                "failed_attempts": 0
             },
 
             {
@@ -96,7 +98,8 @@ async function init_db(conn) {
                 
                 "awards": ["Best Newcomer Award"],
                 "profile_picture": "",
-                "registered_status": true
+                "registered_status": true,
+                "is_blocked": true
             },
 
             {

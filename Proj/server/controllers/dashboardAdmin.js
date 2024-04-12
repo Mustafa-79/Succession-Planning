@@ -8,6 +8,7 @@ const HR_Admin = require('../models/hr_admin')
 const Weights = require('../models/weights')
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
+const { metrics } = require('@tensorflow/tfjs')
 
 // Get all employees for admin dashboard
 const dashboardEmployees = async (reqs, resp) => {
@@ -158,8 +159,30 @@ const saveWeights = async (reqs, resp) => {
     }
 }
 
+const setMetrics = async (reqs, resp) => {
+    try {
+        const {empID, metrics} = reqs.body
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { task_completion_rate: metrics.task_completion_rate , attendance_rate: metrics.attendance_rate, collaboration: metrics.collaborations, punctuality: metrics.punctuality, efficiency: metrics.efficiency, professionalism: metrics.professionalism, leadership: metrics.leadership }, { new: true, runValidators: true })
+        if (!updatedUser) {
+            return resp.json({
+                error: "Error updating metrics"
+            })
+        } 
+        return resp.json(updatedUser)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-
+const changeStatus = async (reqs, resp) => {
+    try {
+        const {empID, flag} = reqs.body
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, {is_blocked: flag}, { failed_attempts: 0 }, { new: true, runValidators: true })
+        return resp.json(updatedUser)
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 module.exports = {
     dashboardEmployees,
@@ -171,6 +194,8 @@ module.exports = {
     returnAdminProfile,
     getWeights,
     saveWeights,
+    setMetrics,
+    changeStatus
 }
 
 

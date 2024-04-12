@@ -30,6 +30,8 @@ const {
     returnAdminProfile,
     getWeights,
     saveWeights,
+    setMetrics,
+    changeStatus
 } = require("../controllers/dashboardAdmin");
 
 const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
@@ -69,6 +71,8 @@ router.post('/changeSecurityImage', changeSecurityImg)
 router.post('/updateProfile', updateProfile)
 router.post('/getAdminProfile', returnAdminProfile)
 router.post('/getFeedback', viewFeedbacks)
+router.post('/setMetrics', setMetrics)
+router.post('/change_status', changeStatus)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
