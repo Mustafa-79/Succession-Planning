@@ -195,6 +195,41 @@ export default function AdminSettings() {
 
                 </div>
             </div>
+            {0 && (
+                <div className="modalOverlay">
+                    <div className="modalContent">
+                        <span className="closeModal" onClick={closeModal}>&times;</span>
+                        <h2>Add New Employee</h2>
+                        <form className="addEmployeeForm" onSubmit={handleSubmit}>
+                            <div className="formGroup">
+                                <label htmlFor="role">Role Qualification:</label>
+                                <input type="text" id="role" value={newEmployeeData.role} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, role: e.target.value })} />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="age">Age:</label>
+                                <input type="number" id="age" value={newEmployeeData.age} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, age: e.target.value })} />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="contact">Contact:</label>
+                                <input type="text" id="contact" value={newEmployeeData.contact} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, contact: e.target.value })} />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="hoursWorked">Hours Worked:</label>
+                                <input type="number" id="hoursWorked" value={newEmployeeData.hoursWorked} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, hoursWorked: e.target.value })} />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="status">Status:</label>
+                                <select id="status" value={newEmployeeData.status} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, status: e.target.value })}>
+                                    <option value="">Select Status</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <button type="submit">Add Employee</button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
