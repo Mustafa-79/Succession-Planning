@@ -23,6 +23,7 @@ import UserProfile from './pages/UserProfile';
 import EmployeeSettings from './pages/Employee/EmployeeSettings';
 import DevelopmentPlans from './pages/Employee/DevelopmentPlans';
 import AboutAdmin from './pages/Admin/AboutAdmin';
+import ViewProfile from '../../components/ViewProfile';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -55,6 +56,7 @@ function App() {
       <Route path='/userProfile' element={<UserProfile/>} />
       <Route path='/developmentPlans' element={<DevelopmentPlans/>} />
       <Route path='/aboutAdmin' element={<AboutAdmin/>} />
+      <Route path='/viewProfile' element={<ViewProfile/>} />
 
 
             </Routes>

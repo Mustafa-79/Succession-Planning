@@ -25,9 +25,13 @@ export default function Dashboard() {
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
-    const [employees, setEmployees] = useState([
-        // { id: 1, role: "Manager", age: 30, contact: "123-456-7890", hoursWorked: 40, status: "Active" }
-    ]);
+    const [employees, setEmployees] = useState([]);
+    const [employeeScores, setEmployeeScores] = useState({});
+    const [highPotentialEmployees, setHighPotentialEmployees] = useState([]);
+    const [employeesAtRisk, setEmployeesAtRisk] = useState([]);
+    const [threshold, setThreshold] = useState(0.75);
+    const [employeesToDisplay, setEmployeesToDisplay] = useState([]);
+    const [view, setView] = useState("all"); // can be "all", "high", or "atRisk" [high potential employees, employees at risk, all employees
 
     // Fetching all employees from the database
     useEffect(() => {
@@ -35,6 +39,7 @@ export default function Dashboard() {
             .then(res => {
                 console.log(res.data);
                 setEmployees(res.data);
+                setEmployeesToDisplay(res.data);
             })
             .catch(err => {
                 console.log(err);
@@ -42,8 +47,7 @@ export default function Dashboard() {
             });
     }, []);
 
-
-
+    // Fetching all position titles from the database
     const [positionTitles, setPositionTitles] = useState([]);
     useEffect(() => {
         axios.get('/dashboard-position-titles')
@@ -56,6 +60,68 @@ export default function Dashboard() {
                 toast.error('Failed to fetch position titles');
             });
     }, []);
+
+
+    // Fetch the weights to be used for calculating the performance score
+    const [weights, setWeights] = useState({});
+    useEffect(() => {
+        axios.get('/weights')
+            .then(res => {
+                // contains two sets of weights: ML and Admin. Set the weights to be equal to the product of the two
+                let ML_weights = res.data.find(weight => weight.weightsID === 1);
+                let Admin_weights = res.data.find(weight => weight.weightsID === 2);
+                let finalWeights = {};
+
+                for (let key in ML_weights) {
+                    finalWeights[key] = ML_weights[key] * Admin_weights[key];
+                }
+                setWeights(finalWeights);
+                console.log('Weights:', finalWeights);
+
+                // Calculate the performance score for each employee
+                let scores = {};
+                employees.forEach(employee => {
+                    calculatePerformanceScore(employee) > 1 ? scores[employee.employeeID] = 1 : scores[employee.employeeID] = calculatePerformanceScore(employee);
+                });
+                setEmployeeScores(scores);
+                // console.log('Employee scores:', scores);
+
+                // Find high potential employees
+                let highPotential = [];
+                let atRisk = [];
+                for (let key in scores) {
+                    if (scores[key] >= threshold) {
+                        highPotential.push(key);
+                    } else {
+                        atRisk.push(key);
+                    }
+                }
+                setHighPotentialEmployees(highPotential);
+                setEmployeesAtRisk(atRisk);
+                // console.log('High potential employees:', highPotential);
+                // console.log('Employees at risk:', atRisk);
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error('Failed to fetch weights');
+            });
+    }, [employees, threshold]);
+
+    // function to calculate the performance score of an employee
+    const calculatePerformanceScore = (employee) => {
+        let score = 0;
+        for (let key in employee) {
+            if (key === 'task_completion_rate' || key === 'attendance_rate' || key === 'punctuality' || key === 'efficiency' || key === 'professionalism' || key === 'collaboration' || key === 'leadership') {
+                score += employee[key] * weights[key];
+            }
+        }
+        return score;
+    };
+
+
+
+
+
 
     // function to convert positionID to position title
     const getPositionTitle = (positionID) => {
@@ -85,6 +151,7 @@ export default function Dashboard() {
         email: "",
     });
     const [showModal, setShowModal] = useState(false);
+    const [showThresholdModal, setShowThresholdModal] = useState(false);
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
@@ -93,13 +160,13 @@ export default function Dashboard() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { name: user } });
     };
 
-    const viewPerformance = (path,e,employee) => {
+    const viewPerformance = (path, e, employee) => {
         console.log("hi", employee)
         e.preventDefault()
-        navigate(path, { state: {name: user, info:employee}}); 
+        navigate(path, { state: { name: user, info: employee } });
     }
 
     const addEmployee = () => {
@@ -115,6 +182,10 @@ export default function Dashboard() {
             status: "",
             email: "",
         });
+    };
+
+    const closeThresholdModal = () => {
+        setShowThresholdModal(false);
     };
 
     const handleSubmit = async (e) => {
@@ -176,6 +247,24 @@ export default function Dashboard() {
         }
     }
 
+    // Function to filter out employees based on performance score
+    const filterEmployees = (threshold, highPotential) => {
+        setView(highPotential);
+        if (highPotential === "high") {
+            setEmployeesToDisplay(employees.filter(employee => employeeScores[employee.employeeID] >= threshold));
+        } else if (highPotential === "atRisk") {
+            setEmployeesToDisplay(employees.filter(employee => employeeScores[employee.employeeID] < threshold));
+        } else {
+            setEmployeesToDisplay(employees);
+        }
+    };
+
+    // Popup to allow admin to change the threshold for high potential employees
+    const changeThreshold = () => {
+        setShowThresholdModal(true);
+    };
+
+
     return (
         <div className='overlay'>
             <div className='wrapper'>
@@ -190,10 +279,10 @@ export default function Dashboard() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                                </div>
+                            <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -223,10 +312,13 @@ export default function Dashboard() {
                         <div className='employeeFunction'>
                             <div className='func'>High Potential Employees</div>
                             <div className='countAndView'>
-                                <div className='funcCount'>06</div>
+                                <div className='funcCount'>{highPotentialEmployees.length}</div>
                                 <div className='iconAndView'>
                                     <FontAwesomeIcon icon={faFileLines} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
+                                    {/*on click of view, filter out employees with performance score >= 0.75*/}
+                                    <label onClick={() => filterEmployees(threshold, "high")} style={{ color: view === "high" ? "rgb(255,157,71)" : "" }}>
+                                        View
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -236,17 +328,23 @@ export default function Dashboard() {
                                 <div className='funcCount'>{employees.length}</div>
                                 <div className='iconAndView'>
                                     <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
+                                    {/* <a href="">View</a> */}
+                                    <label onClick={() => filterEmployees(threshold, "all")} style={{ color: view === "all" ? "rgb(255,157,71)" : "" }}>
+                                        View
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div className='employeeFunction'>
                             <div className='func'>Employees at Risk</div>
                             <div className='countAndView'>
-                                <div className='funcCount'>12</div>
+                                <div className='funcCount'>{employeesAtRisk.length}</div>
                                 <div className='iconAndView'>
                                     <FontAwesomeIcon icon={faTriangleExclamation} size='3x' color='rgb(255,157,71)' />
-                                    <a href="">View</a>
+                                    {/* <a href="">View</a> */}
+                                    <label onClick={() => filterEmployees(threshold, "atRisk")} style={{ color: view === "atRisk" ? "rgb(255,157,71)" : "" }}>
+                                        View
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -257,6 +355,7 @@ export default function Dashboard() {
                                 <input type="text" placeholder="Search by Employee ID..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                                 <FontAwesomeIcon icon={faSearch} />
                             </div>
+                            <button onClick={changeThreshold}>Change Threshold</button>
                             <button onClick={addEmployee}>+ Add New Employee</button>
                         </div>
                         <div className='employeeData'>
@@ -276,7 +375,7 @@ export default function Dashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {employees
+                                    {employeesToDisplay
                                         .filter(employee => employee.employeeID.toString().includes(searchTerm))
                                         .map(employee => (
                                             <tr key={employee.employeeID}>
@@ -330,6 +429,18 @@ export default function Dashboard() {
                             </div>
                             <button type="submit" id='addEmployeeButton'>Add Employee</button>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {showThresholdModal && (
+                <div className="modalOverlay">
+                    <div className="modalContent">
+                        <span className="closeModal" onClick={closeThresholdModal}>&times;</span>
+                        <h2>Change Threshold</h2>
+                        <label htmlFor="threshold" style={{ marginTop: '100px' }}>Enter the new threshold for high potential employees (0-1):</label>
+                        <input type="number" min="0" max="1" step="0.01" id="threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
+                        <button id="changeThresholdButton" onClick={() => { filterEmployees(threshold, view); closeThresholdModal();}}>Change Threshold</button>
                     </div>
                 </div>
             )}

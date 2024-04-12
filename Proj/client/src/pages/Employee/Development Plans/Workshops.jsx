@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './DevelopmentPlans.css';
-import './fonts.css';
+import './Workshops.css';
+import '../fonts.css';
 
-export default function Feedback() {
+export default function Workshops() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
     const allUserInfo = location.state.userInfo;
+
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -22,7 +22,6 @@ export default function Feedback() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
     const handleMenuItemClick = (path, e) => {
-        e.preventDefault()
         navigate(path, { state: { name: user,userInfo:allUserInfo } });
     };
 
@@ -72,15 +71,7 @@ export default function Feedback() {
                         </button>
                     </div>
                     <div className='promotionsWrapper'>
-                        <div className='promotionItem' id='courseRecommendation' onClick={(e) => handleMenuItemClick('/developmentPlans/courses', e)}>
-                            <div>View Course Recommendations.</div>
-                        </div>
-                        <div className='promotionItem' id='workshopRecommendation' onClick={(e) => handleMenuItemClick('/developmentPlans/workshops', e)}>
-                            <div >View Workshop Recommendations.</div>
-                        </div>
-                        <div className='promotionItem' id='mentorMentee' onClick={(e) => handleMenuItemClick('/developmentPlans/mentor', e)}>
-                            <div>Pursue a Mentor.</div>
-                        </div>
+                            <h1>Hi</h1>
                     </div>
                 </div>
             </div>

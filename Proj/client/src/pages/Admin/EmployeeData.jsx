@@ -1,10 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeData.css';
+import axios from 'axios';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import ViewProfile from '../../components/ViewProfile';
+import { FaCross } from 'react-icons/fa';
 
 
 export default function EmployeeData() {
@@ -20,19 +23,9 @@ export default function EmployeeData() {
         { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
     ];
 
-    const [activeMenuItem, setActiveMenuItem] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [employees, setEmployees] = useState([
-        { id: 1, role: "Manager", age: 30, contact: "123-456-7890", hoursWorked: 40, status: "Active" }
-    ]);
-    const [newEmployeeData, setNewEmployeeData] = useState({
-        role: "",
-        age: "",
-        contact: "",
-        hoursWorked: "",
-        status: ""
-    });
+    const [employees, setEmployees] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [userData, setUserData] = useState(null);
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
@@ -43,34 +36,37 @@ export default function EmployeeData() {
         navigate(path, { state: {name: user}}); 
     };
 
-    const addEmployee = () => {
-        setShowModal(true);
+    const getAge = (dateOfBirth) => {
+        if (!dateOfBirth) return "Unknown";
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
     };
 
-    const closeModal = () => {
-        setShowModal(false);
-        setNewEmployeeData({
-            role: "",
-            age: "",
-            contact: "",
-            hoursWorked: "",
-            status: ""
-        });
-    };
+    const fetchEmployees = async () => {
+        try {
+            const resp = await axios.get('/dashboard-employees')
+            setEmployees(resp.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        fetchEmployees()
+    })
+
+    const handleViewProfile = (e, val) => {
+        console.log('hello')
         e.preventDefault();
-        console.log(newEmployeeData);
-        const newEmployee = {
-            id: employees.length + 1,
-            ...newEmployeeData
-        };
-        setEmployees([...employees, newEmployee]);
-        closeModal();
-    };
-
-    const deleteEmployee = (id) => {
-        setEmployees(employees.filter(employee => employee.id !== id));
+        setShowModal(true);
+        setUserData(val);
+        console.log(userData)
     };
 
     return (
@@ -94,7 +90,7 @@ export default function EmployeeData() {
                         ))}
                     </div>
                 </div>
-                <div className='content'>
+                <div className='contentData'>
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
@@ -114,43 +110,43 @@ export default function EmployeeData() {
                             Logout
                         </button>
                     </div>
-                    <div className='employeeFunctions'>
-                        <h1>To be Implemented. Mauj Masti ruk gayi sari 3</h1>
+                    <div className='employee-data'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>View Profile</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {employees && employees.map((val, ind) => {
+                                    return (
+                                        <tr key={ind}>
+                                            <td>{val.employeeID}</td>
+                                            <td>{val.name}</td>
+                                            <td>{getAge(val.date_of_birth)}</td>
+                                            <td>{val.contactNumber}</td>
+                                            <td>{val.email}</td>
+                                            <td>{val.registered_status ? 'Registered' : 'Unregistered'}</td>
+                                            <td><a href="" onClick={(e) => handleViewProfile(e, val)}><FontAwesomeIcon icon={faEye} size='xl' /></a></td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
             {showModal && (
-                <div className="modalOverlay">
-                    <div className="modalContent">
-                        <span className="closeModal" onClick={closeModal}>&times;</span>
-                        <h2>Add New Employee</h2>
-                        <form className="addEmployeeForm" onSubmit={handleSubmit}>
-                            <div className="formGroup">
-                                <label htmlFor="role">Role Qualification:</label>
-                                <input type="text" id="role" value={newEmployeeData.role} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, role: e.target.value })} />
-                            </div>
-                            <div className="formGroup">
-                                <label htmlFor="age">Age:</label>
-                                <input type="number" id="age" value={newEmployeeData.age} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, age: e.target.value })} />
-                            </div>
-                            <div className="formGroup">
-                                <label htmlFor="contact">Contact:</label>
-                                <input type="text" id="contact" value={newEmployeeData.contact} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, contact: e.target.value })} />
-                            </div>
-                            <div className="formGroup">
-                                <label htmlFor="hoursWorked">Hours Worked:</label>
-                                <input type="number" id="hoursWorked" value={newEmployeeData.hoursWorked} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, hoursWorked: e.target.value })} />
-                            </div>
-                            <div className="formGroup">
-                                <label htmlFor="status">Status:</label>
-                                <select id="status" value={newEmployeeData.status} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, status: e.target.value })}>
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
-                            <button type="submit">Add Employee</button>
-                        </form>
+                <div className="modal-overlay">
+                    <div className="modal-content-data">
+                        <ViewProfile user={userData} />
+                        <span className="close-Modal" onClick={() => setShowModal(false)} >&times;</span>
                     </div>
                 </div>
             )}
