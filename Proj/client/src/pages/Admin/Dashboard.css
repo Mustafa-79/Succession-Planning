@@ -187,7 +187,7 @@ body {
     flex-direction: column;
 }
 
-.iconAndView>a {
+.iconAndView>label {
     margin-top: 10px;
     text-decoration: none;
     font-family: 'Source Sans 3';
@@ -198,7 +198,7 @@ body {
 
 }
 
-.iconAndView>a:hover {
+.iconAndView>label:hover {
     border-radius: 10px;
     background-color: #d9e3f0;
     /* Light grey background color on hover */
@@ -343,7 +343,40 @@ body {
     font-family: 'Source Sans 3';
     color: #68686d;
     font-weight: 800;
+}
 
+#threshold {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 40px;
+    margin-top: 30px;
+}
+
+
+
+#changeThresholdButton
+{
+    background: rgb(52, 133, 247);
+    border-radius: 999px;
+    box-shadow: rgb(21, 146, 212) 0 10px 20px -10px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    word-break: break-word;
+    border: 0;
+    height: 50px;
+    align-self: center;
 }
 
 .closeModal {
