@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
 export default function AdminSettings() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = location.state.userInfo;
     const navigate = useNavigate();
 
     // 7 weights for 7 KPIs: 
@@ -63,7 +63,8 @@ export default function AdminSettings() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/admin_settings" }
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/admin_settings" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
     ];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
@@ -86,7 +87,7 @@ export default function AdminSettings() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user } });
+        navigate(path, { state: { userInfo: user }}); 
     };
 
     const handleSaveChanges = () => {
@@ -129,7 +130,7 @@ export default function AdminSettings() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
                         <button
                             onClick={(e) => handleMenuItemClick('/login', e)}
                             style={{

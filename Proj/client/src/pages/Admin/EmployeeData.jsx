@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faEdit, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faEdit, faChartLine, faChain } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeData.css';
 import axios from 'axios';
 import './fonts.css';
@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 
 export default function EmployeeData() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = location.state.userInfo;
     const navigate = useNavigate();
 
     const menuItems = [
@@ -22,7 +22,8 @@ export default function EmployeeData() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/admin_settings" }
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/admin_settings" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
     ];
 
     const [employees, setEmployees] = useState([]);
@@ -36,7 +37,7 @@ export default function EmployeeData() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { userInfo: user }}); 
     };
 
     const getAge = (dateOfBirth) => {
@@ -118,7 +119,7 @@ export default function EmployeeData() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
                         <button
                             onClick={(e) => handleMenuItemClick('/login', e)}
                             style={{
