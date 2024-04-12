@@ -30,6 +30,9 @@ import AdminProfile from './pages/Admin/AdminProfile';
 import PromotionSkillSet from './pages/Employee/Career Path/PromotonSkillSet';
 import AvailablePositions from './pages/Employee/Career Path/AvailablePositions';
 import PromotionProgress from './pages/Employee/Career Path/PromotionProgress';
+import Courses from './pages/Employee/Development Plans/Courses';
+import Workshops from './pages/Employee/Development Plans/Workshops';
+import Mentor from './pages/Employee/Development Plans/Mentor';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -60,13 +63,21 @@ function App() {
                 <Route path='/employeeDashboard/skills' element={<PromotionSkillSet />} />
                 <Route path='/employeeDashboard/positions' element={<AvailablePositions />} />
                 <Route path='/employeeDashboard/progress' element={<PromotionProgress />} />
+
                 <Route path='/feedback' element={<Feedback />} />
                 <Route path='/feedback/feedbackForm' element={<FeedbackForm />} />
                 <Route path='/feedback/complaintForm' element={<ComplaintForm />} />
                 <Route path='/feedback/pendingAssessments' element={<PendingAssessments />} />
+
+                <Route path='/developmentPlans' element={<DevelopmentPlans />} />
+                <Route path='/developmentPlans/courses' element={<Courses />} />
+                <Route path='/developmentPlans/workshops' element={<Workshops />} />
+                <Route path='/developmentPlans/mentor' element={<Mentor />} />
+
+
+
                 <Route path='/employeeSettings' element={<EmployeeSettings />} />
                 <Route path='/userProfile' element={<UserProfile />} />
-                <Route path='/developmentPlans' element={<DevelopmentPlans />} />
                 <Route path='/aboutAdmin' element={<AboutAdmin />} />
                 <Route path='/adminProfile' element={<AdminProfile />} />
 

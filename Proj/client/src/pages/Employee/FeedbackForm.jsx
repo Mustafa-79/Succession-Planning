@@ -105,7 +105,7 @@ export default function FeedbackForm() {
       name: "Feedback Tools",
       icon: faFileArrowUp,
       margin: 7,
-      path: "/feedbackForm",
+      path: "/feedback",
     },
     { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" },
   ];
