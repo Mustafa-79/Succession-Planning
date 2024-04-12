@@ -4,10 +4,10 @@ import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeSettings.css';
+import axios from 'axios'
 import defaultImg from '../img/profile-default.svg'
 import './fonts.css';
 import { toast } from "react-hot-toast";
-import axios from 'axios';
 import img1 from "../img/s_img1.png";
 import img2 from "../img/s_img2.png";
 import img3 from "../img/s_img3.png";
@@ -25,6 +25,7 @@ export default function EmployeeSettings() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
+    const allUserInfo = location.state.userInfo;
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -117,7 +118,7 @@ export default function EmployeeSettings() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user } });
+        navigate(path, { state: { name: user,userInfo:allUserInfo } });
     };
 
     const handleItemClick = (index, e) => {

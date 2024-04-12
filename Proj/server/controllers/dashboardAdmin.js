@@ -5,6 +5,7 @@ const Position = require('../models/positions')
 const Course = require('../models/course')
 const Workshop = require('../models/workshop')
 const HR_Admin = require('../models/hr_admin')
+const Weights = require('../models/weights')
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -115,6 +116,51 @@ const returnAdminProfile = async (reqs, resp) => {
     }
 }
 
+const getWeights = async (reqs, resp) => {
+    try {
+        // Get all weights
+        const weights = await Weights.find()
+        return resp.json(weights)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const saveWeights = async (reqs, resp) => {
+    try {
+        // Request contains admin weights
+        //         axios.post('/updateWeights', weights.admin)
+
+        // Get the weights from the request
+        console.log(reqs.body)
+
+        newAdminWeights = {
+            weightsID: 2,
+            // type casting to Number
+            task_completion_rate: Number(reqs.body.task_completion_rate),
+            attendance_rate : Number(reqs.body.attendance_rate),
+            punctuality : Number(reqs.body.punctuality),
+            efficiency : Number(reqs.body.efficiency),
+            professionalism : Number(reqs.body.professionalism),
+            collaboration : Number(reqs.body.collaboration),
+            leadership : Number(reqs.body.leadership)
+        }
+
+        // Update the weights in db. Admin weights have weightsID = 2
+        await Weights.findOneAndUpdate({ weightsID: 2 }, newAdminWeights)
+
+
+
+        return resp.json({ message: "Weights updated successfully" })
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+
 module.exports = {
     dashboardEmployees,
     positionIDtoName,
@@ -122,7 +168,9 @@ module.exports = {
     deleteEmployeefromAdminDashboard,
     fetchCourses,
     fetchWorkshops,
-    returnAdminProfile
+    returnAdminProfile,
+    getWeights,
+    saveWeights,
 }
 
 

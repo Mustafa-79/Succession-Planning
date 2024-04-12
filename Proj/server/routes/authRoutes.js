@@ -27,7 +27,9 @@ const {
     deleteEmployeefromAdminDashboard,
     fetchCourses,
     fetchWorkshops,
-    returnAdminProfile
+    returnAdminProfile,
+    getWeights,
+    saveWeights,
 } = require("../controllers/dashboardAdmin");
 
 const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
@@ -56,8 +58,8 @@ router.post("/resetSecurityImage", resetSecurityImage);
 router.post("/verifySecurityAnswer", verifySecurityAnswer);
 router.get("/dashboard-employees", dashboardEmployees);
 router.get("/dashboard-position-titles", positionIDtoName);
-router.get("/dashboard-course-data",fetchCourses);
-router.get("/dashboard-workshop-data",fetchWorkshops);
+router.get("/dashboard-course-data", fetchCourses);
+router.get("/dashboard-workshop-data", fetchWorkshops);
 router.post("/addEmployeeFromAdminDashboard", addEmployeeFromAdminDashboard);
 router.post("/submitFeedback", submitFeedback);
 router.post('/getProfile', returnProfile)
@@ -70,5 +72,7 @@ router.post('/getFeedback', viewFeedbacks)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
+router.get("/weights", getWeights);
+router.post("/updateWeights", saveWeights);
 
 module.exports = router;
