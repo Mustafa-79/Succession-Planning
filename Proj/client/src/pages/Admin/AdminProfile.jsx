@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faBrain, faNetworkWired, faChartLine, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import './AdminProfile.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -19,7 +19,7 @@ export default function AdminProfile() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/admin_settings" }
     ];
 
     const [data, setData] = useState({

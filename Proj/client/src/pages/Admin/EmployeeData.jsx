@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faEdit, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeData.css';
 import axios from 'axios';
 import './fonts.css';
@@ -22,7 +22,7 @@ export default function EmployeeData() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/admin_settings" }
     ];
 
     const [employees, setEmployees] = useState([]);
@@ -142,7 +142,7 @@ export default function EmployeeData() {
                                     <th>Age</th>
                                     <th>Contact</th>
                                     <th>Email</th>
-                                    <th>Status</th>
+                                    <th>Account Status</th>
                                     <th>View Profile</th>
                                     <th>Edit Metrics</th>
                                 </tr>
