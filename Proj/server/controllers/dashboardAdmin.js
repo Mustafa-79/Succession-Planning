@@ -205,6 +205,78 @@ const changeStatus = async (reqs, resp) => {
     }
 }
 
+const updateAdminPic = async (reqs, resp) => {
+    try {
+        const { adminID, profile_picture } = reqs.body
+        const updatedUser = await HR_Admin.findOneAndUpdate({ adminID }, { profile_picture }, { new: true, runValidators: true })
+        if (!updatedUser) {
+            return resp.json({
+                error: "Unable to update profile picture"
+            })
+        } else {
+            return resp.json(updatedUser)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const changeAdminPasssword = async (reqs, resp) => {
+    try {
+        const { adminID, password, samePassword } = reqs.body
+
+        const user = await HR_Admin.findOne({ adminID: adminID })
+        console.log(adminID, password, samePassword, user)
+
+        const result = await comparePassword(password, user.password)
+        console.log(result)
+
+        if (!result) {
+            return resp.json({
+                error: 'you have entered invalid current password'
+            })
+        }
+
+        const compare = await comparePassword(samePassword, user.password)
+
+        if (compare) {
+            return resp.json({
+                error: 'New password must be different from current'
+            })
+        }
+
+        const hashedPassword = await hashPassword(samePassword)
+
+        // Update user
+        const updatedUser = await HR_Admin.findOneAndUpdate({ adminID: adminID }, { password: hashedPassword }, { new: true, runValidators: true })
+
+        return resp.json(updatedUser)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const changeAdminSecurityImg = async (reqs, resp) => {
+    try {
+
+        const { adminID, currentImg, newImg } = reqs.body  
+        const user = await HR_Admin.findOne({ adminID: adminID })
+
+        if (user.two_factor_answer != currentImg) {
+            return resp.json({
+                error: 'Invalid current security image'
+            })
+        }
+
+        const updatedUser = await HR_Admin.findOneAndUpdate({ adminID: adminID }, { two_factor_answer: newImg }, { new: true, runValidators: true })
+
+        return resp.json(updatedUser)
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
     dashboardEmployees,
     positionIDtoName,
@@ -218,7 +290,10 @@ module.exports = {
     setMetrics,
     changeStatus,
     getCourses,
-    getWorkshops
+    getWorkshops,
+    updateAdminPic,
+    changeAdminPasssword,
+    changeAdminSecurityImg
 }
 
 

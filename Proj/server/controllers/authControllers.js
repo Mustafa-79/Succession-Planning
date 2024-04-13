@@ -132,6 +132,12 @@ const loginUser = async (reqs, resp) => {
                 })
             }
 
+            if (s_img.toString() != user1.two_factor_answer) {
+                return resp.json({
+                    error: 'Incorrect two factor image selected'
+                })
+            }
+
             return resp.json({
                 user: user1,
                 no: 2

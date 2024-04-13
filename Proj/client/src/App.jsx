@@ -33,6 +33,7 @@ import PromotionProgress from './pages/Employee/Career Path/PromotionProgress';
 import Courses from './pages/Employee/Development Plans/Courses';
 import Workshops from './pages/Employee/Development Plans/Workshops';
 import Mentor from './pages/Employee/Development Plans/Mentor';
+import ModelTuning from './pages/Admin/ModelTuning';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -52,6 +53,7 @@ function App() {
                 <Route path='/create_assessment' element={<CreateAssessment />} />
                 <Route path='/employee_data' element={<EmployeeData />} />
                 <Route path='/admin_settings' element={<AdminSettings />} />
+                <Route path='/model_tuning' element={<ModelTuning />} />
                 <Route path='/about' element={<AboutEmployee />} />
 
 

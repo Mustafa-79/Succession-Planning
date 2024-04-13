@@ -21,7 +21,7 @@ export default function Dashboard() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/admin_settings" },
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/model_tuning" },
         { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
     ];
 

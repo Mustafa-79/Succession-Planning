@@ -33,7 +33,10 @@ const {
     setMetrics,
     changeStatus,
     getCourses,
-    getWorkshops
+    getWorkshops,
+    updateAdminPic,
+    changeAdminPasssword,
+    changeAdminSecurityImg
 } = require("../controllers/dashboardAdmin");
 
 const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
@@ -83,5 +86,8 @@ router.post("/updateWeights", saveWeights);
 router.get("/getPositionsData", positionIDtoName)
 router.get('/getCoursesData', getCourses)
 router.get('/getWorkshopsData', getWorkshops)
+router.post('/updateAdminPic', updateAdminPic)
+router.post('/changeAdminPassword', changeAdminPasssword)
+router.post('/changeAdminSecurityImage', changeAdminSecurityImg)
 
 module.exports = router;
