@@ -24,6 +24,7 @@ import EmployeeSettings from './pages/Employee/EmployeeSettings';
 import DevelopmentPlans from './pages/Employee/DevelopmentPlans';
 import AboutAdmin from './pages/Admin/AboutAdmin';
 import ViewProfile from '../../components/ViewProfile';
+import ModelTuning from './ModelTuning';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -41,7 +42,8 @@ function App() {
       <Route path='/assess_feedback' element={<AssessFeedback /> } />
       <Route path='/create_assessment' element={<CreateAssessment /> } />
       <Route path='/employee_data' element={<EmployeeData /> } />
-      <Route path='/admin_settings' element={<AdminSettings /> } />
+      {/* <Route path='/admin_settings' element={<AdminSettings /> } /> */}
+      <Route path='/model_tuning' element={<ModelTuning /> } />
       <Route path='/about' element={<AboutEmployee/> } />
 
 

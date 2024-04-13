@@ -88,8 +88,13 @@ const loginUser = async (reqs, resp) => {
                         throw err
                     }
                     // Send token and user details
-                    resp.cookie('token', token).json(user)
+                    // resp.cookie('token', token).json(user)
                 })
+                if (user.is_blocked === true) {
+                    return resp.json({
+                        error: "Your account is blocked"
+                    })
+                }
             } else {
                 return resp.json({
                     error: 'Incorrect password'
@@ -98,15 +103,23 @@ const loginUser = async (reqs, resp) => {
 
             // Check if security image is selected and  matches
             if (s_img.toString() != user.two_factor_answer) {
-                console.log(s_img, user.two_factor_answer)
-                return resp.json({
-                    error: 'Incorrect two factor image selected'
-                })
+                const updateUser = await Employee.findOneAndUpdate({ employeeID: user.employeeID }, { failed_attempts: user.failed_attempts + 1 }, { new: true, runValidators: true })
+                console.log('THERE')
+                if (updateUser.failed_attempts === 3) {
+                    const user2 = await Employee.findOneAndUpdate({ employeeID: user.employeeID }, { is_blocked: true}, { new: true, runValidators: true })
+                    return resp.json({
+                        error: 'Account Blocked !!'
+                    })
+                } else {
+                    return resp.json({
+                        error: 'Incorrect two factor image selected'
+                    })
+                }
             }
 
             // Send user response
             return resp.json({
-                user: user,
+                user: user.failed_attempts != 0 ? await Employee.findOneAndUpdate({ employeeID: user.employeeID }, { failed_attempts: 0 }, { new: true, runValidators: true }) : user,
                 no: 1
             })
 
@@ -116,6 +129,12 @@ const loginUser = async (reqs, resp) => {
             if (!match) {
                 return resp.json({
                     error: 'Incorrect password'
+                })
+            }
+
+            if (s_img.toString() != user1.two_factor_answer) {
+                return resp.json({
+                    error: 'Incorrect two factor image selected'
                 })
             }
 

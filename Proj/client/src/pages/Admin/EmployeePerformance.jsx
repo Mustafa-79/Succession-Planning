@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import './EmployeePerformance.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -12,7 +12,7 @@ import axios from 'axios';
 
 export default function EmployeePerformance() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = location.state.userInfo;
     const employeeInfo = location.state.info
     const navigate = useNavigate();
 
@@ -22,7 +22,8 @@ export default function EmployeePerformance() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/model_tuning" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
     ];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
@@ -46,7 +47,7 @@ export default function EmployeePerformance() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user } });
+        navigate(path, { state: { userInfo: user }}); 
     };
 
     const addEmployee = () => {
@@ -284,7 +285,7 @@ export default function EmployeePerformance() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">{user}</a>
+                        <a href="">{user.name}</a>
                         <button
                             onClick={(e) => handleMenuItemClick('/login', e)}
                             style={{

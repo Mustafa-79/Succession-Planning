@@ -5,12 +5,12 @@ import './About.css';
 export default function AboutAdmin() {
 
   const location = useLocation();
-  const user = location.state.name;
+  const user = location.state.userInfo;
   const navigate = useNavigate();
 
   const handleMenuItemClick = (path, e) => {
     e.preventDefault()
-    navigate(path, { state: {name: user}}); 
+    navigate(path, { state: {userInfo: user}}); 
 };
 
   return (

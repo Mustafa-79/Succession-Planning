@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faBrain, faNetworkWired, faChartLine, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import './AdminProfile.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -10,7 +10,7 @@ import defaultImg from '../img/profile-default.svg'
 
 export default function AdminProfile() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = location.state.userInfo;
     const navigate = useNavigate();
 
 
@@ -19,16 +19,17 @@ export default function AdminProfile() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/model_tuning" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
     ];
 
     const [data, setData] = useState({
-        name: '',
-        email: '',
-        contactNumber: '',
-        gender: '',
-        adminID: '',
-        profileImg: ''
+        name: user.name,
+        email: user.email,
+        contactNumber: user.contactNumber,
+        gender: user.gender,
+        adminID: user.adminID,
+        profileImg: user.profile_picture
     });
 
 
@@ -39,27 +40,27 @@ export default function AdminProfile() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { userInfo: user }}); 
     };
 
-    useEffect(() => {
-        fetchData(); // Call the fetch function on component mount
-    }, []); // Empty array means it will only run once when component mounts
+    // useEffect(() => {
+    //     fetchData(); // Call the fetch function on component mount
+    // }, []); // Empty array means it will only run once when component mounts
 
-    const fetchData = async (e) => {
-        try {
-            const resp = await axios.post('/getAdminProfile', {
-                name: user
-            })
-            if (resp.data.error) {
-                setData({})
-            } else {
-                setData({name: resp.data.name, email: resp.data.email, contactNumber: resp.data.contactNumber, gender: resp.data.gender, profileImg: resp.data.profile_picture, adminID: resp.data.adminID })
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const fetchData = async (e) => {
+    //     try {
+    //         const resp = await axios.post('/getAdminProfile', {
+    //             name: user
+    //         })
+    //         if (resp.data.error) {
+    //             setData({})
+    //         } else {
+    //             setData({name: resp.data.name, email: resp.data.email, contactNumber: resp.data.contactNumber, gender: resp.data.gender, profileImg: resp.data.profile_picture, adminID: resp.data.adminID })
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     return (
         <div className='overlay'>
@@ -87,7 +88,7 @@ export default function AdminProfile() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
                         <button
                             onClick={(e) => handleMenuItemClick('/login', e)}
                             style={{

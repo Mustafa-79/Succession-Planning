@@ -2,15 +2,61 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartLine, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import './CreateAssessment.css';
+import './ModelTuning.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 
-export default function CreateAssessment() {
+export default function ModelTuning() {
     const location = useLocation();
     const user = location.state.userInfo;
     const navigate = useNavigate();
+
+    // 7 weights for 7 KPIs: 
+    const featureNames = ['task_completion_rate', 'attendance_rate', 'punctuality', 'efficiency', 'professionalism', 'collaboration', 'leadership'];
+    // two sets of weights: one set given by ML, and one set given by the admin. Fetch them using a GET request.
+    const [weights, setWeights] = useState({
+        ML: {},
+        admin: {}
+    });
+
+    const handleSliderChange = (feature, value) => {
+        setWeights(prevState => ({
+            ...prevState,
+            admin: {
+                ...prevState.admin,
+                [feature]: value
+            }
+        }));
+    };
+
+    useEffect(() => {
+        axios.get('/weights').then(res => {
+            console.log("Weights fetched: ", res.data)
+            const ML_weights = res.data.find(item => item.weightsID === 1);
+            const admin_weights = res.data.find(item => item.weightsID === 2);
+
+            // drop the weightsID field and _id field
+            delete ML_weights.weightsID;
+            delete ML_weights._id;
+            delete admin_weights.weightsID;
+            delete admin_weights._id;
+
+            setWeights({
+                ML: ML_weights,
+                admin: admin_weights
+            });
+        }).catch(err => {
+            console.log(err);
+            toast.error('Failed to fetch weights');
+        });
+    }, []);
+
+
+
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -33,7 +79,6 @@ export default function CreateAssessment() {
         hoursWorked: "",
         status: ""
     });
-    const [showModal, setShowModal] = useState(false);
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
@@ -45,35 +90,19 @@ export default function CreateAssessment() {
         navigate(path, { state: { userInfo: user }}); 
     };
 
-    const addEmployee = () => {
-        setShowModal(true);
+    const handleSaveChanges = () => {
+        // Assuming the endpoint for updating weights is '/updateWeights'
+        axios.post('/updateWeights', weights.admin)
+            .then(res => {
+                toast.success('Weights saved successfully');
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Failed to save weights');
+            });
     };
 
-    const closeModal = () => {
-        setShowModal(false);
-        setNewEmployeeData({
-            role: "",
-            age: "",
-            contact: "",
-            hoursWorked: "",
-            status: ""
-        });
-    };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(newEmployeeData);
-        const newEmployee = {
-            id: employees.length + 1,
-            ...newEmployeeData
-        };
-        setEmployees([...employees, newEmployee]);
-        closeModal();
-    };
-
-    const deleteEmployee = (id) => {
-        setEmployees(employees.filter(employee => employee.id !== id));
-    };
 
     return (
         <div className='overlay'>
@@ -89,14 +118,14 @@ export default function CreateAssessment() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                                </div>
+                            <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                            </div>
                         ))}
                     </div>
                 </div>
-                <div className='content'>
+                <div className='contentSettings'>
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
@@ -116,12 +145,58 @@ export default function CreateAssessment() {
                             Logout
                         </button>
                     </div>
-                    <div className='employeeFunctions'>
-                        <h1>To be Implemented. Mauj Masti ruk gayi sari 2</h1>
+
+                    <div className='weights'>
+                        <h1>Weights</h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>ML Weights</th>
+                                    <th>Admin Weights</th>
+                                    <th>Product</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {featureNames.map(feature => (
+                                    <tr key={feature}>
+                                        <td>{feature}</td>
+                                        <td>{weights.ML[feature]}</td>
+                                        <td>{weights.admin[feature]}</td>
+                                        <td>{(weights.ML[feature] * weights.admin[feature]).toFixed(3)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                        <div className='sliders'>
+                            {featureNames.map(feature => (
+                                <div key={feature} className='slider-container'>
+                                    <label htmlFor={feature}>{feature}</label>
+                                    <input
+                                        type='range'
+                                        id={feature}
+                                        name={feature}
+                                        min='0'
+                                        max='1'
+                                        step='0.001'
+                                        value={weights.admin[feature] || 0}
+                                        onChange={(e) => handleSliderChange(feature, e.target.value)}
+                                    />
+                                </div>
+                            ))}
+                            <button
+                                onClick={handleSaveChanges}
+                            >
+                                Save Changes
+                            </button>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
-            {showModal && (
+            {0 && (
                 <div className="modalOverlay">
                     <div className="modalContent">
                         <span className="closeModal" onClick={closeModal}>&times;</span>
