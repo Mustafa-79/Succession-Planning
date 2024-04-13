@@ -7,26 +7,32 @@ html {
 }
 
 body {
+    height: 100%;
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* For left alignment */
     align-items: center;
-    background-color: #f3f3f3;
-    /* Light grey background, similar to LinkedIn */
+    background-image: url('bngg1.png'); /* Check the path and file extension */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; /* This will prevent the image from repeating */
+    background-attachment: fixed; /* Keep the image fixed during scroll */
+    font-family: 'Arial', sans-serif;
 }
 
 .signup-container {
     width: 100%;
-    max-width: 400px;
-    background: white;
+    max-width: 700px;
+    background:  #9ccff4; /* The same teal color as login */
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
+    border-radius: 25px; /* Same border-radius as login for consistency */
     margin: 20px;
+    margin-left: 750px; /* Adjust as necessary to align with the login container */
 }
 
 .signup-box h1 {
-    color: #0073b1;
-    /* LinkedIn blue color */
+    color: rgb(13, 52, 52); /* Same color as the login box for consistency */
     text-align: center;
     margin-bottom: 20px;
 }
@@ -100,8 +106,7 @@ body {
 .signup-btn {
     width: 100%;
     padding: 10px;
-    background-color: #0073b1;
-    /* LinkedIn blue color */
+    background-color: rgb(13, 52, 52); /* Same as the login button */
     color: white;
     border: none;
     border-radius: 4px;
@@ -110,8 +115,7 @@ body {
 }
 
 .signup-btn:hover {
-    background-color: #005f86;
-    /* A darker LinkedIn blue on hover */
+    background-color: #27407f; /* Same hover effect as login button */
 }
 
 form p {

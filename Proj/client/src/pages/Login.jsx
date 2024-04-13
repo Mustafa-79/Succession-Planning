@@ -101,7 +101,7 @@ export default function Login() {
     return (
         <div class="login-container">
             <div class="login-box">
-                <h1>Login</h1>
+                <h1 style={{marginBottom:15}}>Login</h1>
                 <form onSubmit={loginUser}>
                     <div class="input-group">
                         <input
@@ -121,9 +121,9 @@ export default function Login() {
                         />
                     </div>
 
-                    <div className="security-image-selection">
+                    <div className="security-image-selection" style={{marginBottom:15}}>
                         <p>Select security image </p>
-                        <div className="security-images">
+                        <div className="security-images" >
                             <img
                                 src={randomizedImages[0][0]}
                                 alt="Security Icon 1"
@@ -219,8 +219,8 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <div class="input-group">
-                        <button type="submit" class="login-btn">
+                    <div class="input-group" >
+                        <button type="submit" class="login-btn" >
                             Login
                         </button>
                     </div>

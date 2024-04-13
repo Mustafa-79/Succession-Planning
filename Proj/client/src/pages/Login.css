@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('xyz.png');
+    background-image: url('bngg1.png');
     /* Make sure the filename is correct */
     background-size: cover;
     background-position: center;
@@ -18,20 +18,29 @@ body {
 }
 
 .login-container {
-    width: 100%;
-    max-width: 400px;
-    background: white;
+    /* height: 600px; */
+    width: 400px;
+    /* max-width: 400px; */
+    background:   #9ccff4; 
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
+    border-radius: 25px;
     margin: 20px;
+    margin-left: 850px;
+
 }
 
 .login-box {
-    color: #0073b1;
+    color:  #013c7c;
     /* LinkedIn blue color */
     text-align: center;
+    padding-left: 10px;
+    margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-width: 10px;
+    border-color: black;
 }
 
 .input-group {
@@ -40,7 +49,7 @@ body {
 }
 
 .input-group input {
-    width: calc(100% - 40px);
+    width: calc(100% - 30px);
     /* Input width considering button */
     padding: 10px;
     margin: 5px 0;
@@ -57,6 +66,7 @@ body {
     /* border: none; */
     border-radius: 4px;
     border-color: #305496;
+
     /* A shade of blue */
     background-color: white;
     /*white*/
@@ -77,7 +87,7 @@ body {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #305496;
+    background-color:  #013c7c;
     /* A shade of blue */
     color: white;
     cursor: pointer;
