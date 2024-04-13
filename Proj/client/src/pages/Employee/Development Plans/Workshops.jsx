@@ -188,6 +188,8 @@ export default function Courses() {
 
         const totalWorkshops_for_curr_position = positionalWorkshops.length;
         const all_workshops_offered = workshops.map(workshop => workshop.title);
+        // const rem_all
+        const rem_all_workshops_offered = all_workshops_offered.filter(course => !workshopsTaken.includes(course));
     
 
     return (
@@ -237,7 +239,7 @@ export default function Courses() {
                             <h2>Recommended Workshops 📝</h2>
                             <ul className="recommendedCourses">
                             
-                            {rem_Workshops_for_position.map((course, index) => (
+                            {rem_all_workshops_offered.map((course, index) => (
                                 <li key={index}>
                                 <h4>Workshop Name: {course}</h4>
                                 <div>Workshop ID: {getWorkshopId(course)}</div>
