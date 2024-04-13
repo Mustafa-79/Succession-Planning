@@ -102,11 +102,12 @@ body {
 }
 
 /*The right page divided into the 3 sections - about, function cards, data table*/
-.contentDashClient {
+.contentDashClientProgress {
     display: grid;
-    grid: 1fr 5.0fr / 1fr;
+    grid: 1fr 5fr / 1fr;
     max-height: 100vh;
     background-color: #FAFBFC;
+    overflow-y: scroll;
 }
 
 /*About and Profile*/
@@ -140,3 +141,75 @@ body {
     /* Light grey background color on hover */
 }
 
+.progressWrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+}
+
+.CircularProgressbar {
+    max-height: 100%;
+}
+
+.Bar {
+    max-height: 100%;
+}
+
+
+.charts {
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.section h2 {
+    margin-bottom: 10px;
+    /* Add space between heading and content */
+}
+
+.chartCircular {
+    width: 100%;
+    max-height: 30vh;
+    margin-right: 5%;
+
+}
+
+.chartBar {
+    max-height: 30vh;
+    width: 100%;
+    margin-left: 5%;
+}
+
+
+.sectionSkills{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 2%;
+    margin-left: 5%;
+}
+
+.progContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.cards {
+    display: grid; 
+    grid-gap: 20px; 
+}
+
+.card {
+    width: 100%; 
+    height: auto;
+    background-color: lightblue;
+    display: flex; 
+    flex-direction: column;
+}
+
+
+.card > div{
+    margin: 10px;
+}
