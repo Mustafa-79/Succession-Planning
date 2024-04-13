@@ -47,6 +47,20 @@ const addEmployeeFromAdminDashboard = async (reqs, resp) => {
         })
         // Save to DB
         await newEmployee.save()
+
+        // Now update the position's employee list
+        const positionData = await Position.findOne({ positionID: positionID });
+        const employeeList = positionData.held_by;
+        employeeList.push(employeeID);
+        // If the position was vacant, set vacancy flag to false
+        if (employeeList.length == 1) {
+            await Position.findOneAndUpdate({ positionID: positionID }, { held_by: employeeList, vacancy: false });
+        }
+        else {
+            await Position.findOneAndUpdate({ positionID: positionID }, { held_by: employeeList });
+        }
+        
+        // return success message
         return resp.json({ message: "Employee added successfully" })
     }
     catch (error) {
@@ -67,6 +81,34 @@ const deleteEmployeefromAdminDashboard = async (reqs, resp) => {
         if (!deletedEmployee) {
             return resp.status(400).json({ message: "Employee not found" })
         }
+
+        // Now check the position of the employee
+        const position = deletedEmployee.positionID;
+
+        // For the position, delete the employee from the position's employee list and check vacancy flag
+        const positionData = await Position.findOne({ positionID: position });
+        const employeeList = positionData.held_by;
+        const index = employeeList.indexOf(employeeID);
+        employeeList.splice(index, 1);
+        // If the employee was the only one in the position, set vacancy flag to true
+        if (employeeList.length == 0) {
+            await Position.findOneAndUpdate({ positionID: position }, { held_by: employeeList, vacancy: true });
+        }
+        else {
+            await Position.findOneAndUpdate({ positionID: position }, { held_by: employeeList });
+        }
+
+        // Now if the employee was a mentor, delete the mentorship. Check every employee's mentorship field
+        const allEmployees = await Employee.find();
+        for (let i = 0; i < allEmployees.length; i++) {
+            const employeesMentor = allEmployees[i].mentor_ID;
+            if (employeesMentor == employeeID) {
+                // If the employee was a mentor, delete the mentorship
+                allEmployees[i].mentor_ID = "";
+                await allEmployees[i].save();
+            }
+        }
+
         // return success message
         return resp.json({ message: "Employee deleted successfully" })
     }
