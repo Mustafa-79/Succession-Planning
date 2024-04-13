@@ -43,7 +43,7 @@ export default function EmployeeSettings() {
     })
 
     const updateUserData = (update) => {
-        setActiveUser({...activeUser, userData: update})
+        setActiveUser({ ...activeUser, userData: update })
         console.log('Hello')
     }
 
@@ -101,7 +101,7 @@ export default function EmployeeSettings() {
     }
 
     const onPasswordChange = (password) => {
-        setNewPassword({ ...newPassword, newPassword: password});
+        setNewPassword({ ...newPassword, newPassword: password });
         setPasswordValidations({
             isLongEnough: password.length >= 8,
             hasUpper: /[A-Z]/.test(password),
@@ -112,24 +112,24 @@ export default function EmployeeSettings() {
     };
 
     const onConfirmPasswordChange = (samePassword) => {
-        setNewPassword({ ...newPassword, confirmPassword: samePassword});
+        setNewPassword({ ...newPassword, confirmPassword: samePassword });
         setPasswordsMatch(newPassword.newPassword === samePassword);
     };
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user,userInfo:allUserInfo } });
+        navigate(path, { state: { name: user, userInfo: allUserInfo } });
     };
 
     const handleItemClick = (index, e) => {
         e.preventDefault()
         setActiveTab(index)
-        setNewPassword({newPassword: '', currentPassword: '', confirmPassword: ''})
+        setNewPassword({ newPassword: '', currentPassword: '', confirmPassword: '' })
         setPasswordValidations({})
         setPasswordsMatch(false)
         setEnableEdit(false)
-        setShowPassword({field1: false, field2: false, field3: false})
-        setSecurityImg({currentImg: '', newImg: ''})
+        setShowPassword({ field1: false, field2: false, field3: false })
+        setSecurityImg({ currentImg: '', newImg: '' })
         fetchData()
     }
 
@@ -175,7 +175,7 @@ export default function EmployeeSettings() {
                 toast.error(data.error)
             } else {
                 console.log(resp.data)
-                setActiveUser({userData: resp.data.record1, userPosition: resp.data.record2.title})
+                setActiveUser({ userData: resp.data.record1, userPosition: resp.data.record2.title })
             }
         } catch (err) {
             console.log(err)
@@ -198,13 +198,13 @@ export default function EmployeeSettings() {
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
-    };  
+    };
 
     const handleImageUpload = async (e) => {
         const img = e.target.files[0]
         const base64 = await convertToBase64(img)
         console.log(base64)
-        setActiveUser({...activeUser, userData: {...activeUser.userData, profile_picture: base64}})
+        setActiveUser({ ...activeUser, userData: { ...activeUser.userData, profile_picture: base64 } })
     }
 
     const convertToBase64 = (file) => {
@@ -223,101 +223,101 @@ export default function EmployeeSettings() {
     const myProfile = () => {
         return (
             <div class='profil-box'>
-            <p>
-                <h3>About Me: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, about: true})}/>}</h3><br/> {activeUser.userData && activeUser.userData.about}
-                {editInfo.about && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <SmallBox type='About' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                <p>
+                    <h3>About Me: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({ ...editInfo, about: true })} />}</h3><br /> {activeUser.userData && activeUser.userData.about}
+                    {editInfo.about && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <SmallBox type='About' user={activeUser.userData} update={updateUserData} editInfo={editInfo} close={handleUpdateBox} />
+                            </div>
                         </div>
-                    </div>
-                )}
-            </p><br></br>
-            <p>
-                <h3>Skills: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, skills: true})}/>}</h3><br/>
-                {activeUser.userData && activeUser.userData.skills.map((val, index) => {
-                    return <li key={index}>{val}</li>
-                })}
-                {editInfo.skills && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <SmallBox type='Skills' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                    )}
+                </p><br></br>
+                <p>
+                    <h3>Skills: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({ ...editInfo, skills: true })} />}</h3><br />
+                    {activeUser.userData && activeUser.userData.skills.map((val, index) => {
+                        return <li key={index}>{val}</li>
+                    })}
+                    {editInfo.skills && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <SmallBox type='Skills' user={activeUser.userData} update={updateUserData} editInfo={editInfo} close={handleUpdateBox} />
+                            </div>
                         </div>
-                    </div>
-                )}
-            </p><br></br>
-            <p>
-                <h3>Courses Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, courses: true})}/>}</h3><br/>
-                {activeUser.userData && activeUser.userData.courses_taken.map((val, index) => {
-                    return <li key={index}>{val}</li>
-                })}
-                {editInfo.courses && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <SmallBox type='Courses Taken' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                    )}
+                </p><br></br>
+                <p>
+                    <h3>Courses Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({ ...editInfo, courses: true })} />}</h3><br />
+                    {activeUser.userData && activeUser.userData.courses_taken.map((val, index) => {
+                        return <li key={index}>{val}</li>
+                    })}
+                    {editInfo.courses && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <SmallBox type='Courses Taken' user={activeUser.userData} update={updateUserData} editInfo={editInfo} close={handleUpdateBox} />
+                            </div>
                         </div>
-                    </div>
-                )}
-            </p><br></br>
-            <p>
-                <h3>Education: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, education: true})}/>}</h3><br/>
-                {activeUser.userData && activeUser.userData.education.map((val, index) => {
-                    return <li key={index}>{val}</li>
-                })}
-                {editInfo.education && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <SmallBox type='Education' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                    )}
+                </p><br></br>
+                <p>
+                    <h3>Education: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({ ...editInfo, education: true })} />}</h3><br />
+                    {activeUser.userData && activeUser.userData.education.map((val, index) => {
+                        return <li key={index}>{val}</li>
+                    })}
+                    {editInfo.education && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <SmallBox type='Education' user={activeUser.userData} update={updateUserData} editInfo={editInfo} close={handleUpdateBox} />
+                            </div>
                         </div>
-                    </div>
-                )}
-            </p><br></br>
-            <p>
-                <h3>Workshops Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, workshops: true})}/>}</h3><br/>
-                {activeUser.userData && activeUser.userData.workshops_taken.map((val, index) => {
-                    return <li key={index}>{val}</li>
-                })}
-                {editInfo.workshops && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <SmallBox type='Workshops Taken' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                    )}
+                </p><br></br>
+                <p>
+                    <h3>Workshops Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({ ...editInfo, workshops: true })} />}</h3><br />
+                    {activeUser.userData && activeUser.userData.workshops_taken.map((val, index) => {
+                        return <li key={index}>{val}</li>
+                    })}
+                    {editInfo.workshops && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <SmallBox type='Workshops Taken' user={activeUser.userData} update={updateUserData} editInfo={editInfo} close={handleUpdateBox} />
+                            </div>
                         </div>
-                    </div>
-                )}
-            </p><br></br>
-            <p>
-                <h3>Awards: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, awards: true})}/>}</h3><br/>
-                {activeUser.userData && activeUser.userData.awards.map((val, index) => {
-                    return <li key={index}>{val}</li>
-                })}
-                {editInfo.awards && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <SmallBox type='Awards' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                    )}
+                </p><br></br>
+                <p>
+                    <h3>Awards: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({ ...editInfo, awards: true })} />}</h3><br />
+                    {activeUser.userData && activeUser.userData.awards.map((val, index) => {
+                        return <li key={index}>{val}</li>
+                    })}
+                    {editInfo.awards && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <SmallBox type='Awards' user={activeUser.userData} update={updateUserData} editInfo={editInfo} close={handleUpdateBox} />
+                            </div>
                         </div>
-                    </div>
-                )}
-            </p><br></br>
-            <p>
-                <h3>Job History: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, history: true})}/>}</h3><br/>
-                {activeUser.userData && activeUser.userData.job_history.map((val, index) => {
-                    return <li key={index}>{val}</li>
-                })}
-                {editInfo.history && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <SmallBox type='Job History' user = {activeUser.userData} update = {updateUserData} editInfo = {editInfo} close = {handleUpdateBox}/>
+                    )}
+                </p><br></br>
+                <p>
+                    <h3>Job History: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({ ...editInfo, history: true })} />}</h3><br />
+                    {activeUser.userData && activeUser.userData.job_history.map((val, index) => {
+                        return <li key={index}>{val}</li>
+                    })}
+                    {editInfo.history && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <SmallBox type='Job History' user={activeUser.userData} update={updateUserData} editInfo={editInfo} close={handleUpdateBox} />
+                            </div>
                         </div>
-                    </div>
-                )}
-            </p><br></br>
+                    )}
+                </p><br></br>
             </div>
         )
     }
 
     const reqChangePwd = async (e) => {
         e.preventDefault();
-        if (!(newPassword.newPassword && newPassword.confirmPassword && newPassword.newPassword === newPassword.confirmPassword )) {
+        if (!(newPassword.newPassword && newPassword.confirmPassword && newPassword.newPassword === newPassword.confirmPassword)) {
             toast.error("passwords do not match");
             return;
         }
@@ -330,10 +330,10 @@ export default function EmployeeSettings() {
             if (data.error) {
                 toast.error(data.error);
             } else {
-                setNewPassword({newPassword: '', currentPassword: '', confirmPassword: ''})
+                setNewPassword({ newPassword: '', currentPassword: '', confirmPassword: '' })
                 setPasswordValidations({})
                 setPasswordsMatch(false)
-                setShowPassword({field1: false, field2: false, field3: false})
+                setShowPassword({ field1: false, field2: false, field3: false })
                 toast.success("Password Successfully Reset");
             }
         } catch (error) {
@@ -362,7 +362,7 @@ export default function EmployeeSettings() {
                 toast.error(data.error);
                 setRandomizedImages(sequenceImg([...imgSources]));
             } else {
-                setSecurityImg({currentImg: '', newImg: ''})
+                setSecurityImg({ currentImg: '', newImg: '' })
                 setRandomizedImages(sequenceImg([...imgSources]));
                 toast.success("Security Image Successfully Reset");
             }
@@ -389,7 +389,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[1][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[1][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[1][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[1][1] })
@@ -398,7 +398,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[2][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[2][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[2][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[2][1] })
@@ -407,7 +407,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[3][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[3][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[3][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[3][1] })
@@ -416,7 +416,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[4][0]}
                             alt="Security Icon 5"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[4][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[4][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[4][1] })
@@ -427,7 +427,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[5][0]}
                             alt="Security Icon 1"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[5][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[5][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[5][1] })
@@ -436,7 +436,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[6][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[6][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[6][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[6][1] })
@@ -445,7 +445,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[7][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[7][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[7][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[7][1] })
@@ -454,7 +454,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[8][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[8][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[8][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[8][1] })
@@ -487,7 +487,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[1][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[1][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[1][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[1][1] })
@@ -496,7 +496,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[2][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[2][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[2][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[2][1] })
@@ -505,7 +505,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[3][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[3][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[3][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[3][1] })
@@ -514,7 +514,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[4][0]}
                             alt="Security Icon 5"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[4][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[4][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[4][1] })
@@ -525,7 +525,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[5][0]}
                             alt="Security Icon 1"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[5][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[5][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[5][1] })
@@ -534,7 +534,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[6][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[6][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[6][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[6][1] })
@@ -543,7 +543,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[7][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[7][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[7][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[7][1] })
@@ -552,7 +552,7 @@ export default function EmployeeSettings() {
                         <img
                             src={randomizedImages[8][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[8][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[8][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[8][1] })
@@ -570,9 +570,9 @@ export default function EmployeeSettings() {
                     </div>
                 </div>
                 <div class="password-input-group">
-                            <button type="submit" class="reset-btn">
-                                Reset Security Image
-                            </button>
+                    <button type="submit" class="reset-btn">
+                        Reset Security Image
+                    </button>
                 </div>
             </form>
         )
@@ -591,7 +591,7 @@ export default function EmployeeSettings() {
                             className="password-input"
                             onChange={(e) => setNewPassword({ ...newPassword, currentPassword: e.target.value })}
                         />
-                        <FontAwesomeIcon icon={showPassword.field1 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field1: !showPassword.field1})}}/>
+                        <FontAwesomeIcon icon={showPassword.field1 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => { setShowPassword({ ...showPassword, field1: !showPassword.field1 }) }} />
                     </div>
                 </div>
 
@@ -599,12 +599,12 @@ export default function EmployeeSettings() {
                     <label>New Password: </label>
                     <div className="input-wrapper-n">
                         <input
-                            type={showPassword.field2 ? 'text': 'password'}
+                            type={showPassword.field2 ? 'text' : 'password'}
                             placeholder="Password"
                             value={newPassword.newPassword}
                             onChange={(e) => onPasswordChange(e.target.value)}
                         />
-                        <FontAwesomeIcon icon={showPassword.field2 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field2: !showPassword.field2})}}/>
+                        <FontAwesomeIcon icon={showPassword.field2 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => { setShowPassword({ ...showPassword, field2: !showPassword.field2 }) }} />
                     </div>
                 </div>
 
@@ -630,12 +630,12 @@ export default function EmployeeSettings() {
                     <label>Confirm Password: </label>
                     <div className="input-wrapper-n">
                         <input
-                            type={showPassword.field3 ? 'text': 'password'}
+                            type={showPassword.field3 ? 'text' : 'password'}
                             placeholder="Password"
                             value={newPassword.confirmPassword}
                             onChange={(e) => onConfirmPasswordChange(e.target.value)}
                         />
-                        <FontAwesomeIcon icon={showPassword.field3 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field3: !showPassword.field3})}}/>
+                        <FontAwesomeIcon icon={showPassword.field3 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => { setShowPassword({ ...showPassword, field3: !showPassword.field3 }) }} />
                     </div>
                     {!passwordsMatch && newPassword.confirmPassword && (
                         <p className="password-mismatch">Passwords do not match</p>
@@ -643,9 +643,9 @@ export default function EmployeeSettings() {
                 </div>
 
                 <div class="password-input-group">
-                            <button type="submit" class="reset-btn">
-                                Reset password
-                            </button>
+                    <button type="submit" class="reset-btn" disabled={!passwordsMatch || !passwordValidations.isLongEnough || !passwordValidations.hasUpper || !passwordValidations.hasNumber || !passwordValidations.hasSpecial || !passwordValidations.hasLower}>
+                        Reset password
+                    </button>
                 </div>
             </form>
         )
@@ -665,10 +665,10 @@ export default function EmployeeSettings() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                                </div>
+                            <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -696,9 +696,9 @@ export default function EmployeeSettings() {
                     {/* <div className='promotionsWrapper'> */}
                     <div class="profile-container-e">
                         <aside class="profile-sidebar-e">
-                        {/* <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/> */}
+                            {/* <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/> */}
                             <label htmlFor='profile-image-e' className='profile-picture-e'>
-                                <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture-e'/>
+                                <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture-e' />
                             </label>
                             {!activeTab && enableEdit && (<input
                                 type='file'
@@ -716,22 +716,22 @@ export default function EmployeeSettings() {
                         </aside>
                         <main class="profile-main-e">
                             <section class="profile-section-e">
-                            <div className="profile-navbar-e">
-                                {tabs.map((tab, index) => (
-                                    <button key={index} className={`nav-item ${index === activeTab ? "active" : ""}`} onClick={(e) => handleItemClick(index, e)}>
-                                        {tab}
-                                    </button>
-                                ))}
-                            </div>
-                            <div class='profile-e-body'>
-                                {!activeTab && myProfile()}
-                                {activeTab == 1 && changePassword()}
-                                {activeTab == 2 && reqChangeSecurityImg()}
-                            </div>
+                                <div className="profile-navbar-e">
+                                    {tabs.map((tab, index) => (
+                                        <button key={index} className={`nav-item ${index === activeTab ? "active" : ""}`} onClick={(e) => handleItemClick(index, e)}>
+                                            {tab}
+                                        </button>
+                                    ))}
+                                </div>
+                                <div class='profile-e-body'>
+                                    {!activeTab && myProfile()}
+                                    {activeTab == 1 && changePassword()}
+                                    {activeTab == 2 && reqChangeSecurityImg()}
+                                </div>
                             </section>
                         </main>
-                        </div>
                     </div>
+                </div>
                 {/* </div> */}
             </div>
         </div>

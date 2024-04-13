@@ -94,16 +94,16 @@ export default function AdminSettings() {
     const handleItemClick = (index, e) => {
         e.preventDefault()
         setActiveTab(index)
-        setNewPassword({newPassword: '', currentPassword: '', confirmPassword: ''})
+        setNewPassword({ newPassword: '', currentPassword: '', confirmPassword: '' })
         setPasswordValidations({})
         setPasswordsMatch(false)
         setEnableEdit(false)
-        setShowPassword({field1: false, field2: false, field3: false})
-        setSecurityImg({currentImg: '', newImg: ''})
+        setShowPassword({ field1: false, field2: false, field3: false })
+        setSecurityImg({ currentImg: '', newImg: '' })
     }
 
     const onPasswordChange = (password) => {
-        setNewPassword({ ...newPassword, newPassword: password});
+        setNewPassword({ ...newPassword, newPassword: password });
         setPasswordValidations({
             isLongEnough: password.length >= 8,
             hasUpper: /[A-Z]/.test(password),
@@ -114,7 +114,7 @@ export default function AdminSettings() {
     };
 
     const onConfirmPasswordChange = (samePassword) => {
-        setNewPassword({ ...newPassword, confirmPassword: samePassword});
+        setNewPassword({ ...newPassword, confirmPassword: samePassword });
         setPasswordsMatch(newPassword.newPassword === samePassword);
     };
 
@@ -122,7 +122,7 @@ export default function AdminSettings() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { userInfo: user }}); 
+        navigate(path, { state: { userInfo: user } });
     };
 
     const handleEditSubmit = (flag) => {
@@ -137,7 +137,7 @@ export default function AdminSettings() {
     const handleImageUpload = async (e) => {
         const img = e.target.files[0]
         const base64 = await convertToBase64(img)
-        setActiveUser({...activeUser, profile_picture: base64})
+        setActiveUser({ ...activeUser, profile_picture: base64 })
     }
 
     const convertToBase64 = (file) => {
@@ -176,7 +176,7 @@ export default function AdminSettings() {
             <div className='admin-profile-box'>
                 <div className='admin-profile-input-box'>
                     <label for="adminID">Admin ID</label>
-                    <input 
+                    <input
                         type='text'
                         value={activeUser.adminID}
                         disabled={true}
@@ -185,7 +185,7 @@ export default function AdminSettings() {
 
                 <div className='admin-profile-input-box'>
                     <label for="email">Email</label>
-                    <input 
+                    <input
                         type='text'
                         value={activeUser.email}
                         disabled={true}
@@ -194,7 +194,7 @@ export default function AdminSettings() {
 
                 <div className='admin-profile-input-box'>
                     <label for="contactNum">Contact No.</label>
-                    <input 
+                    <input
                         type='text'
                         value={activeUser.contactNumber}
                         disabled={true}
@@ -203,7 +203,7 @@ export default function AdminSettings() {
 
                 <div className='admin-profile-input-box'>
                     <label for="gender">Gender</label>
-                    <input 
+                    <input
                         type='text'
                         value={activeUser.gender}
                         disabled={true}
@@ -215,7 +215,7 @@ export default function AdminSettings() {
 
     const reqChangePwd = async (e) => {
         e.preventDefault();
-        if (!(newPassword.newPassword && newPassword.confirmPassword && newPassword.newPassword === newPassword.confirmPassword )) {
+        if (!(newPassword.newPassword && newPassword.confirmPassword && newPassword.newPassword === newPassword.confirmPassword)) {
             toast.error("passwords do not match");
             return;
         }
@@ -229,10 +229,10 @@ export default function AdminSettings() {
                 toast.error(data.error);
             } else {
                 user.password = newPassword.confirmPassword
-                setNewPassword({newPassword: '', currentPassword: '', confirmPassword: ''})
+                setNewPassword({ newPassword: '', currentPassword: '', confirmPassword: '' })
                 setPasswordValidations({})
                 setPasswordsMatch(false)
-                setShowPassword({field1: false, field2: false, field3: false})
+                setShowPassword({ field1: false, field2: false, field3: false })
                 toast.success("Password Successfully Reset");
             }
         } catch (error) {
@@ -253,7 +253,7 @@ export default function AdminSettings() {
                             className="password-input"
                             onChange={(e) => setNewPassword({ ...newPassword, currentPassword: e.target.value })}
                         />
-                        <FontAwesomeIcon icon={showPassword.field1 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field1: !showPassword.field1})}}/>
+                        <FontAwesomeIcon icon={showPassword.field1 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => { setShowPassword({ ...showPassword, field1: !showPassword.field1 }) }} />
                     </div>
                 </div>
 
@@ -261,12 +261,12 @@ export default function AdminSettings() {
                     <label>New Password: </label>
                     <div className="input-wrapper-n">
                         <input
-                            type={showPassword.field2 ? 'text': 'password'}
+                            type={showPassword.field2 ? 'text' : 'password'}
                             placeholder="Password"
                             value={newPassword.newPassword}
                             onChange={(e) => onPasswordChange(e.target.value)}
                         />
-                        <FontAwesomeIcon icon={showPassword.field2 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field2: !showPassword.field2})}}/>
+                        <FontAwesomeIcon icon={showPassword.field2 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => { setShowPassword({ ...showPassword, field2: !showPassword.field2 }) }} />
                     </div>
                 </div>
 
@@ -292,12 +292,12 @@ export default function AdminSettings() {
                     <label>Confirm Password: </label>
                     <div className="input-wrapper-n">
                         <input
-                            type={showPassword.field3 ? 'text': 'password'}
+                            type={showPassword.field3 ? 'text' : 'password'}
                             placeholder="Password"
                             value={newPassword.confirmPassword}
                             onChange={(e) => onConfirmPasswordChange(e.target.value)}
                         />
-                        <FontAwesomeIcon icon={showPassword.field3 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field3: !showPassword.field3})}}/>
+                        <FontAwesomeIcon icon={showPassword.field3 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => { setShowPassword({ ...showPassword, field3: !showPassword.field3 }) }} />
                     </div>
                     {!passwordsMatch && newPassword.confirmPassword && (
                         <p className="password-mismatch">Passwords do not match</p>
@@ -305,9 +305,9 @@ export default function AdminSettings() {
                 </div>
 
                 <div class="password-input-group">
-                            <button type="submit" class="reset-btn">
-                                Reset password
-                            </button>
+                    <button type="submit" class="admin-reset-btn" disabled={!passwordsMatch || !passwordValidations.isLongEnough || !passwordValidations.hasUpper || !passwordValidations.hasNumber || !passwordValidations.hasSpecial || !passwordValidations.hasLower}>
+                        Reset password
+                    </button>
                 </div>
             </form>
         )
@@ -331,7 +331,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[1][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[1][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[1][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[1][1] })
@@ -340,7 +340,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[2][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[2][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[2][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[2][1] })
@@ -349,7 +349,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[3][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[3][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[3][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[3][1] })
@@ -358,7 +358,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[4][0]}
                             alt="Security Icon 5"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[4][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[4][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[4][1] })
@@ -369,7 +369,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[5][0]}
                             alt="Security Icon 1"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[5][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[5][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[5][1] })
@@ -378,7 +378,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[6][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[6][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[6][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[6][1] })
@@ -387,7 +387,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[7][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[7][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[7][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[7][1] })
@@ -396,7 +396,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[8][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.currentImg  === randomizedImages[8][1] ? "selected" : ""
+                            className={`security-image ${securityImg.currentImg === randomizedImages[8][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, currentImg: randomizedImages[8][1] })
@@ -429,7 +429,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[1][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[1][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[1][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[1][1] })
@@ -438,7 +438,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[2][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[2][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[2][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[2][1] })
@@ -447,7 +447,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[3][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[3][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[3][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[3][1] })
@@ -456,7 +456,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[4][0]}
                             alt="Security Icon 5"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[4][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[4][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[4][1] })
@@ -467,7 +467,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[5][0]}
                             alt="Security Icon 1"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[5][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[5][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[5][1] })
@@ -476,7 +476,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[6][0]}
                             alt="Security Icon 2"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[6][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[6][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[6][1] })
@@ -485,7 +485,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[7][0]}
                             alt="Security Icon 3"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[7][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[7][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[7][1] })
@@ -494,7 +494,7 @@ export default function AdminSettings() {
                         <img
                             src={randomizedImages[8][0]}
                             alt="Security Icon 4"
-                            className={`security-image ${securityImg.newImg  === randomizedImages[8][1] ? "selected" : ""
+                            className={`security-image ${securityImg.newImg === randomizedImages[8][1] ? "selected" : ""
                                 }`}
                             onClick={(e) =>
                                 setSecurityImg({ ...securityImg, newImg: randomizedImages[8][1] })
@@ -512,9 +512,9 @@ export default function AdminSettings() {
                     </div>
                 </div>
                 <div class="password-input-group">
-                            <button type="submit" class="reset-btn">
-                                Reset Security Image
-                            </button>
+                    <button type="submit" class="reset-btn">
+                        Reset Security Image
+                    </button>
                 </div>
             </form>
         )
@@ -547,7 +547,7 @@ export default function AdminSettings() {
                 setRandomizedImages(sequenceImg([...imgSources]));
             } else {
                 user.two_factor_answer = securityImg.newImg
-                setSecurityImg({currentImg: '', newImg: ''})
+                setSecurityImg({ currentImg: '', newImg: '' })
                 setRandomizedImages(sequenceImg([...imgSources]));
                 toast.success("Security Image Successfully Updated");
             }
@@ -601,10 +601,10 @@ export default function AdminSettings() {
                     <div className='admin-setting-wrapper'>
                         <aside className='admin-setting-sidebar'>
                             <label htmlFor='profile-image-e' className='admin-profile-picture-e'>
-                                <img src={(activeUser.profile_picture) || defaultImg} alt="Profile" className='admin-profile-picture-e'/>
+                                <img src={(activeUser.profile_picture) || defaultImg} alt="Profile" className='admin-profile-picture-e' />
                             </label>
-                            {!activeTab && enableEdit && 
-                            (   <div className='choose-pic-button'>
+                            {!activeTab && enableEdit &&
+                                (<div className='choose-pic-button'>
                                     <input
                                         type='file'
                                         id='admin-profile-image'
@@ -627,11 +627,11 @@ export default function AdminSettings() {
                                         </button>
                                     ))}
                                 </div>
-                            <div class='admin-profile-e-body'>
-                                {!activeTab && myProfile()}
-                                {activeTab == 1 && changePassword()}
-                                {activeTab == 2 && reqChangeSecurityImg()}
-                            </div>
+                                <div class='admin-profile-e-body'>
+                                    {!activeTab && myProfile()}
+                                    {activeTab == 1 && changePassword()}
+                                    {activeTab == 2 && reqChangeSecurityImg()}
+                                </div>
                             </section>
                         </main>
                     </div>

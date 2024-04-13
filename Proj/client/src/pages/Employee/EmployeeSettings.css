@@ -339,6 +339,21 @@ body {
     /* Spacing above the button */
 }
 
+/* styles for reset button if it is disabled */
+.reset-btn:disabled {
+    background-color: #767676;
+    /* Light gray color */
+    color: #d9d9d9;
+    cursor: not-allowed;
+}
+
+.reset-btn:disabled:hover {
+    background-color: #484848;
+    /* Light gray color */
+    color: #d9d9d9;
+    cursor: not-allowed;
+}
+
 .security-image {
     width: 40px;
     /* Your desired size */
