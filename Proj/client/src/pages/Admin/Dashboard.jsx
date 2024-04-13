@@ -205,6 +205,7 @@ export default function Dashboard() {
                 .then(res => {
                     console.log(res.data);
                     setEmployees(res.data);
+                    setEmployeesToDisplay(res.data);
                 })
                 .catch(err => {
                     console.log(err);
@@ -233,6 +234,7 @@ export default function Dashboard() {
                 .then(res => {
                     console.log(res.data);
                     setEmployees(res.data);
+                    setEmployeesToDisplay(res.data);
 
                     toast.success('Employee deleted successfully');
                 })
@@ -362,16 +364,16 @@ export default function Dashboard() {
                             <table>
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Employee ID</th>
                                         <th>Name</th>
                                         <th>Position ID</th>
                                         <th>Position Title</th>
                                         <th>Age</th>
-                                        {/* <th>Contact</th>
-                                        <th>Hours Worked</th> */}
                                         <th>Status</th>
-                                        <th>Delete Employee</th>
+                                        <th>Performance Score</th>
                                         <th>View Performance</th>
+                                        <th>Delete Employee</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -379,6 +381,7 @@ export default function Dashboard() {
                                         .filter(employee => employee.employeeID.toString().includes(searchTerm))
                                         .map(employee => (
                                             <tr key={employee.employeeID}>
+                                                <td>{employeesToDisplay.indexOf(employee) + 1}</td>
                                                 <td>{employee.employeeID}</td>
                                                 <td>{employee.name}</td>
                                                 <td>{employee.positionID}</td>
@@ -387,13 +390,14 @@ export default function Dashboard() {
                                                 {/* <td>{employee.contact}</td> */}
                                                 {/* <td>{employee.hoursWorked}</td> */}
                                                 <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
+                                                <td>{employeeScores[employee.employeeID] ? employeeScores[employee.employeeID].toFixed(2) : "Unknown"}</td>
+                                                <td>
+                                                    <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a>
+                                                </td>
                                                 <td>
                                                     <button onClick={() => deleteEmployee(employee.employeeID)}>
                                                         <FontAwesomeIcon icon={faTrash} size='xl' />
                                                     </button>
-                                                </td>
-                                                <td>
-                                                    <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a>
                                                 </td>
                                             </tr>
                                         ))}
