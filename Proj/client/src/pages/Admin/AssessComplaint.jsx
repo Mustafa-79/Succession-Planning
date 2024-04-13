@@ -3,14 +3,14 @@ import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 // import './Dashboard.css';
-import './AssessFeedback.css';
+import './AssessComplaint.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
 
-export default function Dashboard() {
+export default function AssessComplaint() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
@@ -41,8 +41,12 @@ export default function Dashboard() {
         // Helper function to combine and update employee data
         const updateEmployeesWithData = (employees, empData) => {
             // Combine employee and additional data
+            // {complaintID, employeeID1, courseID, employeeID2, feedback, date} = employees.body;
+            console.log(employees)
             const updatedEmployees = employees.map(employee => {
+                console.log("employee id: ", employee.employeeID)
                 const additionalData = empData.find(ed => `E${ed.employeeID}` === employee.employeeID);
+                // console.log(additionalData.name);
                 if (additionalData) {
                     return {
                         ...employee,
@@ -63,16 +67,23 @@ export default function Dashboard() {
     
         // Perform both Axios requests in parallel
         Promise.all([
-            axios.post('/getFeedback'),
+            axios.post('/getComplaint'),
             axios.get('/dashboard-employees')
         ])
-        .then(([feedbackRes, empDataRes]) => {
+        .then(([complaintRes, empDataRes]) => {
             if (!isMounted) return; // Prevent updating state if the component is unmounted
-            const feedbackData = feedbackRes.data;
+            const complaintData = complaintRes.data;
             const empData = empDataRes.data;
+            if(complaintData){
+              console.log(complaintData)
+            }
+            else
+            {
+              console.log("null")
+            }
     
             // Update employees with combined data
-            updateEmployeesWithData(feedbackData, empData);
+            updateEmployeesWithData(complaintData, empData);
         })
         .catch(err => {
             console.error(err); // Log any errors to the console
@@ -237,10 +248,10 @@ export default function Dashboard() {
                                 size="2x"
                                 color="rgb(34, 137, 255)"
                             />
-                            <h1>Feedback Forms</h1>
+                            <h1>Complaint Forms</h1>
                             </div>
                             <div className='employeeFunctionss'>
-                                <div className='func'>Total Feedbacks</div>
+                                <div className='func'>Total Complaints</div>
                                 <div className='countAndView'>
                                     <div className='funcCount'>{employees.length}</div>
                                     <div className='iconAndView'>
@@ -261,10 +272,10 @@ export default function Dashboard() {
                                         <th>Position Title</th>
                                         <th>Age</th>
                                         <th>Status</th>
-                                        <th>View Feedback</th>
+                                        <th>View Complaint</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {/* <tbody>
                                     { employees
                                         .filter(employee => employee.employeeID.toString().includes(searchTerm))
                                         .map(employee => (
@@ -277,12 +288,12 @@ export default function Dashboard() {
                                                 <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
                                                 
                                                 <td>
-                                                    {/* <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a> */}
+                                                    {/* <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a> 
                                                     <button onClick={(e) => addEmployee(employee)}><FontAwesomeIcon icon={faEye} size='xl' /></button>
                                                </td>
                                             </tr>
                                         ))}
-                                </tbody>
+                                </tbody> */}
                             </table>
                         </div>
                     </div>
@@ -294,29 +305,15 @@ export default function Dashboard() {
         <span className="closeModal" onClick={closeModal}>&times;</span> {/* Close button */}
             <div className="modalHeader">
                 {/* <span className="closeModal" onClick={closeModal}>&times;</span> */}
-                <h2>Feedback</h2>
+                <h2>Complaint</h2>
             </div>
             <div className="modalBody">
                     <div className="formGroup1">
-                        <label htmlFor="CourseID">Course ID:</label>
-                        <h3>{specificE.courseID}</h3>
+                        <label htmlFor="CourseID">Employee ID:</label>
+                        <h3>{specificE.employeeID}</h3>
                     </div>
                     <div className="formGroup1">
-                        <label>Rating:</label>
-                        <div>
-                            {[...Array(5)].map((star, i) => {
-                                const ratingValue = i + 1;
-                                return (
-                                    <label key={i}>
-                                        <input type="radio" name="rating" value={ratingValue} style={{ display: 'none' }} />
-                                        <FontAwesomeIcon icon={faStar} color={ratingValue <= specificE.rating ? "#ffc107" : "#e4e5e9"} />
-                                    </label>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    <div className="formGroup1">
-                        <label htmlFor="Response">Feedback response:</label>
+                        <label htmlFor="Response">Complaint response:</label>
                         <h3>{specificE.feedback}</h3>
                     </div>
             </div>

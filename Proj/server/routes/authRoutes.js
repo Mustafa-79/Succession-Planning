@@ -13,6 +13,7 @@ const {
     resetSecurityImage,
     verifySecurityAnswer,
     submitFeedback,
+    submitComplaint,
     returnProfile,
     uploadImage,
     changePassword,
@@ -32,7 +33,7 @@ const {
     saveWeights,
 } = require("../controllers/dashboardAdmin");
 
-const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
+const { viewFeedbacks, viewComplaints } = require("../controllers/feedbackControllers"); 
 
 
 //middleware
@@ -62,6 +63,7 @@ router.get("/dashboard-course-data", fetchCourses);
 router.get("/dashboard-workshop-data", fetchWorkshops);
 router.post("/addEmployeeFromAdminDashboard", addEmployeeFromAdminDashboard);
 router.post("/submitFeedback", submitFeedback);
+router.post('/submitComplaint', submitComplaint);
 router.post('/getProfile', returnProfile)
 router.post('/uploadImage', uploadImage)
 router.post('/changePassword', changePassword)
@@ -69,6 +71,7 @@ router.post('/changeSecurityImage', changeSecurityImg)
 router.post('/updateProfile', updateProfile)
 router.post('/getAdminProfile', returnAdminProfile)
 router.post('/getFeedback', viewFeedbacks)
+router.post('/getComplaint', viewComplaints)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);

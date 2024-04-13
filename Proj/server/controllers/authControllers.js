@@ -9,6 +9,7 @@ const User = require('../models/users')
 const HR_AdminModel = require('../models/hr_admin')
 const Employee = require('../models/employee')
 const Feedback = require('../models/feedback')
+const Complaint = require('../models/complaint')
 const Course = require('../models/course')
 const PositionModel = require('../models/positions')
 const { hashPassword, comparePassword } = require('../helpers/auth')
@@ -405,6 +406,67 @@ const submitFeedback = async (reqs, resp) => {
     }
 }
 
+const submitComplaint = async (reqs, resp) => {
+    try {
+        console.log(reqs.body)
+        const { employeeID1, courseID, feedback, empID } = reqs.body
+
+        if (!courseID && !employeeID1) {
+            // Send error response to the client with code 400
+            return resp.status(400).json({
+                error: 'Course/Employee ID is required'
+            });
+        }
+
+        const employeees = await Employee.find({});
+        const employeeesIDs = employeees.map(employee => employee.employeeID)
+        console.log("the emp ids are: ", employeeesIDs)
+        const user = await Employee.findOne({ employeeID: employeeID1 })
+        console.log("the user is: ", user)
+        // Fetch all courseIDs 
+        const courses = await Course.find({})
+        const courseIDs = courses.map(course => course.courseID)
+
+        // Check if courseID is valid
+        if (!courseIDs.includes(courseID) && !user) {
+            // Send error response to the client with code 400
+            return resp.status(400).json({
+                error: 'Course/Employee does not exist with the given ID'
+            });
+        }
+
+        if (!feedback) {
+            return resp.status(400).json({
+                error: 'Complaint is required'
+            });
+        }
+
+        // Assign unique ID to feedback
+        const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
+
+        // Create a new feedback record
+        const newComplaint = new Complaint({
+            complaintID: feedbackID.toString(),
+            employeeID1 : employeeID1,
+            courseID,
+            employeeID2: empID,
+            feedback,
+            date: new Date() // Use the current date
+        });
+
+        await newComplaint.save();
+
+        // send response to the client
+        resp.json({
+            message: 'Complaint submitted successfully',
+            feedback: newComplaint
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const returnProfile = async (reqs, resp) => {
     try {
         const {name} = reqs.body;
@@ -536,6 +598,7 @@ module.exports = {
     resetSecurityImage,
     verifySecurityAnswer,
     submitFeedback,
+    submitComplaint,
     returnProfile,
     uploadImage,
     changePassword,

@@ -3,6 +3,7 @@ const Employee = require('./models/employee');
 const HR_Admin = require('./models/hr_admin')
 const Feedback = require('./models/feedback')
 const Workshop = require('./models/workshop')
+const Complaint = require('./models/complaint')
 const Course = require('./models/course')
 const Positions = require('./models/positions')
 const { hashPassword } = require('./helpers/auth');
@@ -16,6 +17,7 @@ async function init_db(conn) {
                 db.collection('employees').deleteMany(),
                 db.collection('hr_admins').deleteMany(),
                 db.collection('feedbacks').deleteMany(),
+                db.collection('complaints').deleteMany(),
                 db.collection('workshops').deleteMany(),
                 db.collection('courses').deleteMany(),
                 db.collection('positions').deleteMany(),
@@ -687,6 +689,41 @@ async function init_db(conn) {
             }
         ];
 
+        const ComplaintsData = [
+            {
+                complaintID: 'C0001',
+                employeeID1 : 'E1002',
+                courseID: "C013",
+                employeeID2: 'E1001',
+                feedback: 'Great work! The course was very useful for me. It helped me in learning new skills and applying them effectively in my daily tasks. I especially appreciated the practical examples and hands-on projects.',
+                date: new Date('2024-03-01T08:00:00Z'),
+            },
+            {
+                complaintID: 'C0002',
+                employeeID1 : 'E1002',
+                courseID: "C013",
+                employeeID2: 'E1001',
+                feedback: 'Needs improvement. The course content was somewhat outdated, and the examples used didn’t quite match the current industry standards. Additionally, the pacing was a bit off, with some sections moving too quickly.',
+                date: new Date('2024-03-02T08:00:00Z'),
+            },
+            {
+                complaintID: 'C0003',
+                employeeID1 : 'E1001',
+                courseID: "C013",
+                employeeID2: 'E1002',
+                feedback: 'Keep up the good work! This course has a lot of potentials. I found the modules on advanced topics particularly insightful. However, it would be beneficial to update some of the earlier sections with more current information.',
+                date: new Date('2024-03-04T08:00:00Z'),
+            },
+            {
+                complaintID: 'C0004',
+                employeeID1 : 'E1001',
+                courseID: "C013",
+                employeeID2: 'E1002',
+                feedback: 'Well done! This course exceeded my expectations with its depth and breadth of topics covered. The instructors were knowledgeable and engaging, making complex topics easy to understand.',
+                date: new Date('2024-03-05T08:00:00Z'),
+            }
+        ];
+
         const WorkshopsData = [
             {
                 "workshopID": "W001",
@@ -1186,6 +1223,7 @@ async function init_db(conn) {
             Employee.insertMany(employeeData),
             HR_Admin.insertMany(AdminsData),
             Feedback.insertMany(FeedbacksData),
+            Complaint.insertMany(ComplaintsData),
             Workshop.insertMany(WorkshopsData),
             Course.insertMany(CoursesData),
             Positions.insertMany(PositionsData),

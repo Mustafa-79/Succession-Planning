@@ -33,6 +33,9 @@ import PromotionProgress from './pages/Employee/Career Path/PromotionProgress';
 import Courses from './pages/Employee/Development Plans/Courses';
 import Workshops from './pages/Employee/Development Plans/Workshops';
 import Mentor from './pages/Employee/Development Plans/Mentor';
+import AdminFeedback from './pages/Admin/AdminFeedback';
+import AssessComplaint from './pages/Admin/AssessComplaint';
+
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true
@@ -48,8 +51,13 @@ function App() {
 
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/dashboard/performance' element={<EmployeePerformance/>} />
-                <Route path='/assess_feedback' element={<AssessFeedback />} />
-                <Route path='/create_assessment' element={<CreateAssessment />} />
+
+                <Route path='/admin_feedback' element={<AdminFeedback/>} />
+                <Route path='/admin_feedback/assess_feedback' element={<AssessFeedback />} />
+                <Route path='/admin_feedback/assess_complaint' element={<AssessComplaint />} />
+                <Route path='/admin_feedback/create_assessment' element={<CreateAssessment />} />
+                
+
                 <Route path='/employee_data' element={<EmployeeData />} />
                 <Route path='/admin_settings' element={<AdminSettings />} />
                 <Route path='/about' element={<AboutEmployee />} />
