@@ -132,6 +132,7 @@ export default function Courses() {
 
         const totalCourses_for_curr_position = positionalCourses.length;
         const all_courses_offered = courses.map(course => course.title);
+        const rem_all_courses_offered = all_courses_offered.filter(course => !coursesTaken.includes(course));
     
 
     return (
@@ -181,7 +182,7 @@ export default function Courses() {
                             <h2>Recommended Courses 📝</h2>
                             <ul className="recommendedCourses">
                             
-                            {rem_Courses_for_position.map((course, index) => (
+                            {rem_all_courses_offered.map((course, index) => (
                                 <li key={index}>
                                 <h4>Course Name: {course}</h4>
                                 <div>Course ID: {getCourseId(course)}</div>
