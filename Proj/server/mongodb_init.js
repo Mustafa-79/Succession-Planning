@@ -60,7 +60,9 @@ async function init_db(conn) {
                 "awards": ["Employee of the Month"],
                 "profile_picture": "",
                 "registered_status": true,
-                "about": 'I am king'
+                "about": 'I am king',
+                "is_blocked": false,
+                "failed_attempts": 0
             },
 
             {
@@ -96,7 +98,8 @@ async function init_db(conn) {
                 
                 "awards": ["Best Newcomer Award"],
                 "profile_picture": "",
-                "registered_status": true
+                "registered_status": true,
+                "is_blocked": true
             },
 
             {
@@ -612,7 +615,8 @@ async function init_db(conn) {
                 contactNumber: "123-456-7890",
                 password: await hashPassword('abcd1234'),
                 gender: 'Male',
-                profile_picture: ""
+                profile_picture: "",
+                two_factor_answer: "3"
             },
             {
                 adminID: 'A0002',
@@ -621,7 +625,8 @@ async function init_db(conn) {
                 contactNumber: "987-654-3210",
                 password: await hashPassword('q1w2e3r4'),
                 gender: 'Male',
-                profile_picture: ""
+                profile_picture: "",
+                two_factor_answer: "4"
             },
             {
                 adminID: 'A0003',
@@ -630,7 +635,8 @@ async function init_db(conn) {
                 contactNumber: "123-456-7890",
                 password: await hashPassword('password123'),
                 gender: 'Female',
-                profile_picture: ""
+                profile_picture: "",
+                two_factor_answer: "1"
             },
             {
                 adminID: 'A0004',
@@ -639,7 +645,8 @@ async function init_db(conn) {
                 contactNumber: "987-654-3210",
                 password: await hashPassword('password123'),
                 gender: 'Male',
-                profile_picture: ""
+                profile_picture: "",
+                two_factor_answer: "9"
             },
             {
                 adminID: 'A0005',
@@ -648,7 +655,8 @@ async function init_db(conn) {
                 contactNumber: "987-654-3232",
                 password: await hashPassword('aaaaaaaa'),
                 gender: 'Female',
-                profile_picture: ""
+                profile_picture: "",
+                two_factor_answer: "5"
             },
         ];
 

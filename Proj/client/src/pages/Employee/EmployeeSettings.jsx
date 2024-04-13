@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faE, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeSettings.css';
 import axios from 'axios'
 import defaultImg from '../img/profile-default.svg'
@@ -128,6 +128,7 @@ export default function EmployeeSettings() {
         setPasswordValidations({})
         setPasswordsMatch(false)
         setEnableEdit(false)
+        setShowPassword({field1: false, field2: false, field3: false})
         setSecurityImg({currentImg: '', newImg: ''})
         fetchData()
     }
@@ -332,6 +333,7 @@ export default function EmployeeSettings() {
                 setNewPassword({newPassword: '', currentPassword: '', confirmPassword: ''})
                 setPasswordValidations({})
                 setPasswordsMatch(false)
+                setShowPassword({field1: false, field2: false, field3: false})
                 toast.success("Password Successfully Reset");
             }
         } catch (error) {
@@ -581,31 +583,29 @@ export default function EmployeeSettings() {
             <form onSubmit={(e) => reqChangePwd(e)}>
                 <div class="password-input-group">
                     <label>Current Password: </label>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={newPassword.currentPassword}
-                        className="password-input"
-                        onChange={(e) => setNewPassword({ ...newPassword, currentPassword: e.target.value })}
-                    />
-                    {/* <button className="show-btn" onClick={(e) => setShowPassword({...showPassword, field2: !showPassword.field2})}>
-                        {showPassword.field2 ? <FaEyeSlash /> : <FaEye />}
-                    </button>      */}
+                    <div className="input-wrapper-n">
+                        <input
+                            type={showPassword.field1 ? "text" : "password"}
+                            placeholder="Password"
+                            value={newPassword.currentPassword}
+                            className="password-input"
+                            onChange={(e) => setNewPassword({ ...newPassword, currentPassword: e.target.value })}
+                        />
+                        <FontAwesomeIcon icon={showPassword.field1 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field1: !showPassword.field1})}}/>
+                    </div>
                 </div>
 
                 <div class="password-input-group">
                     <label>New Password: </label>
-                    <input
-                        type={showPassword.field1 ? 'text': 'password'}
-                        placeholder="Password"
-                        value={newPassword.newPassword}
-                        onChange={(e) => onPasswordChange(e.target.value)}
-                    />
-                    {/* {!showPassword.field1 ? 
-                        <FaEye onClick={(e) => setShowPassword({...showPassword, field1: !showPassword.field1})}/> 
-                        : 
-                        <FaEyeSlash onClick={(e) => setShowPassword({...showPassword, field1: !showPassword.field1})}/>
-                    } */}
+                    <div className="input-wrapper-n">
+                        <input
+                            type={showPassword.field2 ? 'text': 'password'}
+                            placeholder="Password"
+                            value={newPassword.newPassword}
+                            onChange={(e) => onPasswordChange(e.target.value)}
+                        />
+                        <FontAwesomeIcon icon={showPassword.field2 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field2: !showPassword.field2})}}/>
+                    </div>
                 </div>
 
                 <div className="password-criteria">
@@ -628,12 +628,15 @@ export default function EmployeeSettings() {
 
                 <div class="password-input-group">
                     <label>Confirm Password: </label>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={newPassword.confirmPassword}
-                        onChange={(e) => onConfirmPasswordChange(e.target.value)}
-                    />
+                    <div className="input-wrapper-n">
+                        <input
+                            type={showPassword.field3 ? 'text': 'password'}
+                            placeholder="Password"
+                            value={newPassword.confirmPassword}
+                            onChange={(e) => onConfirmPasswordChange(e.target.value)}
+                        />
+                        <FontAwesomeIcon icon={showPassword.field3 ? faEyeSlash : faEye} className="password-icon" onClick={(e) => {setShowPassword({...showPassword, field3: !showPassword.field3})}}/>
+                    </div>
                     {!passwordsMatch && newPassword.confirmPassword && (
                         <p className="password-mismatch">Passwords do not match</p>
                     )}

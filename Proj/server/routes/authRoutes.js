@@ -33,6 +33,13 @@ const {
     returnAdminProfile,
     getWeights,
     saveWeights,
+    setMetrics,
+    changeStatus,
+    getCourses,
+    getWorkshops,
+    updateAdminPic,
+    changeAdminPasssword,
+    changeAdminSecurityImg
 } = require("../controllers/dashboardAdmin");
 
 const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
@@ -72,11 +79,19 @@ router.post('/changeSecurityImage', changeSecurityImg)
 router.post('/updateProfile', updateProfile)
 router.post('/getAdminProfile', returnAdminProfile)
 router.post('/getFeedback', viewFeedbacks)
+router.post('/setMetrics', setMetrics)
+router.post('/change_status', changeStatus)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
 router.get("/weights", getWeights);
 router.post("/updateWeights", saveWeights);
+router.get("/getPositionsData", positionIDtoName)
+router.get('/getCoursesData', getCourses)
+router.get('/getWorkshopsData', getWorkshops)
+router.post('/updateAdminPic', updateAdminPic)
+router.post('/changeAdminPassword', changeAdminPasssword)
+router.post('/changeAdminSecurityImage', changeAdminSecurityImg)
 
 router.get("/mentor/:mentor", getMentorInfo);   
 router.get("/mentorOptions/:positionID/:employeeID", getMentorOptions);

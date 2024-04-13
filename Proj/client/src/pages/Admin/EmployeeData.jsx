@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faEdit, faChartLine, faChain } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeData.css';
 import axios from 'axios';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ViewProfile from '../../components/ViewProfile';
 import { FaCross } from 'react-icons/fa';
+import EditMetrics from '../../components/EditMetrics';
+import toast from 'react-hot-toast';
 
 
 export default function EmployeeData() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = location.state.userInfo;
     const navigate = useNavigate();
 
     const menuItems = [
@@ -20,11 +22,13 @@ export default function EmployeeData() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/model_tuning" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
     ];
 
     const [employees, setEmployees] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showEditModel, setShowEditModal] = useState(false);
     const [userData, setUserData] = useState(null);
 
     const isActive = (path) => {
@@ -33,7 +37,7 @@ export default function EmployeeData() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: {name: user}}); 
+        navigate(path, { state: { userInfo: user }}); 
     };
 
     const getAge = (dateOfBirth) => {
@@ -57,6 +61,18 @@ export default function EmployeeData() {
         }
     }
 
+    const statusUpdate = async (e, val) => {
+        try {
+            const resp = await axios.post('/change_status', {
+                empID: val.employeeID,
+                flag: e.target.value === 'active' ? false : true
+            })
+            toast.success(val.employeeID + "'s status updated successfully")
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
         fetchEmployees()
     })
@@ -68,6 +84,14 @@ export default function EmployeeData() {
         setUserData(val);
         console.log(userData)
     };
+
+    const handleEditMetrics = (e, val) => {
+        console.log('hello')
+        e.preventDefault();
+        setShowEditModal(true);
+        // setShowModal(true);
+        setUserData(val);
+    }
 
     return (
         <div className='overlay'>
@@ -95,7 +119,7 @@ export default function EmployeeData() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
                         <button
                             onClick={(e) => handleMenuItemClick('/login', e)}
                             style={{
@@ -119,8 +143,9 @@ export default function EmployeeData() {
                                     <th>Age</th>
                                     <th>Contact</th>
                                     <th>Email</th>
-                                    <th>Status</th>
+                                    <th>Account Status</th>
                                     <th>View Profile</th>
+                                    <th>Edit Metrics</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,8 +157,15 @@ export default function EmployeeData() {
                                             <td>{getAge(val.date_of_birth)}</td>
                                             <td>{val.contactNumber}</td>
                                             <td>{val.email}</td>
-                                            <td>{val.registered_status ? 'Registered' : 'Unregistered'}</td>
+                                            <td>
+                                                <select name="status" class="status-dropdown" value={!val.is_blocked ? 'active' : 'inactive'} onChange={(e) => statusUpdate(e, val)}>
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Blocked</option>
+                                                </select>
+                                            </td>
+                                            {/* <td >{val.is_blocked ? 'Blocked' : val.registered_status ? 'Registered' : 'Unregistered'}</td> */}
                                             <td><a href="" onClick={(e) => handleViewProfile(e, val)}><FontAwesomeIcon icon={faEye} size='xl' /></a></td>
+                                            <td><a href="" onClick={(e) => handleEditMetrics(e, val)}><FontAwesomeIcon icon={faEdit} size='xl' /></a></td>
                                         </tr>
                                     )
                                 })}
@@ -147,6 +179,14 @@ export default function EmployeeData() {
                     <div className="modal-content-data">
                         <ViewProfile user={userData} />
                         <span className="close-Modal" onClick={() => setShowModal(false)} >&times;</span>
+                    </div>
+                </div>
+            )}
+            {showEditModel && (
+                <div className="edit-modal-overlay">
+                    <div className="edit-modal-content-data">
+                        <EditMetrics user={userData} setModal={setShowEditModal}/>
+                        <span className="close-Modal" onClick={() => setShowEditModal(false)} >&times;</span>
                     </div>
                 </div>
             )}
