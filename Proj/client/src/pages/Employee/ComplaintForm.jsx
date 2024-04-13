@@ -143,6 +143,7 @@ export default function ComplaintForm() {
         console.log("Complaint submitted successfully")
         console.log(response);
         setData({});
+        setData({employeeID1: '', courseID: '', feedback: ''});
         toast.success("Complaint submitted successfully");
       }
     } catch (error) {

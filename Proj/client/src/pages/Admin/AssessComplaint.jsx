@@ -33,37 +33,39 @@ export default function AssessComplaint() {
 
     const[specificE,setSpecificE] = useState({})
 
+    const [complaintData, setComplaintData] = useState([]);
+
 
     // Fetching all employees from the database
     useEffect(() => {
         let isMounted = true; // Flag to check if the component is still mounted
     
-        // Helper function to combine and update employee data
-        const updateEmployeesWithData = (employees, empData) => {
-            // Combine employee and additional data
-            // {complaintID, employeeID1, courseID, employeeID2, feedback, date} = employees.body;
-            console.log(employees)
-            const updatedEmployees = employees.map(employee => {
-                console.log("employee id: ", employee.employeeID)
-                const additionalData = empData.find(ed => `E${ed.employeeID}` === employee.employeeID);
-                // console.log(additionalData.name);
-                if (additionalData) {
-                    return {
-                        ...employee,
-                        name: additionalData.name,
-                        positionID: additionalData.positionID,
-                        date_of_birth: additionalData.date_of_birth,
-                        registered_status: additionalData.registered_status,
-                    };
-                }
-                return employee;
-            });
+        // // Helper function to combine and update employee data
+        // const updateEmployeesWithData = (employees, empData) => {
+        //     // Combine employee and additional data
+        //     // {complaintID, employeeID1, courseID, employeeID2, feedback, date} = employees.body;
+        //     console.log(employees)
+        //     const updatedEmployees = employees.map(employee => {
+        //         console.log("employee id: ", employee.employeeID)
+        //         const additionalData = empData.find(ed => `E${ed.employeeID}` === employee.employeeID);
+        //         // console.log(additionalData.name);
+        //         if (additionalData) {
+        //             return {
+        //                 ...employee,
+        //                 name: additionalData.name,
+        //                 positionID: additionalData.positionID,
+        //                 date_of_birth: additionalData.date_of_birth,
+        //                 registered_status: additionalData.registered_status,
+        //             };
+        //         }
+        //         return employee;
+        //     });
     
-            // Update state if component is still mounted
-            if (isMounted) {
-                setEmployees(updatedEmployees);
-            }
-        };
+        //     // Update state if component is still mounted
+        //     if (isMounted) {
+        //         setEmployees(updatedEmployees);
+        //     }
+        // };
     
         // Perform both Axios requests in parallel
         Promise.all([
@@ -76,6 +78,7 @@ export default function AssessComplaint() {
             const empData = empDataRes.data;
             if(complaintData){
               console.log(complaintData)
+              setComplaintData(complaintData);
             }
             else
             {
@@ -83,7 +86,7 @@ export default function AssessComplaint() {
             }
     
             // Update employees with combined data
-            updateEmployeesWithData(complaintData, empData);
+            // updateEmployeesWithData(complaintData, empData);
         })
         .catch(err => {
             console.error(err); // Log any errors to the console
@@ -152,8 +155,8 @@ export default function AssessComplaint() {
     };
 
 
-    const addEmployee = (employee) => {
-        setSpecificE(employee)
+    const addEmployee = (complaint) => {
+        setSpecificE(complaint)
         setShowModal(true);
     };
 
@@ -253,7 +256,7 @@ export default function AssessComplaint() {
                             <div className='employeeFunctionss'>
                                 <div className='func'>Total Complaints</div>
                                 <div className='countAndView'>
-                                    <div className='funcCount'>{employees.length}</div>
+                                    <div className='funcCount'>{complaintData.length}</div>
                                     <div className='iconAndView'>
                                         <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
                                         <a href="">View</a>
@@ -267,33 +270,28 @@ export default function AssessComplaint() {
                                 <thead>
                                     <tr>
                                         <th>Employee ID</th>
-                                        <th>Name</th>
-                                        <th>Position ID</th>
-                                        <th>Position Title</th>
-                                        <th>Age</th>
-                                        <th>Status</th>
-                                        <th>View Complaint</th>
+                                        <th>Employee ID</th>
+                                        <th>Course ID</th>
+                                        <th>Feedback</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                {/* <tbody>
-                                    { employees
-                                        .filter(employee => employee.employeeID.toString().includes(searchTerm))
-                                        .map(employee => (
-                                            <tr key={employee.employeeID}>
-                                                <td>{employee.employeeID}</td>
-                                                <td>{employee.name}</td>
-                                                <td>{employee.positionID}</td>
-                                                <td>{getPositionTitle(employee.positionID)}</td>
-                                                <td>{getAge(employee.date_of_birth)}</td>
-                                                <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
-                                                
-                                                <td>
-                                                    {/* <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a> 
-                                                    <button onClick={(e) => addEmployee(employee)}><FontAwesomeIcon icon={faEye} size='xl' /></button>
-                                               </td>
-                                            </tr>
-                                        ))}
-                                </tbody> */}
+                                <tbody>
+                                    {complaintData.map(complaint => (
+                                        <tr key={complaint.complaintID}>
+                                            <td>{complaint.employeeID1}</td>
+                                            <td>{complaint.employeeID2}</td>
+                                            <td>{complaint.courseID}</td>
+                                            <td>{complaint.feedback}</td>
+                                            <td>{complaint.date}</td>
+                                            <td>
+                                                <button className='view' onClick={() => addEmployee(complaint)}>View</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    }
+                                </tbody> 
                             </table>
                         </div>
                     </div>
@@ -310,7 +308,7 @@ export default function AssessComplaint() {
             <div className="modalBody">
                     <div className="formGroup1">
                         <label htmlFor="CourseID">Employee ID:</label>
-                        <h3>{specificE.employeeID}</h3>
+                        <h3>{specificE.employeeID1}</h3>
                     </div>
                     <div className="formGroup1">
                         <label htmlFor="Response">Complaint response:</label>
