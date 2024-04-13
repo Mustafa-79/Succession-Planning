@@ -178,10 +178,10 @@ export default function Courses() {
                     <div className='coursesWrapper'>
                         {/* <h1>Courses</h1> */}
                         <div className="coursesColumns">
-                            <h2>Recommeded Courses 📝</h2>
+                            <h2>Recommended Courses 📝</h2>
                             <ul className="recommendedCourses">
                             
-                            {all_courses_offered.map((course, index) => (
+                            {rem_Courses_for_position.map((course, index) => (
                                 <li key={index}>
                                 <h4>Course Name: {course}</h4>
                                 <div>Course ID: {getCourseId(course)}</div>
@@ -193,7 +193,7 @@ export default function Courses() {
                             </ul>
                             <h2>Completed Courses ✅</h2>
                             <ul className="completedCourses">  
-                            {all_courses_offered.map((course, index) => (
+                            {completedCourses_for_position.map((course, index) => (
                                 <li key={index}>
                                 <h4>Course Name: {course}</h4>
                                 <div>Course ID: {getCourseId(course)}</div>
