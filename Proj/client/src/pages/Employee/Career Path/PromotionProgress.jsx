@@ -36,12 +36,14 @@ export default function PromotionProgress() {
     const [employeeScores, setEmployeeScores] = useState({});
     const [threshold, setThreshold] = useState(0.75);
     const [positions, setPositions] = useState([])
-    const [hierarchy,setHierarchy] = useState(-1);
-    const [promotabilityScore,setPromotabilityScore] = useState(0);
+    const [hierarchy, setHierarchy] = useState(-1);
+    const [promotabilityScore, setPromotabilityScore] = useState("loading");
     const [availablePositions, setAvailablePositions] = useState([])
     const [title, setTitle] = useState("")
-    const [noPosition,setNoPosition] = useState(false)
-    
+    const [noPosition, setNoPosition] = useState(false)
+    const [loadEmp, setLoadEmp] = useState(false)
+
+
     const getPositionHierarchy = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.hierarchy_level : "Unknown";
@@ -53,6 +55,7 @@ export default function PromotionProgress() {
             .then(res => {
                 console.log(res.data);
                 setEmployees(res.data);
+                setLoadEmp(true)
             })
             .catch(err => {
                 console.log(err);
@@ -61,23 +64,36 @@ export default function PromotionProgress() {
     }, []);
 
     useEffect(() => {
+
+        axios.get('/dashboard-employees')
+            .then(res => {
+                console.log(res.data);
+                setEmployees(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Failed to fetch employees');
+            });
         axios.get('/dashboard-position-titles')
             .then(res => {
                 console.log(res.data);
                 setPositions(res.data);
                 let currEmployee = allUserInfo
-                console.log("here: ", currEmployee)
 
                 let currHierarchy = getPositionHierarchy(currEmployee.positionID)
                 setHierarchy(currHierarchy);
-                let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
-     
-                if(new_positions.length==0)
-                {
+                let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy - 1))
+
+                if (new_positions.length == 0) {
                     setNoPosition(true)
+                    setAvailablePositions([])
                 }
-                setAvailablePositions(new_positions)
-                setTitle(getPositionTitle(currEmployee.positionID))
+                else {
+                    setNoPosition(false)
+                    setAvailablePositions(new_positions)
+                    setTitle(getPositionTitle(currEmployee.positionID))
+                    console.log("Checkkkk: ", availablePositions)
+                }
             })
             .catch(err => {
                 console.error(err);
@@ -103,7 +119,9 @@ export default function PromotionProgress() {
                 console.log(err)
                 toast.error('Failed to fetch workshops')
             })
-    }, []);
+
+
+    }, [employees]);
 
     // function to convert positionID to position title
     const getPositionTitle = (positionID) => {
@@ -252,28 +270,21 @@ export default function PromotionProgress() {
                     finalWeights[key] = ML_weights[key] * Admin_weights[key];
                 }
                 setWeights(finalWeights);
-                console.log('Weights:', finalWeights);
 
                 // filter employees at a given hierarchy
                 let scores = {};
 
-                const levelEmployees = employees.filter((emp)=>{
+                const levelEmployees = employees.filter((emp) => {
 
-                    if(getPositionHierarchy(emp.positionID) === hierarchy)
-                    {
+                    if (getPositionHierarchy(emp.positionID) === hierarchy) {
                         return true
                     }
-                    else
-                    {
+                    else {
                         return false
                     }
-                    
+
 
                 })
-
-                console.log(" emps: ",levelEmployees)
-
-
                 //finf scores for all employees at this hierarchy
                 levelEmployees.forEach(employee => {
                     calculatePerformanceScore(employee) > 1 ? scores[employee.employeeID] = 1 : scores[employee.employeeID] = calculatePerformanceScore(employee);
@@ -281,26 +292,27 @@ export default function PromotionProgress() {
                 setEmployeeScores(scores);
 
                 let max_score = 0;
-                console.log("ALl scores: ",employeeScores)
-                for(var id in employeeScores){
-                    console.log("id",id)
-                    if(employeeScores[id] > max_score)
-                    {
+                for (var id in employeeScores) {
+                    if (employeeScores[id] > max_score) {
                         max_score = employeeScores[id]
                     }
                 }
 
                 // find promotability score
-                setPromotabilityScore(((scores[allUserInfo.employeeID]/max_score)*100).toFixed(2))
+                let new_score = ((scores[allUserInfo.employeeID] / max_score) * 100).toFixed(2)
+                if (new_score <= 100 && new_score >= 0) {
+                    setPromotabilityScore(new_score.toString())
 
-                console.log("MAX, Mine, and score",max_score,scores[allUserInfo.employeeID],promotabilityScore)
+                }
+
+                console.log("MAX, Mine, and score", max_score, scores[allUserInfo.employeeID], promotabilityScore)
 
             })
             .catch(err => {
                 console.error(err);
                 toast.error('Failed to fetch weights');
             });
-    }, [employees, threshold]);
+    }, [employees]);
 
     // function to calculate the performance score of an employee
     const calculatePerformanceScore = (employee) => {
@@ -313,9 +325,7 @@ export default function PromotionProgress() {
         return score;
     };
 
-
-
-
+    console.log("Check: ", availablePositions)
 
     return (
         <div className='overlay'>
@@ -362,58 +372,67 @@ export default function PromotionProgress() {
                         <div className="sectionVisualizations">
                             <div className="charts">
                                 <div className="chartBar">
-                                    <h3>Key Performance Indicators</h3>
+                                    <div className='sectionHeadings'>Key Performance Indicators</div>
                                     <Bar data={barChartData} />
                                 </div>
                                 <div className="chartCircular">
-                                    <h3>Promotability Score</h3>
+                                    <div className='sectionHeadings'>Promotability Score</div>
                                     <CircularProgressbar value={promotabilityScore} text={`${promotabilityScore}%`} />
                                 </div>
                             </div>
                         </div>
                         <div className="sectionSkills">
-                            <h2>Skills Acquired</h2>
-                            <div className="info">
-                                <ul>
-                                {allUserInfo.skills
-                                        .map(skill => (
-                                            <li>
-                                                {skill}
-                                            </li>
-                                        ))}
-                                </ul>
+                            <div className='sectionHeadings'>Skills Acquired</div>
+                            <div className="skillsContainer">
+                                {allUserInfo.skills.map((skill, index) => (
+                                    <div key={index} className="skill">
+                                        {skill}
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div className="sectionCards">
-                            <h2>Positional Progress</h2>
+                            <div className='sectionHeadings'>Positional Progress</div>
                             <div className="cards">
-                                {/* Place your cards components here */}
-                                <div className="card">
-                                    <h2>Promotional Position</h2>
-                                    <div className='positionalCourseProgress'>
-                                        <div className='progContainer'>
-                                            <div>Coursework Progress:</div>
-                                            <div className='progressBar'>
-                                                <ProgressBar bgcolor='#30E257' completed={70} />
-                                            </div>
-                                        </div>
-                                        <div className='progContainer'>
-                                            <div>Workshop Progress:</div>
-                                            <div className='progressBar'>
-                                                <ProgressBar bgcolor='#30E257' completed={50} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div>Skills Required</div>
-                                        <div className='info'>
+                                {
+                                    availablePositions.map(currPosition => (
 
+                                        <div className="card">
+                                            <div className='promotionalPosition'>
+                                                <div className='cardHeadings'>Promotional Position:</div>
+                                                <div>{currPosition.title}</div>
+                                            </div>
+                                            <div className='positionalCourseProgress'>
+                                                <div className='progContainer'>
+                                                    <div className='cardHeadings'>Coursework Progress:</div>
+                                                    <div className='progressBar'>
+                                                        <ProgressBar bgcolor='#30E257' completed={70} />
+                                                    </div>
+                                                </div>
+                                                <div className='progContainer'>
+                                                    <div className='cardHeadings'>Workshop Progress:</div>
+                                                    <div className='progressBar'>
+                                                        <ProgressBar bgcolor='#30E257' completed={50} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='promotionalSkills'>
+                                                <div className='cardHeadings'>Skills Required</div>
+
+                                                <div className="skillsContainer">
+                                                    {
+                                                        currPosition.required_skills.map((skill,index) => (
+                                                        <div key={index} className="skill">
+                                                            {skill}
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="card">Card 2</div>
-                                <div className="card">Card 3</div>
-                                {/* Add more cards dynamically */}
+                                    ))
+                                }
+
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeDashboard.css';
@@ -29,11 +28,11 @@ export default function EmployeeDashboard() {
         return location.pathname === path; // Check if the current location matches the path
     };
 
-    // useEffect(() => {
-    //     window.addEventListener('popstate', (e) => {
-    //       window.history.go(1);
-    //     });
-    //   }, []);
+    useEffect(() => {
+        window.addEventListener('popstate', (e) => {
+          window.history.go(1);
+        });
+      }, []);
 
     return (
         <div className='overlay'>

@@ -29,6 +29,7 @@ export default function AvailablePositions() {
     const [availablePositions, setAvailablePositions] = useState([])
     const [title, setTitle] = useState("")
     const [noPosition,setNoPosition] = useState(false)
+    const [empFetched,setEmpFetched] = useState(0)
     
 
 
@@ -63,28 +64,39 @@ export default function AvailablePositions() {
             })
         axios.get('/dashboard-position-titles')
             .then(res => {
-                console.log(res.data);
 
-                setPositions(res.data);
-                let currEmployee = allUserInfo
-                console.log("here: ", currEmployee)
-
-                let currHierarchy = getPositionHierarchy(currEmployee.positionID)
-                let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
-     
-                if(new_positions.length==0)
+                if(employees.length>0 && empFetched < 5)
                 {
-                    setNoPosition(true)
+                    setEmpFetched(empFetched+1)
+                    setPositions(res.data);
+                    let currEmployee = allUserInfo
+    
+                    let currHierarchy = getPositionHierarchy(currEmployee.positionID)
+                    let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
+         
+                    if(new_positions.length==0)
+                    {
+                        setNoPosition(true)
+                        setAvailablePositions([])
+                    }
+                    else
+                    {
+                        setNoPosition(false)
+                        setAvailablePositions(new_positions)
+                        setTitle(getPositionTitle(currEmployee.positionID))
+    
+                    }
+                    setTitle(getPositionTitle(currEmployee.positionID))
                 }
-                setAvailablePositions(new_positions)
-                setTitle(getPositionTitle(currEmployee.positionID))
+
+                
             })
             .catch(err => {
                 console.log(err);
                 toast.error('Failed to fetch employees data');
             });
 
-    }, []);
+    }, [employees]);
 
     const availablePositionsSet =()=> {
                 let currEmployee = getCurrentEmployee(user)
