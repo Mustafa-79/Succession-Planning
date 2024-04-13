@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,6 +28,12 @@ export default function EmployeeDashboard() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
+
+    // useEffect(() => {
+    //     window.addEventListener('popstate', (e) => {
+    //       window.history.go(1);
+    //     });
+    //   }, []);
 
     return (
         <div className='overlay'>
