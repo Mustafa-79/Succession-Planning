@@ -12,6 +12,7 @@ const Feedback = require('../models/feedback')
 const Complaint = require('../models/complaint')
 const Course = require('../models/course')
 const PositionModel = require('../models/positions')
+const AssignAssessmentModel = require('../models/assignassessment')
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -633,6 +634,59 @@ const deleteComplaint = async (reqs, resp) => {
     }
 }
 
+const retrieveAssessmentQuestions = async (reqs,resp) => {
+    console.log(reqs.body);
+    const { empID } = reqs.body
+
+    console.log('key', empID)
+
+    const user = await Employee.findOne({ employeeID: empID })
+
+    // console.log(user)
+
+    if (!user) {
+        return resp.json({
+            error: 'No such employee exists'
+        })
+    }
+
+    const positionTitle = user.positionID;
+    console.log("position id is: ", positionTitle)
+    const allassess = await AssignAssessmentModel.find({})
+    // const employeees = await Employee.find({});
+    //     const employeeesIDs = employeees.map(employee => employee.employeeID)
+    // const assessmentdata = await AssignAssessmentModel.findOne({ positionID: positionTitle})
+    // console.log("assessment data is: ", assessmentdata)
+    try {
+        const assessmentdata = await AssignAssessmentModel.findOne({ positionID: positionTitle });
+        console.log("Assessment data is: ", assessmentdata);
+    
+        if (assessmentdata) {
+            const questions = assessmentdata.questions;
+            resp.json({
+                message: 'Questions retrieved successfully',
+                questions: questions
+            });
+        } else {
+            // Handle the case where the assessment data is not found
+            console.log("No assessment data found for position ID:", positionTitle);
+            resp.status(404).json({ message: 'No assessment data found for the provided position ID.' });
+        }
+    } catch (error) {
+        console.error("Error retrieving assessment data:", error);
+        resp.status(500).json({ message: 'An error occurred while retrieving questions.' });
+    }
+    // const questions = assessmentdata.questions;
+
+    // resp.json({
+    //     message: 'questions submitted successfully',
+    //     questions: questions
+    // });
+
+
+
+}
+
 module.exports = {
     test,
     registerUser,
@@ -651,7 +705,8 @@ module.exports = {
     changePassword,
     changeSecurityImg,
     updateProfile,
-    deleteComplaint
+    deleteComplaint,
+    retrieveAssessmentQuestions
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}

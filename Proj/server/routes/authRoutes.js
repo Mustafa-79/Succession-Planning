@@ -20,7 +20,8 @@ const {
     changeSecurityImg,
 
     updateProfile,
-    deleteComplaint
+    deleteComplaint,
+    retrieveAssessmentQuestions
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
@@ -78,6 +79,7 @@ router.post('/getComplaint', viewComplaints)
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
 router.get("/weights", getWeights);
 router.post("/updateWeights", saveWeights);
+router.post('/retrieveAssessmentQuestions', retrieveAssessmentQuestions);
 
 router.post("/deleteComplaint/:id", deleteComplaint);
 

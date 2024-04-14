@@ -6,6 +6,7 @@ const Workshop = require('./models/workshop')
 const Complaint = require('./models/complaint')
 const Course = require('./models/course')
 const Positions = require('./models/positions')
+const AssignAssessment = require('./models/assignassessment')
 const { hashPassword } = require('./helpers/auth');
 
 async function init_db(conn) {
@@ -21,6 +22,7 @@ async function init_db(conn) {
                 db.collection('workshops').deleteMany(),
                 db.collection('courses').deleteMany(),
                 db.collection('positions').deleteMany(),
+                db.collection('assignassessments').deleteMany()
             ]);
             console.log('Database initialized');
         } catch (err) {
@@ -1104,6 +1106,81 @@ async function init_db(conn) {
             }
         ];
 
+        const AssignAssessmentData = [
+            {
+                positionIDnew: "P004",
+                questions: [
+                  { question: "Primary methodology for software lifecycle management?", answer: "Agile" },
+                  { question: "Term for managing software project constraints?", answer: "Scoping" },
+                  { question: "Common conflict resolution strategy?", answer: "Mediation" },
+                  { question: "Budget tracking tool preference?", answer: "Jira" }
+                ]
+            },
+            {
+                positionIDnew: "P005",
+                questions: [
+                  { question: "Preferred programming paradigm?", answer: "OOP" },
+                  { question: "Key practice for quality code?", answer: "Review" },
+                  { question: "Version control system?", answer: "Git" },
+                  { question: "Methodology for small iterative development?", answer: "Scrum" }
+                ]
+            },
+            {
+                positionIDnew: "P006",
+                questions: [
+                  { question: "Preferred statistical software?", answer: "R" },
+                  { question: "Data visualization tool?", answer: "Tableau" },
+                  { question: "Method for handling missing data?", answer: "Imputation" },
+                  { question: "Technique for predictive modeling?", answer: "Regression" }
+                ]
+            },
+            {
+                positionIDnew: "P007",          
+                questions: [
+                  { question: "Tool for wireframing?", answer: "Sketch" },
+                  { question: "Principle for user-friendly design?", answer: "Clarity" },
+                  { question: "Accessibility standard?", answer: "WCAG" },
+                  { question: "User feedback method?", answer: "Survey" }
+                ]
+            },
+            {
+                positionIDnew: "P008",
+                questions: [
+                  { question: "Basic programming language?", answer: "Python" },
+                  { question: "Data structure for fast lookup?", answer: "Hashmap" },
+                  { question: "Development process for continuous improvement?", answer: "Agile" },
+                  { question: "Tool for collaborative coding?", answer: "GitHub" }
+                ]
+            },
+            {
+                positionIDnew: "P009",
+                questions: [
+                  { question: "Primary tool for data analysis?", answer: "Excel" },
+                  { question: "Graph for relationship analysis?", answer: "Scatter" },
+                  { question: "Common data issue?", answer: "Outliers" },
+                  { question: "Basic data cleaning operation?", answer: "Trimming" }
+                ]
+            },
+            {
+                positionIDnew: "P010",
+                questions: [
+                  { question: "Primary OS for enterprise?", answer: "Windows" },
+                  { question: "Tool for remote desktop support?", answer: "TeamViewer" },
+                  { question: "Protocol for secure network access?", answer: "VPN" },
+                  { question: "Common user issue?", answer: "Password" }
+                ]
+            },
+            {
+                positionIDnew: "P011",
+                questions: [
+                  { question: "Software for presentations?", answer: "PowerPoint" },
+                  { question: "Method for time management?", answer: "Pomodoro" },
+                  { question: "Skill for team collaboration?", answer: "Communication" },
+                  { question: "Tool for organizing tasks?", answer: "Trello" }
+                ]
+            }
+        ];
+
 
         // const PositionsData = [
         //     // {
@@ -1227,6 +1304,7 @@ async function init_db(conn) {
             Workshop.insertMany(WorkshopsData),
             Course.insertMany(CoursesData),
             Positions.insertMany(PositionsData),
+            // AssignAssessment.insertMany(AssignAssessmentData)
         ]);
 
         console.log('Employee data saved to database')
