@@ -16,12 +16,6 @@ export default function EmployeeDashboard() {
     const { authenticatedUser, no, dispatch } = useUserContext();
     const user = authenticatedUser;
 
-    useEffect(() => {
-        if (!localStorage.getItem('user')) {
-            navigate('/')
-        }
-    })
-
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -41,9 +35,8 @@ export default function EmployeeDashboard() {
     };
 
     useEffect(() => {
-        window.addEventListener('popstate', (e) => {
-          window.history.go(1);
-        });
+        if (location.pathname != '/employeeDashboard')
+            navigate('/employeeDashboard')
       }, []);
 
     return (

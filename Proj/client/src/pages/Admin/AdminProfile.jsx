@@ -15,8 +15,7 @@ export default function AdminProfile() {
     const navigate = useNavigate();
     const { logout } = useLogout()
     
-    const { authenticatedUser, dispatch } = useUserContext()
-    const user = authenticatedUser;
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -30,12 +29,6 @@ export default function AdminProfile() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
-
-    useEffect(() => {
-        if (!localStorage.getItem('user')) {
-            navigate('/')
-        }
-    })
 
 
     const handleMenuItemClick = (path, e) => {

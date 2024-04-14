@@ -48,18 +48,21 @@ export default function Login() {
     };
 
     useEffect(() => {
+        console.log("HRJJ")
+        if (location.pathname != '' || location.pathname != '/login')
+            navigate('/')
         setRandomizedImages(sequenceImg([...imgSources]));
         console.log(randomizedImages);
     }, []);
 
-    useEffect(() => {
-        if (authenticatedUser) {
-            if (authenticatedUser.adminID)
-                navigate('/dashboard')
-            else
-            navigate('/employeeDashboard')
-        }
-    })
+    // useEffect(() => {
+    //     if (authenticatedUser) {
+    //         if (authenticatedUser.adminID)
+    //             navigate('/dashboard')
+    //         else
+    //         navigate('/employeeDashboard')
+    //     }
+    // })
 
     // const loginUser = async (e) => {
     //     e.preventDefault();

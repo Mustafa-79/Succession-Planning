@@ -16,14 +16,7 @@ export default function ModelTuning() {
     const navigate = useNavigate();
     const { logout } = useLogout()
     
-    const { authenticatedUser, dispatch } = useUserContext()
-    const user = authenticatedUser;
-
-    useEffect(() => {
-        if (!localStorage.getItem('user')) {
-            navigate('/')
-        }
-    })
+    const user = JSON.parse(localStorage.getItem('user'));
 
     // 7 weights for 7 KPIs: 
     const featureNames = ['task_completion_rate', 'attendance_rate', 'punctuality', 'efficiency', 'professionalism', 'collaboration', 'leadership'];

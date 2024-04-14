@@ -15,17 +15,16 @@ export default function Dashboard() {
     const navigate = useNavigate();
     
     const { logout } = useLogout()
-    
-    const { authenticatedUser, no, dispatch } = useUserContext();
-    const user = authenticatedUser;
+
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const isAuthenticated = 1;
 
     useEffect(() => {
-        if (!localStorage.getItem('user')) {
-            navigate('/')
+        if (location.pathname != '/dashboard') {
+            navigate('/dashboard')
         }
-    })
+    }, [])
     
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },

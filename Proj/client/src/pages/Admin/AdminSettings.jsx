@@ -34,16 +34,9 @@ export default function AdminSettings() {
 
     const { logout } = useLogout()
     
-    const { authenticatedUser, dispatch } = useUserContext()
-    const user = authenticatedUser;
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const [activeUser, setActiveUser] = useState(JSON.parse(localStorage.getItem('user')));
-
-    useEffect(() => {
-        if (!localStorage.getItem('user')) {
-            navigate('/')
-        }
-    })
 
     const [securityImg, setSecurityImg] = useState({
         currentImg: '',
@@ -176,7 +169,6 @@ export default function AdminSettings() {
                 setActiveUser(user)
             } else {
                 toast.success('Profile picture successfully updated')
-                dispatch({type: 'LOGIN', payload: activeUser, no: 2})
                 localStorage.setItem('user', JSON.stringify(activeUser))
                 user.profile_picture = activeUser.profile_picture
             }
