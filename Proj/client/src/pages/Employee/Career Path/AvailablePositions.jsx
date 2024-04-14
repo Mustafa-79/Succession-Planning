@@ -30,13 +30,6 @@ export default function AvailablePositions() {
     const [title, setTitle] = useState("")
     const [noPosition,setNoPosition] = useState(false)
     const [empFetched,setEmpFetched] = useState(0)
-    
-
-
-    const getCurrentEmployee = (employeeName) => {
-        let employee = employees.find((emp) => emp.name == employeeName)
-        return employee
-    }
 
     const getPositionHierarchy = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
@@ -55,7 +48,6 @@ export default function AvailablePositions() {
 
         axios.get('/dashboard-employees')
             .then(res => {
-                console.log(res.data);
                 setEmployees(res.data);
             })
             .catch(err => {
@@ -73,7 +65,10 @@ export default function AvailablePositions() {
     
                     let currHierarchy = getPositionHierarchy(currEmployee.positionID)
                     let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
-         
+                    // new_positions = new_positions_one.filter(position => (position.held_by).length < position.max_held_by)
+
+                    // console.log(new_positions_one[0])
+                    // console.log("Check: ", new_positions_one[0].held_by,new_positions_one[0].max_held_by)
                     if(new_positions.length==0)
                     {
                         setNoPosition(true)
@@ -98,21 +93,6 @@ export default function AvailablePositions() {
 
     }, [employees]);
 
-    const availablePositionsSet =()=> {
-                let currEmployee = getCurrentEmployee(user)
-                console.log("here: ", currEmployee)
-
-                let currHierarchy = getPositionHierarchy(currEmployee.positionID)
-                let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
-     
-                if(new_positions.length==0)
-                {
-                    setNoPosition(true)
-                }
-                setAvailablePositions(new_positions)
-                setTitle(getPositionTitle(currEmployee.positionID))
-
-    }
 
     const handleMenuItemClick = (path, e) => {
         navigate(path, { state: { name: user,userInfo:allUserInfo } });

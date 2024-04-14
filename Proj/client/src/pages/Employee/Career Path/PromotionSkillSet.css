@@ -207,7 +207,7 @@ body {
     height: 120px; /* Adjust height of the image */
     border-radius: 50%; /*Make the image round */
     margin-bottom: 10px; /* Add some space between image and text */
-    background-image: url('../../img/course.jpg');
+    background-image: url('../../img/dp.jpg');
     background-size: contain;
 
 }

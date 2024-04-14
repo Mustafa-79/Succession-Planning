@@ -5,7 +5,7 @@ import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuildi
 import { CategoryScale, LinearScale, Chart as ChartJS, BarElement } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
-import { CircularProgressbar } from 'react-circular-progressbar';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './PromotionProgress.css';
 import '../fonts.css';
@@ -15,6 +15,8 @@ export default function PromotionProgress() {
     const user = location.state.name;
     const navigate = useNavigate();
     const allUserInfo = location.state.userInfo;
+
+    console.log("CHeck, ", allUserInfo)
 
     ChartJS.register(
         BarElement,
@@ -34,14 +36,13 @@ export default function PromotionProgress() {
     const [workshops, setWorkshops] = useState([])
     const [employees, setEmployees] = useState([]);
     const [employeeScores, setEmployeeScores] = useState({});
-    const [threshold, setThreshold] = useState(0.75);
     const [positions, setPositions] = useState([])
     const [hierarchy, setHierarchy] = useState(-1);
     const [promotabilityScore, setPromotabilityScore] = useState("loading");
     const [availablePositions, setAvailablePositions] = useState([])
     const [title, setTitle] = useState("")
     const [noPosition, setNoPosition] = useState(false)
-    const [loadEmp, setLoadEmp] = useState(false)
+    const [loadEmp, setLoadEmp] = useState(10)
 
 
     const getPositionHierarchy = (positionID) => {
@@ -53,9 +54,7 @@ export default function PromotionProgress() {
     useEffect(() => {
         axios.get('/dashboard-employees')
             .then(res => {
-                console.log(res.data);
                 setEmployees(res.data);
-                setLoadEmp(true)
             })
             .catch(err => {
                 console.log(err);
@@ -67,8 +66,10 @@ export default function PromotionProgress() {
 
         axios.get('/dashboard-employees')
             .then(res => {
-                console.log(res.data);
                 setEmployees(res.data);
+                if (loadEmp > 0) {
+                    setLoadEmp(loadEmp - 1)
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -76,7 +77,6 @@ export default function PromotionProgress() {
             });
         axios.get('/dashboard-position-titles')
             .then(res => {
-                console.log(res.data);
                 setPositions(res.data);
                 let currEmployee = allUserInfo
 
@@ -92,7 +92,6 @@ export default function PromotionProgress() {
                     setNoPosition(false)
                     setAvailablePositions(new_positions)
                     setTitle(getPositionTitle(currEmployee.positionID))
-                    console.log("Checkkkk: ", availablePositions)
                 }
             })
             .catch(err => {
@@ -102,7 +101,6 @@ export default function PromotionProgress() {
 
         axios.get('/dashboard-course-data')
             .then(res => {
-                console.log(res.data)
                 setCourses(res.data)
             })
             .catch(err => {
@@ -112,7 +110,6 @@ export default function PromotionProgress() {
 
         axios.get('/dashboard-workshop-data')
             .then(res => {
-                console.log(res.data)
                 setWorkshops(res.data)
             })
             .catch(err => {
@@ -121,21 +118,21 @@ export default function PromotionProgress() {
             })
 
 
-    }, [employees]);
+    }, [loadEmp]);
 
     // function to convert positionID to position title
     const getPositionTitle = (positionID) => {
-        const position = positionTitles.find(position => position.positionID === positionID);
+        const position = positions.find(position => position.positionID === positionID);
         return position ? position.title : "Unknown";
     };
 
     const getPositionalCourses = (positionID) => {
-        const position = positionTitles.find(position => position.positionID === positionID);
-
+        const position = positions.find(position => position.positionID === positionID);
         return position ? position.courses : []
     }
     const getPositionalWorkshops = (positionID) => {
-        const position = positionTitles.find(position => position.positionID === positionID);
+        const position = positions.find(position => position.positionID === positionID);
+        console.log(positionID, position)
         return position ? position.workshops : []
     }
 
@@ -191,7 +188,59 @@ export default function PromotionProgress() {
         return (progress / requiredWorkshops.length)
 
     })
-    const [activeMenuItem, setActiveMenuItem] = useState("");
+
+    const getWorkshopCompletionNew = ((id) => {
+
+        const requiredWorkshopsNew = getPositionalWorkshops(id.positionID).map((workshopID) => getWorkshopTitle(workshopID))
+        const workshopsTakenNew = allUserInfo.workshops_taken
+
+        // if(workshopsTakenNew.length==0)
+        // {
+        //     return 0;
+        // }
+
+
+
+
+
+        if (requiredWorkshopsNew.length == 0) {
+            return 1;
+        }
+
+
+        let progressNew = 0
+        for (const workshop of requiredWorkshopsNew) {
+            if (workshopsTakenNew.includes(workshop)) {
+                progressNew++
+            }
+        }
+
+        return (progressNew / requiredWorkshopsNew.length)
+
+    })
+
+    const getCourseCompletionNew = ((id) => {
+        const requiredCourses = getPositionalCourses(id.positionID).map((courseID) => getCourseTitle(courseID))
+        const coursesTaken = allUserInfo.courses_taken
+
+        console.log("Here's id + requrement", id, requiredCourses)
+
+        if (requiredCourses.length == 0) {
+            return 1
+        }
+
+
+        let progress = 0
+        for (const course of requiredCourses) {
+            if (coursesTaken.includes(course)) {
+                progress++
+            }
+        }
+
+        return (progress / requiredCourses.length)
+
+
+    })
 
     const handleMenuItemClick = (path, e) => {
         navigate(path, { state: { name: user, userInfo: allUserInfo } });
@@ -291,12 +340,15 @@ export default function PromotionProgress() {
                 });
                 setEmployeeScores(scores);
 
+
                 let max_score = 0;
                 for (var id in employeeScores) {
                     if (employeeScores[id] > max_score) {
                         max_score = employeeScores[id]
                     }
                 }
+                console.log(scores, max_score)
+
 
                 // find promotability score
                 let new_score = ((scores[allUserInfo.employeeID] / max_score) * 100).toFixed(2)
@@ -305,7 +357,7 @@ export default function PromotionProgress() {
 
                 }
 
-                console.log("MAX, Mine, and score", max_score, scores[allUserInfo.employeeID], promotabilityScore)
+                // console.log("MAX, Mine, and score", max_score, scores[allUserInfo.employeeID], promotabilityScore)
 
             })
             .catch(err => {
@@ -325,7 +377,6 @@ export default function PromotionProgress() {
         return score;
     };
 
-    console.log("Check: ", availablePositions)
 
     return (
         <div className='overlay'>
@@ -377,7 +428,29 @@ export default function PromotionProgress() {
                                 </div>
                                 <div className="chartCircular">
                                     <div className='sectionHeadings'>Promotability Score</div>
-                                    <CircularProgressbar value={promotabilityScore} text={`${promotabilityScore}%`} />
+                                    <CircularProgressbar
+                                        value={promotabilityScore}
+                                        text={`${promotabilityScore}%`}
+                                        styles={buildStyles({
+                                            // Rotation of path and trail, in number of turns (0-1)
+                                            rotation: 0.9,
+
+                                            // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                            strokeLinecap: 'round',
+
+                                            // Text size
+                                            textSize: '1.3em',
+
+                                            // How long animation takes to go from one percentage to another, in seconds
+                                            pathTransitionDuration: 0.5,
+
+                                            // Colors
+                                            pathColor: `rgba(67, 185, 225, 0.9)`,
+                                            textColor: '#c4c4cc',
+                                            trailColor: '#ddd',
+                                            backgroundColor: '#3e98c7',
+                                        })}
+                                    />;
                                 </div>
                             </div>
                         </div>
@@ -392,45 +465,56 @@ export default function PromotionProgress() {
                             </div>
                         </div>
                         <div className="sectionCards">
-                            <div className='sectionHeadings'>Positional Progress</div>
+                            <div className='sectionHeadings'>Positions</div>
                             <div className="cards">
                                 {
-                                    availablePositions.map(currPosition => (
+                                    !noPosition && (availablePositions.map(currPosition => (
 
                                         <div className="card">
                                             <div className='promotionalPosition'>
                                                 <div className='cardHeadings'>Promotional Position:</div>
-                                                <div>{currPosition.title}</div>
+                                                <div id='positionTitle'>{currPosition.title}</div>
                                             </div>
                                             <div className='positionalCourseProgress'>
                                                 <div className='progContainer'>
                                                     <div className='cardHeadings'>Coursework Progress:</div>
                                                     <div className='progressBar'>
-                                                        <ProgressBar bgcolor='#30E257' completed={70} />
+                                                        <ProgressBar bgcolor='#30E257' completed={(getCourseCompletionNew(currPosition) * 100).toFixed(2)} />
                                                     </div>
                                                 </div>
                                                 <div className='progContainer'>
                                                     <div className='cardHeadings'>Workshop Progress:</div>
                                                     <div className='progressBar'>
-                                                        <ProgressBar bgcolor='#30E257' completed={50} />
+                                                        <ProgressBar bgcolor='#30E257' completed={(getWorkshopCompletionNew(currPosition) * 100).toFixed(2)} />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className='promotionalSkills'>
-                                                <div className='cardHeadings'>Skills Required</div>
+                                                <div className='cardHeadings' style={{ color: '#f0f0f0 ' }}>Skills Required</div>
 
                                                 <div className="skillsContainer">
                                                     {
-                                                        currPosition.required_skills.map((skill,index) => (
-                                                        <div key={index} className="skill">
-                                                            {skill}
-                                                        </div>
-                                                    ))}
+                                                        currPosition.required_skills.map((skill, index) => (
+                                                            <div key={index} className="skill">
+                                                                {skill}
+                                                            </div>
+                                                        ))}
                                                 </div>
 
                                             </div>
                                         </div>
                                     ))
+                                    )}
+
+                                {
+                                    noPosition && (
+
+                                        <div className="card">
+                                            <h1>No open positions are currently available.</h1>
+                                        </div>
+                                    )
+
+
                                 }
 
                             </div>

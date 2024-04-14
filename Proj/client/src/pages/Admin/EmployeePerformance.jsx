@@ -245,18 +245,16 @@ export default function EmployeePerformance() {
 
 
     const performanceIndicators = [
-        { name: 'Attendance Rate', score: employeeInfo.attendance_rate * 100 },
-        { name: 'Punctuality Score', score: employeeInfo.punctuality * 100 },
-        { name: 'Work Ethic Score', score: employeeInfo.efficiency * 100 },
-        { name: 'Task Completion Rate', score: employeeInfo.task_completion_rate * 100 },
-        { name: 'Workshop Completion Rate', score: getWorkshopCompletion()*100 },
-        { name: 'Course Completion Rate', score: getCourseCompletion()*100 },
-        { name: 'Professional Development', score: employeeInfo.professionalism * 100 },
-        { name: 'Leadership skills', score: employeeInfo.leadership * 100 },
-        { name: 'Collaboration skills', score: employeeInfo.collaboration * 100 }
-
-    ]
-
+        { name: 'Attendance Rate', score: (employeeInfo.attendance_rate != null ? (employeeInfo.attendance_rate * 100).toFixed(1) : 0) },
+        { name: 'Punctuality Score', score: (employeeInfo.punctuality != null ? (employeeInfo.punctuality * 100).toFixed(1) : 0) },
+        { name: 'Work Ethic Score', score: (employeeInfo.efficiency != null ? (employeeInfo.efficiency * 100).toFixed(1) : 0) },
+        { name: 'Task Completion Rate', score: (employeeInfo.task_completion_rate != null ? (employeeInfo.task_completion_rate * 100).toFixed(1) : 0) },
+        { name: 'Workshop Completion Rate', score: (getWorkshopCompletion() != null ? (getWorkshopCompletion() * 100).toFixed(1) : 0) },
+        { name: 'Course Completion Rate', score: (getCourseCompletion() != null ? (getCourseCompletion() * 100).toFixed(1) : 0) },
+        { name: 'Professional Development', score: (employeeInfo.professionalism != null ? (employeeInfo.professionalism * 100).toFixed(1) : 0) },
+        { name: 'Leadership skills', score: (employeeInfo.leadership != null ? (employeeInfo.leadership * 100).toFixed(1) : 0) },
+        { name: 'Collaboration skills', score: (employeeInfo.collaboration != null ? (employeeInfo.collaboration * 100).toFixed(1) : 0) }
+    ];
 
 
     return (
