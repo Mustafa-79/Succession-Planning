@@ -6,6 +6,8 @@ import './Mentor.css';
 import '../fonts.css';
 import axios from 'axios';
 import { toast } from "react-hot-toast";
+import defaultImg from '../../img/profile-default.svg';
+
 
 export default function Mentor() {
     const location = useLocation();
@@ -38,11 +40,16 @@ export default function Mentor() {
     const [mentorID, setMentorID] = useState(allUserInfo.mentor_ID);
     const [mentorInfo, setMentorInfo] = useState({});
 
+    const [loading, setLoading] = useState(false); // Add loading state
+    
+
     const getMentorOptions = () => {
 
         // send a request to the server to get a list of available mentors. request contains the employee ID and position ID
         const positionID = allUserInfo.positionID;
         const employeeID = allUserInfo.employeeID;
+
+        setLoading(true);
 
         // send these two as body of the request
         axios.get(`/mentorOptions/${positionID}/${employeeID}`)
@@ -51,11 +58,13 @@ export default function Mentor() {
 
                 // set the available mentors
                 setAvailableMentors(res.data);
+                setLoading(false);
             }
             )
             .catch(err => {
                 console.log(err);
                 toast.error("Could not get mentor options");
+                setLoading(false);
             });
     }
 
@@ -84,9 +93,6 @@ export default function Mentor() {
                 console.log(err);
                 toast.error("Could not save mentor");
             });
-
-
-
 
         // Hardcoded for now
         setMentorID(mentorID);
@@ -166,69 +172,85 @@ export default function Mentor() {
                         </button>
                     </div>
                     <div className='mentorWrapper'>
-                        {mentorID ? (
-                            <>
-                                <h1>Welcome to the Mentorship Program!</h1>
-                                <p>Here's some information about your chosen mentor:</p>
-                                <div className="mentor-info">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <th>Name:</th>
-                                                <td>{mentorInfo.name}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Position:</th>
-                                                <td>{positions.find(pos => pos.positionID === mentorInfo.positionID)?.title}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Email:</th>
-                                                <td>{mentorInfo.email}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Phone:</th>
-                                                <td>{mentorInfo.contactNumber}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Areas of Expertise:</th>
-                                                <td>
-                                                    <ul>
-                                                        {mentorInfo.skills && mentorInfo.skills.map(skill => (
-                                                            <li key={skill}>
-                                                                <FontAwesomeIcon icon={faCheckCircle} className="skill-icon" />
-                                                                {skill}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div className="contact-icons">
-                                    <a href={`mailto:${mentorInfo.email}`} className="icon-link">
-                                        <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
-                                    </a>
-                                    <a href={`tel:${mentorInfo.contactNumber}`} className="icon-link">
-                                        <FontAwesomeIcon icon={faPhone} className="contact-icon" />
-                                    </a>
-                                </div>
-                            </>
-
+                        {loading ? (
+                            <h1>Loading...</h1>
                         ) : (
                             <>
-                                <h1>Choose Mentor</h1>
-                                {availableMentors.length === 0 && <h1 className="no-mentors">No mentors available for your position</h1>}
-                                <div className="mentor-cards">
-                                    {availableMentors.map(mentor => (
-                                        <div className="mentor-card" key={mentor.employeeID}>
-                                            <h2>{mentor.name}</h2>
-                                            <p>{positions.find(pos => pos.positionID === mentor.positionID)?.title} | {mentor.email} | {mentor.contactNumber}</p>
-                                            <button onClick={() => chooseMentor(mentor.employeeID)}>Choose Mentor</button>
+                                {mentorID ? (
+                                    <>
+                                        <h1>Welcome to the Mentorship Program!</h1>
+                                        <p>Here's some information about your chosen mentor:</p>
+                                        <div className="mentor-info">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Name:</th>
+                                                        <td>{mentorInfo.name}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Picture</th>
+                                                        <td>
+                                                            {mentorInfo.profile_picture ? (
+                                                                <img src={mentorInfo.profile_picture} alt="Profile" className="profile-pic" width={150} height={150} />
+                                                            ) : (
+                                                                <img src={defaultImg} alt="Profile" className="profile-pic" width={150} height={150} />
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Position:</th>
+                                                        <td>{positions.find(pos => pos.positionID === mentorInfo.positionID)?.title}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Email:</th>
+                                                        <td>{mentorInfo.email}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Phone:</th>
+                                                        <td>{mentorInfo.contactNumber}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Areas of Expertise:</th>
+                                                        <td>
+                                                            <ul>
+                                                                {mentorInfo.skills && mentorInfo.skills.map(skill => (
+                                                                    <li key={skill}>
+                                                                        <FontAwesomeIcon icon={faCheckCircle} className="skill-icon" />
+                                                                        {skill}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
                                         </div>
-                                    ))}
-                                </div>
+                                        <div className="contact-icons">
+                                            <a href={`mailto:${mentorInfo.email}`} className="icon-link">
+                                                <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
+                                            </a>
+                                            <a href={`tel:${mentorInfo.contactNumber}`} className="icon-link">
+                                                <FontAwesomeIcon icon={faPhone} className="contact-icon" />
+                                            </a>
+                                        </div>
+                                    </>
+
+                                ) : (
+                                    <>
+                                        <h1>Choose Mentor</h1>
+                                        {availableMentors.length === 0 && <h1 className="no-mentors">No mentors available for your position</h1>}
+                                        <div className="mentor-cards">
+                                            {availableMentors.map(mentor => (
+                                                <div className="mentor-card" key={mentor.employeeID}>
+                                                    <h2>{mentor.name}</h2>
+                                                    <p>{positions.find(pos => pos.positionID === mentor.positionID)?.title} | {mentor.email} | {mentor.contactNumber}</p>
+                                                    <button onClick={() => chooseMentor(mentor.employeeID)}>Choose Mentor</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>
