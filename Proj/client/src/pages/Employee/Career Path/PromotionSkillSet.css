@@ -160,7 +160,8 @@ body {
     font-size: xx-large;
 }
 .status > div{
-    margin-right: 60%;
+    margin-left: 30%;
+    margin-right: 30%;
     white-space: nowrap;
 }
 .positionCardsAll {
