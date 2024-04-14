@@ -9,12 +9,13 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './PromotionProgress.css';
 import '../fonts.css';
+import { useLogout } from '../../../hooks/useLogout';
 
 export default function PromotionProgress() {
     const location = useLocation();
-    const user = location.state.name;
     const navigate = useNavigate();
-    const allUserInfo = location.state.userInfo;
+    const allUserInfo = JSON.parse(localStorage.getItem('user'));
+    const { logout } = useLogout()
 
     ChartJS.register(
         BarElement,
@@ -194,11 +195,12 @@ export default function PromotionProgress() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
     const handleMenuItemClick = (path, e) => {
-        navigate(path, { state: { name: user, userInfo: allUserInfo } });
+        e.preventDefault()
+        navigate(path, { state: { userInfo: allUserInfo } });
     };
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return '/employeeDashboard' === path; // Check if the current location matches the path
     };
 
 
@@ -353,9 +355,9 @@ export default function PromotionProgress() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{allUserInfo.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

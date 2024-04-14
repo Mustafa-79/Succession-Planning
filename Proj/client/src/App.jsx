@@ -40,7 +40,7 @@ axios.defaults.withCredentials = true
 
 function App() {
     return (
-        <UserContextProvider>
+        <>
             <Toaster position='bottom-right' toastOptions={{ duration: 2000 }} />
             <Routes>
                 <Route path='/' element={<Login />} />
@@ -66,7 +66,8 @@ function App() {
                 <Route path='/employeeDashboard/positions' element={<AvailablePositions />} />
                 <Route path='/employeeDashboard/progress' element={<PromotionProgress />} />
 
-                <Route path='/feedback' element={<Feedback />} />
+                {JSON.parse(localStorage.getItem('user')) && JSON.parse(localStorage.getItem('user')).employeeID && (
+                <Route path='/feedback' element={<Feedback />} />)}
                 <Route path='/feedback/feedbackForm' element={<FeedbackForm />} />
                 <Route path='/feedback/complaintForm' element={<ComplaintForm />} />
                 <Route path='/feedback/pendingAssessments' element={<PendingAssessments />} />
@@ -86,7 +87,7 @@ function App() {
 
 
             </Routes>
-        </UserContextProvider>
+        </>
     )
 }
 

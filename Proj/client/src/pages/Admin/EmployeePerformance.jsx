@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import './EmployeePerformance.css';
@@ -7,14 +6,25 @@ import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 
 
 export default function EmployeePerformance() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const employeeInfo = location.state.info
     const navigate = useNavigate();
+    const { logout } = useLogout()
+    
+    const { authenticatedUser, dispatch } = useUserContext()
+    const user = authenticatedUser;
+
+    useEffect(() => {
+        if (!localStorage.getItem('user')) {
+            navigate('/')
+        }
+    })
 
 
     const menuItems = [
@@ -285,9 +295,9 @@ export default function EmployeePerformance() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="">{user.name}</a>
+                        <a href="/AdminProfile">{user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

@@ -6,12 +6,14 @@ import './AvailablePositions.css';
 import '../fonts.css';
 import axios from 'axios'
 import toast from 'react-hot-toast';
+import { useLogout } from '../../../hooks/useLogout';
 
 
 export default function AvailablePositions() {
     const location = useLocation();
-    const user = location.state.name;
-    const allUserInfo = location.state.userInfo;
+    // const allUserInfo = location.state.userInfo
+    const allUserInfo = JSON.parse(localStorage.getItem('user'))
+    const { logout } = useLogout()
 
     const navigate = useNavigate();
 
@@ -99,7 +101,7 @@ export default function AvailablePositions() {
     }, [employees]);
 
     const availablePositionsSet =()=> {
-                let currEmployee = getCurrentEmployee(user)
+                let currEmployee = getCurrentEmployee(allUserInfo.name)
                 console.log("here: ", currEmployee)
 
                 let currHierarchy = getPositionHierarchy(currEmployee.positionID)
@@ -115,11 +117,12 @@ export default function AvailablePositions() {
     }
 
     const handleMenuItemClick = (path, e) => {
-        navigate(path, { state: { name: user,userInfo:allUserInfo } });
+        e.preventDefault();
+        navigate(path, { state: { userInfo:allUserInfo } });
     };
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return path === '/employeeDashboard'; // Check if the current location matches the path
     };
 
 
@@ -149,9 +152,9 @@ export default function AvailablePositions() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{allUserInfo.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

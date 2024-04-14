@@ -4,12 +4,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeDashboard.css';
 import './fonts.css';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export default function EmployeeDashboard() {
     const location = useLocation();
-    const user = location.state.name;
-    const allUserInfo = location.state.userInfo;
     const navigate = useNavigate();
+
+    const { logout } = useLogout()
+    
+    const { authenticatedUser, no, dispatch } = useUserContext();
+    const user = authenticatedUser;
+
+    useEffect(() => {
+        if (!localStorage.getItem('user')) {
+            navigate('/')
+        }
+    })
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -21,7 +32,8 @@ export default function EmployeeDashboard() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
     const handleMenuItemClick = (path, e) => {
-        navigate(path, { state: { name: user,userInfo:allUserInfo } });
+        e.preventDefault();
+        navigate(path, { state: { userInfo: user } });
     };
 
     const isActive = (path) => {
@@ -60,9 +72,9 @@ export default function EmployeeDashboard() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',
@@ -76,13 +88,13 @@ export default function EmployeeDashboard() {
                         </button>
                     </div>
                     <div className='promotionsWrapper'>
-                        <div className='promotionItem' id='position'  onClick={(e)=>handleMenuItemClick('/employeeDashboard/positions',user)}>
+                        <div className='promotionItem' id='position'  onClick={(e)=>handleMenuItemClick('/employeeDashboard/positions', e)}>
                             <div >Promotional Positions Available.</div>
                         </div>
-                        <div className='promotionItem' id='skills' onClick={(e)=>handleMenuItemClick('/employeeDashboard/skills',user)}>
+                        <div className='promotionItem' id='skills' onClick={(e)=>handleMenuItemClick('/employeeDashboard/skills', e)}>
                             <div >Promotion Skill Set Required.</div>
                         </div>
-                        <div className='promotionItem' id='progress' onClick={(e)=>handleMenuItemClick('/employeeDashboard/progress',user)}>
+                        <div className='promotionItem' id='progress' onClick={(e)=>handleMenuItemClick('/employeeDashboard/progress', e)}>
                             <div >View Promotion Progress.</div>
                         </div>
                     </div>

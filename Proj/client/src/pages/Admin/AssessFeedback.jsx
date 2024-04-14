@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartLine, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 // import './Dashboard.css';
@@ -8,13 +7,24 @@ import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useUserContext } from '../../hooks/useUserContext';
+import { useLogout } from '../../hooks/useLogout';
 
 
 export default function Dashboard() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const navigate = useNavigate();
 
+    const { logout } = useLogout()
+    
+    const { authenticatedUser, dispatch } = useUserContext()
+    const user = authenticatedUser;
+
+    useEffect(() => {
+        if (!localStorage.getItem('user')) {
+            navigate('/')
+        }
+    })
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -213,9 +223,9 @@ export default function Dashboard() {
                 <div className='contentAdminDash'>
                     <div className='header'>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={() => navigate('/login')}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

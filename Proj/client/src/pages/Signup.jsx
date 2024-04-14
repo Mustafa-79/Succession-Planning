@@ -14,6 +14,7 @@ import img7 from "./img/s_img7.png";
 import img8 from "./img/s_img8.png";
 import img9 from "./img/s_img9.png";
 import img10 from "./img/s_img10.png";
+import { useUserContext } from "../hooks/useUserContext";
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -38,6 +39,7 @@ export default function Signup() {
         [img10, 10],
     ];
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     const sequenceImg = (list) => {
         let array = [...list];
@@ -51,6 +53,15 @@ export default function Signup() {
     useEffect(() => {
         setRandomizedImages(sequenceImg([...imgSources]));
     }, []);
+
+    useEffect(() => {
+        if (authenticatedUser) {
+            if (authenticatedUser.adminID)
+                navigate('/dashboard')
+            else
+            navigate('/employeeDashboard')
+        }
+    })
 
     const [step, setStep] = useState(1);
 

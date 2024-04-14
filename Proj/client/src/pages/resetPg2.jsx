@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 // import './resetPwd.css'
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { useUserContext } from "../hooks/useUserContext";
 
 export default function ResetFinalPwd() {
     const location = useLocation();
@@ -39,6 +40,17 @@ export default function ResetFinalPwd() {
         setData({ ...data, samePassword });
         setPasswordsMatch(data.password === samePassword);
     };
+
+    const { authenticatedUser, no, dispatch } = useUserContext();
+
+    useEffect(() => {
+        if (authenticatedUser) {
+            if (authenticatedUser.adminID)
+                navigate('/dashboard')
+            else
+            navigate('/employeeDashboard')
+        }
+    })
 
     const resetPassword = async (e) => {
         e.preventDefault();

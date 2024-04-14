@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faChartLine, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
@@ -7,14 +6,27 @@ import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 
 export default function Dashboard() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const navigate = useNavigate();
+    
+    const { logout } = useLogout()
+    
+    const { authenticatedUser, no, dispatch } = useUserContext();
+    const user = authenticatedUser;
 
+    const isAuthenticated = 1;
 
+    useEffect(() => {
+        if (!localStorage.getItem('user')) {
+            navigate('/')
+        }
+    })
+    
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
@@ -36,76 +48,82 @@ export default function Dashboard() {
 
     // Fetching all employees from the database
     useEffect(() => {
-        axios.get('/dashboard-employees')
-            .then(res => {
-                console.log(res.data);
-                setEmployees(res.data);
-                setEmployeesToDisplay(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error('Failed to fetch employees');
-            });
+        if (isAuthenticated) {
+            axios.get('/dashboard-employees')
+                .then(res => {
+                    console.log(res.data);
+                    setEmployees(res.data);
+                    setEmployeesToDisplay(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error('Failed to fetch employees');
+                });
+        }
     }, []);
 
     // Fetching all position titles from the database
     const [positionTitles, setPositionTitles] = useState([]);
     useEffect(() => {
-        axios.get('/dashboard-position-titles')
-            .then(res => {
-                setPositionTitles(res.data);
-                console.log(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-                toast.error('Failed to fetch position titles');
-            });
+        if (isAuthenticated) {
+            axios.get('/dashboard-position-titles')
+                .then(res => {
+                    setPositionTitles(res.data);
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    toast.error('Failed to fetch position titles');
+                });
+        }
     }, []);
 
 
     // Fetch the weights to be used for calculating the performance score
     const [weights, setWeights] = useState({});
     useEffect(() => {
-        axios.get('/weights')
-            .then(res => {
-                // contains two sets of weights: ML and Admin. Set the weights to be equal to the product of the two
-                let ML_weights = res.data.find(weight => weight.weightsID === 1);
-                let Admin_weights = res.data.find(weight => weight.weightsID === 2);
-                let finalWeights = {};
+        if (isAuthenticated) {
+            axios.get('/weights')
+                .then(res => {
+                    // contains two sets of weights: ML and Admin. Set the weights to be equal to the product of the two
+                    let ML_weights = res.data.find(weight => weight.weightsID === 1);
+                    let Admin_weights = res.data.find(weight => weight.weightsID === 2);
+                    let finalWeights = {};
 
-                for (let key in ML_weights) {
-                    finalWeights[key] = ML_weights[key] * Admin_weights[key];
-                }
-                setWeights(finalWeights);
-                console.log('Weights:', finalWeights);
-
-                // Calculate the performance score for each employee
-                let scores = {};
-                employees.forEach(employee => {
-                    calculatePerformanceScore(employee) > 1 ? scores[employee.employeeID] = 1 : scores[employee.employeeID] = calculatePerformanceScore(employee);
-                });
-                setEmployeeScores(scores);
-                // console.log('Employee scores:', scores);
-
-                // Find high potential employees
-                let highPotential = [];
-                let atRisk = [];
-                for (let key in scores) {
-                    if (scores[key] >= threshold) {
-                        highPotential.push(key);
-                    } else {
-                        atRisk.push(key);
+                    for (let key in ML_weights) {
+                        finalWeights[key] = ML_weights[key] * Admin_weights[key];
                     }
-                }
-                setHighPotentialEmployees(highPotential);
-                setEmployeesAtRisk(atRisk);
-                // console.log('High potential employees:', highPotential);
-                // console.log('Employees at risk:', atRisk);
-            })
-            .catch(err => {
-                console.error(err);
-                toast.error('Failed to fetch weights');
-            });
+                    setWeights(finalWeights);
+                    console.log('Weights:', finalWeights);
+
+                    // Calculate the performance score for each employee
+                    let scores = {};
+                    employees.forEach(employee => {
+                        calculatePerformanceScore(employee) > 1 ? scores[employee.employeeID] = 1 : scores[employee.employeeID] = calculatePerformanceScore(employee);
+                    });
+                    setEmployeeScores(scores);
+                    // console.log('Employee scores:', scores);
+
+                    // Find high potential employees
+                    let highPotential = [];
+                    let atRisk = [];
+                    for (let key in scores) {
+                        if (scores[key] >= threshold) {
+                            highPotential.push(key);
+                        } else {
+                            atRisk.push(key);
+                        }
+                    }
+                    setHighPotentialEmployees(highPotential);
+                    setEmployeesAtRisk(atRisk);
+                    // console.log('High potential employees:', highPotential);
+                    // console.log('Employees at risk:', atRisk);
+                })
+                .catch(err => {
+                    console.error(err);
+                    toast.error('Failed to fetch weights');
+                });
+        }
     }, [employees, threshold]);
 
     // function to calculate the performance score of an employee
@@ -118,11 +136,6 @@ export default function Dashboard() {
         }
         return score;
     };
-
-
-
-
-
 
     // function to convert positionID to position title
     const getPositionTitle = (positionID) => {
@@ -268,7 +281,7 @@ export default function Dashboard() {
     };
 
 
-    return (
+    return isAuthenticated && (
         <div className='overlay'>
             <div className='wrapper'>
                 <div className='sidebar'>
@@ -294,9 +307,9 @@ export default function Dashboard() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={() => navigate('/login')}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',
@@ -450,5 +463,7 @@ export default function Dashboard() {
                 </div>
             )}
         </div>
-    );
+    ) || !isAuthenticated && (
+        <h1>You're not allowed to access</h1>
+    )
 }

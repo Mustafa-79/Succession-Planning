@@ -6,15 +6,14 @@ import './Mentor.css';
 import '../fonts.css';
 import axios from 'axios';
 import { toast } from "react-hot-toast";
+import { useLogout } from '../../../hooks/useLogout';
 
 export default function Mentor() {
     const location = useLocation();
     const user = location.state.name;
     const navigate = useNavigate();
-    const allUserInfo = location.state.userInfo;
-
-
-
+    const allUserInfo = JSON.parse(localStorage.getItem('user'))
+    const { logout } = useLogout()
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -26,11 +25,12 @@ export default function Mentor() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
     const handleMenuItemClick = (path, e) => {
-        navigate(path, { state: { name: user, userInfo: allUserInfo } });
+        e.preventDefault()
+        navigate(path, { state: { userInfo: allUserInfo } });
     };
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return '/developmentPlans' === path; // Check if the current location matches the path
     };
 
 
@@ -78,7 +78,7 @@ export default function Mentor() {
                 toast.success("Mentor chosen successfully");
 
                 // Update location state
-                navigate(location.pathname, { state: { name: user, userInfo: { ...allUserInfo, mentor_ID: mentorID } } });
+                navigate(location.pathname, { state: { userInfo: { ...allUserInfo, mentor_ID: mentorID } } });
             })
             .catch(err => {
                 console.log(err);
@@ -150,9 +150,9 @@ export default function Mentor() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{allUserInfo.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

@@ -14,6 +14,7 @@ import img7 from './img/s_img7.png'
 import img8 from './img/s_img8.png'
 import img9 from './img/s_img9.png'
 import img10 from './img/s_img10.png'
+import { useUserContext } from '../hooks/useUserContext'
 
 
 export default function ResetPwd() {
@@ -56,6 +57,17 @@ export default function ResetPwd() {
         }
         return array;
     }
+
+    const { authenticatedUser, no, dispatch } = useUserContext();
+
+    useEffect(() => {
+        if (authenticatedUser) {
+            if (authenticatedUser.adminID)
+                navigate('/dashboard')
+            else
+            navigate('/employeeDashboard')
+        }
+    })
 
     useEffect(() => {
         setRandomizedImages(sequenceImg([...imgSources]))

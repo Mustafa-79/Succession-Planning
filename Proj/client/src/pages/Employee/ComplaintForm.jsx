@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { UserContext } from "../../../context/userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faHouse,
@@ -20,6 +19,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./ComplaintForm.css";
 import "./fonts.css";
+import { useLogout } from "../../hooks/useLogout";
 
 const StarRatingInput = ({ value, onRatingChange }) => {
     const stars = Array.from({ length: 5 }, (_, index) => index + 1);
@@ -46,10 +46,9 @@ const StarRatingInput = ({ value, onRatingChange }) => {
 
 export default function ComplaintForm() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = JSON.parse(localStorage.getItem('user'))
     const navigate = useNavigate();
-    const allUserInfo = location.state.userInfo;
-
+    const { logout } = useLogout()
 
     const menuItems = [
         {
@@ -83,12 +82,12 @@ export default function ComplaintForm() {
     });
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return '/feedback' === path; // Check if the current location matches the path
     };
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault();
-        navigate(path, { state: { name: user,userInfo:allUserInfo } });
+        navigate(path, { state: { userInfo: user } });
     };
 
     const sumbitFeedback = async (e) => {
@@ -145,9 +144,9 @@ export default function ComplaintForm() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

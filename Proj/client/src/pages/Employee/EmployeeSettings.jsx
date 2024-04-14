@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faE, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeSettings.css';
@@ -20,12 +19,24 @@ import img9 from "../img/s_img9.png";
 import img10 from "../img/s_img10.png";
 import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import SmallBox from '../../components/SmallBox';
+import { useLogout } from '../../hooks/useLogout';
 
 export default function EmployeeSettings() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const { logout } = useLogout()
     const navigate = useNavigate();
-    const allUserInfo = location.state.userInfo;
+
+    const getPositionTitle = (positionID) => {
+        const position = positions.find(position => position.positionID === positionID);
+        return position ? position.title : "Unknown";
+    };
+
+    useEffect(() => {
+        // fetchData(); // Call the fetch function on component mount
+        getPositionData()
+        setRandomizedImages(sequenceImg([...imgSources]));
+    }, []); // Empty array means it will only run once when component mounts
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -34,12 +45,13 @@ export default function EmployeeSettings() {
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
+    const [positions, setPositions] = useState([])
     const tabs = ["My Profile", "Change Password", "Change Security Image"];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
     const [activeUser, setActiveUser] = useState({
-        userData: null,
-        userPosition: ''
+        userData: user,
+        userPosition: getPositionTitle(user.positionID)
     })
 
     const updateUserData = (update) => {
@@ -96,7 +108,8 @@ export default function EmployeeSettings() {
         if (flag) {
             updateUserProfile()
         } else {
-            fetchData()
+            // fetchData()
+            setActiveUser({...activeUser, userData: user})
         }
     }
 
@@ -118,7 +131,7 @@ export default function EmployeeSettings() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user,userInfo:allUserInfo } });
+        navigate(path, { state: { userInfo: user } });
     };
 
     const handleItemClick = (index, e) => {
@@ -130,7 +143,7 @@ export default function EmployeeSettings() {
         setEnableEdit(false)
         setShowPassword({field1: false, field2: false, field3: false})
         setSecurityImg({currentImg: '', newImg: ''})
-        fetchData()
+        // fetchData()
     }
 
     const defaultBehavior = () => {
@@ -161,10 +174,14 @@ export default function EmployeeSettings() {
         return array;
     };
 
-    useEffect(() => {
-        fetchData(); // Call the fetch function on component mount
-        setRandomizedImages(sequenceImg([...imgSources]));
-    }, []); // Empty array means it will only run once when component mounts
+    const getPositionData = async () => {
+        try {
+            const resp = await axios.get('/getPositionsData')
+            setPositions(resp.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     const fetchData = async () => {
         try {
@@ -184,11 +201,14 @@ export default function EmployeeSettings() {
 
     const updateUserProfile = async () => {
         try {
+            console.log('I am here')
             const resp = await axios.post('/updateProfile', activeUser.userData)
             if (resp.data.error) {
-                fetchData()
-                toast.error(data.error)
+                // fetchData()
+                setActiveUser({...activeUser, userData: user})
+                toast.error(resp.data.error)
             } else {
+                localStorage.setItem('user', JSON.stringify(activeUser.userData))
                 toast.success('User Profile successfully updated')
             }
         } catch (err) {
@@ -651,7 +671,7 @@ export default function EmployeeSettings() {
         )
     }
 
-    return (
+    return user.employeeID && (
         <div className='overlay'>
             <div className='wrapper'>
                 <div className='sidebar'>
@@ -677,9 +697,9 @@ export default function EmployeeSettings() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',
@@ -694,20 +714,22 @@ export default function EmployeeSettings() {
                     </div>
 
                     {/* <div className='promotionsWrapper'> */}
-                    <div class="profile-container-e">
+                    <div class="admin-setting-wrapper">
                         <aside class="profile-sidebar-e">
                         {/* <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/> */}
                             <label htmlFor='profile-image-e' className='profile-picture-e'>
                                 <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture-e'/>
                             </label>
-                            {!activeTab && enableEdit && (<input
-                                type='file'
-                                id='profile-image'
-                                name='newImg'
-                                accept='.jpeg, .png, .jpg'
-                                style={{ display: 'none' }} // Hide the actual input element
-                                onChange={(e) => handleImageUpload(e)}
-                            />)}
+                            {!activeTab && enableEdit && 
+                            (   <div className='choose-pic-button'>
+                                    <input
+                                        type='file'
+                                        id='admin-profile-image'
+                                        name='newImg'
+                                        accept='.jpeg, .png, .jpg'
+                                        onChange={(e) => handleImageUpload(e)}
+                                    />
+                                </div>)}
                             <h2>{activeUser.userData && activeUser.userData.name}</h2>
                             <p>{activeUser.userData && activeUser.userPosition}</p>
                             {!activeTab && !enableEdit && <button class="edit-profile-btn" onClick={() => setEnableEdit(true)}>Edit Profile</button>}

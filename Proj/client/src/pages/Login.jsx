@@ -13,6 +13,7 @@ import img7 from "./img/s_img7.png";
 import img8 from "./img/s_img8.png";
 import img9 from "./img/s_img9.png";
 import img10 from "./img/s_img10.png";
+import { useUserContext } from "../hooks/useUserContext";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ export default function Login() {
         [img10, 10],
     ];
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     const sequenceImg = (list) => {
         let array = [...list];
@@ -49,6 +51,15 @@ export default function Login() {
         setRandomizedImages(sequenceImg([...imgSources]));
         console.log(randomizedImages);
     }, []);
+
+    useEffect(() => {
+        if (authenticatedUser) {
+            if (authenticatedUser.adminID)
+                navigate('/dashboard')
+            else
+            navigate('/employeeDashboard')
+        }
+    })
 
     // const loginUser = async (e) => {
     //     e.preventDefault();
@@ -86,11 +97,16 @@ export default function Login() {
                 setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
             } else if (data.no == 1) {
                 console.log(data)
+                localStorage.setItem('user', JSON.stringify(data.user))
+                dispatch({type: 'LOGIN', payload: data.user, no: data.no})
                 setData({})
                 navigate('/employeeDashboard', { state: { name: data.user.name, userInfo: data.user } })
             } else if (data.no == 2) {
                 console.log(data)
+                // login(data.user)
                 setData({})
+                localStorage.setItem('user', JSON.stringify(data.user))
+                dispatch({type: 'LOGIN', payload: data.user, no: data.no})
                 navigate('/dashboard', { state: { userInfo: data.user} })
             }
         } catch (error) {

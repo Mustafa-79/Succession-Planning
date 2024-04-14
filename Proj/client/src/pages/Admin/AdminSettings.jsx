@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartLine, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faEyeSlash, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './AdminSettings.css';
@@ -19,18 +18,31 @@ import img7 from "../img/s_img7.png";
 import img8 from "../img/s_img8.png";
 import img9 from "../img/s_img9.png";
 import img10 from "../img/s_img10.png";
+import { useUserContext } from '../../hooks/useUserContext';
+import { useLogout } from '../../hooks/useLogout';
 
 export default function AdminSettings() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const navigate = useNavigate();
-    const [activeUser, setActiveUser] = useState(user);
     const [activeTab, setActiveTab] = useState(0);
     const [enableEdit, setEnableEdit] = useState(false);
     const [newPassword, setNewPassword] = useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: ''
+    })
+
+    const { logout } = useLogout()
+    
+    const { authenticatedUser, dispatch } = useUserContext()
+    const user = authenticatedUser;
+
+    const [activeUser, setActiveUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+    useEffect(() => {
+        if (!localStorage.getItem('user')) {
+            navigate('/')
+        }
     })
 
     const [securityImg, setSecurityImg] = useState({
@@ -164,6 +176,8 @@ export default function AdminSettings() {
                 setActiveUser(user)
             } else {
                 toast.success('Profile picture successfully updated')
+                dispatch({type: 'LOGIN', payload: activeUser, no: 2})
+                localStorage.setItem('user', JSON.stringify(activeUser))
                 user.profile_picture = activeUser.profile_picture
             }
         } catch (err) {
@@ -556,7 +570,7 @@ export default function AdminSettings() {
         }
     }
 
-    return (
+    return activeUser && (
         <div className='overlay'>
             <div className='wrapper'>
                 <div className='sidebar'>
@@ -582,9 +596,9 @@ export default function AdminSettings() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',
