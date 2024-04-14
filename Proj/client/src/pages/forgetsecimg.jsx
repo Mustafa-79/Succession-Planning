@@ -39,7 +39,6 @@ export default function ForgetSecurityImage() {
             } else {
                 console.log(resp.data);
                 setData({ ...data, secQ: resp.data })
-                toast.success("Q:", data.secQ)
                 toast.success('Security question retrieved successfully')
             }
         } catch (error) {
@@ -100,7 +99,7 @@ export default function ForgetSecurityImage() {
                             onChange={(e) => setData({ ...data, empID: e.target.value })}
                             disabled={stage !== 1}
                         />
-                        {stage === 1 && <button type="button" onClick={retrieveSecurityQuestion} className="search-btn"><FaSearch /></button>}
+                        {stage === 1 && <span><FaSearch onClick={retrieveSecurityQuestion} className="search-btn-e"/></span>}
                     </div>
                     {stage === 1 ? (
                         <>

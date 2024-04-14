@@ -31,6 +31,18 @@ body {
     margin-left: 750px; /* Adjust as necessary to align with the login container */
 }
 
+.signup-box {
+    /* display: flex; */
+    align-items: center;
+    /* text-align: left;
+    margin-left: 1pc; */
+}
+
+.signup-box .input-group {
+    text-align: left;
+    margin-left: 1pc;
+}
+
 .signup-box h1 {
     color: rgb(13, 52, 52); /* Same color as the login box for consistency */
     text-align: center;
@@ -40,6 +52,15 @@ body {
 .input-group {
     margin-bottom: 15px;
     position: relative;
+    /* display: flex; */
+    align-items: center;
+}
+
+.search-btn-k {
+    position: absolute;
+    right: 3pc;
+    bottom: 1.1pc;
+    color: #27407f;
 }
 
 .input-group input {

@@ -58,17 +58,6 @@ export default function ResetPwd() {
         return array;
     }
 
-    const { authenticatedUser, no, dispatch } = useUserContext();
-
-    useEffect(() => {
-        if (authenticatedUser) {
-            if (authenticatedUser.adminID)
-                navigate('/dashboard')
-            else
-            navigate('/employeeDashboard')
-        }
-    })
-
     useEffect(() => {
         setRandomizedImages(sequenceImg([...imgSources]))
     }, [])
@@ -126,8 +115,7 @@ export default function ResetPwd() {
                     <form onSubmit={resetPassword}>
                         <div class="input-group">
                             <input type="text" placeholder='Employee ID' value={data.empID} onChange={(e) => setData({ ...data, empID: e.target.value })} />
-                            <button type="button" onClick={searchRecord} className="search-btn"><FaSearch />
-                            </button>
+                            <span><FaSearch onClick={searchRecord} className="search-btn-e"/></span>
                         </div>
 
                         <div className="input-group">

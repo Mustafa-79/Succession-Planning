@@ -20,12 +20,14 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     margin: 20px;
+    text-align: left;
+    display: flex;
 }
 
 .reset-box h1 {
     color: #0073b1;
     /* LinkedIn blue color */
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
 }
 
@@ -223,4 +225,11 @@ body {
 
 .login {
     color: #666;
+}
+
+.search-btn-e {
+    position: absolute;
+    right: 2pc;
+    bottom: 1.1pc;
+    color: #27407f;
 }

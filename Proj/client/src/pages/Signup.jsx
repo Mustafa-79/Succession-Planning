@@ -39,7 +39,6 @@ export default function Signup() {
         [img10, 10],
     ];
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
-    const { authenticatedUser, no, dispatch } = useUserContext();
 
     const sequenceImg = (list) => {
         let array = [...list];
@@ -53,15 +52,6 @@ export default function Signup() {
     useEffect(() => {
         setRandomizedImages(sequenceImg([...imgSources]));
     }, []);
-
-    useEffect(() => {
-        if (authenticatedUser) {
-            if (authenticatedUser.adminID)
-                navigate('/dashboard')
-            else
-            navigate('/employeeDashboard')
-        }
-    })
 
     const [step, setStep] = useState(1);
 
@@ -240,14 +230,9 @@ export default function Signup() {
                                     placeholder="Employee ID"
                                     value={data.empID}
                                     onChange={(e) => setData({ ...data, empID: e.target.value })}
+                                    style={{ marginRight: '8px' }}
                                 />
-                                <button
-                                    type="button"
-                                    onClick={searchRecord}
-                                    className="search-btn"
-                                >
-                                    <FaSearch />
-                                </button>
+                                <span><FaSearch onClick={searchRecord} className="search-btn-k"/></span>
                             </div>
 
                             <div className="input-group">

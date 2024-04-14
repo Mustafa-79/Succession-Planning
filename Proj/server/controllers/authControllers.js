@@ -208,6 +208,10 @@ const retrieveSecurityQuestion = async (reqs, resp) => {
             return resp.json({
                 error: 'You are not registerd yet'
             })
+        } else if (user.is_blocked) {
+            return resp.json({
+                error: 'Your account is blocked'
+            })
         } else {
             resp.json(user.security_question)
         }
