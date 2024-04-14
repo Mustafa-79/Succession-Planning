@@ -19,7 +19,8 @@ const {
     changePassword,
     changeSecurityImg,
 
-    updateProfile
+    updateProfile,
+    deleteComplaint
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
@@ -77,5 +78,7 @@ router.post('/getComplaint', viewComplaints)
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
 router.get("/weights", getWeights);
 router.post("/updateWeights", saveWeights);
+
+router.post("/deleteComplaint/:id", deleteComplaint);
 
 module.exports = router;

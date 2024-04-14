@@ -202,6 +202,30 @@ export default function AssessComplaint() {
         }
     };
 
+    const deleteComplaint = async (id) => {
+      try {
+          // console.log('Deleting complaint:', id);
+          const response = await axios.post(`/deleteComplaint/${id}`);
+          console.log('complaint deleted:', response.data);
+
+          axios.post('/getComplaint')
+              .then(res => {
+                  // console.log(res.data);
+                  setComplaintData(res.data);
+
+                  toast.success('complaint deleted successfully');
+              })
+              .catch(err => {
+                  console.log(err);
+                  toast.error('Failed to fetch complaints');
+              });
+
+      } catch (error) {
+          console.error('Failed to delete complaint:', error);
+          // Handle error
+      }
+  }
+
     return (
         <div className='overlay'>
             <div className='wrapper'>
@@ -269,24 +293,32 @@ export default function AssessComplaint() {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Employee ID</th>
-                                        <th>Employee ID</th>
-                                        <th>Course ID</th>
-                                        <th>Feedback</th>
+                                        <th>Complaint ID</th>
+                                        <th>Complaint by Employee</th>
+                                        <th>Against Employee ID</th>
+                                        <th>Against Course ID</th>
                                         <th>Date</th>
                                         <th>Action</th>
+                                        <th>Resolve Complaint</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {complaintData.map(complaint => (
                                         <tr key={complaint.complaintID}>
-                                            <td>{complaint.employeeID1}</td>
+                                            <td>{complaint.complaintID}</td>
                                             <td>{complaint.employeeID2}</td>
-                                            <td>{complaint.courseID}</td>
-                                            <td>{complaint.feedback}</td>
+                                            <td>{complaint.employeeID1}</td>
+                                            <td>{complaint.courseID}</td>                         
                                             <td>{complaint.date}</td>
                                             <td>
-                                                <button className='view' onClick={() => addEmployee(complaint)}>View</button>
+                                                <button onClick={() => addEmployee(complaint)}>
+                                                  <FontAwesomeIcon icon={faEye} size='xl' />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                    <button onClick={() => deleteComplaint(complaint.complaintID)}>
+                                                        <FontAwesomeIcon icon={faTrash} size='xl' />
+                                                    </button>
                                             </td>
                                         </tr>
                                     ))
@@ -307,11 +339,11 @@ export default function AssessComplaint() {
             </div>
             <div className="modalBody">
                     <div className="formGroup1">
-                        <label htmlFor="CourseID">Employee ID:</label>
-                        <h3>{specificE.employeeID1}</h3>
+                        <label htmlFor="CourseID">Against Employee/Course ID:</label>
+                        <h3>{specificE.employeeID1 =="-"? specificE.courseID : specificE.employeeID1}</h3>
                     </div>
                     <div className="formGroup1">
-                        <label htmlFor="Response">Complaint response:</label>
+                        <label htmlFor="Response">What the complaint was?</label>
                         <h3>{specificE.feedback}</h3>
                     </div>
             </div>

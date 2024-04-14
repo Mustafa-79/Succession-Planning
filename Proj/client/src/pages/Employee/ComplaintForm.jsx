@@ -22,48 +22,36 @@ import "./ComplaintForm.css";
 import "./fonts.css";
 import { useEffect } from "react";
 
-
-const StarRatingInput = ({ value, onRatingChange }) => {
-  const stars = Array.from({ length: 5 }, (_, index) => index + 1);
-
-  return (
-    <div>
-      {stars.map((star) => (
-        <span
-          key={star}
-          style={{
-            cursor: "pointer",
-            fontSize: "24px",
-            color: star <= value ? "gold" : "gray",
-            marginRight: "5px",
-          }}
-          onClick={() => onRatingChange(star)}
-        >
-          &#9733;
-        </span>
-      ))}
-    </div>
-  );
-};
-
 export default function ComplaintForm() {
   const location = useLocation();
   const user = location.state.name;
   const navigate = useNavigate();
   const allUserInfo = location.state.userInfo;
 
+  console.log(allUserInfo.employeeID)
+
+  // const [data, setData] = useState({
+  //   complaintAgainstID: '',
+  //   feedback: '',
+  //   complaintByID: allUserInfo.employeeID,
+  // });
   const [data, setData] = useState({
-    employeeID1: '',
-    courseID: '',
+    complaintAgainstID: '',
     feedback: '',
-    empID:'',
-    rating: 0
+    complaintByID: '',
   });
 
 //     const [activeUser, setActiveUser] = useState({
 //     userData: null,
 //     userPosition: ''
 // })
+
+// useEffect(() => {
+//   // Assuming `allUserInfo` might be updated later or fetched asynchronously
+//   if (allUserInfo && allUserInfo.employeeID) {
+//       setData(prevData => ({ ...prevData, complaintByID: allUserInfo.employeeID }));
+//   }
+// }, [allUserInfo]); // Depend on `allUserInfo`
 
       useEffect(() => {
         fetchData(); // Call the fetch function on component mount
@@ -80,8 +68,9 @@ export default function ComplaintForm() {
             } else {
                 console.log(resp.data)
     
-
-                setData({...data, empID: "E"+resp.data.record1.employeeID})
+                setData(data => ({ ...data, complaintByID: resp.data.record1.employeeID }));
+                // setData({...data, complaintByID: resp.data.record1.employeeID})
+                // console.log(data.complaintByID)
                 // setActiveUser({userData: resp.data.record1, userPosition: resp.data.record2.title})
             }
         } catch (err) {
@@ -126,13 +115,13 @@ export default function ComplaintForm() {
 
   const sumbitComplaint = async (e) => {
     e.preventDefault();
-    const {employeeID1,  courseID, feedback, empID } = data;
+    console.log("Submitting complaint with data:", data);
+    const {complaintAgainstID, feedback, complaintByID } = data;
     try {
       const response = await axios.post("/submitComplaint", {
-        employeeID1,
-        courseID,
+        complaintAgainstID,
         feedback,
-        empID,
+        complaintByID
       });
       console.log("Complaint response")
       console.log(response);
@@ -143,7 +132,7 @@ export default function ComplaintForm() {
         console.log("Complaint submitted successfully")
         console.log(response);
         setData({});
-        setData({employeeID1: '', courseID: '', feedback: ''});
+        setData({complaintAgainstID: '', feedback: '', complaintByID: allUserInfo.employeeID});
         toast.success("Complaint submitted successfully");
       }
     } catch (error) {
@@ -212,8 +201,8 @@ export default function ComplaintForm() {
                 id="course-id"
                 name="courseid"
                 placeholder="Enter Course/Employee ID"
-                value={data.employeeID1}
-                onChange={(e) => setData({ ...data, employeeID1: e.target.value })}
+                value={data.complaintAgainstID}
+                onChange={(e) => setData({ ...data, complaintAgainstID: e.target.value })}
               />
               <label htmlFor="feedback" style={{ fontSize: "25px" }}>
                 Complaint
@@ -234,7 +223,7 @@ export default function ComplaintForm() {
                 value={data.feedback}
                 onChange={(e) => setData({ ...data, feedback: e.target.value })}
               ></textarea>
-              <button className="feedbackButton" type="submit">
+              <button className="feedbackButton" type="submit" >
                 Submit Complaint
               </button>
             </form>

@@ -408,10 +408,10 @@ const submitFeedback = async (reqs, resp) => {
 
 const submitComplaint = async (reqs, resp) => {
     try {
-        console.log(reqs.body)
-        const { employeeID1, courseID, feedback, empID } = reqs.body
-
-        if (!courseID && !employeeID1) {
+        // console.log(reqs.body)
+        const { complaintAgainstID, feedback, complaintByID } = reqs.body
+        
+        if (!complaintAgainstID) {
             // Send error response to the client with code 400
             return resp.status(400).json({
                 error: 'Course/Employee ID is required'
@@ -420,15 +420,16 @@ const submitComplaint = async (reqs, resp) => {
 
         const employeees = await Employee.find({});
         const employeeesIDs = employeees.map(employee => employee.employeeID)
-        console.log("the emp ids are: ", employeeesIDs)
-        const user = await Employee.findOne({ employeeID: employeeID1 })
-        console.log("the user is: ", user)
+        // console.log("the emp ids are: ", employeeesIDs)
+        const user = await Employee.findOne({ employeeID: complaintAgainstID })
+        // console.log("the user is: ", user)
         // Fetch all courseIDs 
         const courses = await Course.find({})
+        
         const courseIDs = courses.map(course => course.courseID)
-
-        // Check if courseID is valid
-        if (!courseIDs.includes(courseID) && !user) {
+        // console.log("the course ids are: ", courseIDs)
+        // Check if complaintAgainstID is valid
+        if (!courseIDs.includes(complaintAgainstID) && !user) {
             // Send error response to the client with code 400
             return resp.status(400).json({
                 error: 'Course/Employee does not exist with the given ID'
@@ -441,15 +442,41 @@ const submitComplaint = async (reqs, resp) => {
             });
         }
 
-        // Assign unique ID to feedback
-        const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
+        const lastComplaint = await Complaint.findOne().sort({ complaintID: -1 });
+        let newComplaintID;
+        if (lastComplaint && lastComplaint.complaintID.startsWith('C')) {
+            const lastIdNumber = parseInt(lastComplaint.complaintID.slice(1)) + 1;
+            newComplaintID = `C${lastIdNumber.toString().padStart(4, '0')}`;
+        } else {
+            newComplaintID = 'C0001'; // Default starting ID
+        }
 
+        console.log("the new id is: ", newComplaintID)
+
+
+        // Assign unique ID to feedback
+        // const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
+        let employeeexist = "-";
+        let courseexist = "-";
+        if(user)
+        {
+            employeeexist = complaintAgainstID;
+
+        }
+        else if(courseIDs.includes(complaintAgainstID))
+        {
+            courseexist = complaintAgainstID;
+        }
+
+        console.log("the employee against which the complaint is: ",employeeexist)
+        console.log("the course against which the complaint is: ",courseexist)
+        console.log("the employee that lodged the complaint is: ", complaintByID)
         // Create a new feedback record
         const newComplaint = new Complaint({
-            complaintID: feedbackID.toString(),
-            employeeID1 : employeeID1,
-            courseID,
-            employeeID2: empID,
+            complaintID: newComplaintID,
+            employeeID1 : employeeexist,
+            courseID : courseexist,
+            employeeID2: complaintByID,
             feedback,
             date: new Date() // Use the current date
         });
@@ -586,6 +613,26 @@ const updateProfile = async (reqs, resp) => {
     }
 }
 
+const deleteComplaint = async (reqs, resp) => {
+    try {
+        // console.log(reqs)
+        // Get the employee's ID
+        const complaintID = reqs.params.id;
+        // Delete from the DB
+        const deletedComplaint = await Complaint.findOneAndDelete({ complaintID: complaintID });
+
+        // If no employee was deleted, i.e. wrong emplyee ID, return error
+        if (!deletedComplaint) {
+            return resp.status(400).json({ message: "Complaint not found" })
+        }
+        // return success message
+        return resp.json({ message: "Complaint deleted successfully" })
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     test,
     registerUser,
@@ -603,7 +650,8 @@ module.exports = {
     uploadImage,
     changePassword,
     changeSecurityImg,
-    updateProfile
+    updateProfile,
+    deleteComplaint
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}
