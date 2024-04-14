@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faChartLine, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faChartLine, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+// import filter icon
+
 import './Dashboard.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -161,13 +163,13 @@ export default function Dashboard() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { userInfo: user }}); 
+        navigate(path, { state: { userInfo: user } });
     };
 
     const viewPerformance = (path, e, employee) => {
         console.log("hi", employee)
         e.preventDefault()
-        navigate(path, { state: {userInfo: user, info:employee}}); 
+        navigate(path, { state: { userInfo: user, info: employee } });
     }
 
     const addEmployee = () => {
@@ -267,6 +269,26 @@ export default function Dashboard() {
         setShowThresholdModal(true);
     };
 
+    // Function to filter employees based on position for which successors are to be viewed
+    const [filterPositionID, setFilterPositionID] = useState("");
+    const filterSuccessors = (positionID) => {
+        // For given positionID, find the hierarchy level
+        // Find all employees at level + 1 of the hierarchy
+        // set the employeesToDisplay to these employees
+
+        // Find the hierarchy level of the given positionID
+        const position = positionTitles.find(position => position.positionID === positionID);
+        const level = position.hierarchy_level;
+
+        // Find all employees at level + 1 of the hierarchy
+        const successors = employees.filter(employee => {
+            const position = positionTitles.find(position => position.positionID === employee.positionID);
+            return position.hierarchy_level === level + 1;
+        });
+
+        setEmployeesToDisplay(successors);
+    }
+
 
     return (
         <div className='overlay'>
@@ -358,7 +380,9 @@ export default function Dashboard() {
                                 <input type="text" placeholder="Search by Employee ID..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                                 <FontAwesomeIcon icon={faSearch} />
                             </div>
-                            <button onClick={changeThreshold}>Change Threshold</button>
+                            <button onClick={changeThreshold}>
+                                <FontAwesomeIcon icon={faFilter} size = 'lg'/>   Filter
+                            </button>
                             <button onClick={addEmployee}>+ Add New Employee</button>
                         </div>
                         <div className='employeeData'>
@@ -445,7 +469,19 @@ export default function Dashboard() {
                         <h2>Change Threshold</h2>
                         <label htmlFor="threshold" style={{ marginTop: '100px' }}>Enter the new threshold for high potential employees (0-1):</label>
                         <input type="number" min="0" max="1" step="0.01" id="threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
-                        <button id="changeThresholdButton" onClick={() => { filterEmployees(threshold, view); closeThresholdModal();}}>Change Threshold</button>
+
+                        {/* allow user to change position for which they want successors */}
+                        <label htmlFor="positionID" style={{ marginTop: '50px' }}>Select the position for which you want to view successors:</label>
+                        <select id="positionID" value={filterPositionID} onChange={(e) => { setFilterPositionID(e.target.value); filterSuccessors(e.target.value); }}>
+                            <option value="">All Positions</option>
+                            {positionTitles.map(position => (
+                                // do not include interns in the list of positions
+                                position.title !== "Intern" && <option key={position.positionID} value={position.positionID}>{position.title}</option>
+                            ))}
+                        </select>
+
+                        <button id="changeThresholdButton" onClick={() => { filterEmployees(threshold, view); closeThresholdModal(); }}>Done</button>
+
                     </div>
                 </div>
             )}
