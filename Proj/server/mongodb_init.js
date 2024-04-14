@@ -6,6 +6,7 @@ const Workshop = require('./models/workshop')
 const Course = require('./models/course')
 const Positions = require('./models/positions')
 const { hashPassword } = require('./helpers/auth');
+const { max } = require('@tensorflow/tfjs');
 
 async function init_db(conn) {
     const db = conn;
@@ -971,7 +972,8 @@ async function init_db(conn) {
                 held_by: ["1001"],
                 hierarchy_level: 1,
                 courses: ["C004", "C008","C012","C011","C010","C006","C014"],
-                workshops: ["W004", "W005", "W008","W009"]
+                workshops: ["W004", "W005", "W008","W009"],
+                max_held_by: 1
             },
             {
                 positionID: "P002",
@@ -981,7 +983,8 @@ async function init_db(conn) {
                 held_by: ["1002"],
                 hierarchy_level: 1,
                 courses: ["C001", "C002", "C003","C009", "C014"],
-                workshops: ["W001", "W002", "W003","W009"]
+                workshops: ["W001", "W002", "W003","W009"],
+                max_held_by: 1
             },
             {
                 positionID: "P003",
@@ -991,7 +994,8 @@ async function init_db(conn) {
                 held_by: ["1003"],
                 hierarchy_level: 1,
                 courses: ["C006","C004","C014","C009"],
-                workshops: ["W005"]
+                workshops: ["W005"],
+                max_held_by: 1
             },
             {
                 positionID: "P004",
@@ -1001,7 +1005,8 @@ async function init_db(conn) {
                 held_by: [],
                 hierarchy_level: 2,
                 courses: ["C003", "C008","C012","C004","C010"],
-                workshops: ["W006", "W008"]
+                workshops: ["W006", "W008"],
+                max_held_by: 2
             },
             {
                 positionID: "P005",
@@ -1011,7 +1016,8 @@ async function init_db(conn) {
                 held_by: ["1004", "1005", "1013"],
                 hierarchy_level: 3,
                 courses: ["C001","C002", "C003", "C0018","C004"],
-                workshops: ["W001", "W006"]
+                workshops: ["W001", "W006"],
+                max_held_by: 3
             },
             {
                 positionID: "P006",
@@ -1021,7 +1027,8 @@ async function init_db(conn) {
                 held_by: [],
                 hierarchy_level: 3,
                 courses: ["C002", "C007","C008","C004"],
-                workshops: ["W002", "W006", "W007"]
+                workshops: ["W002", "W006", "W007"],
+                max_held_by: 2
             },
             {
                 positionID: "P007",
@@ -1031,7 +1038,8 @@ async function init_db(conn) {
                 held_by: ["1008", "1014"],
                 hierarchy_level: 3,
                 courses: ["C005","C008","C004","C020"],
-                workshops: ["W007"]
+                workshops: ["W007"],
+                max_held_by: 2
             },
             {
                 positionID: "P008",
@@ -1041,17 +1049,19 @@ async function init_db(conn) {
                 held_by: ["1015", "1016"],
                 hierarchy_level: 4,
                 courses: ["C001", "C003","C002","C017"],
-                workshops: ["W001"]
+                workshops: ["W001"],
+                max_held_by: 3
             },
             {
                 positionID: "P009",
                 title: "Junior Data Analyst",
                 vacant: false,
                 required_skills: ["Data Analysis", "Data Visualization", "SQL", "Python"],
-                held_by: ["1010", "1017","C015"],
+                held_by: ["1010", "1017"],
                 hierarchy_level: 4,
                 courses: ["C002","C019"],
-                workshops: ["W002", "W006"]
+                workshops: ["W002", "W006"],
+                max_held_by: 3
             },
             {
                 positionID: "P010",
@@ -1061,7 +1071,8 @@ async function init_db(conn) {
                 held_by: ["1011", "1018"],
                 hierarchy_level: 5,
                 courses: [],
-                workshops: ["W008"]
+                workshops: ["W008"],
+                max_held_by: 3
             },
             {
                 positionID: "P011",
@@ -1071,7 +1082,8 @@ async function init_db(conn) {
                 held_by: ["1012", "1019", "1020", "1021"],
                 hierarchy_level: 6,
                 courses: [],
-                workshops: []
+                workshops: [],
+                max_held_by: 8
             }
         ];
 
