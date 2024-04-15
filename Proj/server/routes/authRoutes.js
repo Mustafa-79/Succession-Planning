@@ -21,7 +21,9 @@ const {
 
     updateProfile,
     deleteComplaint,
-    retrieveAssessmentQuestions
+    retrieveAssessmentQuestions,
+    assignAssessment,
+    updateAssessment
 } = require("../controllers/authControllers");
 const {
     dashboardEmployees,
@@ -35,7 +37,7 @@ const {
     saveWeights,
 } = require("../controllers/dashboardAdmin");
 
-const { viewFeedbacks, viewComplaints } = require("../controllers/feedbackControllers"); 
+const { viewFeedbacks, viewComplaints, viewAssignments } = require("../controllers/feedbackControllers"); 
 
 
 //middleware
@@ -74,13 +76,15 @@ router.post('/updateProfile', updateProfile)
 router.post('/getAdminProfile', returnAdminProfile)
 router.post('/getFeedback', viewFeedbacks)
 router.post('/getComplaint', viewComplaints)
+router.post('/getAssessmentData', viewAssignments)
 
 // create a route for axios.post(`/deleteEmployee/${employeeID}`);
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
 router.get("/weights", getWeights);
 router.post("/updateWeights", saveWeights);
 router.post('/retrieveAssessmentQuestions', retrieveAssessmentQuestions);
-
+router.post('/assignAssessment', assignAssessment);
+router.post('/submitAssessmentScore', updateAssessment);
 router.post("/deleteComplaint/:id", deleteComplaint);
 
 module.exports = router;

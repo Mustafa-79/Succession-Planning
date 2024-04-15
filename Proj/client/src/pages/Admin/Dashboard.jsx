@@ -18,7 +18,7 @@ export default function Dashboard() {
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/admin_feedback" },
-        { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
+        { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/admin_feedback/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
         { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
     ];

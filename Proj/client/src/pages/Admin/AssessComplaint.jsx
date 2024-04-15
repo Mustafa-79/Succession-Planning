@@ -329,28 +329,29 @@ export default function AssessComplaint() {
                     </div>
                 </div>
             </div>
-            {showModal && (
-    <div className="modalOverlay">
-        <div className="modalContent">
-        <span className="closeModal" onClick={closeModal}>&times;</span> {/* Close button */}
-            <div className="modalHeader">
-                {/* <span className="closeModal" onClick={closeModal}>&times;</span> */}
-                <h2>Complaint</h2>
-            </div>
-            <div className="modalBody">
-                    <div className="formGroup1">
-                        <label htmlFor="CourseID">Against Employee/Course ID:</label>
-                        <h3>{specificE.employeeID1 =="-"? specificE.courseID : specificE.employeeID1}</h3>
+            {showModal && 
+                (
+                    <div className="modalOverlay">
+                        <div className="modalContent">
+                        <span className="closeModal" onClick={closeModal}>&times;</span> {/* Close button */}
+                            <div className="modalHeader">
+                                {/* <span className="closeModal" onClick={closeModal}>&times;</span> */}
+                                <h2>Complaint</h2>
+                            </div>
+                            <div className="modalBody">
+                                    <div className="formGroup1">
+                                        <label htmlFor="CourseID">Against Employee/Course ID:</label>
+                                        <h3>{specificE.employeeID1 =="-"? specificE.courseID : specificE.employeeID1}</h3>
+                                    </div>
+                                    <div className="formGroup1">
+                                        <label htmlFor="Response">What the complaint was?</label>
+                                        <h3>{specificE.feedback}</h3>
+                                    </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="formGroup1">
-                        <label htmlFor="Response">What the complaint was?</label>
-                        <h3>{specificE.feedback}</h3>
-                    </div>
-            </div>
-        </div>
-    </div>
-)}
-
+                )
+            }
         </div>
     );
 }

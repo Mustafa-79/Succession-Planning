@@ -12,7 +12,8 @@ const Feedback = require('../models/feedback')
 const Complaint = require('../models/complaint')
 const Course = require('../models/course')
 const PositionModel = require('../models/positions')
-const AssignAssessmentModel = require('../models/assignassessment')
+const AssignAssessmentModel = require('../models/assign_assessment')
+const doAssignmentModel = require('../models/doassignment')
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -652,20 +653,21 @@ const retrieveAssessmentQuestions = async (reqs,resp) => {
 
     const positionTitle = user.positionID;
     console.log("position id is: ", positionTitle)
-    const allassess = await AssignAssessmentModel.find({})
+    // const allassess = await AssignAssessmentModel.find({})
     // const employeees = await Employee.find({});
     //     const employeeesIDs = employeees.map(employee => employee.employeeID)
     // const assessmentdata = await AssignAssessmentModel.findOne({ positionID: positionTitle})
     // console.log("assessment data is: ", assessmentdata)
     try {
-        const assessmentdata = await AssignAssessmentModel.findOne({ positionID: positionTitle });
-        console.log("Assessment data is: ", assessmentdata);
+        const assessmentdata = await AssignAssessmentModel.findOne({ positionIDnew: positionTitle });
+        // console.log("Assessment data is: ", assessmentdata);
     
         if (assessmentdata) {
             const questions = assessmentdata.questions;
             resp.json({
                 message: 'Questions retrieved successfully',
-                questions: questions
+                questions: questions,
+                positionTitle: positionTitle
             });
         } else {
             // Handle the case where the assessment data is not found
@@ -687,6 +689,114 @@ const retrieveAssessmentQuestions = async (reqs,resp) => {
 
 }
 
+const assignAssessment = async (reqs, resp) => {
+    try {
+        const { empID ,
+            positionTitle,
+            questions,
+            answers } = reqs.body
+        console.log("the questions are: ", questions)
+        console.log("the answers are: ", answers)
+        console.log("the position id is: ", positionTitle)
+        if (!empID || !positionTitle) {
+            return resp.status(400).json({
+                error: 'Employee/Position ID is required'
+            });
+        }
+
+        if (!questions) {
+            return resp.status(400).json({
+                error: 'questions are required'
+            });
+        }
+
+        const lastAssignment = await doAssignmentModel.findOne().sort({ assignmentID: -1 });
+        let newAssignmentID;
+        if (lastAssignment && lastAssignment.assignmentID.startsWith('A')) {
+            const lastIdNumber = parseInt(lastAssignment.assignmentID.slice(1)) + 1;
+            newAssignmentID = `A${lastIdNumber.toString().padStart(4, '0')}`;
+        } else {
+            newAssignmentID = 'A0001'; // Default starting ID
+        }
+
+        console.log("the new id is: ", newAssignmentID)
+        const score = '0'
+        const status = 'Pending'
+        // Assign unique ID to feedback
+        // const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
+        // let employeeexist = "-";
+        // let courseexist = "-";
+        // if(user)
+        // {
+        //     employeeexist = complaintAgainstID;
+
+        // }
+        // else if(courseIDs.includes(complaintAgainstID))
+        // {
+        //     courseexist = complaintAgainstID;
+        // }
+
+        // console.log("the employee against which the complaint is: ",employeeexist)
+        // console.log("the course against which the complaint is: ",courseexist)
+        // console.log("the employee that lodged the complaint is: ", complaintByID)
+        // Create a new feedback record
+        const newAssignment = new doAssignmentModel({
+            assignmentID: newAssignmentID,
+            employeeID : empID,
+            positionTitle : positionTitle,
+            questions: questions,
+            answers: answers,
+            score: score,
+            status: status,
+            date: new Date() // Use the current date
+        });
+
+        await newAssignment.save();
+
+        // send response to the client
+        resp.json({
+            message: 'Assignment submitted successfully',
+            feedback: newAssignment
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const updateAssessment = async (reqs,resp) => {
+    const { assessmentID, score, status } = reqs.body;
+
+    // Input validation (if necessary)
+    if (!assessmentID || !score || !status) {
+        return resp.status(400).json({ message: 'Assessment ID, score, and status are required.' });
+    }
+
+    try {
+        // Find the assessment by ID and update
+        const updatedAssessment = await doAssignmentModel.findOneAndUpdate(
+            { assignmentID: assessmentID },
+            { 
+                score: score,
+                status: status
+            },
+            { new: true } // Return the updated document
+        );
+
+        // If the assessment does not exist, return an error
+        if (!updatedAssessment) {
+            return resp.status(404).json({ message: 'Assessment not found.' });
+        }
+
+        // Send back the updated assessment data
+        resp.json(updatedAssessment);
+    } catch (error) {
+        console.error('Error updating assessment:', error);
+        resp.status(500).json({ message: 'Error updating assessment.' });
+    }
+}
+
+
 module.exports = {
     test,
     registerUser,
@@ -706,7 +816,9 @@ module.exports = {
     changeSecurityImg,
     updateProfile,
     deleteComplaint,
-    retrieveAssessmentQuestions
+    retrieveAssessmentQuestions,
+    assignAssessment,
+    updateAssessment
 }
 
 // {"_id":{"$oid":"65dfc56ee547a1714be98275"},"employeeID":"1007","name":"Rooshan","email":"","password":"","contactNumber":"987-654-3210","age":{"$numberInt":"28"},"positionID":"P002","skills":["Python","Django","SQL"],"two_factor_question":"What is your mother's maiden name?","two_factor_answer":"Johnson","mentor_ID":"2002","task_completion_rate":{"$numberDouble":"0.85"},"attendance_rate":{"$numberDouble":"0.98"},"job_history":["Data Analyst at XYZ Corp.","Intern at PQR Ltd."],"education":["Master's in Data Science"],"security_img":0,"certifications":["Google Analytics Certified"],"awards":["Best Newcomer Award"],"profile_picture":"https://example.com/profile2.jpg","__v":{"$numberInt":"0"}}

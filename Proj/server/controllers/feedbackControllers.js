@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken')
 
 const FeedbackModel = require('../models/feedback')
 const ComplaintModel = require('../models/complaint')
+const AssessmentModel = require('../models/doassignment')
 
 const viewFeedbacks = async (reqs, resp) => {
     try {
@@ -29,10 +30,22 @@ const viewComplaints = async (reqs, resp) => {
     }
 }
 
+const viewAssignments = async (reqs, resp) => {
+    try {
+        const assignments = await AssessmentModel.find()
+        return resp.json(assignments)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
 
 module.exports = {
     viewFeedbacks,
-    viewComplaints
+    viewComplaints,
+    viewAssignments
 }
 
 

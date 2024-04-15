@@ -6,7 +6,8 @@ const Workshop = require('./models/workshop')
 const Complaint = require('./models/complaint')
 const Course = require('./models/course')
 const Positions = require('./models/positions')
-const AssignAssessment = require('./models/assignassessment')
+const Assign_Assessment = require('./models/assign_assessment')
+const DO_assignment = require('./models/doassignment')
 const { hashPassword } = require('./helpers/auth');
 
 async function init_db(conn) {
@@ -22,7 +23,8 @@ async function init_db(conn) {
                 db.collection('workshops').deleteMany(),
                 db.collection('courses').deleteMany(),
                 db.collection('positions').deleteMany(),
-                db.collection('assignassessments').deleteMany()
+                db.collection('assessments').deleteMany(),
+                db.collection('doassignments').deleteMany()
             ]);
             console.log('Database initialized');
         } catch (err) {
@@ -1110,75 +1112,227 @@ async function init_db(conn) {
             {
                 positionIDnew: "P004",
                 questions: [
-                  { question: "Primary methodology for software lifecycle management?", answer: "Agile" },
-                  { question: "Term for managing software project constraints?", answer: "Scoping" },
-                  { question: "Common conflict resolution strategy?", answer: "Mediation" },
-                  { question: "Budget tracking tool preference?", answer: "Jira" }
+                    { question: "Primary methodology for software lifecycle management?", answer: "Agile" },
+                    { question: "Term for managing software project constraints?", answer: "Scoping" },
+                    { question: "Common conflict resolution strategy?", answer: "Mediation" },
+                    { question: "Budget tracking tool preference?", answer: "Jira" },
+                    { question: "Define 'refactoring' in the context of code maintenance.", answer: "Improvement" },
+                    { question: "Software development practice that ensures code clarity.", answer: "Comments" },
+                    { question: "Technique for managing changing requirements.", answer: "Flexibility" },
+                    { question: "Approach to break down a project into small parts.", answer: "Modularization" },
+                    { question: "A way to measure codebase maintainability.", answer: "Complexity" },
+                    { question: "Methodology used to respond to unpredictability.", answer: "Adaptive" },
+                    { question: "What does 'MVP' stand for in product development?", answer: "MinimumViableProduct" },
+                    { question: "Principle for reducing rework in the development process.", answer: "DRY" },
+                    { question: "Strategy for reducing technical debt.", answer: "Refactoring" },
+                    { question: "Name an alternative to monolithic application architecture.", answer: "Microservices" },
+                    { question: "Common practice for scaling agile practices in large organizations.", answer: "SAFe" },
+                    { question: "Key benefit of pair programming.", answer: "Collaboration" },
+                    { question: "Term for the division of tasks into small increments.", answer: "Chunking" },
+                    { question: "Main goal of a sprint review meeting.", answer: "Feedback" },
+                    { question: "Name a way to measure the performance of development processes.", answer: "Metrics" },
+                    { question: "Technique to manage cross-team dependencies in agile.", answer: "ScrumOfScrums" },
                 ]
             },
             {
                 positionIDnew: "P005",
                 questions: [
-                  { question: "Preferred programming paradigm?", answer: "OOP" },
-                  { question: "Key practice for quality code?", answer: "Review" },
-                  { question: "Version control system?", answer: "Git" },
-                  { question: "Methodology for small iterative development?", answer: "Scrum" }
+                    { question: "Preferred programming paradigm?", answer: "OOP" },
+                    { question: "Key practice for quality code?", answer: "Review" },
+                    { question: "Version control system?", answer: "Git" },
+                    { question: "Methodology for small iterative development?", answer: "Scrum" },
+                    { question: "Name a design pattern for object creation in software engineering.", answer: "Factory" },
+                    { question: "Command to revert changes in git.", answer: "Revert" },
+                    { question: "What is a software construct that enables data encapsulation?", answer: "Class" },
+                    { question: "Term for checking out previous versions of a codebase.", answer: "Branching" },
+                    { question: "Software engineering practice for integrating code into a shared repository.", answer: "CI" },
+                    { question: "What does 'SOLID' stand for in software design principles?", answer: "DesignPrinciples" },
+                    { question: "Technique for scaling agile practices.", answer: "LeSS" },
+                    { question: "Name a language used for server-side scripting.", answer: "JavaScript" },
+                    { question: "Key feature of responsive web design.", answer: "Adaptability" },
+                    { question: "Name a relational database management system.", answer: "PostgreSQL" },
+                    { question: "Name a non-relational database.", answer: "MongoDB" },
+                    { question: "Common architectural style for developing web services.", answer: "REST" },
+                    { question: "Name a way to organize CSS code.", answer: "BEM" },
+                    { question: "Name a package manager for JavaScript.", answer: "NPM" },
+                    { question: "Term for making applications usable across different browsers.", answer: "CrossBrowser" },
+                    { question: "A methodology that focuses on lean principles in the software development.", answer: "Kanban" },
                 ]
             },
             {
                 positionIDnew: "P006",
                 questions: [
-                  { question: "Preferred statistical software?", answer: "R" },
-                  { question: "Data visualization tool?", answer: "Tableau" },
-                  { question: "Method for handling missing data?", answer: "Imputation" },
-                  { question: "Technique for predictive modeling?", answer: "Regression" }
+                    { question: "Preferred statistical software?", answer: "R" },
+                    { question: "Data visualization tool?", answer: "Tableau" },
+                    { question: "Method for handling missing data?", answer: "Imputation" },
+                    { question: "Technique for predictive modeling?", answer: "Regression" },
+                    { question: "What is the process called to convert raw data into useful information?", answer: "Analysis" },
+                    { question: "Name a database language for managing and querying data.", answer: "SQL" },
+                    { question: "Term for graphical representation of data distributions.", answer: "Histogram" },
+                    { question: "What does KPI stand for in data analysis?", answer: "KeyPerformanceIndicator" },
+                    { question: "Technique used to discover patterns in large data sets.", answer: "DataMining" },
+                    { question: "Commonly used measure of central tendency.", answer: "Mean" },
+                    { question: "Technique for reducing the dimensionality of data.", answer: "PCA" },
+                    { question: "What is the process of identifying incorrect or irrelevant parts of data called?", answer: "Cleansing" },
+                    { question: "Name a Python library used for data analysis.", answer: "Pandas" },
+                    { question: "Term for a test used to infer properties of a population.", answer: "HypothesisTesting" },
+                    { question: "Technique to find the relationship between two variables.", answer: "Correlation" },
+                    { question: "Method for classifying data into groups.", answer: "Clustering" },
+                    { question: "What is the process of examining large pre-existing databases called?", answer: "DataMining" },
+                    { question: "Term for the prediction of future trends based on historical data.", answer: "Forecasting" },
+                    { question: "Software for creating dynamic dashboards.", answer: "PowerBI" },
+                    { question: "Technique for visualizing complex data relationships.", answer: "NetworkGraphs" },
                 ]
             },
             {
-                positionIDnew: "P007",          
+                positionIDnew: "P007",
                 questions: [
-                  { question: "Tool for wireframing?", answer: "Sketch" },
-                  { question: "Principle for user-friendly design?", answer: "Clarity" },
-                  { question: "Accessibility standard?", answer: "WCAG" },
-                  { question: "User feedback method?", answer: "Survey" }
+                    { question: "Term for user-centered design considering user limitations?", answer: "Accessibility" },
+                    { question: "Process to determine usability issues before launch?", answer: "UsabilityTesting" },
+                    { question: "Technique used to create a detailed visualization of a user's journey?", answer: "Storyboarding" },
+                    { question: "Design phase where the most creative ideas are generated?", answer: "Ideation" },
+                    { question: "What is the rule for minimal user interface design?", answer: "LessIsMore" },
+                    { question: "Term for testing with a representative user group?", answer: "UserTesting" },
+                    { question: "Name a popular tool for UI prototyping.", answer: "AdobeXD" },
+                    { question: "What kind of design focuses on effective text presentation?", answer: "Typography" },
+                    { question: "What do you call a set of interface items users interact with?", answer: "UIElements" },
+                    { question: "What principle reduces the cognitive load in design?", answer: "Simplicity" },
+                    { question: "Term for a brief outline of digital or screen design?", answer: "Wireframe" },
+                    { question: "What aspect of design involves a grid system?", answer: "Layout" },
+                    { question: "Name a method to structure information in a logical way.", answer: "Hierarchy" },
+                    { question: "Technique to create high fidelity representation of the final product?", answer: "Mockup" },
+                    { question: "Name the practice of creating engaging user experiences.", answer: "UXDesign" },
+                    { question: "Term for consistency in design throughout the product.", answer: "Cohesiveness" },
+                    { question: "What is user experience evaluation based on observation called?", answer: "Ethnography" },
+                    { question: "Tool used for user flow diagrams.", answer: "Flowchart" },
+                    { question: "Name a technique for real-time user feedback.", answer: "LivePrototype" },
+                    { question: "Term for a small-scale version of your product.", answer: "Prototype" },
                 ]
             },
+            
+            // P008: Junior Software Developer
             {
                 positionIDnew: "P008",
                 questions: [
-                  { question: "Basic programming language?", answer: "Python" },
-                  { question: "Data structure for fast lookup?", answer: "Hashmap" },
-                  { question: "Development process for continuous improvement?", answer: "Agile" },
-                  { question: "Tool for collaborative coding?", answer: "GitHub" }
+                    { question: "Term for the architecture pattern separating data, UI, and control logic?", answer: "MVC" },
+                    { question: "Name a version control system other than Git.", answer: "SVN" },
+                    { question: "Command to list all Git branches.", answer: "git branch" },
+                    { question: "Name a high-level programming language other than Python.", answer: "Java" },
+                    { question: "What does 'CRUD' stand for in database applications?", answer: "CreateReadUpdateDelete" },
+                    { question: "Name the HTML element for creating a text input field.", answer: "input" },
+                    { question: "Term for the invisible coding standards guiding programming?", answer: "Conventions" },
+                    { question: "What is a reusable software component?", answer: "Module" },
+                    { question: "Term for the logical error in a program.", answer: "Bug" },
+                    { question: "Name a build automation tool.", answer: "Gradle" },
+                    { question: "What type of testing is performed by the developers themselves?", answer: "UnitTesting" },
+                    { question: "Name a common software license that allows users to view and modify the source code.", answer: "MIT" },
+                    { question: "What is a formal description of a software system used to analyze and document?", answer: "Specification" },
+                    { question: "Term for a pointer that does not point to a valid object.", answer: "NullPointer" },
+                    { question: "What does ORM stand for in software development?", answer: "ObjectRelationalMapping" },
+                    { question: "Name a software design pattern that restricts object creation for a class to only one instance.", answer: "Singleton" },
+                    { question: "What is the iterative methodology for managing software projects?", answer: "Agile" },
+                    { question: "Term for the part of the system where the main logic and functionality are implemented.", answer: "Backend" },
+                    { question: "Command to compile Java source code into bytecode.", answer: "javac" },
+                    { question: "What JSON-based open standard is used for token-based authentication?", answer: "JWT" },
                 ]
             },
+            
+            // P009: Junior Data Analyst
             {
                 positionIDnew: "P009",
                 questions: [
-                  { question: "Primary tool for data analysis?", answer: "Excel" },
-                  { question: "Graph for relationship analysis?", answer: "Scatter" },
-                  { question: "Common data issue?", answer: "Outliers" },
-                  { question: "Basic data cleaning operation?", answer: "Trimming" }
+                    { question: "Name the process of examining data sets to draw conclusions.", answer: "DataAnalysis" },
+                    { question: "Software typically used for advanced statistical analysis.", answer: "SPSS" },
+                    { question: "Technique used to forecast future data trends.", answer: "TimeSeriesAnalysis" },
+                    { question: "Term for data visualization with geographic dimensions.", answer: "GeoMapping" },
+                    { question: "Name the operation for joining tables by a key.", answer: "Merge" },
+                    { question: "Term for a data point that differs significantly from other observations.", answer: "Outlier" },
+                    { question: "What is the sequence of steps for data preparation called?", answer: "DataPipeline" },
+                    { question: "Name a programming language highly utilized for statistical analysis and graphics.", answer: "R" },
+                    { question: "What is the analysis of data generated by users' activity called?", answer: "BehavioralAnalytics" },
+                    { question: "Name a system used for efficient data retrieval.", answer: "DatabaseManagementSystem" },
+                    { question: "Term for ensuring data is accurate and consistent over its lifecycle.", answer: "DataIntegrity" },
+                    { question: "What does EDA stand for in exploratory data work?", answer: "ExploratoryDataAnalysis" },
+                    { question: "Name a measure of how spread out numbers are in a data set.", answer: "Variance" },
+                    { question: "What is a tool used to automate the creation of reports and dashboards?", answer: "ReportingSoftware" },
+                    { question: "Name the statistical method that estimates the relationships among variables.", answer: "Regression" },
+                    { question: "What is a popular Python library for data manipulation and analysis?", answer: "Pandas" },
+                    { question: "Name the type of analysis that deals with large data sets.", answer: "BigDataAnalysis" },
+                    { question: "Term for the graphical representation of the distribution of numerical data.", answer: "BoxPlot" },
+                    { question: "What do you call the science of collecting, analyzing, and interpreting data?", answer: "Statistics" },
+                    { question: "Name the technique for identifying patterns and correlations within data.", answer: "DataMining" },
                 ]
             },
             {
                 positionIDnew: "P010",
                 questions: [
-                  { question: "Primary OS for enterprise?", answer: "Windows" },
-                  { question: "Tool for remote desktop support?", answer: "TeamViewer" },
-                  { question: "Protocol for secure network access?", answer: "VPN" },
-                  { question: "Common user issue?", answer: "Password" }
+                    { question: "What does DHCP stand for in networking?", answer: "DynamicHostConfigurationProtocol" },
+                    { question: "Term for a network point that acts as an entrance to another network.", answer: "Gateway" },
+                    { question: "What is the primary protocol used by email systems to retrieve messages?", answer: "IMAP" },
+                    { question: "Name a popular tool used for removing viruses.", answer: "Malwarebytes" },
+                    { question: "Term for isolating a section of the network to protect from unauthorized access.", answer: "Segmentation" },
+                    { question: "Command to display all current TCP/IP network configuration values.", answer: "ipconfig" },
+                    { question: "What type of device filters network traffic?", answer: "Firewall" },
+                    { question: "Common name for software that prevents, detects, and removes malware.", answer: "Antivirus" },
+                    { question: "Term for the unauthorized exploitation of a software vulnerability.", answer: "Exploit" },
+                    { question: "What is the process of returning a device to its original manufacturer settings?", answer: "Reset" },
+                    { question: "What do you call the main database that stores network configurations?", answer: "DirectoryService" },
+                    { question: "Term used for copying files to a second medium as a precaution against data loss.", answer: "Backup" },
+                    { question: "Name the protocol used to assign IP addresses automatically.", answer: "DHCP" },
+                    { question: "What hardware device connects a computer to a telephone line for dial-up Internet?", answer: "Modem" },
+                    { question: "Name a command to test network connectivity.", answer: "ping" },
+                    { question: "Term for a network device that forwards data packets between computer networks.", answer: "Router" },
+                    { question: "Name the secure network for transmitting encrypted data.", answer: "VPN" },
+                    { question: "What does SSL stand for, a protocol for securing data sent over the Internet?", answer: "SecureSocketsLayer" },
+                    { question: "Name the technology used to create virtual networks on a single physical network.", answer: "VLAN" },
+                    { question: "Term for the process of fixing, upgrading, or preventing software issues.", answer: "Troubleshooting" },
                 ]
             },
+            
+            // P011: Intern
             {
                 positionIDnew: "P011",
                 questions: [
-                  { question: "Software for presentations?", answer: "PowerPoint" },
-                  { question: "Method for time management?", answer: "Pomodoro" },
-                  { question: "Skill for team collaboration?", answer: "Communication" },
-                  { question: "Tool for organizing tasks?", answer: "Trello" }
+                    { question: "What is the office software suite developed by Microsoft?", answer: "Office365" },
+                    { question: "Name a programming language that is primarily used for client-side scripting.", answer: "JavaScript" },
+                    { question: "What platform is commonly used for version control and code sharing?", answer: "GitHub" },
+                    { question: "Term for collaborative hubs for project management and version tracking.", answer: "GitLab" },
+                    { question: "What is the tool used for real-time office communication?", answer: "Slack" },
+                    { question: "Name a database management system used to handle large application databases.", answer: "MySQL" },
+                    { question: "What do you call the study of algorithmic processes and computational machines?", answer: "ComputerScience" },
+                    { question: "Term for a software that manages the creation and modification of digital content.", answer: "CMS" },
+                    { question: "What is a widely used open-source operating system?", answer: "Linux" },
+                    { question: "Name a lightweight data interchange format.", answer: "JSON" },
+                    { question: "What is the global system of interconnected computer networks?", answer: "Internet" },
+                    { question: "Term for the rules that govern the behavior of some system.", answer: "Protocol" },
+                    { question: "What application is used for creating vector graphics?", answer: "AdobeIllustrator" },
+                    { question: "Name the process of optimizing web pages for search engines.", answer: "SEO" },
+                    { question: "What is the business-oriented social networking service?", answer: "LinkedIn" },
+                    { question: "Term for a temporary role offered to novices to gain experience and training.", answer: "Internship" },
+                    { question: "What type of software is used for analyzing and retrieving documents and content?", answer: "Database" },
+                    { question: "Name the personal productivity tool often used for task scheduling.", answer: "Calendar" },
+                    { question: "What do you call a diagram that represents an algorithm?", answer: "Flowchart" },
+                    { question: "Name a popular system for tracking changes in source code during software development.", answer: "Git" },
                 ]
             }
+        ];
+
+        const assignmentData = [{
+            assignmentID: 'A0001',
+            employeeID: '1018',
+            positionTitle: 'P006',
+            questions: [
+            'Primary OS for enterprise?',
+            'Tool for remote desktop support?',
+            'Protocol for secure network access?',
+            'Common user issue?' 
+            ],
+            answers: ['Windows', 'TeamViewer', 'VPN', 'Password'],
+            score: '0',
+            status: 'Pending',
+            date: new Date('2024-03-05T08:00:00Z')
+        }
+            
         ];
 
 
@@ -1304,7 +1458,8 @@ async function init_db(conn) {
             Workshop.insertMany(WorkshopsData),
             Course.insertMany(CoursesData),
             Positions.insertMany(PositionsData),
-            // AssignAssessment.insertMany(AssignAssessmentData)
+            Assign_Assessment.insertMany(AssignAssessmentData),
+            DO_assignment.insertMany(assignmentData)
         ]);
 
         console.log('Employee data saved to database')
