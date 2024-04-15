@@ -28,7 +28,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 25px; /* Same border-radius as login for consistency */
     margin: 20px;
-    margin-left: 750px; /* Adjust as necessary to align with the login container */
+    margin-left: 850px; /* Adjust as necessary to align with the login container */
 }
 
 .signup-box h1 {
