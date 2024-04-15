@@ -16,11 +16,12 @@ body {
 .resetImG-container {
     width: 100%;
     max-width: 400px;
-    background: white;
+    background:  #9ccff4;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     margin: 20px;
+    margin-left: 850px;
 }
 
 .reset-box h1 {
