@@ -19,7 +19,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./ComplaintForm.css";
 import "./fonts.css";
-import { useEffect } from "react";
 
 export default function ComplaintForm() {
   const location = useLocation();

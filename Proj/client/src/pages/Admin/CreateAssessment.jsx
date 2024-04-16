@@ -4,26 +4,21 @@ import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartL
 import './CreateAssessment.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-<<<<<<< HEAD
 import { useLogout } from '../../hooks/useLogout';
 import { useUserContext } from '../../hooks/useUserContext';
 
-=======
 import axios from 'axios'
 import { FaSearch } from 'react-icons/fa'
 // import { useState } from 'react'
 import { toast } from 'react-hot-toast'
->>>>>>> ibii
 
 export default function CreateAssessment() {
     const location = useLocation();
     const navigate = useNavigate();
-<<<<<<< HEAD
     const { logout } = useLogout()
     
     const user = JSON.parse(localStorage.getItem('user'));
     const { authenticatedUser, no, path, dispatch} = useUserContext()
-=======
     const [questions, setQuestions] = useState([]);
     const [data, setData] = useState({
         empID: '',
@@ -31,7 +26,6 @@ export default function CreateAssessment() {
         questions: '',
         answers: '',
     })
->>>>>>> ibii
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -132,72 +126,15 @@ export default function CreateAssessment() {
     // const deleteEmployee = (id) => {
     //     setEmployees(employees.filter(employee => employee.id !== id));
     // };
-    const assignAssessment = async (e) => {
-        e.preventDefault();
-<<<<<<< HEAD
-        console.log(newEmployeeData);
-        const newEmployee = {
-            id: employees.length + 1,
-            ...newEmployeeData
-        };
-        setEmployees([...employees, newEmployee]);
-        closeModal();
-    };
 
     useEffect(() => {
-        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
-        localStorage.setItem('path' ,JSON.stringify(location.pathname))
-    }, [])
+      dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+      localStorage.setItem('path' ,JSON.stringify(location.pathname))
+  }, [])
 
-    const deleteEmployee = (id) => {
-        setEmployees(employees.filter(employee => employee.id !== id));
-    };
-
-    return (
-        <div className='overlay'>
-            <div className='wrapper'>
-                <div className='sidebar'>
-                    <div className="logo">
-                        <div>
-                            <div className="logo-icon-container">
-                                <FontAwesomeIcon icon={faBuilding} size="4x" color='rgb(34,137,255)' />
-                            </div>
-                            <span>Admin</span>
-                        </div>
-                    </div>
-                    <div className="menu">
-                        {menuItems.map(item => (
-                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                                </div>
-                        ))}
-                    </div>
-                </div>
-                <div className='content'>
-                    <div className='header'>
-                        <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
-                        <span>|</span>
-                        <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
-                        <button
-                            onClick={() => logout()}
-                            style={{
-                                padding: '8px 16px',
-                                backgroundColor: '#f44336',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '15px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            Logout
-                        </button>
-                    </div>
-                    <div className='employeeFunctions'>
-                        <h1>To be Implemented. Mauj Masti ruk gayi sari 2</h1>
-                    </div>
-=======
+  
+    const assignAssessment = async (e) => {
+        e.preventDefault();
         console.log("Submitting assessment with data:", data);
         const {empID ,
         positionTitle,
@@ -244,7 +181,6 @@ export default function CreateAssessment() {
                     <FontAwesomeIcon icon={faBuilding} size="4x" color='rgb(34,137,255)' />
                   </div>
                   <span>Admin</span>
->>>>>>> ibii
                 </div>
               </div>
               <div className="menu">

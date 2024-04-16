@@ -42,7 +42,7 @@ export default function EmployeeSettings() {
         getPositionData()
         setActiveUser({...activeUser, userPosition: getPositionTitle(user.positionID)})
         setRandomizedImages(sequenceImg([...imgSources]));
-    }, []); // Empty array means it will only run once when component mounts
+    }, [positions]); // Empty array means it will only run once when component mounts
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -247,9 +247,9 @@ export default function EmployeeSettings() {
 
     const myProfile = () => {
         return (
-            <div class='profil-box'>
+            <div className='profil-box'>
             <p>
-                <h3>About Me: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, about: true})}/>}</h3><br/> {activeUser.userData && activeUser.userData.about}
+                <h3>About Me: {enableEdit && <FaEdit className='edit-info' onClick={(e) => setEditInfo({...editInfo, about: true})}/>}</h3><br/> {activeUser.userData && activeUser.userData.about}
                 {editInfo.about && (
                     <div className="modal">
                         <div className="modal-content">
@@ -259,7 +259,7 @@ export default function EmployeeSettings() {
                 )}
             </p><br></br>
             <p>
-                <h3>Skills: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, skills: true})}/>}</h3><br/>
+                <h3>Skills: {enableEdit && <FaEdit className='edit-info' onClick={(e) => setEditInfo({...editInfo, skills: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.skills.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
@@ -272,7 +272,7 @@ export default function EmployeeSettings() {
                 )}
             </p><br></br>
             <p>
-                <h3>Courses Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, courses: true})}/>}</h3><br/>
+                <h3>Courses Taken: {enableEdit && <FaEdit className='edit-info' onClick={(e) => setEditInfo({...editInfo, courses: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.courses_taken.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
@@ -285,7 +285,7 @@ export default function EmployeeSettings() {
                 )}
             </p><br></br>
             <p>
-                <h3>Education: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, education: true})}/>}</h3><br/>
+                <h3>Education: {enableEdit && <FaEdit className='edit-info' onClick={(e) => setEditInfo({...editInfo, education: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.education.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
@@ -298,7 +298,7 @@ export default function EmployeeSettings() {
                 )}
             </p><br></br>
             <p>
-                <h3>Workshops Taken: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, workshops: true})}/>}</h3><br/>
+                <h3>Workshops Taken: {enableEdit && <FaEdit className='edit-info' onClick={(e) => setEditInfo({...editInfo, workshops: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.workshops_taken.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
@@ -311,7 +311,7 @@ export default function EmployeeSettings() {
                 )}
             </p><br></br>
             <p>
-                <h3>Awards: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, awards: true})}/>}</h3><br/>
+                <h3>Awards: {enableEdit && <FaEdit className='edit-info' onClick={(e) => setEditInfo({...editInfo, awards: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.awards.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
@@ -324,7 +324,7 @@ export default function EmployeeSettings() {
                 )}
             </p><br></br>
             <p>
-                <h3>Job History: {enableEdit && <FaEdit class='edit-info' onClick={(e) => setEditInfo({...editInfo, history: true})}/>}</h3><br/>
+                <h3>Job History: {enableEdit && <FaEdit className='edit-info' onClick={(e) => setEditInfo({...editInfo, history: true})}/>}</h3><br/>
                 {activeUser.userData && activeUser.userData.job_history.map((val, index) => {
                     return <li key={index}>{val}</li>
                 })}
@@ -594,8 +594,8 @@ export default function EmployeeSettings() {
                         />
                     </div>
                 </div>
-                <div class="password-input-group">
-                            <button type="submit" class="reset-btn">
+                <div className="password-input-group">
+                            <button type="submit" className="reset-btn">
                                 Reset Security Image
                             </button>
                 </div>
@@ -606,7 +606,7 @@ export default function EmployeeSettings() {
     const changePassword = () => {
         return (
             <form onSubmit={(e) => reqChangePwd(e)}>
-                <div class="password-input-group">
+                <div className="password-input-group">
                     <label>Current Password: </label>
                     <div className="input-wrapper-n">
                         <input
@@ -620,7 +620,7 @@ export default function EmployeeSettings() {
                     </div>
                 </div>
 
-                <div class="password-input-group">
+                <div className="password-input-group">
                     <label>New Password: </label>
                     <div className="input-wrapper-n">
                         <input
@@ -651,7 +651,7 @@ export default function EmployeeSettings() {
                     </ul>
                 </div><br></br>
 
-                <div class="password-input-group">
+                <div className="password-input-group">
                     <label>Confirm Password: </label>
                     <div className="input-wrapper-n">
                         <input
@@ -667,8 +667,8 @@ export default function EmployeeSettings() {
                     )}
                 </div>
 
-                <div class="password-input-group">
-                            <button type="submit" class="reset-btn">
+                <div className="password-input-group">
+                            <button type="submit" className="reset-btn">
                                 Reset password
                             </button>
                 </div>
@@ -719,8 +719,8 @@ export default function EmployeeSettings() {
                     </div>
 
                     {/* <div className='promotionsWrapper'> */}
-                    <div class="admin-setting-wrapper">
-                        <aside class="profile-sidebar-e">
+                    <div className="admin-setting-wrapper">
+                        <aside className="profile-sidebar-e">
                         {/* <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture'/> */}
                             <label htmlFor='profile-image-e' className='profile-picture-e'>
                                 <img src={(activeUser.userData && activeUser.userData.profile_picture) || defaultImg} alt="Profile" className='profile-picture-e'/>
@@ -737,12 +737,12 @@ export default function EmployeeSettings() {
                                 </div>)}
                             <h2>{activeUser.userData && activeUser.userData.name}</h2>
                             <p>{activeUser.userData && activeUser.userPosition}</p>
-                            {!activeTab && !enableEdit && <button class="edit-profile-btn" onClick={() => setEnableEdit(true)}>Edit Profile</button>}
-                            {!activeTab && enableEdit && <button class="edit-profile-btn" onClick={() => handleEditSubmit(true)}>Update Profile</button>}<br></br>
-                            {!activeTab && enableEdit && <button class="cancel-profile-btn" onClick={() => handleEditSubmit(false)}>Cancel</button>}
+                            {!activeTab && !enableEdit && <button className="edit-profile-btn" onClick={() => setEnableEdit(true)}>Edit Profile</button>}
+                            {!activeTab && enableEdit && <button className="edit-profile-btn" onClick={() => handleEditSubmit(true)}>Update Profile</button>}<br></br>
+                            {!activeTab && enableEdit && <button className="cancel-profile-btn" onClick={() => handleEditSubmit(false)}>Cancel</button>}
                         </aside>
-                        <main class="profile-main-e">
-                            <section class="profile-section-e">
+                        <main className="profile-main-e">
+                            <section className="profile-section-e">
                             <div className="profile-navbar-e">
                                 {tabs.map((tab, index) => (
                                     <button key={index} className={`nav-item ${index === activeTab ? "active" : ""}`} onClick={(e) => handleItemClick(index, e)}>
@@ -750,7 +750,7 @@ export default function EmployeeSettings() {
                                     </button>
                                 ))}
                             </div>
-                            <div class='profile-e-body'>
+                            <div className='profile-e-body'>
                                 {!activeTab && myProfile()}
                                 {activeTab == 1 && changePassword()}
                                 {activeTab == 2 && reqChangeSecurityImg()}
