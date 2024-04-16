@@ -1,12 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartLine, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './CreateAssessment.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useLogout } from '../../hooks/useLogout';
-import { useUserContext } from '../../hooks/useUserContext';
-
 import axios from 'axios'
 import { FaSearch } from 'react-icons/fa'
 // import { useState } from 'react'
@@ -14,11 +12,8 @@ import { toast } from 'react-hot-toast'
 
 export default function CreateAssessment() {
     const location = useLocation();
+    const user = location.state.name;
     const navigate = useNavigate();
-    const { logout } = useLogout()
-    
-    const user = JSON.parse(localStorage.getItem('user'));
-    const { authenticatedUser, no, path, dispatch} = useUserContext()
     const [questions, setQuestions] = useState([]);
     const [data, setData] = useState({
         empID: '',
@@ -32,8 +27,7 @@ export default function CreateAssessment() {
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/admin_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/admin_feedback/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/model_tuning" },
-        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
     ];
 
     const retrieveQuestions = async () => {
@@ -94,7 +88,7 @@ export default function CreateAssessment() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { userInfo: user }}); 
+        navigate(path, { state: {name: user}}); 
     };
 
     // const addEmployee = () => {
@@ -126,13 +120,6 @@ export default function CreateAssessment() {
     // const deleteEmployee = (id) => {
     //     setEmployees(employees.filter(employee => employee.id !== id));
     // };
-
-    useEffect(() => {
-      dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
-      localStorage.setItem('path' ,JSON.stringify(location.pathname))
-  }, [])
-
-  
     const assignAssessment = async (e) => {
         e.preventDefault();
         console.log("Submitting assessment with data:", data);
