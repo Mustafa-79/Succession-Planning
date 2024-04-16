@@ -226,7 +226,7 @@ export default function Login() {
                     </div>
 
                     <div class="signup-link">
-                        <button onClick={() => navigate("/signup")}>Sign Up</button>
+                        <button onClick={() => navigate("/signup")}>Register</button>
                     </div>
 
                     <div class="forgot-password">
