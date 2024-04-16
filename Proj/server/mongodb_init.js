@@ -1328,6 +1328,7 @@ async function init_db(conn) {
             'Common user issue?' 
             ],
             answers: ['Windows', 'TeamViewer', 'VPN', 'Password'],
+            employee_answers : [],
             score: '0',
             status: 'Pending',
             date: new Date('2024-03-05T08:00:00Z')

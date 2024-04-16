@@ -77,8 +77,8 @@ export default function AdminFeedback() {
                         <div className='promotionItem' id='complaintForm' onClick={(e) => handleMenuItemClick('/admin_feedback/assess_complaint', e)}>
                             <div >View Complaints.</div>
                         </div>
-                        <div className='promotionItem' id='pendingAssessments' onClick={(e) => handleMenuItemClick('/admin_feedback/create_assessment', e)}>
-                            <div>Create Assessments.</div>
+                        <div className='promotionItem' id='pendingAssessments' onClick={(e) => handleMenuItemClick('/admin_feedback/view_assessment', e)}>
+                            <div>View Assessments.</div>
                         </div>
                     </div>
                 </div>
