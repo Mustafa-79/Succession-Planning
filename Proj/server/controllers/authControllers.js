@@ -9,8 +9,11 @@ const User = require('../models/users')
 const HR_AdminModel = require('../models/hr_admin')
 const Employee = require('../models/employee')
 const Feedback = require('../models/feedback')
+const Complaint = require('../models/complaint')
 const Course = require('../models/course')
 const PositionModel = require('../models/positions')
+const AssignAssessmentModel = require('../models/assign_assessment')
+const doAssignmentModel = require('../models/doassignment')
 const { hashPassword, comparePassword } = require('../helpers/auth')
 const jwt = require('jsonwebtoken')
 
@@ -428,6 +431,94 @@ const submitFeedback = async (reqs, resp) => {
     }
 }
 
+const submitComplaint = async (reqs, resp) => {
+    try {
+        // console.log(reqs.body)
+        const { complaintAgainstID, feedback, complaintByID } = reqs.body
+        
+        if (!complaintAgainstID) {
+            // Send error response to the client with code 400
+            return resp.status(400).json({
+                error: 'Course/Employee ID is required'
+            });
+        }
+
+        const employeees = await Employee.find({});
+        const employeeesIDs = employeees.map(employee => employee.employeeID)
+        // console.log("the emp ids are: ", employeeesIDs)
+        const user = await Employee.findOne({ employeeID: complaintAgainstID })
+        // console.log("the user is: ", user)
+        // Fetch all courseIDs 
+        const courses = await Course.find({})
+        
+        const courseIDs = courses.map(course => course.courseID)
+        // console.log("the course ids are: ", courseIDs)
+        // Check if complaintAgainstID is valid
+        if (!courseIDs.includes(complaintAgainstID) && !user) {
+            // Send error response to the client with code 400
+            return resp.status(400).json({
+                error: 'Course/Employee does not exist with the given ID'
+            });
+        }
+
+        if (!feedback) {
+            return resp.status(400).json({
+                error: 'Complaint is required'
+            });
+        }
+
+        const lastComplaint = await Complaint.findOne().sort({ complaintID: -1 });
+        let newComplaintID;
+        if (lastComplaint && lastComplaint.complaintID.startsWith('C')) {
+            const lastIdNumber = parseInt(lastComplaint.complaintID.slice(1)) + 1;
+            newComplaintID = `C${lastIdNumber.toString().padStart(4, '0')}`;
+        } else {
+            newComplaintID = 'C0001'; // Default starting ID
+        }
+
+        console.log("the new id is: ", newComplaintID)
+
+
+        // Assign unique ID to feedback
+        // const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
+        let employeeexist = "-";
+        let courseexist = "-";
+        if(user)
+        {
+            employeeexist = complaintAgainstID;
+
+        }
+        else if(courseIDs.includes(complaintAgainstID))
+        {
+            courseexist = complaintAgainstID;
+        }
+
+        console.log("the employee against which the complaint is: ",employeeexist)
+        console.log("the course against which the complaint is: ",courseexist)
+        console.log("the employee that lodged the complaint is: ", complaintByID)
+        // Create a new feedback record
+        const newComplaint = new Complaint({
+            complaintID: newComplaintID,
+            employeeID1 : employeeexist,
+            courseID : courseexist,
+            employeeID2: complaintByID,
+            feedback,
+            date: new Date() // Use the current date
+        });
+
+        await newComplaint.save();
+
+        // send response to the client
+        resp.json({
+            message: 'Complaint submitted successfully',
+            feedback: newComplaint
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const returnProfile = async (reqs, resp) => {
     try {
         const { name } = reqs.body;
@@ -550,6 +641,188 @@ const updateProfile = async (reqs, resp) => {
     }
 }
 
+const deleteComplaint = async (reqs, resp) => {
+    try {
+        // console.log(reqs)
+        // Get the employee's ID
+        const complaintID = reqs.params.id;
+        // Delete from the DB
+        const deletedComplaint = await Complaint.findOneAndDelete({ complaintID: complaintID });
+
+        // If no employee was deleted, i.e. wrong emplyee ID, return error
+        if (!deletedComplaint) {
+            return resp.status(400).json({ message: "Complaint not found" })
+        }
+        // return success message
+        return resp.json({ message: "Complaint deleted successfully" })
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+const retrieveAssessmentQuestions = async (reqs,resp) => {
+    console.log(reqs.body);
+    const { empID } = reqs.body
+
+    console.log('key', empID)
+
+    const user = await Employee.findOne({ employeeID: empID })
+
+    // console.log(user)
+
+    if (!user) {
+        return resp.json({
+            error: 'No such employee exists'
+        })
+    }
+
+    const positionTitle = user.positionID;
+    console.log("position id is: ", positionTitle)
+    // const allassess = await AssignAssessmentModel.find({})
+    // const employeees = await Employee.find({});
+    //     const employeeesIDs = employeees.map(employee => employee.employeeID)
+    // const assessmentdata = await AssignAssessmentModel.findOne({ positionID: positionTitle})
+    // console.log("assessment data is: ", assessmentdata)
+    try {
+        const assessmentdata = await AssignAssessmentModel.findOne({ positionIDnew: positionTitle });
+        // console.log("Assessment data is: ", assessmentdata);
+    
+        if (assessmentdata) {
+            const questions = assessmentdata.questions;
+            resp.json({
+                message: 'Questions retrieved successfully',
+                questions: questions,
+                positionTitle: positionTitle
+            });
+        } else {
+            // Handle the case where the assessment data is not found
+            console.log("No assessment data found for position ID:", positionTitle);
+            resp.status(404).json({ message: 'No assessment data found for the provided position ID.' });
+        }
+    } catch (error) {
+        console.error("Error retrieving assessment data:", error);
+        resp.status(500).json({ message: 'An error occurred while retrieving questions.' });
+    }
+    // const questions = assessmentdata.questions;
+
+    // resp.json({
+    //     message: 'questions submitted successfully',
+    //     questions: questions
+    // });
+
+
+
+}
+
+const assignAssessment = async (reqs, resp) => {
+    try {
+        const { empID ,
+            positionTitle,
+            questions,
+            answers } = reqs.body
+        console.log("the questions are: ", questions)
+        console.log("the answers are: ", answers)
+        console.log("the position id is: ", positionTitle)
+        if (!empID || !positionTitle) {
+            return resp.status(400).json({
+                error: 'Employee/Position ID is required'
+            });
+        }
+
+        if (!questions) {
+            return resp.status(400).json({
+                error: 'questions are required'
+            });
+        }
+
+        const lastAssignment = await doAssignmentModel.findOne().sort({ assignmentID: -1 });
+        let newAssignmentID;
+        if (lastAssignment && lastAssignment.assignmentID.startsWith('A')) {
+            const lastIdNumber = parseInt(lastAssignment.assignmentID.slice(1)) + 1;
+            newAssignmentID = `A${lastIdNumber.toString().padStart(4, '0')}`;
+        } else {
+            newAssignmentID = 'A0001'; // Default starting ID
+        }
+
+        console.log("the new id is: ", newAssignmentID)
+        const score = '0'
+        const status = 'Pending'
+        // Assign unique ID to feedback
+        // const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
+        // let employeeexist = "-";
+        // let courseexist = "-";
+        // if(user)
+        // {
+        //     employeeexist = complaintAgainstID;
+
+        // }
+        // else if(courseIDs.includes(complaintAgainstID))
+        // {
+        //     courseexist = complaintAgainstID;
+        // }
+
+        // console.log("the employee against which the complaint is: ",employeeexist)
+        // console.log("the course against which the complaint is: ",courseexist)
+        // console.log("the employee that lodged the complaint is: ", complaintByID)
+        // Create a new feedback record
+        const newAssignment = new doAssignmentModel({
+            assignmentID: newAssignmentID,
+            employeeID : empID,
+            positionTitle : positionTitle,
+            questions: questions,
+            answers: answers,
+            score: score,
+            status: status,
+            date: new Date() // Use the current date
+        });
+
+        await newAssignment.save();
+
+        // send response to the client
+        resp.json({
+            message: 'Assignment submitted successfully',
+            feedback: newAssignment
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const updateAssessment = async (reqs,resp) => {
+    const { assessmentID, score, status } = reqs.body;
+
+    // Input validation (if necessary)
+    if (!assessmentID || !score || !status) {
+        return resp.status(400).json({ message: 'Assessment ID, score, and status are required.' });
+    }
+
+    try {
+        // Find the assessment by ID and update
+        const updatedAssessment = await doAssignmentModel.findOneAndUpdate(
+            { assignmentID: assessmentID },
+            { 
+                score: score,
+                status: status
+            },
+            { new: true } // Return the updated document
+        );
+
+        // If the assessment does not exist, return an error
+        if (!updatedAssessment) {
+            return resp.status(404).json({ message: 'Assessment not found.' });
+        }
+
+        // Send back the updated assessment data
+        resp.json(updatedAssessment);
+    } catch (error) {
+        console.error('Error updating assessment:', error);
+        resp.status(500).json({ message: 'Error updating assessment.' });
+    }
+}
+
+
 // router.get("/mentor/:mentor", getMentorInfo);   
 const getMentorInfo = async (reqs, resp) => {
     try {
@@ -661,11 +934,16 @@ module.exports = {
     resetSecurityImage,
     verifySecurityAnswer,
     submitFeedback,
+    submitComplaint,
     returnProfile,
     uploadImage,
     changePassword,
     changeSecurityImg,
     updateProfile,
+    deleteComplaint,
+    retrieveAssessmentQuestions,
+    assignAssessment,
+    updateAssessment,
     getMentorInfo,
     getMentorOptions,
     assignMentor,

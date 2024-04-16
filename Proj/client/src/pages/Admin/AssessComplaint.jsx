@@ -1,36 +1,27 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-<<<<<<< HEAD
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartLine, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
-// import './Dashboard.css';
-=======
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
->>>>>>> ibii
-import './AssessFeedback.css';
+// import './Dashboard.css';
+import './AssessComplaint.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { useUserContext } from '../../hooks/useUserContext';
-import { useLogout } from '../../hooks/useLogout';
 
 
-export default function Dashboard() {
+export default function AssessComplaint() {
     const location = useLocation();
+    const user = location.state.name;
     const navigate = useNavigate();
 
-    const { logout } = useLogout()
-    
-    const user = JSON.parse(localStorage.getItem('user'));
-    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/admin_feedback" },
-        { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/admin_feedback/create_assessment" },
+        { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
-        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/model_tuning" },
-        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
     ];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
@@ -42,46 +33,60 @@ export default function Dashboard() {
 
     const[specificE,setSpecificE] = useState({})
 
+    const [complaintData, setComplaintData] = useState([]);
+
 
     // Fetching all employees from the database
     useEffect(() => {
         let isMounted = true; // Flag to check if the component is still mounted
     
-        // Helper function to combine and update employee data
-        const updateEmployeesWithData = (employees, empData) => {
-            // Combine employee and additional data
-            const updatedEmployees = employees.map(employee => {
-                const additionalData = empData.find(ed => `E${ed.employeeID}` === employee.employeeID);
-                if (additionalData) {
-                    return {
-                        ...employee,
-                        name: additionalData.name,
-                        positionID: additionalData.positionID,
-                        date_of_birth: additionalData.date_of_birth,
-                        registered_status: additionalData.registered_status,
-                    };
-                }
-                return employee;
-            });
+        // // Helper function to combine and update employee data
+        // const updateEmployeesWithData = (employees, empData) => {
+        //     // Combine employee and additional data
+        //     // {complaintID, employeeID1, courseID, employeeID2, feedback, date} = employees.body;
+        //     console.log(employees)
+        //     const updatedEmployees = employees.map(employee => {
+        //         console.log("employee id: ", employee.employeeID)
+        //         const additionalData = empData.find(ed => `E${ed.employeeID}` === employee.employeeID);
+        //         // console.log(additionalData.name);
+        //         if (additionalData) {
+        //             return {
+        //                 ...employee,
+        //                 name: additionalData.name,
+        //                 positionID: additionalData.positionID,
+        //                 date_of_birth: additionalData.date_of_birth,
+        //                 registered_status: additionalData.registered_status,
+        //             };
+        //         }
+        //         return employee;
+        //     });
     
-            // Update state if component is still mounted
-            if (isMounted) {
-                setEmployees(updatedEmployees);
-            }
-        };
+        //     // Update state if component is still mounted
+        //     if (isMounted) {
+        //         setEmployees(updatedEmployees);
+        //     }
+        // };
     
         // Perform both Axios requests in parallel
         Promise.all([
-            axios.post('/getFeedback'),
+            axios.post('/getComplaint'),
             axios.get('/dashboard-employees')
         ])
-        .then(([feedbackRes, empDataRes]) => {
+        .then(([complaintRes, empDataRes]) => {
             if (!isMounted) return; // Prevent updating state if the component is unmounted
-            const feedbackData = feedbackRes.data;
+            const complaintData = complaintRes.data;
             const empData = empDataRes.data;
+            if(complaintData){
+              console.log(complaintData)
+              setComplaintData(complaintData);
+            }
+            else
+            {
+              console.log("null")
+            }
     
             // Update employees with combined data
-            updateEmployeesWithData(feedbackData, empData);
+            // updateEmployeesWithData(complaintData, empData);
         })
         .catch(err => {
             console.error(err); // Log any errors to the console
@@ -94,10 +99,8 @@ export default function Dashboard() {
         };
     }, []); // Empty dependency array means this effect runs only once after the initial render
     
-    useEffect(() => {
-        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
-        localStorage.setItem('path' ,JSON.stringify(location.pathname))
-    }, [])
+
+
 
     const [positionTitles, setPositionTitles] = useState([]);
     useEffect(() => {
@@ -148,12 +151,12 @@ export default function Dashboard() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { userInfo: user }}); 
+        navigate(path, { state: {name: user}}); 
     };
 
 
-    const addEmployee = (employee) => {
-        setSpecificE(employee)
+    const addEmployee = (complaint) => {
+        setSpecificE(complaint)
         setShowModal(true);
     };
 
@@ -199,6 +202,30 @@ export default function Dashboard() {
         }
     };
 
+    const deleteComplaint = async (id) => {
+      try {
+          // console.log('Deleting complaint:', id);
+          const response = await axios.post(`/deleteComplaint/${id}`);
+          console.log('complaint deleted:', response.data);
+
+          axios.post('/getComplaint')
+              .then(res => {
+                  // console.log(res.data);
+                  setComplaintData(res.data);
+
+                  toast.success('complaint deleted successfully');
+              })
+              .catch(err => {
+                  console.log(err);
+                  toast.error('Failed to fetch complaints');
+              });
+
+      } catch (error) {
+          console.error('Failed to delete complaint:', error);
+          // Handle error
+      }
+  }
+
     return (
         <div className='overlay'>
             <div className='wrapper'>
@@ -223,9 +250,9 @@ export default function Dashboard() {
                 <div className='contentAdminDash'>
                     <div className='header'>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user}</a>
                         <button
-                            onClick={() => logout()}
+                            onClick={() => navigate('/login')}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',
@@ -248,12 +275,12 @@ export default function Dashboard() {
                                 size="2x"
                                 color="rgb(34, 137, 255)"
                             />
-                            <h1>Feedback Forms</h1>
+                            <h1>Complaint Forms</h1>
                             </div>
                             <div className='employeeFunctionss'>
-                                <div className='func'>Total Feedbacks</div>
+                                <div className='func'>Total Complaints</div>
                                 <div className='countAndView'>
-                                    <div className='funcCount'>{employees.length}</div>
+                                    <div className='funcCount'>{complaintData.length}</div>
                                     <div className='iconAndView'>
                                         <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
                                         <a href="">View</a>
@@ -266,75 +293,65 @@ export default function Dashboard() {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Employee ID</th>
-                                        <th>Name</th>
-                                        <th>Position ID</th>
-                                        <th>Position Title</th>
-                                        <th>Age</th>
-                                        <th>Status</th>
-                                        <th>View Feedback</th>
+                                        <th>Complaint ID</th>
+                                        <th>Complaint by Employee</th>
+                                        <th>Against Employee ID</th>
+                                        <th>Against Course ID</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                        <th>Resolve Complaint</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    { employees
-                                        .filter(employee => employee.employeeID.toString().includes(searchTerm))
-                                        .map(employee => (
-                                            <tr key={employee.employeeID}>
-                                                <td>{employee.employeeID}</td>
-                                                <td>{employee.name}</td>
-                                                <td>{employee.positionID}</td>
-                                                <td>{getPositionTitle(employee.positionID)}</td>
-                                                <td>{getAge(employee.date_of_birth)}</td>
-                                                <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
-                                                
-                                                <td>
-                                                    {/* <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a> */}
-                                                    <button onClick={(e) => addEmployee(employee)}><FontAwesomeIcon icon={faEye} size='xl' /></button>
-                                               </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
+                                    {complaintData.map(complaint => (
+                                        <tr key={complaint.complaintID}>
+                                            <td>{complaint.complaintID}</td>
+                                            <td>{complaint.employeeID2}</td>
+                                            <td>{complaint.employeeID1}</td>
+                                            <td>{complaint.courseID}</td>                         
+                                            <td>{complaint.date}</td>
+                                            <td>
+                                                <button onClick={() => addEmployee(complaint)}>
+                                                  <FontAwesomeIcon icon={faEye} size='xl' />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                    <button onClick={() => deleteComplaint(complaint.complaintID)}>
+                                                        <FontAwesomeIcon icon={faTrash} size='xl' />
+                                                    </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    }
+                                </tbody> 
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            {showModal && (
-    <div className="modalOverlay">
-        <div className="modalContent">
-        <span className="closeModal" onClick={closeModal}>&times;</span> {/* Close button */}
-            <div className="modalHeader">
-                {/* <span className="closeModal" onClick={closeModal}>&times;</span> */}
-                <h2>Feedback</h2>
-            </div>
-            <div className="modalBody">
-                    <div className="formGroup1">
-                        <label htmlFor="CourseID">Course ID:</label>
-                        <h3>{specificE.courseID}</h3>
-                    </div>
-                    <div className="formGroup1">
-                        <label>Rating:</label>
-                        <div>
-                            {[...Array(5)].map((star, i) => {
-                                const ratingValue = i + 1;
-                                return (
-                                    <label key={i}>
-                                        <input type="radio" name="rating" value={ratingValue} style={{ display: 'none' }} />
-                                        <FontAwesomeIcon icon={faStar} color={ratingValue <= specificE.rating ? "#ffc107" : "#e4e5e9"} />
-                                    </label>
-                                );
-                            })}
+            {showModal && 
+                (
+                    <div className="modalOverlay">
+                        <div className="modalContent">
+                        <span className="closeModal" onClick={closeModal}>&times;</span> {/* Close button */}
+                            <div className="modalHeader">
+                                {/* <span className="closeModal" onClick={closeModal}>&times;</span> */}
+                                <h2>Complaint</h2>
+                            </div>
+                            <div className="modalBody">
+                                    <div className="formGroup1">
+                                        <label htmlFor="CourseID">Against Employee/Course ID:</label>
+                                        <h3>{specificE.employeeID1 =="-"? specificE.courseID : specificE.employeeID1}</h3>
+                                    </div>
+                                    <div className="formGroup1">
+                                        <label htmlFor="Response">What the complaint was?</label>
+                                        <h3>{specificE.feedback}</h3>
+                                    </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="formGroup1">
-                        <label htmlFor="Response">Feedback response:</label>
-                        <h3>{specificE.feedback}</h3>
-                    </div>
-            </div>
-        </div>
-    </div>
-)}
-
+                )
+            }
         </div>
     );
 }

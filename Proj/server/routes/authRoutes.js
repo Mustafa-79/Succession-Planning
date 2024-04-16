@@ -13,12 +13,17 @@ const {
     resetSecurityImage,
     verifySecurityAnswer,
     submitFeedback,
+    submitComplaint,
     returnProfile,
     uploadImage,
     changePassword,
     changeSecurityImg,
 
     updateProfile,
+    deleteComplaint,
+    retrieveAssessmentQuestions,
+    assignAssessment,
+    updateAssessment,
     getMentorInfo,
     getMentorOptions,
     assignMentor,
@@ -42,7 +47,7 @@ const {
     changeAdminSecurityImg
 } = require("../controllers/dashboardAdmin");
 
-const { viewFeedbacks } = require("../controllers/feedbackControllers"); 
+const { viewFeedbacks, viewComplaints, viewAssignments } = require("../controllers/feedbackControllers"); 
 
 
 //middleware
@@ -72,6 +77,7 @@ router.get("/dashboard-course-data", fetchCourses);
 router.get("/dashboard-workshop-data", fetchWorkshops);
 router.post("/addEmployeeFromAdminDashboard", addEmployeeFromAdminDashboard);
 router.post("/submitFeedback", submitFeedback);
+router.post('/submitComplaint', submitComplaint);
 router.post('/getProfile', returnProfile)
 router.post('/uploadImage', uploadImage)
 router.post('/changePassword', changePassword)
@@ -79,6 +85,8 @@ router.post('/changeSecurityImage', changeSecurityImg)
 router.post('/updateProfile', updateProfile)
 router.post('/getAdminProfile', returnAdminProfile)
 router.post('/getFeedback', viewFeedbacks)
+router.post('/getComplaint', viewComplaints)
+router.post('/getAssessmentData', viewAssignments)
 router.post('/setMetrics', setMetrics)
 router.post('/change_status', changeStatus)
 
@@ -86,6 +94,10 @@ router.post('/change_status', changeStatus)
 router.post("/deleteEmployee/:id", deleteEmployeefromAdminDashboard);
 router.get("/weights", getWeights);
 router.post("/updateWeights", saveWeights);
+router.post('/retrieveAssessmentQuestions', retrieveAssessmentQuestions);
+router.post('/assignAssessment', assignAssessment);
+router.post('/submitAssessmentScore', updateAssessment);
+router.post("/deleteComplaint/:id", deleteComplaint);
 router.get("/getPositionsData", positionIDtoName)
 router.get('/getCoursesData', getCourses)
 router.get('/getWorkshopsData', getWorkshops)
