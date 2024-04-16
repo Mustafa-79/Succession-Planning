@@ -146,6 +146,7 @@ export default function FeedbackForm() {
         console.log("Feedback submitted successfully")
         console.log(response);
         setData({});
+        setData({courseID: '', feedback: '', empID: 'E'+allUserInfo.employeeID, rating: 0});
         toast.success("Feedback submitted successfully");
       }
     } catch (error) {
