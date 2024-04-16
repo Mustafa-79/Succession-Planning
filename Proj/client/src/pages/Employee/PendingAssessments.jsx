@@ -143,6 +143,8 @@ export default function PendingAssessment() {
 	// Function to handle form submission
 	const handleFormSubmit = () => {
 		const correctAnswers = specificE.answers;
+    console.log("correct answers: ", specificE.answers)
+    console.log("employee answers: ", employeeAnswers)
 		const totalQuestions = correctAnswers.length;
 		let correctCount = 0;
 
@@ -173,6 +175,7 @@ export default function PendingAssessment() {
 		axios
 			.post("/submitAssessmentScore", {
 				assessmentID: specificE.assignmentID,
+        employee_answers: employeeAnswers,
 				score: scoreString,
 				status: "Completed",
 			})
