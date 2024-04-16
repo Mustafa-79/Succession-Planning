@@ -10,12 +10,14 @@ import 'react-circular-progressbar/dist/styles.css';
 import './PromotionProgress.css';
 import '../fonts.css';
 import { useLogout } from '../../../hooks/useLogout';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 export default function PromotionProgress() {
     const location = useLocation();
     const navigate = useNavigate();
     const allUserInfo = JSON.parse(localStorage.getItem('user'));
     const { logout } = useLogout()
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     ChartJS.register(
         BarElement,
@@ -52,6 +54,8 @@ export default function PromotionProgress() {
 
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: allUserInfo, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/dashboard-employees')
             .then(res => {
                 console.log(res.data);

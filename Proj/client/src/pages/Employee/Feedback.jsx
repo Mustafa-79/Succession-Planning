@@ -1,16 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './Feedback.css';
 import './fonts.css';
 import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export default function Feedback() {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'))
     const { logout } = useLogout()
     const navigate = useNavigate();
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -25,6 +27,11 @@ export default function Feedback() {
         e.preventDefault()
         navigate(path, { state: { userInfo:user } });
     };
+
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path

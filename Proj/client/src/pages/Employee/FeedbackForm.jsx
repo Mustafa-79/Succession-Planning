@@ -21,6 +21,7 @@ import "./FeedbackForm.css";
 import "./fonts.css";
 import { useEffect } from "react";
 import { useLogout } from "../../hooks/useLogout";
+import { useUserContext } from "../../hooks/useUserContext";
 
 
 const StarRatingInput = ({ value, onRatingChange }) => {
@@ -49,6 +50,7 @@ const StarRatingInput = ({ value, onRatingChange }) => {
 export default function FeedbackForm() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('user'))
+  const { authenticatedUser, no, dispatch } = useUserContext();
   const navigate = useNavigate();
   const { logout } = useLogout()
 
@@ -65,6 +67,8 @@ export default function FeedbackForm() {
 // })
 
       useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         fetchData(); // Call the fetch function on component mount
 
     }, []); // Empty array means it will only run once when component mounts

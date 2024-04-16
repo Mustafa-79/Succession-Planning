@@ -7,12 +7,14 @@ import '../fonts.css';
 import axios from 'axios'
 import toast from 'react-hot-toast';
 import { useLogout } from '../../../hooks/useLogout';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 
 export default function AvailablePositions() {
     const location = useLocation();
     // const allUserInfo = location.state.userInfo
     const allUserInfo = JSON.parse(localStorage.getItem('user'))
+    const { authenticatedUser, no, dispatch } = useUserContext();
     const { logout } = useLogout()
 
     const navigate = useNavigate();
@@ -33,6 +35,10 @@ export default function AvailablePositions() {
     const [noPosition,setNoPosition] = useState(false)
     const [empFetched,setEmpFetched] = useState(0)
     
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: allUserInfo, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
 
     const getCurrentEmployee = (employeeName) => {

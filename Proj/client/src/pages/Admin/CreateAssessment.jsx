@@ -14,6 +14,7 @@ export default function CreateAssessment() {
     const { logout } = useLogout()
     
     const user = JSON.parse(localStorage.getItem('user'));
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -73,6 +74,11 @@ export default function CreateAssessment() {
         setEmployees([...employees, newEmployee]);
         closeModal();
     };
+
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     const deleteEmployee = (id) => {
         setEmployees(employees.filter(employee => employee.id !== id));

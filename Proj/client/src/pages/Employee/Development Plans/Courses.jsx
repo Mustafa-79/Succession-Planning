@@ -7,6 +7,7 @@ import '../fonts.css';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useLogout } from '../../../hooks/useLogout';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 export default function Courses() {
     const location = useLocation();
@@ -14,6 +15,7 @@ export default function Courses() {
     const navigate = useNavigate();
     const employeeInfo  = user;
     const { logout } = useLogout()
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     // const employeeInfo = location.state.info
 
@@ -39,6 +41,8 @@ export default function Courses() {
     };
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/dashboard-position-titles')
             .then(res => {
                 setPositionTitles(res.data);

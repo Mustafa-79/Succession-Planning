@@ -18,6 +18,8 @@ export default function ModelTuning() {
     
     const user = JSON.parse(localStorage.getItem('user'));
 
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
+
     // 7 weights for 7 KPIs: 
     const featureNames = ['task_completion_rate', 'attendance_rate', 'punctuality', 'efficiency', 'professionalism', 'collaboration', 'leadership'];
     // two sets of weights: one set given by ML, and one set given by the admin. Fetch them using a GET request.
@@ -37,6 +39,8 @@ export default function ModelTuning() {
     };
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/weights').then(res => {
             console.log("Weights fetched: ", res.data)
             const ML_weights = res.data.find(item => item.weightsID === 1);

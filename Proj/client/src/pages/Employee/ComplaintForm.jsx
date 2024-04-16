@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -20,6 +20,7 @@ import {
 import "./ComplaintForm.css";
 import "./fonts.css";
 import { useLogout } from "../../hooks/useLogout";
+import { useUserContext } from "../../hooks/useUserContext";
 
 const StarRatingInput = ({ value, onRatingChange }) => {
     const stars = Array.from({ length: 5 }, (_, index) => index + 1);
@@ -47,6 +48,7 @@ const StarRatingInput = ({ value, onRatingChange }) => {
 export default function ComplaintForm() {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'))
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
     const navigate = useNavigate();
     const { logout } = useLogout()
 
@@ -117,6 +119,11 @@ export default function ComplaintForm() {
             // setData({});    
         }
     };
+
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     return (
         <div className='overlay'>

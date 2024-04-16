@@ -20,13 +20,16 @@ import img10 from "../img/s_img10.png";
 import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import SmallBox from '../../components/SmallBox';
 import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export default function EmployeeSettings() {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'));
     const { logout } = useLogout()
     const navigate = useNavigate();
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
+    const [positions, setPositions] = useState([])
     const getPositionTitle = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.title : "Unknown";
@@ -34,7 +37,10 @@ export default function EmployeeSettings() {
 
     useEffect(() => {
         // fetchData(); // Call the fetch function on component mount
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         getPositionData()
+        setActiveUser({...activeUser, userPosition: getPositionTitle(user.positionID)})
         setRandomizedImages(sequenceImg([...imgSources]));
     }, []); // Empty array means it will only run once when component mounts
 
@@ -45,7 +51,6 @@ export default function EmployeeSettings() {
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
-    const [positions, setPositions] = useState([])
     const tabs = ["My Profile", "Change Password", "Change Security Image"];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");

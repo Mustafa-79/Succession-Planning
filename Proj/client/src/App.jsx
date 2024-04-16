@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from '../src/components/Navbar';
 import Home from '../src/pages/Home';
 import Signup from './pages/Signup';
@@ -41,23 +41,29 @@ axios.defaults.withCredentials = true
 function App() {
 
     const { authenticatedUser, no, dispatch } = useUserContext();
+    const path = JSON.parse(localStorage.getItem('path'))
 
+    const admin_routes = [
+        { path: '/model_tuning', component: ModelTuning },
+        { path: '/dashboard', component: Dashboard },
+        { path: '/employee_data', component: EmployeeData },
+        { path: '/admin_settings', component: AdminSettings },
+    ];
       
     return (
         <>
             <Toaster position='bottom-right' toastOptions={{ duration: 2000 }} />
             <Routes>
-                <Route path='/logout' element={<Login />} />
                 {/* Admin Routes */}
                 {no === 2 && (
                     <>
                         <Route path='/dashboard' element={<Dashboard />} />
                         <Route path='/dashboard/performance' element={<EmployeePerformance/>} />
                         <Route path='/assess_feedback' element={<AssessFeedback />} />
+                        <Route path='/model_tuning' element={<ModelTuning />} />
                         <Route path='/employee_data' element={<EmployeeData />} />
                         <Route path='/create_assessment' element={<CreateAssessment />} />
                         <Route path='/admin_settings' element={<AdminSettings />} />
-                        <Route path='/model_tuning' element={<ModelTuning />} />
                         <Route path='/aboutAdmin' element={<AboutAdmin />} />
                         <Route path='/adminProfile' element={<AdminProfile />} />
                     </>
@@ -85,12 +91,12 @@ function App() {
                 )}
 
                 {no === 2 && (
-                    <Route path='*' element={<Dashboard />} />
+                    <Route path='*' element={<Navigate to={path} />} />
                 )}
 
 
                 {no === 1 && (
-                    <Route path='*' element={<EmployeeDashboard />} />
+                    <Route path='*' element={<Navigate to={path} />} />
                 )}
 
                 {/* Unauthenticated Routes !isEmployee && !isAdmin &&  */}
@@ -102,7 +108,7 @@ function App() {
                         <Route path='/resetPassword' element={<ResetPwd />} />
                         <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd />} />
                         <Route path='/resetSecurityImage' element={<ForgetSecurityImage />} />
-                        <Route path='*' element={<Login />} />
+                        <Route path='*' element={<Navigate to={'/login'} />} />
                     </>
                 )}
 

@@ -18,6 +18,7 @@ export default function Dashboard() {
     const { logout } = useLogout()
     
     const user = JSON.parse(localStorage.getItem('user'));
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -89,8 +90,10 @@ export default function Dashboard() {
         };
     }, []); // Empty dependency array means this effect runs only once after the initial render
     
-
-
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     const [positionTitles, setPositionTitles] = useState([]);
     useEffect(() => {

@@ -20,6 +20,8 @@ export default function EmployeeData() {
     
     const user = JSON.parse(localStorage.getItem('user'));
 
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
+
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
@@ -77,6 +79,8 @@ export default function EmployeeData() {
     }
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         fetchEmployees()
     })
 

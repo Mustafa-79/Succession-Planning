@@ -7,13 +7,15 @@ import '../fonts.css';
 import axios from 'axios';
 import { toast } from "react-hot-toast";
 import { useLogout } from '../../../hooks/useLogout';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 export default function Mentor() {
     const location = useLocation();
-    const user = location.state.name;
     const navigate = useNavigate();
     const allUserInfo = JSON.parse(localStorage.getItem('user'))
+    const user = allUserInfo.name;
     const { logout } = useLogout()
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -62,6 +64,8 @@ export default function Mentor() {
     // Get list of available mentors
     const [availableMentors, setAvailableMentors] = useState([]);
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         if (!mentorID) {
             console.log('getting mentors');
             getMentorOptions();

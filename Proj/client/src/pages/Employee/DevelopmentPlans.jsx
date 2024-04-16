@@ -1,14 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './DevelopmentPlans.css';
 import './fonts.css';
 import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export default function Feedback() {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'))
+    const { authenticatedUser, no, dispatch } = useUserContext();
     const navigate = useNavigate();
     const { logout } = useLogout()
 
@@ -29,6 +31,11 @@ export default function Feedback() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
+
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     return (
         <div className='overlay'>

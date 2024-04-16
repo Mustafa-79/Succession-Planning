@@ -18,6 +18,7 @@ export default function EmployeePerformance() {
     const { logout } = useLogout()
     
     const user = JSON.parse(localStorage.getItem('user'));
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -81,6 +82,11 @@ export default function EmployeePerformance() {
     const deleteEmployee = (id) => {
         setEmployees(employees.filter(employee => employee.id !== id));
     };
+
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: '/dashboard'})
+        localStorage.setItem('path' ,JSON.stringify('/dashboard'))
+    }, [])
 
 
     const ProgressBar = (props) => {

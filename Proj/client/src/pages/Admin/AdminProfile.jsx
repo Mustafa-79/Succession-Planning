@@ -16,6 +16,7 @@ export default function AdminProfile() {
     const { logout } = useLogout()
     
     const user = JSON.parse(localStorage.getItem('user'));
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -35,6 +36,11 @@ export default function AdminProfile() {
         e.preventDefault()
         navigate(path, { state: { userInfo: user }}); 
     };
+    
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     return (user && (
         <div className='overlay'>

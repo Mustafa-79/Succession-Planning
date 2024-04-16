@@ -49,8 +49,10 @@ export default function UserProfile() {
     }
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         getPositionData()
-    })
+    },[])
 
     return (
         <div className='overlay'>

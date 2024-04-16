@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -20,6 +20,7 @@ import {
 import "./PendingAssessments.css";
 import "./fonts.css";
 import { useLogout } from "../../hooks/useLogout";
+import { useUserContext } from "../../hooks/useUserContext";
 
 const StarRatingInput = ({ value, onRatingChange }) => {
   const stars = Array.from({ length: 5 }, (_, index) => index + 1);
@@ -48,6 +49,7 @@ export default function PendingAssessments() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('user'))
   const navigate = useNavigate();
+  const { authenticatedUser, no, dispatch } = useUserContext();
   const { logout } = useLogout()
 
 
@@ -118,6 +120,11 @@ export default function PendingAssessments() {
       // setData({});    
     }
   };
+
+  useEffect(() => {
+    dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+    localStorage.setItem('path' ,JSON.stringify(location.pathname))
+}, [])
 
   return (
     <div className='overlay'>

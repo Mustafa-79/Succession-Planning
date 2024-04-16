@@ -101,7 +101,7 @@ export default function Login() {
             } else if (data.no == 1) {
                 console.log(data)
                 localStorage.setItem('user', JSON.stringify(data.user))
-                dispatch({type: 'LOGIN', payload: data.user, no: data.no})
+                dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/employeeDashboard'})
                 setData({})
                 navigate('/employeeDashboard', { state: { name: data.user.name, userInfo: data.user } })
             } else if (data.no == 2) {
@@ -109,7 +109,7 @@ export default function Login() {
                 // login(data.user)
                 setData({})
                 localStorage.setItem('user', JSON.stringify(data.user))
-                dispatch({type: 'LOGIN', payload: data.user, no: data.no})
+                dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/dashboard'})
                 navigate('/dashboard', { state: { userInfo: data.user} })
             }
         } catch (error) {
@@ -118,11 +118,11 @@ export default function Login() {
     }
 
     return (
-        <div class="login-container">
-            <div class="login-box">
+        <div className="login-container">
+            <div className="login-box">
                 <h1 style={{marginBottom:15}}>Login</h1>
                 <form onSubmit={loginUser}>
-                    <div class="input-group">
+                    <div className="input-group">
                         <input
                             type="email"
                             placeholder="Email"
@@ -131,7 +131,7 @@ export default function Login() {
                         />
                     </div>
 
-                    <div class="input-group">
+                    <div className="input-group">
                         <input
                             type="password"
                             placeholder="Password"
@@ -238,20 +238,20 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <div class="input-group" >
-                        <button type="submit" class="login-btn" >
+                    <div className="input-group" >
+                        <button type="submit" className="login-btn" >
                             Login
                         </button>
                     </div>
 
-                    <div class="signup-link">
+                    <div className="signup-link">
                         <button onClick={() => navigate("/signup")}>Sign Up</button>
                     </div>
 
-                    <div class="forgot-password">
+                    <div className="forgot-password">
                         <a href="/resetPassword">Forgot Password?</a>
                     </div>
-                    <div class="forgot-security-img">
+                    <div className="forgot-security-img">
                         <a href="/resetSecurityImage">Forgot Security Image?</a>
                     </div>
                 </form>

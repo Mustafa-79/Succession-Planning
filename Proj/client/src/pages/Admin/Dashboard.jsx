@@ -15,15 +15,15 @@ export default function Dashboard() {
     const navigate = useNavigate();
     
     const { logout } = useLogout()
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const user = JSON.parse(localStorage.getItem('user'));
 
     const isAuthenticated = 1;
 
     useEffect(() => {
-        if (location.pathname != '/dashboard') {
-            navigate('/dashboard')
-        }
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: '/dashboard'})
+        localStorage.setItem('path' ,JSON.stringify('/dashboard'))
     }, [])
     
     const menuItems = [

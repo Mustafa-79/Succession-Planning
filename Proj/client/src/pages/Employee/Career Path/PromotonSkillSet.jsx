@@ -8,12 +8,14 @@ import axios from 'axios'
 import toast from 'react-hot-toast';
 import ViewPosition from '../../../components/ViewPosition';
 import { useLogout } from '../../../hooks/useLogout';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 
 export default function AvailablePositions() {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'))
     const { logout } = useLogout()
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     const navigate = useNavigate();
 
@@ -71,6 +73,8 @@ export default function AvailablePositions() {
     }
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         getPositionData()
         getCoursesData()
         getWorkshopsData()

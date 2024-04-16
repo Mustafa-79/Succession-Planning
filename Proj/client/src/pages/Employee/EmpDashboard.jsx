@@ -35,9 +35,9 @@ export default function EmployeeDashboard() {
     };
 
     useEffect(() => {
-        if (location.pathname != '/employeeDashboard')
-            navigate('/employeeDashboard')
-      }, []);
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     return (
         <div className='overlay'>

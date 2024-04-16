@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 // import './resetPwd.css'
 import { useNavigate, useLocation } from "react-router-dom";
@@ -43,15 +43,6 @@ export default function ResetFinalPwd() {
 
     const { authenticatedUser, no, dispatch } = useUserContext();
 
-    useEffect(() => {
-        if (authenticatedUser) {
-            if (authenticatedUser.adminID)
-                navigate('/dashboard')
-            else
-            navigate('/employeeDashboard')
-        }
-    })
-
     const resetPassword = async (e) => {
         e.preventDefault();
         const { empID, password, samePassword } = data;
@@ -83,7 +74,7 @@ export default function ResetFinalPwd() {
                 <div class="reset-box">
                     <h1>Reset your password</h1>
                     <h3>
-                        Enter your new password to reset the password on your account. We'll
+                        Enter your new password to reset the password on your account. <br></br>We'll
                         ask this password whenever you log in.
                     </h3>
                     <form onSubmit={resetPassword}>
