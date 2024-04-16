@@ -44,7 +44,7 @@ export default function EmployeePerformance() {
     const [showModal, setShowModal] = useState(false);
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return '/dashboard' === path; // Check if the current location matches the path
     };
 
 

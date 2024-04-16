@@ -35,6 +35,7 @@ export default function EmployeeData() {
     const [showModal, setShowModal] = useState(false);
     const [showEditModel, setShowEditModal] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [positions, setPositions] = useState([]);
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
@@ -82,7 +83,8 @@ export default function EmployeeData() {
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
         fetchEmployees()
-    })
+        fetchPositions()
+    },[])
 
     const handleViewProfile = (e, val) => {
         console.log('hello')
@@ -98,6 +100,25 @@ export default function EmployeeData() {
         setShowEditModal(true);
         // setShowModal(true);
         setUserData(val);
+    }
+
+    const getPositionTitle = (positionID) => {
+        const position = positions.find(position => position.positionID === positionID);
+        return position ? position.title : "Unknown";
+    };
+
+    const fetchPositions = () => {
+        try {
+            const resp = axios.post('/fetch_all_positions')
+            setPositions(resp.data)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    const getPositionsList = (positionID) => {
+        const filteredPositions = positions.filter(val => val != positionID)
+        filteredPositions.unshift(positionID)
     }
 
     return (
@@ -147,6 +168,7 @@ export default function EmployeeData() {
                                 <tr>
                                     <th>Employee ID</th>
                                     <th>Name</th>
+                                    <th>Position</th>
                                     <th>Age</th>
                                     <th>Contact</th>
                                     <th>Email</th>
@@ -161,6 +183,17 @@ export default function EmployeeData() {
                                         <tr key={ind}>
                                             <td>{val.employeeID}</td>
                                             <td>{val.name}</td>
+                                            <td>
+                                                <select name="status" class="status-dropdown" value={!val.is_blocked ? 'active' : 'inactive'} onChange={(e) => statusUpdate(e, val)}>
+                                                    {getPositionsList(val.positionID).map((v) => {
+                                                        return (
+                                                            <option value="active">Active</option>
+                                                        )
+                                                    })}
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Blocked</option>
+                                                </select>
+                                            </td>
                                             <td>{getAge(val.date_of_birth)}</td>
                                             <td>{val.contactNumber}</td>
                                             <td>{val.email}</td>

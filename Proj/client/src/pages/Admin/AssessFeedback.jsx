@@ -137,7 +137,7 @@ export default function Dashboard() {
     const [showModal, setShowModal] = useState(false);
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return '/admin_feedback' === path; // Check if the current location matches the path
     };
 
 
@@ -218,7 +218,7 @@ export default function Dashboard() {
                 <div className='contentAdminDash'>
                     <div className='header'>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
+                        <a href="" onClick={() => logout()}>{user.name}</a>
                         <button
                             onClick={() => logout()}
                             style={{
