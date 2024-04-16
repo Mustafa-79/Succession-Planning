@@ -6,13 +6,16 @@ import './Workshops.css';
 import '../fonts.css';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useLogout } from '../../../hooks/useLogout';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 export default function Courses() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = JSON.parse(localStorage.getItem('user'))
     const navigate = useNavigate();
-    const employeeInfo  = location.state.userInfo;
-    const allUserInfo = location.state.userInfo;
+    const employeeInfo  = user;
+    const { logout } = useLogout()
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     // const employeeInfo = location.state.info
 
@@ -30,14 +33,17 @@ export default function Courses() {
     const [workshops, setWorkshops] = useState([])
 
     const handleMenuItemClick = (path, e) => {
-        navigate(path, { state: { name: user,userInfo:allUserInfo } });
+        e.preventDefault()
+        navigate(path, { state: { userInfo: user } });
     };
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return '/developmentPlans' === path; // Check if the current location matches the path
     };
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/dashboard-position-titles')
             .then(res => {
                 setPositionTitles(res.data);
@@ -218,9 +224,9 @@ export default function Courses() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

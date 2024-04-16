@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom'; 
 import './About.css';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export default function AboutAdmin() {
 
   const location = useLocation();
-  const user = location.state.userInfo;
+  const user = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
+
+  const { authenticatedUser, no, path, dispatch} = useUserContext()
 
   const handleMenuItemClick = (path, e) => {
     e.preventDefault()
     navigate(path, { state: {userInfo: user}}); 
 };
+
+useEffect(() => {
+  dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+  localStorage.setItem('path' ,JSON.stringify(location.pathname))
+}, [])
 
   return (
     <div className="about-container">

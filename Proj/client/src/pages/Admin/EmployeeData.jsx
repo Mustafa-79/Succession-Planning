@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faEdit, faChartLine, faChain } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeData.css';
@@ -10,12 +9,18 @@ import ViewProfile from '../../components/ViewProfile';
 import { FaCross } from 'react-icons/fa';
 import EditMetrics from '../../components/EditMetrics';
 import toast from 'react-hot-toast';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 
 export default function EmployeeData() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const navigate = useNavigate();
+    const { logout } = useLogout()
+    
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -74,6 +79,8 @@ export default function EmployeeData() {
     }
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         fetchEmployees()
     })
 
@@ -119,9 +126,9 @@ export default function EmployeeData() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

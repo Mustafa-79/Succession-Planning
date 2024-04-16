@@ -6,13 +6,17 @@ import './AdminProfile.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import defaultImg from '../img/profile-default.svg'
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 
 export default function AdminProfile() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const navigate = useNavigate();
-
+    const { logout } = useLogout()
+    
+    const user = JSON.parse(localStorage.getItem('user'));
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -23,16 +27,6 @@ export default function AdminProfile() {
         { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
     ];
 
-    const [data, setData] = useState({
-        name: user.name,
-        email: user.email,
-        contactNumber: user.contactNumber,
-        gender: user.gender,
-        adminID: user.adminID,
-        profileImg: user.profile_picture
-    });
-
-
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
@@ -42,27 +36,13 @@ export default function AdminProfile() {
         e.preventDefault()
         navigate(path, { state: { userInfo: user }}); 
     };
+    
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
-    // useEffect(() => {
-    //     fetchData(); // Call the fetch function on component mount
-    // }, []); // Empty array means it will only run once when component mounts
-
-    // const fetchData = async (e) => {
-    //     try {
-    //         const resp = await axios.post('/getAdminProfile', {
-    //             name: user
-    //         })
-    //         if (resp.data.error) {
-    //             setData({})
-    //         } else {
-    //             setData({name: resp.data.name, email: resp.data.email, contactNumber: resp.data.contactNumber, gender: resp.data.gender, profileImg: resp.data.profile_picture, adminID: resp.data.adminID })
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    return (
+    return (user && (
         <div className='overlay'>
             <div className='wrapper'>
                 <div className='sidebar'>
@@ -88,9 +68,9 @@ export default function AdminProfile() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',
@@ -105,37 +85,37 @@ export default function AdminProfile() {
                     </div>
                     <div className="profile-header">
                     <label htmlFor='profile-image' className='profile-image-label'>
-                        <img src={data.profileImg || defaultImg} alt="Profile" className='profile-image-pic'/>
+                        <img src={user.profile_picture || defaultImg} alt="Profile" className='profile-image-pic'/>
                         </label>
                     </div>
                     <div class="profile-settings">
-                        <h1>{data.name}</h1>
+                        <h1>{user.name}</h1>
                         <form>
                             <label for="empID">Admin ID</label>
                             <input 
                                 type="text"
-                                value={data.adminID}
+                                value={user.adminID}
                                 disabled={true}
                             />
                             
                             <label for="email">Email</label>
                             <input 
                                 type="email"
-                                value={data.email}
+                                value={user.email}
                                 disabled={true}
                             />
 
                             <label for="contact">Contact No.</label>
                             <input 
                                 type="text"
-                                value={data.contactNumber}
+                                value={user.contactNumber}
                                 disabled={true}
                             />
 
                             <label for="gender">Gender</label>
                             <input 
                                 type="text"
-                                value={data.gender}
+                                value={user.gender}
                                 disabled={true}
                             />
                         </form>
@@ -145,5 +125,5 @@ export default function AdminProfile() {
                 </div>
             </div>
         </div>
-    );
+    ));
 }

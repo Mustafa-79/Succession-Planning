@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartLine, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './ModelTuning.css';
@@ -8,12 +7,18 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 
 export default function ModelTuning() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const navigate = useNavigate();
+    const { logout } = useLogout()
+    
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     // 7 weights for 7 KPIs: 
     const featureNames = ['task_completion_rate', 'attendance_rate', 'punctuality', 'efficiency', 'professionalism', 'collaboration', 'leadership'];
@@ -34,6 +39,8 @@ export default function ModelTuning() {
     };
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/weights').then(res => {
             console.log("Weights fetched: ", res.data)
             const ML_weights = res.data.find(item => item.weightsID === 1);
@@ -130,9 +137,9 @@ export default function ModelTuning() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

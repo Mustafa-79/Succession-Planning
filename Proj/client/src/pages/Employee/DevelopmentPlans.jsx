@@ -1,16 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './DevelopmentPlans.css';
 import './fonts.css';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export default function Feedback() {
     const location = useLocation();
-    const user = location.state.name;
+    const user = JSON.parse(localStorage.getItem('user'))
+    const { authenticatedUser, no, dispatch } = useUserContext();
     const navigate = useNavigate();
-    const allUserInfo = location.state.userInfo;
+    const { logout } = useLogout()
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -23,12 +25,17 @@ export default function Feedback() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user,userInfo:allUserInfo } });
+        navigate(path, { state: { userInfo: user } });
     };
 
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
+
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
 
     return (
         <div className='overlay'>
@@ -56,9 +63,9 @@ export default function Feedback() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

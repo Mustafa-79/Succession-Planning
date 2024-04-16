@@ -208,6 +208,10 @@ const retrieveSecurityQuestion = async (reqs, resp) => {
             return resp.json({
                 error: 'You are not registerd yet'
             })
+        } else if (user.is_blocked) {
+            return resp.json({
+                error: 'Your account is blocked'
+            })
         } else {
             resp.json(user.security_question)
         }
@@ -527,8 +531,11 @@ const changeSecurityImg = async (reqs, resp) => {
 
 const updateProfile = async (reqs, resp) => {
     try {
-        const user = reqs.body
+        const {_id, ...user} = reqs.body
+
         const updatedUser = await Employee.findOneAndUpdate({ employeeID: user.employeeID }, user, { new: true, runValidators: true })
+
+        console.log(user)
 
         if (!updatedUser) {
             return resp.json({

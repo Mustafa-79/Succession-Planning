@@ -2,116 +2,57 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from "react-hot-toast";
-import { UserContext } from '../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import './UserProfile.css';
 import defaultImg from './img/profile-default.svg'
 import './fonts.css';
+import { useUserContext } from '../hooks/useUserContext';
+import { useLogout } from '../hooks/useLogout';
 
 export default function UserProfile() {
     const location = useLocation();
-    const user = location.state.name;
     const navigate = useNavigate();
-    const allUserInfo = location.state.userInfo;
 
-
-    const [data, setData] = useState({
-        name: '',
-        position: '',
-        email: '',
-        contactNumber: '',
-        gender: '',
-        employeeID: '',
-        profileImg: ''
-    })
-
-    useEffect(() => {
-        fetchData(); // Call the fetch function on component mount
-    }, []); // Empty array means it will only run once when component mounts
-
-    const fetchData = async (e) => {
-        const { name, email, password, empID, s_img } = data
-        try {
-            const resp = await axios.post('/getProfile', {
-                name: user
-            })
-            if (resp.data.error) {
-                setData({})
-            } else {
-                setData({name: resp.data.record1.name, position: resp.data.record2.title, email: resp.data.record1.email, contactNumber: resp.data.record1.contactNumber, gender: resp.data.record1.gender, employeeID: resp.data.record1.employeeID, profileImg: resp.data.record1.profile_picture })
-            }
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const { logout } = useLogout()
+    const { authenticatedUser, dispatch } = useUserContext()
+    // const user = authenticatedUser
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
-        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedbackForm" },
+        { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
-    const [isButtonVisible, setIsButtonVisible] = useState(false);
+    const [positions, setPositions] = useState([])
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { name: user, userInfo: allUserInfo } });
+        navigate(path, { state: { userInfo: user } });
     };
 
-    const handleImageUpload = async (e) => {
-        const img = e.target.files[0]
-        const base64 = await convertToBase64(img)
-        console.log(base64)
-        setData({...data, profileImg: base64})
-        setIsButtonVisible(true); 
-    }
-
-    const handleImageSubmit = (e) => {
-        e.preventDefault();
-        uploadImage(data.profileImg)
-        setIsButtonVisible(false); 
-    }
-
-    const userData = {
-        firstName: 'Nicolas',
-        lastName: 'Henry',
-        department: 'Web Development',
-        email: 'nicolas@geekytechie.com',
+    const getPositionTitle = (positionID) => {
+        const position = positions.find(position => position.positionID === positionID);
+        return position ? position.title : "Unknown";
     };
-    
-    const convertToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader()
-            fileReader.readAsDataURL(file)
-            fileReader.onload = () => {
-                resolve(fileReader.result)
-            }
-            fileReader.onerror = (err) => {
-                reject(err)
-            }
-        })
-    }
 
-    const uploadImage = async (img) => {
+    const getPositionData = async () => {
         try {
-            axios.post('/uploadImage', {
-                empID: data.employeeID,
-                profileImg: img
-            })
-            if (data.error) {
-                toast.error(data.error)
-                setData({...data, profileImg: ''})
-            } else {
-                toast.success('Profile picture updated successfully')
-            }
+            const resp = await axios.get('/getPositionsData')
+            setPositions(resp.data)
         } catch (err) {
             console.log(err)
         }
     }
+
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        getPositionData()
+    },[])
 
     return (
         <div className='overlay'>
@@ -139,9 +80,9 @@ export default function UserProfile() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',
@@ -156,47 +97,44 @@ export default function UserProfile() {
                     </div>
                     <div className="profile-header">
                 <label htmlFor='profile-image' className='profile-image-label'>
-                    <img src={data.profileImg || defaultImg} alt="Profile" className='profile-image-pic'/>
+                    <img src={user && user.profile_picture || defaultImg} alt="Profile" className='profile-image-pic'/>
                 </label>
-                {isButtonVisible && (
-                    <button onClick={handleImageSubmit}>Update Profile Picture</button>
-                )}
             </div>
                     <div class="profile-settings">
-                        <h1>{data.name}</h1>
+                        <h1>{user && user.name}</h1>
                         <form>
                             <label for="empID">Employee ID</label>
                             <input 
                                 type="text"
-                                value={data.employeeID}
+                                value={user.employeeID}
                                 disabled={true}
                             />
                             
                             <label for="position">Position Title</label>
                             <input 
                                 type="text"
-                                value={data.position}
+                                value={getPositionTitle(user.positionID)}
                                 disabled={true}
                             />
                             
                             <label for="email">Email</label>
                             <input 
                                 type="email"
-                                value={data.email}
+                                value={user.email}
                                 disabled={true}
                             />
 
                             <label for="contact">Contact No.</label>
                             <input 
                                 type="text"
-                                value={data.contactNumber}
+                                value={user.contactNumber}
                                 disabled={true}
                             />
 
                             <label for="gender">Gender</label>
                             <input 
                                 type="text"
-                                value={data.gender}
+                                value={user.gender}
                                 disabled={true}
                             />
                         </form>

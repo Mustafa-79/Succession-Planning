@@ -1,16 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../../context/userContext';
+import React, { useContext, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faChartLine, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './CreateAssessment.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserContext } from '../../hooks/useUserContext';
 
 
 export default function CreateAssessment() {
     const location = useLocation();
-    const user = location.state.userInfo;
     const navigate = useNavigate();
+    const { logout } = useLogout()
+    
+    const user = JSON.parse(localStorage.getItem('user'));
+    const { authenticatedUser, no, path, dispatch} = useUserContext()
 
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
@@ -71,6 +75,11 @@ export default function CreateAssessment() {
         closeModal();
     };
 
+    useEffect(() => {
+        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+    }, [])
+
     const deleteEmployee = (id) => {
         setEmployees(employees.filter(employee => employee.id !== id));
     };
@@ -101,9 +110,9 @@ export default function CreateAssessment() {
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user && user.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

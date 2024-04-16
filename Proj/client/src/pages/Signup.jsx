@@ -14,6 +14,7 @@ import img7 from "./img/s_img7.png";
 import img8 from "./img/s_img8.png";
 import img9 from "./img/s_img9.png";
 import img10 from "./img/s_img10.png";
+import { useUserContext } from "../hooks/useUserContext";
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -229,14 +230,9 @@ export default function Signup() {
                                     placeholder="Employee ID"
                                     value={data.empID}
                                     onChange={(e) => setData({ ...data, empID: e.target.value })}
+                                    style={{ marginRight: '8px' }}
                                 />
-                                <button
-                                    type="button"
-                                    onClick={searchRecord}
-                                    className="search-btn"
-                                >
-                                    <FaSearch />
-                                </button>
+                                <span><FaSearch onClick={searchRecord} className="search-btn-k"/></span>
                             </div>
 
                             <div className="input-group">

@@ -9,12 +9,15 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './PromotionProgress.css';
 import '../fonts.css';
+import { useLogout } from '../../../hooks/useLogout';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 export default function PromotionProgress() {
     const location = useLocation();
-    const user = location.state.name;
     const navigate = useNavigate();
-    const allUserInfo = location.state.userInfo;
+    const allUserInfo = JSON.parse(localStorage.getItem('user'));
+    const { logout } = useLogout()
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     console.log("CHeck, ", allUserInfo)
 
@@ -52,6 +55,8 @@ export default function PromotionProgress() {
 
 
     useEffect(() => {
+        dispatch({type: 'LOGIN', payload: allUserInfo, no: 1, path: location.pathname})
+        localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/dashboard-employees')
             .then(res => {
                 setEmployees(res.data);
@@ -243,11 +248,12 @@ export default function PromotionProgress() {
     })
 
     const handleMenuItemClick = (path, e) => {
-        navigate(path, { state: { name: user, userInfo: allUserInfo } });
+        e.preventDefault()
+        navigate(path, { state: { userInfo: allUserInfo } });
     };
 
     const isActive = (path) => {
-        return location.pathname === path; // Check if the current location matches the path
+        return '/employeeDashboard' === path; // Check if the current location matches the path
     };
 
 
@@ -404,9 +410,9 @@ export default function PromotionProgress() {
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{user}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/UserProfile', e)}>{allUserInfo.name}</a>
                         <button
-                            onClick={(e) => handleMenuItemClick('/login', e)}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

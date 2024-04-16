@@ -14,6 +14,7 @@ import img7 from './img/s_img7.png'
 import img8 from './img/s_img8.png'
 import img9 from './img/s_img9.png'
 import img10 from './img/s_img10.png'
+import { useUserContext } from '../hooks/useUserContext'
 
 
 export default function ResetPwd() {
@@ -114,8 +115,7 @@ export default function ResetPwd() {
                     <form onSubmit={resetPassword}>
                         <div class="input-group">
                             <input type="text" placeholder='Employee ID' value={data.empID} onChange={(e) => setData({ ...data, empID: e.target.value })} />
-                            <button type="button" onClick={searchRecord} className="search-btn"><FaSearch />
-                            </button>
+                            <span><FaSearch onClick={searchRecord} className="search-btn-e"/></span>
                         </div>
 
                         <div className="input-group">

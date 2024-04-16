@@ -13,6 +13,7 @@ import img7 from "./img/s_img7.png";
 import img8 from "./img/s_img8.png";
 import img9 from "./img/s_img9.png";
 import img10 from "./img/s_img10.png";
+import { useUserContext } from "../hooks/useUserContext";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ export default function Login() {
         [img10, 10],
     ];
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
+    const { authenticatedUser, no, dispatch } = useUserContext();
 
     const sequenceImg = (list) => {
         let array = [...list];
@@ -46,9 +48,21 @@ export default function Login() {
     };
 
     useEffect(() => {
+        console.log("HRJJ")
+        if (location.pathname != '' || location.pathname != '/login')
+            navigate('/')
         setRandomizedImages(sequenceImg([...imgSources]));
         console.log(randomizedImages);
     }, []);
+
+    // useEffect(() => {
+    //     if (authenticatedUser) {
+    //         if (authenticatedUser.adminID)
+    //             navigate('/dashboard')
+    //         else
+    //         navigate('/employeeDashboard')
+    //     }
+    // })
 
     // const loginUser = async (e) => {
     //     e.preventDefault();
@@ -86,11 +100,16 @@ export default function Login() {
                 setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
             } else if (data.no == 1) {
                 console.log(data)
+                localStorage.setItem('user', JSON.stringify(data.user))
+                dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/employeeDashboard'})
                 setData({})
                 navigate('/employeeDashboard', { state: { name: data.user.name, userInfo: data.user } })
             } else if (data.no == 2) {
                 console.log(data)
+                // login(data.user)
                 setData({})
+                localStorage.setItem('user', JSON.stringify(data.user))
+                dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/dashboard'})
                 navigate('/dashboard', { state: { userInfo: data.user} })
             }
         } catch (error) {
@@ -99,11 +118,11 @@ export default function Login() {
     }
 
     return (
-        <div class="login-container">
-            <div class="login-box">
+        <div className="login-container">
+            <div className="login-box">
                 <h1 style={{marginBottom:15}}>Login</h1>
                 <form onSubmit={loginUser}>
-                    <div class="input-group">
+                    <div className="input-group">
                         <input
                             type="email"
                             placeholder="Email"
@@ -112,7 +131,7 @@ export default function Login() {
                         />
                     </div>
 
-                    <div class="input-group">
+                    <div className="input-group">
                         <input
                             type="password"
                             placeholder="Password"
@@ -219,20 +238,20 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <div class="input-group" >
-                        <button type="submit" class="login-btn" >
+                    <div className="input-group" >
+                        <button type="submit" className="login-btn" >
                             Login
                         </button>
                     </div>
 
-                    <div class="signup-link">
+                    <div className="signup-link">
                         <button onClick={() => navigate("/signup")}>Sign Up</button>
                     </div>
 
-                    <div class="forgot-password">
+                    <div className="forgot-password">
                         <a href="/resetPassword">Forgot Password?</a>
                     </div>
-                    <div class="forgot-security-img">
+                    <div className="forgot-security-img">
                         <a href="/resetSecurityImage">Forgot Security Image?</a>
                     </div>
                 </form>
