@@ -15,7 +15,7 @@ export default function AdminFeedback() {
     const menuItems = [
         { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/admin_feedback" },
-        { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/create_assessment" },
+        { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/admin_feedback/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
         { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" }
     ];
@@ -52,7 +52,7 @@ export default function AdminFeedback() {
                         ))}
                     </div>
                 </div>
-                <div className='contentAdminDash'>
+                <div className='contentDashClient'>
                     <div className='header'>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
                         <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user}</a>
