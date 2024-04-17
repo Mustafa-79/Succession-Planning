@@ -1,0 +1,9 @@
+{
+    "name": "succession-planning-app",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "npm run start:server",
+      "start:server": "cd Proj/server && npm install && npm start"
+    }
+  }
+  

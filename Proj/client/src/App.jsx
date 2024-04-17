@@ -40,6 +40,7 @@ import ViewAssessment from './pages/Admin/ViewAssesment';
 
 
 axios.defaults.baseURL = 'http://localhost:8000/';
+// axios.defaults.baseURL = 'https://succession-planning-api.vercel.app/';
 axios.defaults.withCredentials = true
 
 function App() {
