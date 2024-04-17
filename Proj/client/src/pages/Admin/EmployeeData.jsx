@@ -86,6 +86,7 @@ export default function EmployeeData() {
     useEffect(() => {
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        document.title = 'Employee Data'
         getPositionData()
     },[])
 

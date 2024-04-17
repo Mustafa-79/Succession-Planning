@@ -167,6 +167,7 @@ export default function CreateAssessment() {
 	};
 
 	useEffect(() => {
+		document.title = 'Create Assesment'
 		dispatch({ type: 'LOGIN', payload: user, no: 2, path: location.pathname })
 		localStorage.setItem('path', JSON.stringify(location.pathname))
 	}, [])
@@ -234,7 +235,9 @@ export default function CreateAssessment() {
 									value={data.empID}
 									onChange={(e) => setData({ ...data, empID: e.target.value })}
 								/>
-								{<button type="button" onClick={retrieveQuestions} className="search-btn"><FaSearch /></button>}
+								<span>
+									{<button type="button" onClick={retrieveQuestions} className="search-btn"><FaSearch /></button>}
+								</span>
 							</div>
 							{/* <input
                     type="text"

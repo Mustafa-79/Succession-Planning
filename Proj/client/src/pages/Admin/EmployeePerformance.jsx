@@ -135,6 +135,7 @@ export default function EmployeePerformance() {
 
 
     useEffect(() => {
+        document.title = 'Dashboard - View Perfomance'
         axios.get('/dashboard-position-titles')
             .then(res => {
                 setPositionTitles(res.data);

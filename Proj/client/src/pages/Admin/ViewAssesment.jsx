@@ -15,6 +15,7 @@ import {
 	faTrash,
 	faSearch,
 	faStar,
+	faChartLine,
 } from "@fortawesome/free-solid-svg-icons";
 import "./ViewAssesment.css";
 import "./fonts.css";
@@ -33,31 +34,12 @@ export default function viewAssessment() {
 	const { authenticatedUser, no, path, dispatch} = useUserContext()
 
 	const menuItems = [
-		{
-			name: "Employee Development",
-			icon: faHouse,
-			margin: 0,
-			path: "/dashboard",
-		},
-		{
-			name: "Assess Feedback",
-			icon: faFileArrowDown,
-			margin: 12,
-			path: "/admin_feedback",
-		},
-		{
-			name: "Create Assessment",
-			icon: faFileArrowUp,
-			margin: 10,
-			path: "/admin_feedback/create_assessment",
-		},
-		{
-			name: "Employee Data",
-			icon: faStreetView,
-			margin: 3,
-			path: "/employee_data",
-		},
-		{ name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
+        { name: "Employee Development", icon: faHouse, margin: 0, path: "/dashboard" },
+        { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: '/admin_feedback' },
+        { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/admin_feedback/create_assessment" },
+        { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
+        { name: "Model Tuning", icon: faChartLine, margin: 5, path: "/model_tuning" },
+        { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
 	];
 
 	const [activeMenuItem, setActiveMenuItem] = useState("");
@@ -78,6 +60,7 @@ export default function viewAssessment() {
 		let isMounted = true; // Flag to check if the component is still mounted
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
+		document.title = 'Assess Feedback - Assesments'
 		Promise.all([axios.post("/getAssessmentData")])
 			.then(([assessmentRes]) => {
 				if (!isMounted) return; // Prevent updating state if the component is unmounted
