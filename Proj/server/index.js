@@ -32,9 +32,9 @@ app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000
 
 // Set up cors to allow us to accept requests from our client
 app.use(cors({
-    // use vercel link
     origin: 'https://succession-planning.vercel.app',
-}))
+    credentials: true
+  }));
 
 app.use('/', require('./routes/authRoutes'))
 
