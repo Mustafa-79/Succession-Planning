@@ -23,10 +23,12 @@ init_db(db);
 init_weights(db);
 
 // Set up cors to allow us to accept requests from our client
+const cors = require('cors');
+// Allow all origins
+app.use(cors());
+// Allow specific origin(s)
 app.use(cors({
-    origin: true,
-    optionsSuccessStatus: 200,
-    credentials: true
+  origin: 'https://succession-planning.vercel.app'
 }));
 
 // middleware
