@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../context/userContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faStar, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faStar, faChartLine, faEraser, faTicket, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 // import './Dashboard.css';
 import './AssessComplaint.css';
 import './fonts.css';
@@ -49,33 +49,6 @@ export default function AssessComplaint() {
         document.title = 'Assess Feedback - Complaint'
         let isMounted = true; // Flag to check if the component is still mounted
 
-        // // Helper function to combine and update employee data
-        // const updateEmployeesWithData = (employees, empData) => {
-        //     // Combine employee and additional data
-        //     // {complaintID, employeeID1, courseID, employeeID2, feedback, date} = employees.body;
-        //     console.log(employees)
-        //     const updatedEmployees = employees.map(employee => {
-        //         console.log("employee id: ", employee.employeeID)
-        //         const additionalData = empData.find(ed => `E${ed.employeeID}` === employee.employeeID);
-        //         // console.log(additionalData.name);
-        //         if (additionalData) {
-        //             return {
-        //                 ...employee,
-        //                 name: additionalData.name,
-        //                 positionID: additionalData.positionID,
-        //                 date_of_birth: additionalData.date_of_birth,
-        //                 registered_status: additionalData.registered_status,
-        //             };
-        //         }
-        //         return employee;
-        //     });
-
-        //     // Update state if component is still mounted
-        //     if (isMounted) {
-        //         setEmployees(updatedEmployees);
-        //     }
-        // };
-
         // Perform both Axios requests in parallel
         Promise.all([
             axios.post('/getComplaint'),
@@ -93,8 +66,6 @@ export default function AssessComplaint() {
                     console.log("null")
                 }
 
-                // Update employees with combined data
-                // updateEmployeesWithData(complaintData, empData);
             })
             .catch(err => {
                 console.error(err); // Log any errors to the console
@@ -324,12 +295,12 @@ export default function AssessComplaint() {
                                             <td>{new Date(complaint.date).toLocaleDateString()}</td>
                                             <td>
                                                 <button onClick={() => addEmployee(complaint)}>
-                                                    <FontAwesomeIcon icon={faEye} size='xl' />
+                                                    <FontAwesomeIcon icon={faEye} size='xl' color='purple' />
                                                 </button>
                                             </td>
                                             <td>
                                                 <button onClick={() => deleteComplaint(complaint.complaintID)}>
-                                                    <FontAwesomeIcon icon={faTrash} size='xl' />
+                                                    <FontAwesomeIcon icon={faCheckCircle} size='xl' color='green'/>
                                                 </button>
                                             </td>
                                         </tr>

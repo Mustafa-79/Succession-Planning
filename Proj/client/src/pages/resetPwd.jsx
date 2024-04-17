@@ -113,12 +113,12 @@ export default function ResetPwd() {
                     <h1>Reset your password</h1>
                     <h3>Verify your identity</h3>
                     <form onSubmit={resetPassword}>
-                        <div class="input-group">
+                        <div class="signup-input-group">
                             <input type="text" placeholder='Employee ID' value={data.empID} onChange={(e) => setData({ ...data, empID: e.target.value })} />
-                            <span><FaSearch onClick={searchRecord} className="search-btn-e"/></span>
+                            <FaSearch onClick={searchRecord} className="search-btn-e"/>
                         </div>
 
-                        <div className="input-group">
+                        <div className="signup-input-group">
                             <input
                                 type="text"
                                 placeholder="Security Question"
@@ -129,7 +129,7 @@ export default function ResetPwd() {
                             />
                         </div>
 
-                        <div class="input-group">
+                        <div class="signup-input-group">
                             <input type="text" placeholder='Security Answer' value={data.secA} onChange={(e) => setData({ ...data, secA: e.target.value })} />
                         </div>
 

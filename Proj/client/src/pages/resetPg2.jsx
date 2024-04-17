@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 // import './resetPwd.css'
 import { useNavigate, useLocation } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSearch } from "react-icons/fa";
 import { useUserContext } from "../hooks/useUserContext";
 
 export default function ResetFinalPwd() {
@@ -24,6 +24,10 @@ export default function ResetFinalPwd() {
     });
 
     const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+    const [showPassword, setShowPassword] = useState({
+        field1: false, field2: false
+    })
 
     const onPasswordChange = (password) => {
         setData({ ...data, password });
@@ -60,6 +64,7 @@ export default function ResetFinalPwd() {
                 toast.error(data.error);
             } else {
                 setData({});
+                setShowPassword({field1: false, field2: false})
                 toast.success("password successfully reset");
                 navigate("/resetPg2");
             }
@@ -78,13 +83,15 @@ export default function ResetFinalPwd() {
                         ask this password whenever you log in.
                     </h3>
                     <form onSubmit={resetPassword}>
-                        <div class="input-group">
+                        <div class="signup-input-group">
                             <input
-                                type="password"
+                                type={!showPassword.field1 ? "password" : "text"}
                                 placeholder="New password"
                                 value={data.password}
                                 onChange={(e) => onPasswordChange(e.target.value)}
                             />
+                            {!showPassword.field1 && <FaEye onClick={() => setShowPassword({...showPassword, field1: true})} className="search-btn-k"/>}
+                            {showPassword.field1 && <FaEyeSlash onClick={() => setShowPassword({...showPassword, field1: false})} className="search-btn-k"/>}
                         </div>
 
                         <div className="password-criteria">
@@ -105,19 +112,21 @@ export default function ResetFinalPwd() {
                             </ul>
                         </div>
 
-                        <div className="input-group">
+                        <div className="signup-input-group" style={{ marginTop: '1.5pc' }} >
                             <input
-                                type="password"
+                                type={!showPassword.field2 ? "password" : "text"}
                                 placeholder="Confirm new password"
                                 value={data.samePassword}
                                 onChange={(e) => onConfirmPasswordChange(e.target.value)}
                             />
+                            {!showPassword.field2 && <FaEye onClick={() => setShowPassword({...showPassword, field2: true})} className="search-btn-k"/>}
+                            {showPassword.field2 && <FaEyeSlash onClick={() => setShowPassword({...showPassword, field2: false})} className="search-btn-k"/>}
                             {!passwordsMatch && data.samePassword && (
-                                <p className="password-mismatch">Passwords do not match</p>
+                                <p className="password-mismatch-r" >Passwords do not match</p>
                             )}
                         </div>
 
-                        <div class="input-group">
+                        <div class="signup-input-group">
                             <button type="submit" class="reset-btn">
                                 Reset password
                             </button>

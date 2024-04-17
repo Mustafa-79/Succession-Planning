@@ -43,20 +43,40 @@
     border-color: black;
 }
 
-.input-group {
+.input-group-login {
     margin-bottom: 15px;
     position: relative;
 }
 
-.input-group input {
-    width: calc(100% - 30px);
+.input-group-f input {
+    width: 100%;
     /* Input width considering button */
-    padding: 10px;
+    padding: 16px;
     margin: 5px 0;
     border: 2px solid #0073b1;
+    position: relative;
     /* LinkedIn blue border */
     border-radius: 4px;
     font-size: 16px;
+}
+
+.input-group-login input {
+    width: 100%; /* Full width */
+    padding: 15px;
+    padding-right: 40px; /* Add padding to account for the icon space */
+    margin: 5px 0; 
+    border: 2px solid #0073b1;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-left: -1pc;
+}
+
+.show-password-icon-login {
+    position: relative;
+    bottom: 2.5pc;
+    left: 8pc;
+    color: #357ba1;
+    /* Add other styles as needed, like color or size */
 }
 
 .signup-link>button {

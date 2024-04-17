@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Login.css";
 import img1 from "./img/s_img1.png";
 import img2 from "./img/s_img2.png";
@@ -14,6 +15,7 @@ import img8 from "./img/s_img8.png";
 import img9 from "./img/s_img9.png";
 import img10 from "./img/s_img10.png";
 import { useUserContext } from "../hooks/useUserContext";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -22,6 +24,7 @@ export default function Login() {
         password: "",
         s_img: 0,
     });
+    const [showPassword, setShowPassword] = useState(false)
 
     const imgSources = [
         [img1, 1],
@@ -55,37 +58,6 @@ export default function Login() {
         console.log(randomizedImages);
     }, []);
 
-    // useEffect(() => {
-    //     if (authenticatedUser) {
-    //         if (authenticatedUser.adminID)
-    //             navigate('/dashboard')
-    //         else
-    //         navigate('/employeeDashboard')
-    //     }
-    // })
-
-    // const loginUser = async (e) => {
-    //     e.preventDefault();
-    //     const { email, password, s_img } = data;
-    //     try {
-    //         const { data } = await axios.post("/login", {
-    //             email,
-    //             password,
-    //             s_img,
-    //         });
-    //         if (data.error) {
-    //             toast.error(data.error);
-    //             setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0);
-    //         } else {
-    //             console.log(data);
-    //             setData({});
-    //             navigate("/dashboard", { state: { name: data.name } });
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     const loginUser = async (e) => {
         e.preventDefault()
         const { email, password, s_img } = data
@@ -103,11 +75,12 @@ export default function Login() {
                 localStorage.setItem('user', JSON.stringify(data.user))
                 dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/employeeDashboard'})
                 setData({})
+                setShowPassword(false)
                 navigate('/employeeDashboard', { state: { name: data.user.name, userInfo: data.user } })
             } else if (data.no == 2) {
                 console.log(data)
-                // login(data.user)
                 setData({})
+                setShowPassword(false)
                 localStorage.setItem('user', JSON.stringify(data.user))
                 dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/dashboard'})
                 navigate('/dashboard', { state: { userInfo: data.user} })
@@ -122,7 +95,7 @@ export default function Login() {
             <div className="login-box">
                 <h1 style={{marginBottom:15}}>Login</h1>
                 <form onSubmit={loginUser}>
-                    <div className="input-group">
+                    <div className="input-group-login">
                         <input
                             type="email"
                             placeholder="Email"
@@ -131,16 +104,19 @@ export default function Login() {
                         />
                     </div>
 
-                    <div className="input-group">
+                    <div className="input-group-login">
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             value={data.password}
                             onChange={(e) => setData({ ...data, password: e.target.value })}
                         />
+                        <span>
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="show-password-icon-login" onClick={() => {setShowPassword(!showPassword)}}/>
+                        </span>
                     </div>
 
-                    <div className="security-image-selection" style={{marginBottom:15}}>
+                    <div className="security-image-selection" style={{marginBottom:10}}>
                         <p>Select security image </p>
                         <div className="security-images" >
                             <img

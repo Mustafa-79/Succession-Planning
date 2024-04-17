@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSearch } from "react-icons/fa";
 import "./Signup.css";
 import img1 from "./img/s_img1.png";
 import img2 from "./img/s_img2.png";
@@ -39,6 +39,7 @@ export default function Signup() {
         [img10, 10],
     ];
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
+    const [showPassword, setShowPassword] = useState(false)
 
     const sequenceImg = (list) => {
         let array = [...list];
@@ -113,6 +114,7 @@ export default function Signup() {
             });
             if (resp.data.error) {
                 toast.error(resp.data.error);
+                setShowPassword(false)
                 setData({ ...data, name: "" });
             } else {
                 toast.success("Employee record found");
@@ -224,7 +226,7 @@ export default function Signup() {
                     <h1>Employee Registration</h1>
                     {step === 1 && (
                         <form onSubmit={registerUserStep1}>
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <input
                                     type="text"
                                     placeholder="Employee ID"
@@ -232,10 +234,10 @@ export default function Signup() {
                                     onChange={(e) => setData({ ...data, empID: e.target.value })}
                                     style={{ marginRight: '8px' }}
                                 />
-                                <span><FaSearch onClick={searchRecord} className="search-btn-k"/></span>
+                                <FaSearch onClick={searchRecord} className="search-btn-k"/>
                             </div>
 
-                            <div className="input-group">
+                            <div className="signup-input-group">
                                 <input
                                     type="text"
                                     placeholder="Name"
@@ -249,7 +251,7 @@ export default function Signup() {
                                 />
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <input
                                     type="email"
                                     placeholder="Email"
@@ -258,15 +260,17 @@ export default function Signup() {
                                 />
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <input
-                                    type="password"
+                                    type={!showPassword ? "password" : "text"}
                                     placeholder="Password"
                                     value={data.password}
                                     onChange={(e) =>
                                         onPasswordChange(e.target.value)
                                     }
                                 />
+                                {!showPassword && <FaEye onClick={() => setShowPassword(true)} className="search-btn-k"/>}
+                                {showPassword && <FaEyeSlash onClick={() => setShowPassword(false)} className="search-btn-k"/>}
                             </div>
 
                             <div className="password-criteria">
@@ -385,7 +389,7 @@ export default function Signup() {
                                 </div>
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <button type="submit" class="signup-btn">
                                     Proceed to Step 2 of 3
                                 </button>
@@ -397,7 +401,7 @@ export default function Signup() {
                     {step === 2 && (
                         // Step 2: Gather additional information such as phone number, date of birth, education, certifications, and awards
                         <form onSubmit={registerUserStep2}>
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <label>Phone:</label>
                                 <input
                                     type="text"
@@ -410,7 +414,7 @@ export default function Signup() {
                                 />
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <label>Date of Birth:</label>
                                 <input
                                     type="date"
@@ -423,7 +427,7 @@ export default function Signup() {
                                 />
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <label>Education</label>
                                 <select
                                     value={step2data.education}
@@ -437,7 +441,7 @@ export default function Signup() {
                                 </select>
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <label>Profile Picture:</label>
                                 <input
                                     type="file"
@@ -452,7 +456,7 @@ export default function Signup() {
                             </div>
 
 
-                            <div className="input-group">
+                            <div className="signup-input-group">
                                 <label>Certifications:</label>
                                 {step2data.certifications.map((certification, index) => (
                                     <div key={index} className="certification-input">
@@ -500,7 +504,7 @@ export default function Signup() {
                                 </button>
                             </div>
 
-                            <div className="input-group">
+                            <div className="signup-input-group">
                                 <label>Awards:</label>
                                 {step2data.awards.map((award, index) => (
                                     <div key={index} className="award-input">
@@ -553,7 +557,7 @@ export default function Signup() {
                     {/* Step 3: Security questions for password recovery */}
                     {step === 3 && (
                         <form onSubmit={registerUserStep3}>
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <select
                                     value={step3data.question}
                                     onChange={(e) => setStep3Data({ ...step3data, question: e.target.value })}
@@ -565,7 +569,7 @@ export default function Signup() {
                                 </select>
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <input
                                     type="text"
                                     placeholder='Answer'
@@ -575,7 +579,7 @@ export default function Signup() {
                                 />
                             </div>
 
-                            <div class="input-group">
+                            <div class="signup-input-group">
                                 <button type="submit" class="signup-btn" disabled={!step3data.question}>Register</button>
                             </div>
                         </form>

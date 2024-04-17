@@ -20,9 +20,9 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
-.signup-container {
-    width: 100%;
-    max-width: 700px;
+.signup-container-e {
+    width: 400px;
+    /* max-width: 700px; */
     background:  #9ccff4; /* The same teal color as login */
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -31,16 +31,30 @@ body {
     margin-left: 850px; /* Adjust as necessary to align with the login container */
 }
 
+.signup-container {
+    /* height: 600px; */
+    width: 500px;
+    /* max-width: 400px; */
+    background:   #9ccff4 !important; 
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 25px;
+    margin: 20px;
+    margin-left: 850px;
+
+}
+
 .signup-box {
     /* display: flex; */
     align-items: center;
+    width: 100%;
     /* text-align: left;
     margin-left: 1pc; */
 }
 
 .signup-box .input-group {
     text-align: left;
-    margin-left: 1pc;
+    margin-bottom: 15px;
 }
 
 .signup-box h1 {
@@ -49,7 +63,7 @@ body {
     margin-bottom: 20px;
 }
 
-.input-group {
+.signup-input-group {
     margin-bottom: 15px;
     position: relative;
     /* display: flex; */
@@ -58,23 +72,23 @@ body {
 
 .search-btn-k {
     position: absolute;
-    right: 3pc;
+    left: 17pc;
     bottom: 1.1pc;
     color: #27407f;
+    cursor: pointer;
 }
 
-.input-group input {
-    width: calc(100% - 40px);
-    /* Input width considering button */
+.signup-input-group input {
+    width: 100%; /* Full width of .input-group */
     padding: 10px;
+    padding-right: 40px; /* Right padding to prevent overlap if there's an icon */
     margin: 5px 0;
     border: 2px solid #0073b1;
-    /* LinkedIn blue border */
     border-radius: 4px;
     font-size: 16px;
 }
 
-.input-group input[disabled] {
+.signup-input-group input[disabled] {
     background-color: #e9ecef;
     /* A light grey background to indicate non-editability */
     color: grey;
@@ -82,16 +96,21 @@ body {
     /* other styles as needed */
 }
 
-.input-group button:disabled {
+.signup-input-group button {
+    margin-top: 20px;
+}
+
+.signup-input-group button:disabled {
     background-color: #5e5e5e;
     /* Keep background color grey when disabled */
     cursor: not-allowed;
     /* Change cursor to not-allowed when disabled */
 }
 
-.input-group select {
-    width: calc(100% - 40px);
+.signup-input-group select {
+    /* width: calc(100% - 40px); */
     /* Select width considering button */
+    width: 100%;
     padding: 10px;
     margin: 5px 0;
     border: 2px solid #0073b1;

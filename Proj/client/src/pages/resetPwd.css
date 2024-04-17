@@ -194,12 +194,12 @@ body {
 
 /* ... your existing styles ... */
 
-.password-mismatch {
-    color: #ff0000;
+.password-mismatch-r {
+    /* color: #ff0000; */
     /* red color for error messages */
     font-size: 0.8em;
     /* smaller font size for the error message */
-    margin-top: 5px;
+    /* margin-top: 5px; */
 }
 
 .reset-btn {
@@ -230,7 +230,8 @@ body {
 
 .search-btn-e {
     position: absolute;
-    right: 2pc;
+    right: 1pc;
     bottom: 1.1pc;
     color: #27407f;
+    cursor: pointer;
 }
