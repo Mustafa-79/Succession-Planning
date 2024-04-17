@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import "./login.css";
+import "./Login.css";
 import img1 from "./img/s_img1.png";
 import img2 from "./img/s_img2.png";
 import img3 from "./img/s_img3.png";
