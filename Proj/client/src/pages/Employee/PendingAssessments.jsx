@@ -175,6 +175,7 @@ export default function PendingAssessment() {
 		axios
 			.post("/submitAssessmentScore", {
 				assessmentID: specificE.assignmentID,
+				employee_answers: employeeAnswers,
         employee_answers: employeeAnswers,
 				score: scoreString,
 				status: "Completed",

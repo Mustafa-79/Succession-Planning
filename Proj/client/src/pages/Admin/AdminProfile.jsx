@@ -40,6 +40,7 @@ export default function AdminProfile() {
     useEffect(() => {
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        document.title = 'Admin Profile'
     }, [])
 
     return (user && (

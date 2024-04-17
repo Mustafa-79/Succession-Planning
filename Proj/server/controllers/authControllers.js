@@ -797,7 +797,7 @@ const updateAssessment = async (reqs,resp) => {
     // Input validation (if necessary)
     console.log("employee answers received: ", employee_answers);
     
-    if (!assessmentID || !score || !status || !employee_answers) {
+    if (!assessmentID || !score || !status || !employee_answers || !employee_answers) {
         return resp.status(400).json({ message: 'Assessment ID, score, and status are required.' });
     }
 
@@ -827,8 +827,6 @@ const updateAssessment = async (reqs,resp) => {
     }
 }
 
-
-// router.get("/mentor/:mentor", getMentorInfo);   
 const getMentorInfo = async (reqs, resp) => {
     try {
         const { mentor } = reqs.params
@@ -924,6 +922,8 @@ const assignMentor = async (reqs, resp) => {
         console.log(error)
     }
 }
+
+
 
 
 

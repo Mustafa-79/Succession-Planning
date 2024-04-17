@@ -90,6 +90,7 @@ export default function Dashboard() {
     }, []); // Empty dependency array means this effect runs only once after the initial render
     
     useEffect(() => {
+        document.title = 'Assess Feedback - Course'
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
     }, [])
@@ -218,7 +219,7 @@ export default function Dashboard() {
                 <div className='contentAdminDash'>
                     <div className='header'>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
-                        <a href="" onClick={() => logout()}>{user.name}</a>
+                        <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
                         <button
                             onClick={() => logout()}
                             style={{

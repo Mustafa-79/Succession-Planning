@@ -46,6 +46,7 @@ export default function AssessComplaint() {
     useEffect(() => {
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        document.title = 'Assess Feedback - Complaint'
         let isMounted = true; // Flag to check if the component is still mounted
     
         // // Helper function to combine and update employee data
@@ -260,7 +261,7 @@ export default function AssessComplaint() {
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
                         <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
                         <button
-                            onClick={() => navigate('/login')}
+                            onClick={() => logout()}
                             style={{
                                 padding: '8px 16px',
                                 backgroundColor: '#f44336',

@@ -38,6 +38,7 @@ export default function AdminFeedback() {
     };
 
     useEffect(() => {
+        document.title = 'Assess Feedback'
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
     },[])

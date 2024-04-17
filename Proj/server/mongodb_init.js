@@ -531,7 +531,8 @@ async function init_db(conn) {
                 "workshops_taken": ["Python for Data Analysis Workshop"],
                 "awards": [],
                 "profile_picture": "",
-                "registered_status": true
+                "registered_status": true,
+                "failed_attempts": 0
             },
             {
                 "employeeID": "1019",

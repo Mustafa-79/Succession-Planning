@@ -24,6 +24,7 @@ export default function Dashboard() {
     const isAuthenticated = 1;
 
     useEffect(() => {
+        document.title = 'Dashboard'
         dispatch({type: 'LOGIN', payload: user, no: 2, path: '/dashboard'})
         localStorage.setItem('path' ,JSON.stringify('/dashboard'))
     }, [])

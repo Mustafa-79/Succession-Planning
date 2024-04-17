@@ -41,6 +41,7 @@ export default function ModelTuning() {
     useEffect(() => {
         dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        document.title = 'Model Tuning'
         axios.get('/weights').then(res => {
             console.log("Weights fetched: ", res.data)
             const ML_weights = res.data.find(item => item.weightsID === 1);
