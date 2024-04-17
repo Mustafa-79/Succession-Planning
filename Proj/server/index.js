@@ -26,7 +26,7 @@ init_weights(db);
 // middleware
 app.use(cors({
     origin: true, // true allows requests from all origins
-    credentials: true,
+    credentials: false,
   }));
 // app.use(express.json())
 app.use(cookieParser())
