@@ -55,6 +55,7 @@ export default function PromotionProgress() {
 
 
     useEffect(() => {
+        document.title = 'Career Path - Promotion Progress'
         dispatch({type: 'LOGIN', payload: allUserInfo, no: 1, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/dashboard-employees')
