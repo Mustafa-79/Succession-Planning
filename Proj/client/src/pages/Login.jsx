@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
 import img1 from "./img/s_img1.png";
 import img2 from "./img/s_img2.png";
 import img3 from "./img/s_img3.png";
@@ -48,43 +47,11 @@ export default function Login() {
     };
 
     useEffect(() => {
-        console.log("HRJJ")
         if (location.pathname != '' || location.pathname != '/login')
             navigate('/')
         setRandomizedImages(sequenceImg([...imgSources]));
         console.log(randomizedImages);
     }, []);
-
-    // useEffect(() => {
-    //     if (authenticatedUser) {
-    //         if (authenticatedUser.adminID)
-    //             navigate('/dashboard')
-    //         else
-    //         navigate('/employeeDashboard')
-    //     }
-    // })
-
-    // const loginUser = async (e) => {
-    //     e.preventDefault();
-    //     const { email, password, s_img } = data;
-    //     try {
-    //         const { data } = await axios.post("/login", {
-    //             email,
-    //             password,
-    //             s_img,
-    //         });
-    //         if (data.error) {
-    //             toast.error(data.error);
-    //             setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0);
-    //         } else {
-    //             console.log(data);
-    //             setData({});
-    //             navigate("/dashboard", { state: { name: data.name } });
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
     const loginUser = async (e) => {
         e.preventDefault()
@@ -118,141 +85,62 @@ export default function Login() {
     }
 
     return (
-        <div className="login-container">
-            <div className="login-box">
-                <h1 style={{marginBottom:15}}>Login</h1>
+        <div className="flex justify-center items-center h-screen bg-gray-100">
+            <div className="max-w-md w-full p-6 bg-white shadow-md rounded-md">
+                <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
                 <form onSubmit={loginUser}>
-                    <div className="input-group">
+                    <div className="mb-4">
                         <input
                             type="email"
                             placeholder="Email"
                             value={data.email}
                             onChange={(e) => setData({ ...data, email: e.target.value })}
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                         />
                     </div>
 
-                    <div className="input-group">
+                    <div className="mb-4">
                         <input
                             type="password"
                             placeholder="Password"
                             value={data.password}
                             onChange={(e) => setData({ ...data, password: e.target.value })}
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                         />
                     </div>
 
-                    <div className="security-image-selection" style={{marginBottom:15}}>
-                        <p>Select security image </p>
-                        <div className="security-images" >
-                            <img
-                                src={randomizedImages[0][0]}
-                                alt="Security Icon 1"
-                                className={`security-image ${data.s_img === randomizedImages[0][1] ? "selected" : ""
+                    <div className="mb-4">
+                        <p className="mb-2">Select security image</p>
+                        <div className="flex flex-wrap -mx-2">
+                            {randomizedImages.map(([src, index]) => (
+                                <img
+                                    key={index}
+                                    src={src}
+                                    alt={`Security Icon ${index}`}
+                                    className={`w-16 h-16 mx-2 my-1 cursor-pointer rounded-md ${
+                                        data.s_img === index ? "border-2 border-blue-500" : ""
                                     }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[0][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[1][0]}
-                                alt="Security Icon 2"
-                                className={`security-image ${data.s_img === randomizedImages[1][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[1][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[2][0]}
-                                alt="Security Icon 3"
-                                className={`security-image ${data.s_img === randomizedImages[2][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[2][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[3][0]}
-                                alt="Security Icon 4"
-                                className={`security-image ${data.s_img === randomizedImages[3][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[3][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[4][0]}
-                                alt="Security Icon 5"
-                                className={`security-image ${data.s_img === randomizedImages[4][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[4][1] })
-                                }
-                            />
-                        </div>
-                        <div className="security-images">
-                            <img
-                                src={randomizedImages[5][0]}
-                                alt="Security Icon 1"
-                                className={`security-image ${data.s_img === randomizedImages[5][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[5][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[6][0]}
-                                alt="Security Icon 2"
-                                className={`security-image ${data.s_img === randomizedImages[6][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[6][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[7][0]}
-                                alt="Security Icon 3"
-                                className={`security-image ${data.s_img === randomizedImages[7][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[7][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[8][0]}
-                                alt="Security Icon 4"
-                                className={`security-image ${data.s_img === randomizedImages[8][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[8][1] })
-                                }
-                            />
-                            <img
-                                src={randomizedImages[9][0]}
-                                alt="Security Icon 5"
-                                className={`security-image ${data.s_img === randomizedImages[9][1] ? "selected" : ""
-                                    }`}
-                                onClick={(e) =>
-                                    setData({ ...data, s_img: randomizedImages[9][1] })
-                                }
-                            />
+                                    onClick={(e) => setData({ ...data, s_img: index })}
+                                />
+                            ))}
                         </div>
                     </div>
 
-                    <div className="input-group" >
-                        <button type="submit" className="login-btn" >
+                    <div className="mb-4">
+                        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none">
                             Login
                         </button>
                     </div>
 
-                    <div class="signup-link">
-                        <button onClick={() => navigate("/signup")}>Register</button>
+                    <div className="text-center">
+                        <button className="text-blue-500 hover:underline" onClick={() => navigate("/signup")}>Register</button>
                     </div>
 
-                    <div className="forgot-password">
-                        <a href="/resetPassword">Forgot Password?</a>
+                    <div className="text-center mt-2">
+                        <a href="/resetPassword" className="text-blue-500 hover:underline">Forgot Password?</a>
                     </div>
-                    <div className="forgot-security-img">
-                        <a href="/resetSecurityImage">Forgot Security Image?</a>
+                    <div className="text-center mt-2">
+                        <a href="/resetSecurityImage" className="text-blue-500 hover:underline">Forgot Security Image?</a>
                     </div>
                 </form>
             </div>
