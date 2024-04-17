@@ -216,8 +216,6 @@ export default function EmployeeData() {
                                                             <option value={v.positionID}>{v.title}</option>
                                                         )
                                                     })}
-                                                    <option value="active">Active</option>
-                                                    <option value="inactive">Blocked</option>
                                                 </select>
                                             </td>
                                             <td>{getAge(val.date_of_birth)}</td>
