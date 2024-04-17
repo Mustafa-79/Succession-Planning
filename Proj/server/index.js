@@ -26,7 +26,7 @@ init_weights(db);
 // middleware
 // Allow requests from http://localhost:5173 and include credentials
 app.use(cors({
-    origin: true,
+    origin: true, // true allows requests from all origins
     credentials: true,
   }));
 // app.use(express.json())
