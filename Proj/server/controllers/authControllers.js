@@ -772,7 +772,6 @@ const assignAssessment = async (reqs, resp) => {
             positionTitle : positionTitle,
             questions: questions,
             answers: answers,
-            employee_answers: [],
             score: score,
             status: status,
             date: new Date() // Use the current date
@@ -795,9 +794,7 @@ const updateAssessment = async (reqs,resp) => {
     const { assessmentID, employee_answers, score, status } = reqs.body;
 
     // Input validation (if necessary)
-    console.log("employee answers received: ", employee_answers);
-    
-    if (!assessmentID || !score || !status || !employee_answers || !employee_answers) {
+    if (!assessmentID || !score || !status || !employee_answers) {
         return resp.status(400).json({ message: 'Assessment ID, score, and status are required.' });
     }
 
@@ -810,7 +807,6 @@ const updateAssessment = async (reqs,resp) => {
                 score: score,
                 status: status
             },
-
             { new: true } // Return the updated document
         );
 
