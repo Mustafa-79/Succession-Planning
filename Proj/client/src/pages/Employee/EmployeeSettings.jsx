@@ -37,12 +37,17 @@ export default function EmployeeSettings() {
 
     useEffect(() => {
         // fetchData(); // Call the fetch function on component mount
+        document.title = 'Settings'
         dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
         getPositionData()
         setActiveUser({...activeUser, userPosition: getPositionTitle(user.positionID)})
         setRandomizedImages(sequenceImg([...imgSources]));
-    }, [positions]); // Empty array means it will only run once when component mounts
+    }, []); // Empty array means it will only run once when component mounts
+
+    useEffect(() => {
+        getPositionData()
+    }, [positions])
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },

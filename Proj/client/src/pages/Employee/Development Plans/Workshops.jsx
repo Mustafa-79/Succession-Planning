@@ -42,6 +42,7 @@ export default function Courses() {
     };
 
     useEffect(() => {
+        document.title = 'Development Plans - Workshops'
         dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
         axios.get('/dashboard-position-titles')
