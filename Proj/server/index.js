@@ -29,9 +29,15 @@ app.use(cookieParser())
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
+app.use(
+    cors({
+        origin: 'https://client-ccez50p10-mustafas-projects-97e1e503.vercel.app',
+        credentials: true,
+    })
+);
 
 
 app.use('/', require('./routes/authRoutes'))
 
 const port = 8000
-app.listen(port, '0.0.0.0' ,() => console.log('Server is running on port', port))
+app.listen(process.env.PORT || port), '0.0.0.0' ,() => console.log('Server is running on port', process.env.PORT || port)
