@@ -38,8 +38,8 @@ import AdminFeedback from './pages/Admin/AdminFeedback';
 import AssessComplaint from './pages/Admin/AssessComplaint';
 
 
-// axios.defaults.baseURL = 'http://localhost:8000/';
-axios.defaults.baseURL = 'https://succession-planning-api.vercel.app/';
+axios.defaults.baseURL = 'http://localhost:8000/';
+// axios.defaults.baseURL = 'https://succession-planning-api.vercel.app/';
 axios.defaults.withCredentials = true
 
 function App() {
