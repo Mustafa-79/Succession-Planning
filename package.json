@@ -1,5 +1,10 @@
 {
-  "dependencies": {
-    "vercel": "^34.0.0"
+    "name": "your-app",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "npm run build:client && npm start:server",
+      "build:client": "cd Proj/client && npm install && npm run build",
+      "start:server": "cd Proj/server && npm install && npm start"
+    }
   }
-}
+  
