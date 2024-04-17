@@ -8,7 +8,7 @@ function init_weights(conn) {
 
     const db = conn;
     // Clear the weights collection
-    db.collection('weights').deleteMany({});
+    // db.collection('weights').deleteMany({});
 
     // Create a new set of weights
     const ML_weights = new Weights();

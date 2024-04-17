@@ -16,17 +16,17 @@ async function init_db(conn) {
 
     db.once('open', async () => {
         try {
-            await Promise.all([
-                db.collection('employees').deleteMany(),
-                db.collection('hr_admins').deleteMany(),
-                db.collection('feedbacks').deleteMany(),
-                db.collection('complaints').deleteMany(),
-                db.collection('workshops').deleteMany(),
-                db.collection('courses').deleteMany(),
-                db.collection('positions').deleteMany(),
-                db.collection('assessments').deleteMany(),
-                db.collection('doassignments').deleteMany()
-            ]);
+            // await Promise.all([
+            //     db.collection('employees').deleteMany(),
+            //     db.collection('hr_admins').deleteMany(),
+            //     db.collection('feedbacks').deleteMany(),
+            //     db.collection('complaints').deleteMany(),
+            //     db.collection('workshops').deleteMany(),
+            //     db.collection('courses').deleteMany(),
+            //     db.collection('positions').deleteMany(),
+            //     db.collection('assessments').deleteMany(),
+            //     db.collection('doassignments').deleteMany()
+            // ]);
             console.log('Database initialized');
         } catch (err) {
             console.error("Error clearing database:", err);
