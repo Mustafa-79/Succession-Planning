@@ -38,7 +38,37 @@ export default function Mentor() {
 
 
     // Menotr Mentee Specific stuff below
-    const [mentorID, setMentorID] = useState(allUserInfo.mentor_ID);
+    const [mentorID, setMentorID] = useState("");
+
+
+    // const exists = await Employee.findOne({ name: name })
+
+    //     console.log(exists)
+    //     if (!exists) {
+    //         return resp.json({
+    //             error: 'No such employee record exists'
+    //         })
+    //     } else {
+    //         const position = await PositionModel.findOne({ positionID: exists.positionID })
+    //         resp.json({ record1: exists, record2: position })
+    // get user profile info
+    const [userInfo, setUserInfo] = useState({});
+    useEffect(() => {
+        axios.post('/getProfile', { name: allUserInfo.name })
+            .then(res => {
+                // console.log(res.data);
+                let { record1, record2 } = res.data;
+                setMentorID(record1.mentor_ID);
+                // setUserInfo(record1);
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error('Failed to fetch user profile');
+            });
+    }, []);
+
+
+
     const [mentorInfo, setMentorInfo] = useState({});
 
     const [loading, setLoading] = useState(false); // Add loading state
