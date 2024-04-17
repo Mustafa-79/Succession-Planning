@@ -300,7 +300,7 @@ export default function viewAssessment() {
 										<tr key={assessment.assignmentID}>
 											<td>{assessment.assignmentID}</td>
 											<td>{assessment.employeeID}</td>
-											<td>{assessment.date}</td>
+											<td>{new Date(assessment.date).toLocaleDateString()}</td>
 											<td>
 												<button onClick={() => addEmployee(assessment)}>
 													<FontAwesomeIcon icon={faEye} size="xl" />

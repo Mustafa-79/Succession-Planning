@@ -23,6 +23,9 @@ import { useLogout } from '../../hooks/useLogout';
 import { useUserContext } from '../../hooks/useUserContext';
 
 export default function EmployeeSettings() {
+
+    const [activeTab, setActiveTab] = useState(0);
+
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'));
     const { logout } = useLogout()
@@ -42,12 +45,11 @@ export default function EmployeeSettings() {
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
         getPositionData()
         setActiveUser({...activeUser, userPosition: getPositionTitle(user.positionID)})
-        setRandomizedImages(sequenceImg([...imgSources]));
-    }, []); // Empty array means it will only run once when component mounts
+    }, [positions]); // Empty array means it will only run once when component mounts
 
     useEffect(() => {
-        getPositionData()
-    }, [positions])
+        setRandomizedImages(sequenceImg([...imgSources]));
+    }, [activeTab])
 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
@@ -69,7 +71,6 @@ export default function EmployeeSettings() {
         console.log('Hello')
     }
 
-    const [activeTab, setActiveTab] = useState(0);
     const [newPassword, setNewPassword] = useState({
         currentPassword: '',
         newPassword: '',
