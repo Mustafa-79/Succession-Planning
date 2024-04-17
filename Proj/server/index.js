@@ -29,12 +29,10 @@ app.use(cookieParser())
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
-app.use(
-    cors({
-        origin: 'https://succession-planning-project-523596313960.herokuapp.com/',
-        credentials: true,
-    })
-);
+// Allow requests from http://localhost:5173
+app.use(cors({
+    origin: 'http://localhost:5173',
+  }));
 
 
 app.use('/', require('./routes/authRoutes'))
