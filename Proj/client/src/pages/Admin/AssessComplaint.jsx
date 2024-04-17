@@ -284,17 +284,17 @@ export default function AssessComplaint() {
                                 icon={faFileLines}
                                 size="2x"
                                 color="rgb(34, 137, 255)"
-                            />
-                            <h1 style={{ marginLeft: 40, marginRight: 60 }}>Feedback Forms</h1>
+                                style={{ marginBottom: 10, marginLeft: 20 }} />
+                            <h1 style={{ marginLeft: 40, marginRight: 60 }}>Complaints</h1>
                         </div>
                         <div className='employeeFunctionss'>
                             <div className='func'>Total Complaints</div>
                             <div className='countAndView'>
                                 <div className='funcCount'>{complaintData.length}</div>
-                                <div className='iconAndView'>
+                                {/* <div className='iconAndView'>
                                     <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
                                     <a href="">View</a>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -303,6 +303,7 @@ export default function AssessComplaint() {
                             <table>
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Complaint ID</th>
                                         <th>Complaint by Employee</th>
                                         <th>Against Employee ID</th>
@@ -315,11 +316,12 @@ export default function AssessComplaint() {
                                 <tbody>
                                     {complaintData.map(complaint => (
                                         <tr key={complaint.complaintID}>
+                                             <td>{complaintData.indexOf(complaint) + 1}</td>
                                             <td>{complaint.complaintID}</td>
                                             <td>{complaint.employeeID2}</td>
                                             <td>{complaint.employeeID1}</td>
                                             <td>{complaint.courseID}</td>
-                                            <td>{complaint.date}</td>
+                                            <td>{new Date(complaint.date).toLocaleDateString()}</td>
                                             <td>
                                                 <button onClick={() => addEmployee(complaint)}>
                                                     <FontAwesomeIcon icon={faEye} size='xl' />

@@ -268,7 +268,7 @@ export default function viewAssessment() {
 								icon={faFileLines}
 								size="2x"
 								color="rgb(34, 137, 255)"
-							/>
+								style={{ marginBottom: 10, marginLeft: 20 }} />
                             <h1 style={{ marginLeft: 40, marginRight: 60 }}>Assesments</h1>
 						</div>
 						<div className="employeeFunctionss">
