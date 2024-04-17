@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash,faChartLine, faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faChartLine, faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import './AssessFeedback.css';
 import './fonts.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -15,12 +15,12 @@ export default function Dashboard() {
     const navigate = useNavigate();
 
     const { logout } = useLogout()
-    
+
     const user = JSON.parse(localStorage.getItem('user'));
-    const { authenticatedUser, no, path, dispatch} = useUserContext()
+    const { authenticatedUser, no, path, dispatch } = useUserContext()
 
     const menuItems = [
-        { name: "Dashboard", icon: faHouse, margin: 0, path: "/dashboard" },
+        { name: "Dashboard", icon: faHouse, margin: 5, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/admin_feedback" },
         { name: "Create Assessment", icon: faFileArrowUp, margin: 10, path: "/admin_feedback/create_assessment" },
         { name: "Employee Data", icon: faStreetView, margin: 3, path: "/employee_data" },
@@ -33,12 +33,12 @@ export default function Dashboard() {
         // { id: 1, role: "Manager", age: 30, contact: "123-456-7890", hoursWorked: 40, status: "Active" }
     ]);
 
-    const[specificE,setSpecificE] = useState({})
+    const [specificE, setSpecificE] = useState({})
 
     // Fetching all employees from the database
     useEffect(() => {
         let isMounted = true; // Flag to check if the component is still mounted
-    
+
         // Helper function to combine and update employee data
         const updateEmployeesWithData = (employees, empData) => {
             // Combine employee and additional data
@@ -55,41 +55,41 @@ export default function Dashboard() {
                 }
                 return employee;
             });
-    
+
             // Update state if component is still mounted
             if (isMounted) {
                 setEmployees(updatedEmployees);
             }
         };
-    
+
         // Perform both Axios requests in parallel
         Promise.all([
             axios.post('/getFeedback'),
             axios.get('/dashboard-employees')
         ])
-        .then(([feedbackRes, empDataRes]) => {
-            if (!isMounted) return; // Prevent updating state if the component is unmounted
-            const feedbackData = feedbackRes.data;
-            const empData = empDataRes.data;
-    
-            // Update employees with combined data
-            updateEmployeesWithData(feedbackData, empData);
-        })
-        .catch(err => {
-            console.error(err); // Log any errors to the console
-            toast.error('Failed to fetch data'); // Display a toast message on failure
-        });
-    
+            .then(([feedbackRes, empDataRes]) => {
+                if (!isMounted) return; // Prevent updating state if the component is unmounted
+                const feedbackData = feedbackRes.data;
+                const empData = empDataRes.data;
+
+                // Update employees with combined data
+                updateEmployeesWithData(feedbackData, empData);
+            })
+            .catch(err => {
+                console.error(err); // Log any errors to the console
+                toast.error('Failed to fetch data'); // Display a toast message on failure
+            });
+
         // Cleanup function to set isMounted to false when the component unmounts
         return () => {
             isMounted = false;
         };
     }, []); // Empty dependency array means this effect runs only once after the initial render
-    
+
     useEffect(() => {
         document.title = 'Assess Feedback - Course'
-        dispatch({type: 'LOGIN', payload: user, no: 2, path: location.pathname})
-        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        dispatch({ type: 'LOGIN', payload: user, no: 2, path: location.pathname })
+        localStorage.setItem('path', JSON.stringify(location.pathname))
     }, [])
 
     const [positionTitles, setPositionTitles] = useState([]);
@@ -141,7 +141,7 @@ export default function Dashboard() {
 
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { userInfo: user }}); 
+        navigate(path, { state: { userInfo: user } });
     };
 
 
@@ -176,15 +176,17 @@ export default function Dashboard() {
                     </div>
                     <div className="menu">
                         {menuItems.map(item => (
-                                <div key={item.name} className={isActive(item.path) ? "active" : ""}>
-                                    <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
-                                    <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
-                                </div>
+                            <div key={item.name} className={isActive(item.path) ? "active" : ""}>
+                                <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
+                                <a href="" onClick={(e) => handleMenuItemClick(item.path, e)}>{item.name}</a>
+                            </div>
                         ))}
                     </div>
                 </div>
                 <div className='contentAdminDash'>
                     <div className='header'>
+                        <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
+                        <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
                         <a href="" onClick={(e) => handleMenuItemClick('/AdminProfile', e)}>{user.name}</a>
                         <button
@@ -203,28 +205,28 @@ export default function Dashboard() {
 
                     </div>
 
-                        <div className='feedbackHeader'> 
+                    <div className='feedbackHeader'>
                         {/* <h1>Feedbacks</h1> */}
                         <div className="form-heading">
                             <FontAwesomeIcon
                                 icon={faFileLines}
                                 size="2x"
                                 color="rgb(34, 137, 255)"
-                            style={{marginBottom:10, marginLeft: 20}}/>
-                            <h1 style={{marginLeft:40, marginRight:60}}>Feedback Forms</h1>
+                                style={{ marginBottom: 10, marginLeft: 20 }} />
+                            <h1 style={{ marginLeft: 40, marginRight: 60 }}>Feedback Forms</h1>
                         </div>
-                            <div className='employeeFunctionss'>
-                                <div className='func' style={{fontSize:25}}>Total Feedbacks</div>
-                                <div className='countAndView'>
-                                    <div className='funcCount'>{employees.length}</div>
-                                    {/* <div className='iconAndView'> 
+                        <div className='employeeFunctionss'>
+                            <div className='func' style={{ fontSize: 25 }}>Total Feedbacks</div>
+                            <div className='countAndView'>
+                                <div className='funcCount'>{employees.length}</div>
+                                {/* <div className='iconAndView'> 
                                         <FontAwesomeIcon icon={faEye} size='3x' color='rgb(255,157,71)' />
                                         <a href="">View</a>
                                     </div> */}
-                                </div>
                             </div>
                         </div>
-                    <div className='employeeSection' style={{marginTop:50}}>
+                    </div>
+                    <div className='employeeSection' style={{ marginTop: 50 }}>
                         <div className='employeeData'>
                             <table>
                                 <thead>
@@ -240,7 +242,7 @@ export default function Dashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    { employees
+                                    {employees
                                         .filter(employee => employee.employeeID.toString().includes(searchTerm))
                                         .map(employee => (
                                             <tr key={employee.employeeID}>
@@ -254,7 +256,7 @@ export default function Dashboard() {
                                                 <td>
                                                     {/* <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a> */}
                                                     <button onClick={(e) => addEmployee(employee)}><FontAwesomeIcon icon={faEye} size='xl' /></button>
-                                               </td>
+                                                </td>
                                             </tr>
                                         ))}
                                 </tbody>
@@ -264,40 +266,40 @@ export default function Dashboard() {
                 </div>
             </div>
             {showModal && (
-    <div className="modalOverlay">
-        <div className="modalContent">
-        <span className="closeModal" onClick={closeModal}>&times;</span> {/* Close button */}
-            <div className="modalHeader">
-                {/* <span className="closeModal" onClick={closeModal}>&times;</span> */}
-                <h2>Feedback</h2>
-            </div>
-            <div className="modalBody">
-                    <div className="formGroup1">
-                        <label htmlFor="CourseID">Course ID:</label>
-                        <h3>{specificE.courseID}</h3>
-                    </div>
-                    <div className="formGroup1">
-                        <label>Rating:</label>
-                        <div>
-                            {[...Array(5)].map((star, i) => {
-                                const ratingValue = i + 1;
-                                return (
-                                    <label key={i}>
-                                        <input type="radio" name="rating" value={ratingValue} style={{ display: 'none' }} />
-                                        <FontAwesomeIcon icon={faStar} color={ratingValue <= specificE.rating ? "#ffc107" : "#e4e5e9"} />
-                                    </label>
-                                );
-                            })}
+                <div className="modalOverlay">
+                    <div className="modalContent">
+                        <span className="closeModal" onClick={closeModal}>&times;</span> {/* Close button */}
+                        <div className="modalHeader">
+                            {/* <span className="closeModal" onClick={closeModal}>&times;</span> */}
+                            <h2>Feedback</h2>
+                        </div>
+                        <div className="modalBody">
+                            <div className="formGroup1">
+                                <label htmlFor="CourseID">Course ID:</label>
+                                <h3>{specificE.courseID}</h3>
+                            </div>
+                            <div className="formGroup1">
+                                <label>Rating:</label>
+                                <div>
+                                    {[...Array(5)].map((star, i) => {
+                                        const ratingValue = i + 1;
+                                        return (
+                                            <label key={i}>
+                                                <input type="radio" name="rating" value={ratingValue} style={{ display: 'none' }} />
+                                                <FontAwesomeIcon icon={faStar} color={ratingValue <= specificE.rating ? "#ffc107" : "#e4e5e9"} />
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                            <div className="formGroup1">
+                                <label htmlFor="Response">Feedback response:</label>
+                                <h3>{specificE.feedback}</h3>
+                            </div>
                         </div>
                     </div>
-                    <div className="formGroup1">
-                        <label htmlFor="Response">Feedback response:</label>
-                        <h3>{specificE.feedback}</h3>
-                    </div>
-            </div>
-        </div>
-    </div>
-)}
+                </div>
+            )}
 
         </div>
     );
