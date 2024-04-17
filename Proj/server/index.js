@@ -31,7 +31,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000
 
 app.use(
     cors({
-        origin: 'https://client-ccez50p10-mustafas-projects-97e1e503.vercel.app',
+        origin: 'https://succession-planning-project-523596313960.herokuapp.com/',
         credentials: true,
     })
 );
