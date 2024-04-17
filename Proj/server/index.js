@@ -22,6 +22,11 @@ init_db(db);
 // Initialize weights
 init_weights(db);
 
+// Set up cors to allow us to accept requests from our client
+app.use(cors({
+    origin: 'https://succession-planning.vercel.app',
+    credentials: true
+}));
 
 // middleware
 // app.use(express.json())
@@ -30,11 +35,6 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
 
-// Set up cors to allow us to accept requests from our client
-app.use(cors({
-    origin: 'https://succession-planning.vercel.app',
-    credentials: true
-  }));
 
 app.use('/', require('./routes/authRoutes'))
 
