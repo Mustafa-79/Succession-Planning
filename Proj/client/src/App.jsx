@@ -41,7 +41,7 @@ import ViewAssessment from './pages/Admin/ViewAssesment';
 
 // axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.baseURL = 'https://succession-planning-project-523596313960.herokuapp.com/';
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = false
 
 function App() {
 
