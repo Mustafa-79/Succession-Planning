@@ -15,9 +15,9 @@ import { useUserContext } from '../../hooks/useUserContext';
 export default function Dashboard() {
     const location = useLocation();
     const navigate = useNavigate();
-    
+
     const { logout } = useLogout()
-    const { authenticatedUser, no, path, dispatch} = useUserContext()
+    const { authenticatedUser, no, path, dispatch } = useUserContext()
 
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -25,10 +25,10 @@ export default function Dashboard() {
 
     useEffect(() => {
         document.title = 'Dashboard'
-        dispatch({type: 'LOGIN', payload: user, no: 2, path: '/dashboard'})
-        localStorage.setItem('path' ,JSON.stringify('/dashboard'))
+        dispatch({ type: 'LOGIN', payload: user, no: 2, path: '/dashboard' })
+        localStorage.setItem('path', JSON.stringify('/dashboard'))
     }, [])
-    
+
     const menuItems = [
         { name: "Dashboard", icon: faHouse, margin: 5, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/admin_feedback" },
@@ -269,11 +269,11 @@ export default function Dashboard() {
     const filterEmployees = (threshold, highPotential) => {
         setView(highPotential);
         if (highPotential === "high") {
-            setEmployeesToDisplay(employees.filter(employee => employeeScores[employee.employeeID] >= threshold));
+            setEmployeesToDisplay(successors.filter(employee => employeeScores[employee.employeeID] >= threshold));
         } else if (highPotential === "atRisk") {
-            setEmployeesToDisplay(employees.filter(employee => employeeScores[employee.employeeID] < threshold));
+            setEmployeesToDisplay(successors.filter(employee => employeeScores[employee.employeeID] < threshold));
         } else {
-            setEmployeesToDisplay(employees);
+            setEmployeesToDisplay(successors);
         }
     };
 
@@ -284,7 +284,15 @@ export default function Dashboard() {
 
     // Function to filter employees based on position for which successors are to be viewed
     const [filterPositionID, setFilterPositionID] = useState("");
+    const [successors, setSuccessors] = useState([]);
     const filterSuccessors = (positionID) => {
+
+        if (positionID === "") {
+            setEmployeesToDisplay(employees);
+            setSuccessors(employees);
+            return;
+        }
+
         // For given positionID, find the hierarchy level
         // Find all employees at level + 1 of the hierarchy
         // set the employeesToDisplay to these employees
@@ -300,7 +308,20 @@ export default function Dashboard() {
         });
 
         setEmployeesToDisplay(successors);
+        setSuccessors(successors);
+
+        
+
     }
+
+    const [sortedEmployeesToDisplay, setSortedEmployeesToDisplay] = useState([]);
+    // Use effect to sort employees based on their performance score. will be re-rendered whenever employeesToDisplay changes
+    useEffect(() => {
+        // Sort the employees based on their performance score
+        const sortedEmployees = employeesToDisplay.sort((a, b) => employeeScores[b.employeeID] - employeeScores[a.employeeID]);
+        setSortedEmployeesToDisplay(sortedEmployees);
+    }, [employeesToDisplay, employeeScores]);
+
 
 
     return isAuthenticated && (
@@ -394,7 +415,7 @@ export default function Dashboard() {
                                 <FontAwesomeIcon icon={faSearch} />
                             </div>
                             <button onClick={changeThreshold}>
-                                <FontAwesomeIcon icon={faFilter} size = 'lg'/>   Filter
+                                <FontAwesomeIcon icon={faFilter} size='lg' />   Filter
                             </button>
                             <button onClick={addEmployee}>+ Add New Employee</button>
                         </div>
@@ -415,11 +436,11 @@ export default function Dashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {employeesToDisplay
+                                    {sortedEmployeesToDisplay
                                         .filter(employee => employee.employeeID.toString().includes(searchTerm))
                                         .map(employee => (
                                             <tr key={employee.employeeID}>
-                                                <td>{employeesToDisplay.indexOf(employee) + 1}</td>
+                                                <td>{sortedEmployeesToDisplay.indexOf(employee) + 1}</td>
                                                 <td>{employee.employeeID}</td>
                                                 <td>{employee.name}</td>
                                                 <td>{employee.positionID}</td>
@@ -486,14 +507,21 @@ export default function Dashboard() {
                         {/* allow user to change position for which they want successors */}
                         <label htmlFor="positionID" style={{ marginTop: '50px' }}>Select the position for which you want to view successors:</label>
                         <select id="positionID" value={filterPositionID} onChange={(e) => { setFilterPositionID(e.target.value); filterSuccessors(e.target.value); }}>
-                            <option value="">All Positions</option>
+                            <option key="" value="">All Positions</option>
                             {positionTitles.map(position => (
                                 // do not include interns in the list of positions
                                 position.title !== "Intern" && <option key={position.positionID} value={position.positionID}>{position.title}</option>
                             ))}
                         </select>
 
-                        <button id="changeThresholdButton" onClick={() => { filterEmployees(threshold, view); closeThresholdModal(); }}>Done</button>
+                        <button id="changeThresholdButton" onClick={() => {
+                            
+                            filterSuccessors(filterPositionID);
+                            filterEmployees(threshold, view);
+                            closeThresholdModal();
+                        }}>
+                            Done
+                        </button>
 
                     </div>
                 </div>
