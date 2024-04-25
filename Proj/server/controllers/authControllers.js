@@ -749,24 +749,6 @@ const assignAssessment = async (reqs, resp) => {
         console.log("the new id is: ", newAssignmentID)
         const score = '0'
         const status = 'Pending'
-        // Assign unique ID to feedback
-        // const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
-        // let employeeexist = "-";
-        // let courseexist = "-";
-        // if(user)
-        // {
-        //     employeeexist = complaintAgainstID;
-
-        // }
-        // else if(courseIDs.includes(complaintAgainstID))
-        // {
-        //     courseexist = complaintAgainstID;
-        // }
-
-        // console.log("the employee against which the complaint is: ",employeeexist)
-        // console.log("the course against which the complaint is: ",courseexist)
-        // console.log("the employee that lodged the complaint is: ", complaintByID)
-        // Create a new feedback record
         const newAssignment = new doAssignmentModel({
             assignmentID: newAssignmentID,
             employeeID : empID,
@@ -891,9 +873,7 @@ const getMentorOptions = async (reqs, resp) => {
     }
 }
 
-
 // Endpoint to assign mentor
-// axios.post(`/saveMentor/${mentorID}/${allUserInfo.employeeID}`)
 
 const assignMentor = async (reqs, resp) => {
     try {

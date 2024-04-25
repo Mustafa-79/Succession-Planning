@@ -270,16 +270,7 @@ export default function Signup() {
         <body className="signupBody">
 
             <div className="youtube-iframe">
-                <iframe
-                    width="100%"
-                    height="100%"
-                    
-                    src="https://www.youtube.com/embed?v=oe70Uhjc_F4&list=PL4Gr5tOAPttLOY9IrWVjJlv4CtkYI5cI_&index=5" // Replace YOUR_VIDEO_ID with the actual YouTube video ID
-                    title="YouTube video player"
-                    frameborder="2"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                ></iframe>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Bf_iZvrfbEo" title="Sign Up Tutorial" frameborder="2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div class="signup-container">
 
