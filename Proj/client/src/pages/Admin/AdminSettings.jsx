@@ -114,7 +114,7 @@ export default function AdminSettings() {
         setShowPassword({field1: false, field2: false, field3: false})
         setSecurityImg({currentImg: '', newImg: ''})
     }
-
+    //function to handle the change of the password
     const onPasswordChange = (password) => {
         setNewPassword({ ...newPassword, newPassword: password});
         setPasswordValidations({
@@ -125,7 +125,7 @@ export default function AdminSettings() {
             hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
         });
     };
-
+    //function to handle the change of the confirm password
     const onConfirmPasswordChange = (samePassword) => {
         setNewPassword({ ...newPassword, confirmPassword: samePassword});
         setPasswordsMatch(newPassword.newPassword === samePassword);
@@ -137,7 +137,7 @@ export default function AdminSettings() {
         e.preventDefault()
         navigate(path, { state: { userInfo: user }}); 
     };
-
+    
     const handleEditSubmit = (flag) => {
         setEnableEdit(false)
         if (flag) {
@@ -146,13 +146,13 @@ export default function AdminSettings() {
             setActiveUser(user)
         }
     }
-
+    //function to handle the image upload
     const handleImageUpload = async (e) => {
         const img = e.target.files[0]
         const base64 = await convertToBase64(img)
         setActiveUser({...activeUser, profile_picture: base64})
     }
-
+    //function to convert the image to base64
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader()
@@ -165,7 +165,7 @@ export default function AdminSettings() {
             }
         })
     }
-
+    //funtion to updateProfileProfile to the database
     const updateProfileProfile = async () => {
         try {
             const resp = await axios.post('/updateAdminPic', {
@@ -185,7 +185,7 @@ export default function AdminSettings() {
         }
     }
 
-    const myProfile = () => {
+    const myProfile = () => {//this function is used to display the profile of the user
         return (
             <div className='admin-profile-box'>
                 <div className='admin-profile-input-box'>
@@ -227,7 +227,7 @@ export default function AdminSettings() {
         )
     }
 
-    const reqChangePwd = async (e) => {
+    const reqChangePwd = async (e) => {//this function is used to request a change of password
         e.preventDefault();
         if (!(newPassword.newPassword && newPassword.confirmPassword && newPassword.newPassword === newPassword.confirmPassword )) {
             toast.error("passwords do not match");
@@ -253,7 +253,7 @@ export default function AdminSettings() {
             console.log(error);
         }
     }
-
+    //function to change the password and display the form
     const changePassword = () => {
         return (
             <form onSubmit={(e) => reqChangePwd(e)}>
@@ -326,13 +326,13 @@ export default function AdminSettings() {
             </form>
         )
     }
-
+    //function to request a change of security image and display the form
     const reqChangeSecurityImg = () => {
         return (
             <form onSubmit={(e) => forwardImgReq(e)}>
                 <div className="security-image-selection">
                     <p>Select your current security image </p>
-                    <div className="admin-security-images">
+                    <div className="admin-security-images">{/*this is the div that contains the security images*/}
                         <img
                             src={randomizedImages[0][0]}
                             alt="Security Icon 1"
@@ -533,7 +533,7 @@ export default function AdminSettings() {
             </form>
         )
     }
-
+    //function to forward the request of the security image and display the form
     const forwardImgReq = async (e) => {
         e.preventDefault();
         if (!securityImg.currentImg) {

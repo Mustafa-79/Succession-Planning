@@ -142,6 +142,7 @@ export default function viewAssessment() {
 
 		const scoreString = `${correctCount}/${totalQuestions}`;
 
+		// Update the assessment data with the new score and status
 		const updatedAssessmentData = assessmentData.map((assessment) => {
 			if (assessment.assignmentID === specificE.assignmentID) {
 				return { ...assessment, score: scoreString, status: "Completed" };
@@ -238,7 +239,7 @@ export default function viewAssessment() {
 						))}
 					</div>
 				</div>
-				<div className="contentAdminDash">
+				<div className="contentAdminDash">//
 					<div className="header">
 						<a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
 						<span>|</span>

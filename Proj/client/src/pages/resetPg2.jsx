@@ -15,6 +15,7 @@ export default function ResetFinalPwd() {
         empID: location.state.empID,
     });
 
+    //use state to check if the password meets the criteria
     const [passwordValidations, setPasswordValidations] = useState({
         isLongEnough: false,
         hasUpper: false,
@@ -29,6 +30,7 @@ export default function ResetFinalPwd() {
         field1: false, field2: false
     })
 
+    //function to check if the password meets the criteria
     const onPasswordChange = (password) => {
         setData({ ...data, password });
         setPasswordValidations({
@@ -40,6 +42,7 @@ export default function ResetFinalPwd() {
         });
     };
 
+    //function to check if the passwords match and set the state
     const onConfirmPasswordChange = (samePassword) => {
         setData({ ...data, samePassword });
         setPasswordsMatch(data.password === samePassword);
@@ -47,6 +50,7 @@ export default function ResetFinalPwd() {
 
     const { authenticatedUser, no, dispatch } = useUserContext();
 
+    //function to reset the password and send the data to the backend
     const resetPassword = async (e) => {
         e.preventDefault();
         const { empID, password, samePassword } = data;
@@ -64,7 +68,7 @@ export default function ResetFinalPwd() {
                 toast.error(data.error);
             } else {
                 setData({});
-                setShowPassword({field1: false, field2: false})
+                setShowPassword({field1: false, field2: false})//reset the password fields
                 toast.success("password successfully reset");
                 navigate("/resetPg2");
             }
@@ -75,7 +79,7 @@ export default function ResetFinalPwd() {
 
     return (
         <body>
-            <div class="resetPwd-container">
+            <div class="resetPwd-container">{/*this is the container for the reset password page*/}
                 <div class="reset-box">
                     <h1>Reset your password</h1>
                     <h3>
@@ -83,7 +87,7 @@ export default function ResetFinalPwd() {
                         ask this password whenever you log in.
                     </h3>
                     <form onSubmit={resetPassword}>
-                        <div class="signup-input-group">
+                        <div class="signup-input-group">{/*this is the input group for the password*/}
                             <input
                                 type={!showPassword.field1 ? "password" : "text"}
                                 placeholder="New password"
@@ -94,7 +98,7 @@ export default function ResetFinalPwd() {
                             {showPassword.field1 && <FaEyeSlash onClick={() => setShowPassword({...showPassword, field1: false})} className="search-btn-k"/>}
                         </div>
 
-                        <div className="password-criteria">
+                        <div className="password-criteria">{/*this is the password criteria*/}
                             <p>Password must:</p>
                             <ul>
                                 <li className={passwordValidations.isLongEnough ? "valid" : ""}>
@@ -112,7 +116,7 @@ export default function ResetFinalPwd() {
                             </ul>
                         </div>
 
-                        <div className="signup-input-group" style={{ marginTop: '1.5pc' }} >
+                        <div className="signup-input-group" style={{ marginTop: '1.5pc' }} >{/*this is the input group for the confirm password*/}
                             <input
                                 type={!showPassword.field2 ? "password" : "text"}
                                 placeholder="Confirm new password"

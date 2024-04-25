@@ -28,40 +28,23 @@ export default function ComplaintForm() {
 	const navigate = useNavigate();
 	const { logout } = useLogout()
 
-	console.log(user.employeeID)
-
-	// const [data, setData] = useState({
-	//   complaintAgainstID: '',
-	//   feedback: '',
-	//   complaintByID: allUserInfo.employeeID,
-	// });
-
 	const { authenticatedUser, no, path, dispatch } = useUserContext()
 
+    // State to store the data of the form
 	const [data, setData] = useState({
 		complaintAgainstID: '',
 		feedback: '',
 		complaintByID: '',
 	});
 
-	//     const [activeUser, setActiveUser] = useState({
-	//     userData: null,
-	//     userPosition: ''
-	// })
-
-	// useEffect(() => {
-	//   // Assuming `allUserInfo` might be updated later or fetched asynchronously
-	//   if (allUserInfo && allUserInfo.employeeID) {
-	//       setData(prevData => ({ ...prevData, complaintByID: allUserInfo.employeeID }));
-	//   }
-	// }, [allUserInfo]); // Depend on `allUserInfo`
-
+    // UseEffect to set the title of the page and dispatch the user information
 	useEffect(() => {
 		document.title = 'Complaint Form'
 		dispatch({ type: 'LOGIN', payload: user, no: 1, path: location.pathname })
 		localStorage.setItem('path', JSON.stringify(location.pathname))
 	}, []); // Empty array means it will only run once when component mounts
 
+    // Menu items for the sidebar menu
 	const menuItems = [
 		{
 			name: "Career Path",
@@ -90,11 +73,13 @@ export default function ComplaintForm() {
 		return '/feedback' === path; // Check if the current location matches the path
 	};
 
+    // Function to handle menu item click to navigate to the respective path
 	const handleMenuItemClick = (path, e) => {
 		e.preventDefault();
 		navigate(path, { state: { userInfo: user } });
 	};
 
+    // Function to submit the complaint. It sends a post request to the server with the complaint data
 	const sumbitComplaint = async (e) => {
 		e.preventDefault();
 		console.log("Submitting complaint with data:", data);

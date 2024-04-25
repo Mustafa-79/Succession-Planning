@@ -25,7 +25,7 @@ export default function Signup() {
         empID: "",
         s_img: 0,
     });
-
+    //function to fetch the employee record from the backend
     const imgSources = [
         [img1, 1],
         [img2, 2],
@@ -41,6 +41,7 @@ export default function Signup() {
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
     const [showPassword, setShowPassword] = useState(false)
 
+    //function to shuffle the images and set the state and shuffle the images
     const sequenceImg = (list) => {
         let array = [...list];
         for (let i = array.length - 1; i > 0; i--) {
@@ -56,6 +57,8 @@ export default function Signup() {
 
     const [step, setStep] = useState(1);
 
+    // Step 2: Gather additional information such as phone number, date of birth, education, certifications, and awards
+    //this is the state for the second step of the registration
     const [step2data, setStep2Data] = useState({
         phone: "",
         dob: "2006-01-01",
@@ -65,12 +68,13 @@ export default function Signup() {
         profilePicture: "",
     });
 
+    // Step 3: Security questions for password recovery
     const [step3data, setStep3Data] = useState({
         // security questions for password recovery
         question: "",
         answer: "",
     });
-
+//this is the array of security questions
     const securityQuestions = [
         "What is your mother's maiden name?",
         "What is the name of your first pet?",
@@ -100,7 +104,7 @@ export default function Signup() {
     };
 
 
-
+    // to fetch the employee record from the backend and set the state
     const fetchData = async (e) => {
         const { name, email, password, empID, s_img } = data;
         try {
@@ -124,7 +128,7 @@ export default function Signup() {
             console.log(error);
         }
     };
-
+    //function to search for the record of the employee and set the state
     const searchRecord = async () => {
         try {
             const { name, email, password, empID, s_img } = data;
@@ -138,7 +142,7 @@ export default function Signup() {
             console.log(error);
         }
     };
-
+    //function to reset the password and send the data to the backend and navigate to the next page and set the state
     const registerUserStep1 = async (e) => {
         e.preventDefault();
         try {
@@ -174,7 +178,7 @@ export default function Signup() {
             console.log(error);
         }
     };
-
+    //function to register the user and send the data to the backend and navigate to the next page
     const registerUserStep2 = async (e) => {
         e.preventDefault();
         try {
@@ -211,7 +215,7 @@ export default function Signup() {
             console.log(error);
         }
     };
-
+    //function to register the user and send the data to the backend and navigate to the next page
     const registerUserStep3 = async (e) => {
         e.preventDefault();
         const { question, answer } = step3data;
@@ -233,7 +237,7 @@ export default function Signup() {
         }
 
     };
-
+    //function to convert the image to base64 to upload the image and send the data to the backend
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader()
@@ -273,8 +277,7 @@ export default function Signup() {
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Bf_iZvrfbEo" title="Sign Up Tutorial" frameborder="2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div class="signup-container">
-
-                <div class="signup-box">
+                <div class="signup-box">{/*this is the container for the signup page*/}
                     <h1>Employee Registration</h1>
                     <div className={`signup-step ${step === 1 ? 'signup-step-active fadeIn' : ''}`}>
                         <form onSubmit={registerUserStep1}>
@@ -289,7 +292,7 @@ export default function Signup() {
                                 <FaSearch onClick={searchRecord} className="search-btn-k" />
                             </div>
 
-                            <div className="signup-input-group">
+                            <div className="signup-input-group">{/*this is the input group for the name*/}
                                 <input
                                     type="text"
                                     placeholder="Name"

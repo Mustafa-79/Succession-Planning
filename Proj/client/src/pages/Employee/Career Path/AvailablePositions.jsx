@@ -10,6 +10,7 @@ import { useLogout } from '../../../hooks/useLogout';
 import { useUserContext } from '../../../hooks/useUserContext';
 
 
+// Component that displays the available positions for the employee
 export default function AvailablePositions() {
     const location = useLocation();
     // const allUserInfo = location.state.userInfo
@@ -19,6 +20,7 @@ export default function AvailablePositions() {
 
     const navigate = useNavigate();
 
+    // Menu items for the sidebar
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -26,32 +28,36 @@ export default function AvailablePositions() {
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
+    // State variables
     const [activeMenuItem, setActiveMenuItem] = useState("");
-
     const [positions, setPositions] = useState([])
     const [employees, setEmployees] = useState([])
     const [availablePositions, setAvailablePositions] = useState([])
     const [title, setTitle] = useState("")
-    const [noPosition,setNoPosition] = useState(false)
-    const [empFetched,setEmpFetched] = useState(0)
-    
+    const [noPosition, setNoPosition] = useState(false)
+    const [empFetched, setEmpFetched] = useState(0)
+
+    // UseEffect to set the title of the page and get the current employee
     useEffect(() => {
         document.title = 'Career Path - Positions'
-        dispatch({type: 'LOGIN', payload: allUserInfo, no: 1, path: location.pathname})
-        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        dispatch({ type: 'LOGIN', payload: allUserInfo, no: 1, path: location.pathname })
+        localStorage.setItem('path', JSON.stringify(location.pathname))
     }, [])
 
 
+    // Function to get the current employee from the list of employees
     const getCurrentEmployee = (employeeName) => {
         let employee = employees.find((emp) => emp.name == employeeName)
         return employee
     }
 
+    // Function to get the hierarchy level given the position ID
     const getPositionHierarchy = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.hierarchy_level : "Unknown";
     };
 
+    // Function to get the title of the position given the position ID
     const getPositionTitle = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.title : "Unknown";
@@ -62,6 +68,7 @@ export default function AvailablePositions() {
     // Fetching all employees from the database
     useEffect(() => {
 
+        // Fetch all employees
         axios.get('/dashboard-employees')
             .then(res => {
                 setEmployees(res.data);
@@ -70,37 +77,34 @@ export default function AvailablePositions() {
                 console.log(err);
                 toast.error('Failed to fetch employees');
             })
+
+        // Fetch all positions and set the available positions
         axios.get('/dashboard-position-titles')
             .then(res => {
-
-                if(employees.length>0 && empFetched < 5)
-                {
-                    setEmpFetched(empFetched+1)
+                if (employees.length > 0 && empFetched < 5) {
+                    setEmpFetched(empFetched + 1)
                     setPositions(res.data);
                     let currEmployee = allUserInfo
-    
-                    let currHierarchy = getPositionHierarchy(currEmployee.positionID)
-                    let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy -1))
-                    // new_positions = new_positions_one.filter(position => (position.held_by).length < position.max_held_by)
 
-                    // console.log(new_positions_one[0])
-                    // console.log("Check: ", new_positions_one[0].held_by,new_positions_one[0].max_held_by)
-                    if(new_positions.length==0)
-                    {
+                    let currHierarchy = getPositionHierarchy(currEmployee.positionID)
+                    let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy - 1))
+
+                    // If there are no available positions, set the noPosition state to true
+                    if (new_positions.length == 0) {
                         setNoPosition(true)
                         setAvailablePositions([])
                     }
-                    else
-                    {
+                    // Else, set the available positions
+                    else {
                         setNoPosition(false)
                         setAvailablePositions(new_positions)
                         setTitle(getPositionTitle(currEmployee.positionID))
-    
                     }
+                    
+                    // Set the title of the current position
                     setTitle(getPositionTitle(currEmployee.positionID))
                 }
 
-                
             })
             .catch(err => {
                 console.log(err);
@@ -109,9 +113,10 @@ export default function AvailablePositions() {
 
     }, [employees]);
 
+    // Function to handle the click of the menu items in the sidebar
     const handleMenuItemClick = (path, e) => {
         e.preventDefault();
-        navigate(path, { state: { userInfo:allUserInfo } });
+        navigate(path, { state: { userInfo: allUserInfo } });
     };
 
     const isActive = (path) => {
@@ -190,7 +195,7 @@ export default function AvailablePositions() {
                                 </div>
 
                             )))}
-                             {noPosition && (
+                            {noPosition && (
                                 <div className='positionItem' >
                                     <div className='positionContent'>
                                         <div className="personImage"> </div>

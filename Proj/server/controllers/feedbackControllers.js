@@ -12,6 +12,7 @@ const FeedbackModel = require('../models/feedback')
 const ComplaintModel = require('../models/complaint')
 const AssessmentModel = require('../models/doassignment')
 
+// function to view feedbacks
 const viewFeedbacks = async (reqs, resp) => {
     try {
         const feedbacks = await FeedbackModel.find()
@@ -20,7 +21,7 @@ const viewFeedbacks = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// function to view complaints
 const viewComplaints = async (reqs, resp) => {
     try {
         const complaints = await ComplaintModel.find()
@@ -29,7 +30,7 @@ const viewComplaints = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// function to view assignments
 const viewAssignments = async (reqs, resp) => {
     try {
         const assignments = await AssessmentModel.find()

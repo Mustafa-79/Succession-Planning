@@ -25,6 +25,7 @@ export default function Dashboard() {
 
     const isAuthenticated = 1;
 
+    // Set the title of the page
     useEffect(() => {
         document.title = 'Dashboard'
         dispatch({ type: 'LOGIN', payload: user, no: 2, path: '/dashboard' })
@@ -178,12 +179,13 @@ export default function Dashboard() {
         return location.pathname === path; // Check if the current location matches the path
     };
 
-
+    // Function to handle menu item click
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: user } });
     };
 
+    // Function to view performance of an employee
     const viewPerformance = (path, e, employee) => {
         console.log("hi", employee)
         e.preventDefault()
@@ -210,6 +212,7 @@ export default function Dashboard() {
         setShowThresholdModal(false);
     };
 
+    // Function to handle form submission of adding a new employee
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -243,7 +246,7 @@ export default function Dashboard() {
         }
     };
 
-    // deleteEmployee(employee.id)}
+    // deleteEmployee(employee.id)} to delete an employee
     const deleteEmployee = async (id) => {
         try {
             console.log('Deleting employee:', id);
@@ -351,7 +354,7 @@ export default function Dashboard() {
                         ))}
                     </div>
                 </div>
-                <div className='contentAdminDash'>
+                <div className='contentAdminDash'>{/*contentAdminDash for admin dashboard*/}
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
@@ -373,7 +376,7 @@ export default function Dashboard() {
 
 
                     </div>
-                    <div className='employeeFunctions'>
+                    <div className='employeeFunctions'>{/*employeeFunctions for admin dashboard*/}
                         <div className='employeeFunction'>
                             <div className='func'>High Potential Employees</div>
                             <div className='countAndView'>
@@ -387,7 +390,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className='employeeFunction'>
+                        <div className='employeeFunction'>{/*employeeFunction for admin dashboard*/}
                             <div className='func'>Total Employees</div>
                             <div className='countAndView'>
                                 <div className='funcCount'>{employees.length}</div>
@@ -400,7 +403,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className='employeeFunction'>
+                        <div className='employeeFunction'>{/*employeeFunction for admin dashboard*/}
                             <div className='func'>Employees at Risk</div>
                             <div className='countAndView'>
                                 <div className='funcCount'>{employeesAtRisk.length}</div>
@@ -425,7 +428,7 @@ export default function Dashboard() {
                             </button>
                             <button onClick={addEmployee}>+ Add New Employee</button>
                         </div>
-                        <div className='employeeData'>
+                        <div className='employeeData'>{/*employeeData for admin dashboard*/}
                             <table>
                                 <thead>
                                     <tr>
@@ -516,7 +519,7 @@ export default function Dashboard() {
             )}
 
             {showThresholdModal && (
-                <div className="modalOverlay">
+                <div className="modalOverlay"> {/*modalOverlay for admin dashboard*/}
                     <div className="modalContent">
                         <span className="closeModal" onClick={closeThresholdModal}>&times;</span>
                         <h2>Change Threshold</h2>
@@ -532,7 +535,7 @@ export default function Dashboard() {
                                 position.title !== "Intern" && <option key={position.positionID} value={position.positionID}>{position.title}</option>
                             ))}
                         </select>
-
+                        
                         <button id="changeThresholdButton" onClick={() => {
                             
                             filterSuccessors(filterPositionID);

@@ -17,9 +17,7 @@ export default function Courses() {
     const { logout } = useLogout()
     const { authenticatedUser, no, dispatch } = useUserContext();
 
-    // const employeeInfo = location.state.info
-
-
+    // Menu items for the sidebar for navigation
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -27,10 +25,12 @@ export default function Courses() {
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
+    // State variables
     const [activeMenuItem, setActiveMenuItem] = useState("");
     const [positionTitles, setPositionTitles] = useState([]);
     const [courses, setCourses] = useState([])
 
+    // Function to handle the click event on the menu items to navigate to the respective page
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: user } });
@@ -44,6 +44,8 @@ export default function Courses() {
         document.title = 'Development Plans - Courses'
         dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
         localStorage.setItem('path' ,JSON.stringify(location.pathname))
+
+        // Fetch the position titles
         axios.get('/dashboard-position-titles')
             .then(res => {
                 setPositionTitles(res.data);
@@ -54,6 +56,7 @@ export default function Courses() {
                 toast.error('Failed to fetch position titles');
             });
 
+        // Fetch the courses data
         axios.get('/dashboard-course-data')
             .then(res => {
                 console.log(res.data)
@@ -71,65 +74,37 @@ export default function Courses() {
             return position ? position.title : "Unknown";
         };
     
+        // function to get the courses for a position
         const getPositionalCourses = (positionID) => {
             const position = positionTitles.find(position => position.positionID === positionID);
-    
             return position ? position.courses : []
         }
-        const getPositionalWorkshops = (positionID) => {
-            const position = positionTitles.find(position => position.positionID === positionID);
-            return position ? position.workshops : []
-        }
     
+        // Get the course title based on the course ID
         const getCourseTitle = (courseID) => {
             const course = courses.find(course => course.courseID === courseID)
             return course ? course.title : []
         }
 
+        // Get the course ID based on the course title
         const getCourseId = (courseTitle) => {
             const course = courses.find(course => course.title === courseTitle);
             return course ? course.courseID : null;
         }
 
+        // Get the course details based on the course ID
         const getCourseDetails = (courseID) => {
             const course = courses.find(course => course.courseID === courseID)
-            // return course ? course.details : ["jasnjasnasxcn"]
             return course ? course.description : "No details available";
         }
 
+        // Get the course duration based on the course ID
         const getCourseDuration = (courseID) => {
             const course = courses.find(course => course.courseID === courseID)
             return course ? course.duration : []
         }
     
-        const getWorkshopTitle = (workshopID) => {
-            const workshop = workshops.find(workshop => workshop.workshopID === workshopID)
-            return workshop ? workshop.title : []
-        }
-    
-        const getCourseCompletion = (()=>{
-            const requiredCourses = getPositionalCourses(employeeInfo.positionID).map((courseID)=>getCourseTitle(courseID))
-            const coursesTaken = employeeInfo.courses_taken
-    
-            if(requiredCourses.length == 0)
-            {
-                return 1
-            }
-    
-    
-            let progress = 0
-            for(const course of requiredCourses){
-                if(coursesTaken.includes(course))
-                {
-                    progress++
-                }
-            }
-    
-            return (progress/requiredCourses.length)
-    
-    
-        })
-
+        // Call the above functions to get the required data
         const coursesTaken = employeeInfo.courses_taken;//courses taken by the employee
         const positionalCourses = getPositionalCourses(employeeInfo.positionID);//courses required for the employee's position
         const positionalCourses_names = getPositionalCourses(employeeInfo.positionID).map(courseID => getCourseTitle(courseID));

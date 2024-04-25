@@ -19,6 +19,7 @@ export default function AvailablePositions() {
 
     const navigate = useNavigate();
 
+    // Menu items for the sidebar 
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -26,20 +27,21 @@ export default function AvailablePositions() {
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
+    // State variables 
     const [activeMenuItem, setActiveMenuItem] = useState("");
-
     const [positions, setPositions] = useState([])
     const [courses, setCourses] = useState([])
     const [workshops, setWorkshops] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [modalPosition, setModalPosition] = useState(null)
-    
 
+    // Function to get the title of a position based on the position ID
     const getPositionTitle = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.title : "Unknown";
     };
 
+    // Function to get the data of all positions
     const getPositionData = async () => {
         try {
             const resp = await axios.get('/getPositionsData')
@@ -49,6 +51,7 @@ export default function AvailablePositions() {
         }
     }
 
+    // Function to get the data of all courses
     const getCoursesData = async () => {
         try {
             const resp = await axios.get('/getCoursesData')
@@ -57,7 +60,8 @@ export default function AvailablePositions() {
             console.log(err)
         }
     }
-    
+
+    // Function to get all data of all workshops
     const getWorkshopsData = async () => {
         try {
             const resp = await axios.get('/getWorkshopsData')
@@ -67,24 +71,26 @@ export default function AvailablePositions() {
         }
     }
 
+    // Function to show the modal with the skillset required for a position
     const handleClick = (position) => {
         setModalPosition(position)
         setShowModal(true)
     }
 
+    // UseEffect to set the title of the page and get the data of all positions, courses and workshops
     useEffect(() => {
         document.title = 'Career Path - Skill Sets'
-        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
-        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        dispatch({ type: 'LOGIN', payload: user, no: 1, path: location.pathname })
+        localStorage.setItem('path', JSON.stringify(location.pathname))
         getPositionData()
         getCoursesData()
         getWorkshopsData()
     }, [])
 
-
+    // Function to handle the click of a menu item which will navigate to the selected path
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
-        navigate(path, { state: { userInfo:user } });
+        navigate(path, { state: { userInfo: user } });
     };
 
     const isActive = (path) => {
@@ -153,18 +159,19 @@ export default function AvailablePositions() {
 
                         <div className='positionCardsAll'>
                             {positions.map((val, idx) => {
-                            return (
-                                <div key={idx} className='positionItem' onClick={(e) => handleClick(val)}>
-                                    <div className='positionContent'>
-                                        <div className="personImage"> </div>
-                                        <div className="personName">{getPositionTitle(val.positionID)}</div>
-                                    </div>
-                                </div>)})}
+                                return (
+                                    <div key={idx} className='positionItem' onClick={(e) => handleClick(val)}>
+                                        <div className='positionContent'>
+                                            <div className="personImage"> </div>
+                                            <div className="personName">{getPositionTitle(val.positionID)}</div>
+                                        </div>
+                                    </div>)
+                            })}
                         </div>
                         {showModal &&
                             <div className="position-modal">
-                                <ViewPosition position={modalPosition} title={getPositionTitle(modalPosition.positionID)} courses={courses} workshops={workshops}/>
-                                <span className="close-position-modal" onClick={(e) => {setShowModal(false)}} >&times;</span>
+                                <ViewPosition position={modalPosition} title={getPositionTitle(modalPosition.positionID)} courses={courses} workshops={workshops} />
+                                <span className="close-position-modal" onClick={(e) => { setShowModal(false) }} >&times;</span>
                             </div>
                         }
                     </div>

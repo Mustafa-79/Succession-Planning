@@ -13,13 +13,11 @@ export default function Courses() {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'))
     const navigate = useNavigate();
-    const employeeInfo  = user;
+    const employeeInfo = user;
     const { logout } = useLogout()
     const { authenticatedUser, no, dispatch } = useUserContext();
 
-    // const employeeInfo = location.state.info
-
-
+    // Menu items for the sidebar for navigation
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -27,11 +25,13 @@ export default function Courses() {
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
+    // State variables
     const [activeMenuItem, setActiveMenuItem] = useState("");
     const [positionTitles, setPositionTitles] = useState([]);
     const [courses, setCourses] = useState([])
     const [workshops, setWorkshops] = useState([])
 
+    // Function to handle the click event on the menu items to navigate to the respective page
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: user } });
@@ -43,18 +43,20 @@ export default function Courses() {
 
     useEffect(() => {
         document.title = 'Development Plans - Workshops'
-        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
-        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        dispatch({ type: 'LOGIN', payload: user, no: 1, path: location.pathname })
+        localStorage.setItem('path', JSON.stringify(location.pathname))
+
+        // Fetch the position titles 
         axios.get('/dashboard-position-titles')
             .then(res => {
                 setPositionTitles(res.data);
-                console.log(res.data);
             })
             .catch(err => {
                 console.error(err);
                 toast.error('Failed to fetch position titles');
             });
 
+        // Fetch the courses data
         axios.get('/dashboard-course-data')
             .then(res => {
                 console.log(res.data)
@@ -64,140 +66,81 @@ export default function Courses() {
                 console.log(err)
                 toast.error('Failed to fetch courses')
             });
-    
+
+        // Fetch the workshops data for all the workshops
         axios.get('/dashboard-workshop-data')
-        .then(res => {
-            console.log(res.data)
-            setWorkshops(res.data)
-        })
-        .catch(err => {
-            console.log(err)
-            toast.error('Failed to fetch workshops')
-        });
+            .then(res => {
+                console.log(res.data)
+                setWorkshops(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+                toast.error('Failed to fetch workshops')
+            });
     }, []);
 
-        // function to convert positionID to position title
-        const getPositionTitle = (positionID) => {
-            const position = positionTitles.find(position => position.positionID === positionID);
-            return position ? position.title : "Unknown";
-        };
-    
-        const getPositionalCourses = (positionID) => {
-            const position = positionTitles.find(position => position.positionID === positionID);
-    
-            return position ? position.courses : []
-        }
-        const getPositionalWorkshops = (positionID) => {
-            const position = positionTitles.find(position => position.positionID === positionID);
-            return position ? position.workshops : []
-        }
-    
-        const getCourseTitle = (courseID) => {
-            const course = courses.find(course => course.courseID === courseID)
-            return course ? course.title : []
-        }
 
-        const getCourseId = (courseTitle) => {
-            const course = courses.find(course => course.title === courseTitle);
-            return course ? course.courseID : null;
-        }
+    // Get courses given the positionID
+    const getPositionalCourses = (positionID) => {
+        const position = positionTitles.find(position => position.positionID === positionID);
+        return position ? position.courses : []
+    }
 
-        const getCourseDetails = (courseID) => {
-            const course = courses.find(course => course.courseID === courseID)
-            // return course ? course.details : ["jasnjasnasxcn"]
-            return course ? course.description : "No details available";
-        }
+    // function to get the workshops for a position
+    const getPositionalWorkshops = (positionID) => {
+        const position = positionTitles.find(position => position.positionID === positionID);
+        return position ? position.workshops : []
+    }
 
-        const getCourseDuration = (courseID) => {
-            const course = courses.find(course => course.courseID === courseID)
-            return course ? course.duration : []
-        }
-    
-        const getWorkshopTitle = (workshopID) => {
-            const workshop = workshops.find(workshop => workshop.workshopID === workshopID)
-            return workshop ? workshop.title : []
-        }
+    // Get the course title given the course ID
+    const getCourseTitle = (courseID) => {
+        const course = courses.find(course => course.courseID === courseID)
+        return course ? course.title : []
+    }
 
-        const getWorkshopId = (workshopTitle) => {
-            const workshop = workshops.find(workshop => workshop.title === workshopTitle);
-            return workshop ? workshop.workshopID : null;
-        }
+    // Get the workshop title given the workshop ID
+    const getWorkshopTitle = (workshopID) => {
+        const workshop = workshops.find(workshop => workshop.workshopID === workshopID)
+        return workshop ? workshop.title : []
+    }
 
-        const getWorkshopDetails = (workshopID) => {
-            const workshop = workshops.find(workshop => workshop.workshopID === workshopID)
-            return workshop ? workshop.description : "No details available";
-        }
+    // Get the workshop ID given the workshop title
+    const getWorkshopId = (workshopTitle) => {
+        const workshop = workshops.find(workshop => workshop.title === workshopTitle);
+        return workshop ? workshop.workshopID : null;
+    }
+
+    // Get the workshop details given the workshop ID
+    const getWorkshopDetails = (workshopID) => {
+        const workshop = workshops.find(workshop => workshop.workshopID === workshopID)
+        return workshop ? workshop.description : "No details available";
+    }
+
 
     
-        const getCourseCompletion = (()=>{
-            const requiredCourses = getPositionalCourses(employeeInfo.positionID).map((courseID)=>getCourseTitle(courseID))
-            const coursesTaken = employeeInfo.courses_taken
-    
-            if(requiredCourses.length == 0)
-            {
-                return 1
-            }
-    
-    
-            let progress = 0
-            for(const course of requiredCourses){
-                if(coursesTaken.includes(course))
-                {
-                    progress++
-                }
-            }
-    
-            return (progress/requiredCourses.length)
-    
-    
-        })
+    // #courses
+    const coursesTaken = employeeInfo.courses_taken;//courses taken by the employee
+    const positionalCourses = getPositionalCourses(employeeInfo.positionID);//courses required for the employee's position
+    const positionalCourses_names = getPositionalCourses(employeeInfo.positionID).map(courseID => getCourseTitle(courseID));
 
-        const getWorkshopCompletion = (()=> {
-            const requiredWorkshops = getPositionalWorkshops(employeeInfo.positionID).map((workshopID)=>getWorkshopTitle(workshopID))
-            const workshopsTaken = employeeInfo.workshops_taken
-    
-    
-            if(requiredWorkshops.length == 0)
-            {
-                return 1;
-            }
-    
-    
-            let progress= 0
-            for(const workshop of requiredWorkshops){
-                if(workshopsTaken.includes(workshop))
-                {
-                    progress++
-                }
-            }
-    
-            return (progress/requiredWorkshops.length)
-    
-        })
+    const completedCourses_for_position = positionalCourses_names.filter(courseID => coursesTaken.includes(courseID));
+    const rem_Courses_for_position = positionalCourses_names.filter(courseID => !coursesTaken.includes(courseID));
 
-        const coursesTaken = employeeInfo.courses_taken;//courses taken by the employee
-        const positionalCourses = getPositionalCourses(employeeInfo.positionID);//courses required for the employee's position
-        const positionalCourses_names = getPositionalCourses(employeeInfo.positionID).map(courseID => getCourseTitle(courseID));
+    const totalCourses_for_curr_position = positionalCourses.length;
+    const all_courses_offered = courses.map(course => course.title);
 
-        const completedCourses_for_position = positionalCourses_names.filter(courseID => coursesTaken.includes(courseID));
-        const rem_Courses_for_position = positionalCourses_names.filter(courseID => !coursesTaken.includes(courseID));
+    // #workshops
+    const workshopsTaken = employeeInfo.workshops_taken;//workshops taken by the employee
+    const positionalWorkshops = getPositionalWorkshops(employeeInfo.positionID);//workshops required for the employee's position
+    const positionalWorkshops_names = getPositionalWorkshops(employeeInfo.positionID).map(workshopID => getWorkshopTitle(workshopID));
 
-        const totalCourses_for_curr_position = positionalCourses.length;
-        const all_courses_offered = courses.map(course => course.title);
+    const completedWorkshops_for_position = positionalWorkshops_names.filter(workshopID => workshopsTaken.includes(workshopID));
+    const rem_Workshops_for_position = positionalWorkshops_names.filter(workshopID => !workshopsTaken.includes(workshopID));
 
-        // #workshops
-        const workshopsTaken = employeeInfo.workshops_taken;//workshops taken by the employee
-        const positionalWorkshops = getPositionalWorkshops(employeeInfo.positionID);//workshops required for the employee's position
-        const positionalWorkshops_names = getPositionalWorkshops(employeeInfo.positionID).map(workshopID => getWorkshopTitle(workshopID));
+    const totalWorkshops_for_curr_position = positionalWorkshops.length;
+    const all_workshops_offered = workshops.map(workshop => workshop.title);
+    const rem_all_workshops_offered = all_workshops_offered.filter(course => !workshopsTaken.includes(course));
 
-        const completedWorkshops_for_position = positionalWorkshops_names.filter(workshopID => workshopsTaken.includes(workshopID));
-        const rem_Workshops_for_position = positionalWorkshops_names.filter(workshopID => !workshopsTaken.includes(workshopID));
-
-        const totalWorkshops_for_curr_position = positionalWorkshops.length;
-        const all_workshops_offered = workshops.map(workshop => workshop.title);
-        // const rem_all
-        const rem_all_workshops_offered = all_workshops_offered.filter(course => !workshopsTaken.includes(course));
-    
 
     return (
         <div className='overlay'>
@@ -245,40 +188,40 @@ export default function Courses() {
                         <div className="coursesColumns">
                             <h2>Recommended Workshops 📝</h2>
                             <ul className="recommendedCourses">
-                            
-                            {rem_Workshops_for_position.length > 0 ? (
-                            rem_Workshops_for_position.map((course, index) => (
-                                <li key={index}>
-                                <h4>Workshop Name: {course}</h4>
-                                <div>Workshop ID: {getWorkshopId(course)}</div>
-                                <div>Workshop details: {getWorkshopDetails(getWorkshopId(course))}</div>
-                                
-                              </li>
-                            ))): (
-                                <li>
-                                <div>You have completed all the workshops for your position.</div>
-                                </li>
-                              )}
-                            
+
+                                {rem_Workshops_for_position.length > 0 ? (
+                                    rem_Workshops_for_position.map((course, index) => (
+                                        <li key={index}>
+                                            <h4>Workshop Name: {course}</h4>
+                                            <div>Workshop ID: {getWorkshopId(course)}</div>
+                                            <div>Workshop details: {getWorkshopDetails(getWorkshopId(course))}</div>
+
+                                        </li>
+                                    ))) : (
+                                    <li>
+                                        <div>You have completed all the workshops for your position.</div>
+                                    </li>
+                                )}
+
                             </ul>
                             <h2>Completed Workshops ✅</h2>
-                            <ul className="completedCourses">  
-                            {completedWorkshops_for_position.length > 0 ? (
-                            completedWorkshops_for_position.map((course, index) => (
-                                <li key={index}>
-                                <h4>Workshop Name: {course}</h4>
-                                <div>Workshop ID: {getWorkshopId(course)}</div>
-                                <div>Workshop details: {getWorkshopDetails(getWorkshopId(course))}</div>
+                            <ul className="completedCourses">
+                                {completedWorkshops_for_position.length > 0 ? (
+                                    completedWorkshops_for_position.map((course, index) => (
+                                        <li key={index}>
+                                            <h4>Workshop Name: {course}</h4>
+                                            <div>Workshop ID: {getWorkshopId(course)}</div>
+                                            <div>Workshop details: {getWorkshopDetails(getWorkshopId(course))}</div>
 
-                            </li>
-                             ))): (
-                                <li>
-                                <div>You have not completed any workshops.</div>
-                                </li>
-                              )}
+                                        </li>
+                                    ))) : (
+                                    <li>
+                                        <div>You have not completed any workshops.</div>
+                                    </li>
+                                )}
                             </ul>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>

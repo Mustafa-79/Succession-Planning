@@ -10,12 +10,13 @@ export default function AboutEmployee() {
 	const user = JSON.parse(localStorage.getItem('user'));
 	const { authenticatedUser, no, dispatch } = useUserContext()
 
-
+    // Function to handle menu item click to navigate to the respective path
 	const handleMenuItemClick = (path, e) => {
 		e.preventDefault()
 		navigate(path, { state: { userInfo: user } });
 	};
 
+    // UseEffect to set the title of the page and dispatch the user information
 	useEffect(() => {
 		document.title = 'About'
 		dispatch({ type: 'LOGIN', payload: user, no: 1, path: location.pathname })

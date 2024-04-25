@@ -18,15 +18,16 @@ export default function Mentor() {
     const { logout } = useLogout()
     const { authenticatedUser, no, dispatch } = useUserContext();
 
+    // Menu items for the sidebar for navigation
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
         { name: "Feedback Tools", icon: faFileArrowUp, margin: 7, path: "/feedback" },
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
-
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
+    // Function to handle the click event on the menu items to navigate to the respective page
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: allUserInfo } });
@@ -39,27 +40,14 @@ export default function Mentor() {
 
     // Menotr Mentee Specific stuff below
     const [mentorID, setMentorID] = useState("");
-
-
-    // const exists = await Employee.findOne({ name: name })
-
-    //     console.log(exists)
-    //     if (!exists) {
-    //         return resp.json({
-    //             error: 'No such employee record exists'
-    //         })
-    //     } else {
-    //         const position = await PositionModel.findOne({ positionID: exists.positionID })
-    //         resp.json({ record1: exists, record2: position })
-    // get user profile info
     const [userInfo, setUserInfo] = useState({});
+
+    // Get user profile data to check if a mentor has already been assigned
     useEffect(() => {
         axios.post('/getProfile', { name: allUserInfo.name })
             .then(res => {
-                // console.log(res.data);
                 let { record1, record2 } = res.data;
                 setMentorID(record1.mentor_ID);
-                // setUserInfo(record1);
             })
             .catch(err => {
                 console.error(err);
@@ -67,31 +55,25 @@ export default function Mentor() {
             });
     }, []);
 
-
-
     const [mentorInfo, setMentorInfo] = useState({});
-
-    const [loading, setLoading] = useState(false); // Add loading state
+    const [loading, setLoading] = useState(false); // Add loading state until mentor options are fetched
     
-
+    // Fetch list of available mentors for the user based on hierarchy of positions
     const getMentorOptions = () => {
-
         // send a request to the server to get a list of available mentors. request contains the employee ID and position ID
         const positionID = allUserInfo.positionID;
         const employeeID = allUserInfo.employeeID;
 
+        // set loading state to true
         setLoading(true);
 
         // send these two as body of the request
         axios.get(`/mentorOptions/${positionID}/${employeeID}`)
             .then(res => {
-                console.log(res.data);
-
                 // set the available mentors
                 setAvailableMentors(res.data);
                 setLoading(false);
-            }
-            )
+            })
             .catch(err => {
                 console.log(err);
                 toast.error("Could not get mentor options");
@@ -113,13 +95,10 @@ export default function Mentor() {
 
     // Choose a mentor and save it to the database
     const chooseMentor = (mentorID) => {
-
         // Send a post request to the server to save the mentor ID against the employee ID
         axios.post(`/saveMentor/${mentorID}/${allUserInfo.employeeID}`)
             .then(res => {
-                console.log(res.data);
                 toast.success("Mentor chosen successfully");
-
                 // Update location state
                 navigate(location.pathname, { state: { userInfo: { ...allUserInfo, mentor_ID: mentorID } } });
             })
@@ -128,7 +107,7 @@ export default function Mentor() {
                 toast.error("Could not save mentor");
             });
 
-        // Hardcoded for now
+        // Update the mentor ID in the state
         setMentorID(mentorID);
     }
 
@@ -137,7 +116,7 @@ export default function Mentor() {
         if (mentorID) {
             axios.get(`/mentor/${mentorID}`)
                 .then(res => {
-                    console.log(res.data);
+                    // set the mentor's info in the state
                     setMentorInfo(res.data);
                 })
                 .catch(err => {
@@ -154,7 +133,6 @@ export default function Mentor() {
         axios.get('/dashboard-position-titles')
             .then(res => {
                 setPositions(res.data);
-                console.log(res.data);
             })
             .catch(err => {
                 console.error(err);

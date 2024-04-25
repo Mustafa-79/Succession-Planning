@@ -150,6 +150,7 @@ export default function AssessComplaint() {
         });
     };
 
+    // this function handles the submission of the form
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -180,7 +181,7 @@ export default function AssessComplaint() {
             // Handle error
         }
     };
-
+    // function to delete the complaint and update the complaint list
     const deleteComplaint = async (id) => {
         try {
             // console.log('Deleting complaint:', id);
@@ -258,7 +259,7 @@ export default function AssessComplaint() {
                                 style={{ marginBottom: 10, marginLeft: 20 }} />
                             <h1 style={{ marginLeft: 40, marginRight: 60 }}>Complaints</h1>
                         </div>
-                        <div className='employeeFunctionss'>
+                        <div className='employeeFunctionss'>{/* Employee functions */}
                             <div className='func'>Total Complaints</div>
                             <div className='countAndView'>
                                 <div className='funcCount'>{complaintData.length}</div>
@@ -269,7 +270,7 @@ export default function AssessComplaint() {
                             </div>
                         </div>
                     </div>
-                    <div className='employeeSection' style={{ marginTop: 50 }}>
+                    <div className='employeeSection' style={{ marginTop: 50 }}>{/* Employee data section */}
                         <div className='employeeData'>
                             <table>
                                 <thead>
@@ -284,7 +285,7 @@ export default function AssessComplaint() {
                                         <th>Resolve Complaint</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody>{/* Table body for displaying the complete data*/}
                                     {complaintData.map(complaint => (
                                         <tr key={complaint.complaintID}>
                                              <td>{complaintData.indexOf(complaint) + 1}</td>

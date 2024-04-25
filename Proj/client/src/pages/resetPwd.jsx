@@ -25,7 +25,7 @@ export default function ResetPwd() {
         secA: '',
         s_img: 0
     })
-
+    //function to fetch the security question from the backend and set the state
     const fetchData = async (e) => {
         const { empID, secQ, secA } = data
         try {
@@ -35,7 +35,7 @@ export default function ResetPwd() {
             if (resp.data.error) {
                 toast.error(resp.data.error)
                 setData({ ...data, secQ: '' })
-                setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
+                setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)// This is to shuffle the images
             } else {
                 toast.success('Security question retrieved successfully')
                 setData({ ...data, secQ: resp.data })
@@ -45,10 +45,11 @@ export default function ResetPwd() {
             console.log(error)
         }
     }
-
+    //function to shuffle the images and set the state
     const imgSources = [[img1, 1], [img2, 2], [img3, 3], [img4, 4], [img5, 5], [img6, 6], [img7, 7], [img8, 8], [img9, 9], [img10, 10]]
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
 
+    //function to shuffle the images and set the state
     const sequenceImg = (list) => {
         let array = [...list]
         for (let i = array.length - 1; i > 0; i--) {
@@ -62,6 +63,7 @@ export default function ResetPwd() {
         setRandomizedImages(sequenceImg([...imgSources]))
     }, [])
 
+    // a function to search for the record of the employee and set the state
     const searchRecord = async () => {
         try {
             const { empID, secQ, secA } = data
@@ -76,7 +78,7 @@ export default function ResetPwd() {
             console.log(error)
         }
     }
-
+    // function to reset the password and send the data to the backend and navigate to the next page
     const resetPassword = async (e) => {
         e.preventDefault()
         const { empID, secQ, secA, s_img } = data
@@ -118,7 +120,7 @@ export default function ResetPwd() {
                             <FaSearch onClick={searchRecord} className="search-btn-e"/>
                         </div>
 
-                        <div className="signup-input-group">
+                        <div className="signup-input-group">{/*this is the input group for the security question*/}
                             <input
                                 type="text"
                                 placeholder="Security Question"
@@ -129,7 +131,7 @@ export default function ResetPwd() {
                             />
                         </div>
 
-                        <div class="signup-input-group">
+                        <div class="signup-input-group">{/*this is the input group for the security answer*/}
                             <input type="text" placeholder='Security Answer' value={data.secA} onChange={(e) => setData({ ...data, secA: e.target.value })} />
                         </div>
 
