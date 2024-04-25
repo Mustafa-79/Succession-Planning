@@ -55,6 +55,18 @@ export default function Login() {
 
     // for the initial rendering of the page
     useEffect(() => {
+        // Add the fade-in class to the login container after a short delay
+        const timer = setTimeout(() => {
+            const loginContainer = document.querySelector(".login-container");
+            if (loginContainer) {
+                loginContainer.classList.add("fade-in");
+            }
+        }, 500); // Adjust the delay as needed
+
+        return () => clearTimeout(timer); // Cleanup function
+    }, []);
+
+    useEffect(() => {
         document.title = 'Succession Planning Portal'
         if (location.pathname != '' || location.pathname != '/login')
             navigate('/')

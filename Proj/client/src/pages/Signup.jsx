@@ -203,7 +203,7 @@ export default function Signup() {
                 toast.error("Please fill out all awards");
                 throw new Error("Please fill out all awards");
             }
-            
+
 
 
 
@@ -268,12 +268,27 @@ export default function Signup() {
         }
     }
 
+
+
     return (
-        <body className="bodySignUp">
+        <body className="signupBody">
+
+            <div className="youtube-iframe">
+                <iframe
+                    width="100%"
+                    height="100%"
+                    
+                    src="https://www.youtube.com/embed?v=oe70Uhjc_F4&list=PL4Gr5tOAPttLOY9IrWVjJlv4CtkYI5cI_&index=5" // Replace YOUR_VIDEO_ID with the actual YouTube video ID
+                    title="YouTube video player"
+                    frameborder="2"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                ></iframe>
+            </div>
             <div class="signup-container">
                 <div class="signup-box">{/*this is the container for the signup page*/}
                     <h1>Employee Registration</h1>
-                    {step === 1 && (
+                    <div className={`signup-step ${step === 1 ? 'signup-step-active fadeIn' : ''}`}>
                         <form onSubmit={registerUserStep1}>
                             <div class="signup-input-group">
                                 <input
@@ -283,7 +298,7 @@ export default function Signup() {
                                     onChange={(e) => setData({ ...data, empID: e.target.value })}
                                     style={{ marginRight: '8px' }}
                                 />
-                                <FaSearch onClick={searchRecord} className="search-btn-k"/>
+                                <FaSearch onClick={searchRecord} className="search-btn-k" />
                             </div>
 
                             <div className="signup-input-group">{/*this is the input group for the name*/}
@@ -318,8 +333,8 @@ export default function Signup() {
                                         onPasswordChange(e.target.value)
                                     }
                                 />
-                                {!showPassword && <FaEye onClick={() => setShowPassword(true)} className="search-btn-k"/>}
-                                {showPassword && <FaEyeSlash onClick={() => setShowPassword(false)} className="search-btn-k"/>}
+                                {!showPassword && <FaEye onClick={() => setShowPassword(true)} className="search-btn-k" />}
+                                {showPassword && <FaEyeSlash onClick={() => setShowPassword(false)} className="search-btn-k" />}
                             </div>
 
                             <div className="password-criteria">
@@ -444,12 +459,11 @@ export default function Signup() {
                                 </button>
                             </div>
                         </form>
-                        //   End of step 1
-                    )}
+                    </div>
 
-                    {step === 2 && (
-                        // Step 2: Gather additional information such as phone number, date of birth, education, certifications, and awards
-                        <form onSubmit={registerUserStep2} className="registerStep2">
+                    <div className={`signup-step ${step === 2 ? 'signup-step-active slideInRight' : ''}`}>
+                        {/* // Step 2: Gather additional information such as phone number, date of birth, education, certifications, and awards */}
+                        <form onSubmit={registerUserStep2}>
                             <div class="signup-input-group">
                                 <label>Phone:</label>
                                 <input
@@ -597,10 +611,10 @@ export default function Signup() {
                                 </button>
                             </div>
                         </form>
-                    )}
+                    </div>
 
                     {/* Step 3: Security questions for password recovery */}
-                    {step === 3 && (
+                    <div className={`signup-step ${step === 3 ? 'signup-step-active scaleUp' : ''}`}>
                         <form onSubmit={registerUserStep3}>
                             <div class="signup-input-group">
                                 <select
@@ -628,7 +642,7 @@ export default function Signup() {
                                 <button type="submit" class="signup-btn" disabled={!step3data.question}>Register</button>
                             </div>
                         </form>
-                    )}
+                    </div>
 
                 </div>
             </div>
