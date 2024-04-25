@@ -1,60 +1,164 @@
+#root {
+    margin: 0px;
+    padding: 0px;
+    max-width: inherit !important;
+}
+
 body,
 html {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
+    overflow: hidden;
+    /* Prevent scrolling */
 }
 
 body {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start; /* For left alignment */
-    align-items: center;
-    background-image: url('bngg1.png'); /* Check the path and file extension */
+    background-image: url('bngg1.png');
+    /* Check the path and file extension */
+
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat; /* This will prevent the image from repeating */
-    background-attachment: fixed; /* Keep the image fixed during scroll */
-    font-family: 'Arial', sans-serif;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.signupBody {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background-image: url('bngg1.png');
+    /* Make sure this is the correct path to your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+    position: relative;
+    /* Needed for absolute positioning of the iframe */
 }
 
 .signup-container-e {
     width: 400px;
     /* max-width: 700px; */
-    background:  #9ccff4; /* The same teal color as login */
+    background: #9ccff4;
+    /* The same teal color as login */
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 25px; /* Same border-radius as login for consistency */
+    border-radius: 25px;
+    /* Same border-radius as login for consistency */
     margin: 20px;
-    margin-left: 850px; /* Adjust as necessary to align with the login container */
+    /* margin-left: 20px; */
+    /* margin-left: 850px; */
+    /* Adjust as necessary to align with the login container */
 }
 
 .signup-container {
     /* height: 600px; */
+
+
+    /* Don't grow or shrink but set basis to 40% */
+    /* Other styles remain the same */
+    height: 80vh;
+    /* Adjust height */
+    width: 40vw;
+    /* Adjust width */
+    margin-left: 30%;
+    /* This should be equal to the width of the iframe */
+
+
     width: 500px;
     /* max-width: 400px; */
-    background:   #9ccff4 !important; 
+    background: #9ccff4 !important;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 25px;
     margin: 20px;
-    margin-left: 850px;
     max-height: 80vh;
     overflow-y: scroll;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.signup-step {
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    /* Keep the state at the end of the animation */
+    display: none;
+    /* Hide steps initially */
+}
+
+/* Apply the animation based on the active step */
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+.slideInRight {
+    animation-name: slideInRight;
+}
+
+.scaleUp {
+    animation-name: scaleUp;
+}
+
+.signup-step-active {
+    display: block;
+    /* Show active step */
 }
 
 .signup-container::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
+
 .signup-box {
     /* display: flex; */
     align-items: center;
     width: 100%;
     /* text-align: left;
-    margin-left: 1pc; */
+        margin-left: 1pc; */
 }
 
 .signup-box .input-group {
@@ -63,7 +167,8 @@ body {
 }
 
 .signup-box h1 {
-    color: rgb(13, 52, 52); /* Same color as the login box for consistency */
+    color: rgb(13, 52, 52);
+    /* Same color as the login box for consistency */
     text-align: center;
     margin-bottom: 20px;
 }
@@ -77,16 +182,18 @@ body {
 
 .search-btn-k {
     position: absolute;
-    left: 17pc;
+    left: 26pc;
     bottom: 1.1pc;
     color: #27407f;
     cursor: pointer;
 }
 
 .signup-input-group input {
-    width: 100%; /* Full width of .input-group */
+    width: 100%;
+    /* Full width of .input-group */
     padding: 10px;
-    padding-right: 40px; /* Right padding to prevent overlap if there's an icon */
+    padding-right: 40px;
+    /* Right padding to prevent overlap if there's an icon */
     margin: 5px 0;
     border: 2px solid #0073b1;
     border-radius: 4px;
@@ -148,10 +255,48 @@ body {
     cursor: pointer;
 }
 
+.add-btn,
+.remove-btn {
+    padding: 6px 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #5cb85c;
+    /* Green color for add button */
+    border: 1px solid #4cae4c;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.remove-btn {
+    background-color: #d9534f;
+    /* Red color for remove button */
+    border: 1px solid #d43f3a;
+}
+
+.add-btn:hover {
+    background-color: #4cae4c;
+}
+
+.remove-btn:hover {
+    background-color: #d43f3a;
+}
+
+/* Optional: Disable the button when there's nothing to add or remove */
+.add-btn:disabled,
+.remove-btn:disabled {
+    background-color: #cccccc;
+    border-color: #cccccc;
+    cursor: not-allowed;
+}
+
 .signup-btn {
     width: 100%;
     padding: 10px;
-    background-color: rgb(13, 52, 52); /* Same as the login button */
+    background-color: rgb(13, 52, 52);
+    /* Same as the login button */
     color: white;
     border: none;
     border-radius: 4px;
@@ -160,7 +305,8 @@ body {
 }
 
 .signup-btn:hover {
-    background-color: #27407f; /* Same hover effect as login button */
+    background-color: #27407f;
+    /* Same hover effect as login button */
 }
 
 form p {
@@ -207,6 +353,45 @@ form p {
     /* LinkedIn blue color */
     margin-top: 20px;
     text-decoration: none;
+}
+
+
+.youtube-iframe {
+    left: 0;
+    /* Align with the left edge of the parent element */
+    top: 40%;
+    /* Center it vertically */
+    width: 60vw;
+    /* Width of the iframe; adjust as needed */
+    height: 60vh;
+    /* Height of the iframe; adjust as needed */
+    z-index: 5;
+    /* Ensure it's above other elements if necessary */
+    margin-left: 2%;
+    /* Add some space between the iframe and the signup container */
+}
+
+.youtube-iframe-container {
+    position: absolute;
+    left: 0;
+    top: 40%;
+    width: 60vw;
+    height: 60vh;
+    z-index: 5;
+    margin-left: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-heading {
+    color: #ffffff; /* Change as needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Translucent background */
+    padding: 8px 16px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 6;
 }
 
 .security-image {

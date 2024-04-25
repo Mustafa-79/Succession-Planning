@@ -99,7 +99,7 @@ export default function ForgetSecurityImage() {
                             onChange={(e) => setData({ ...data, empID: e.target.value })}
                             disabled={stage !== 1}
                         />
-                        {stage === 1 && <span><FaSearch onClick={retrieveSecurityQuestion} className="search-btn-e"/></span>}
+                        {stage === 1 && <span><FaSearch onClick={retrieveSecurityQuestion} className="search-btn-e" /></span>}
                     </div>
                     {stage === 1 ? (
                         <>
@@ -117,16 +117,102 @@ export default function ForgetSecurityImage() {
                             </div>
                         </>
                     ) : (
-                        <div className="security-image-selection">
-                            {randomizedImages.map(([src, id]) => (
+                        <div className="security-image-selection" style={{ marginBottom: 10 }}>
+                            <p>Select security image </p>
+                            <div className="security-images" >
                                 <img
-                                    key={id}
-                                    src={src}
-                                    alt={`Security Icon ${id}`}
-                                    className={`security-image ${data.newImage === id ? "selected" : ""}`}
-                                    onClick={() => selectNewSecurityImage(id)}
+                                    src={randomizedImages[0][0]}
+                                    alt="Security Icon 1"
+                                    className={`security-image ${data.s_img === randomizedImages[0][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[0][1] })
+                                    }
                                 />
-                            ))}
+                                <img
+                                    src={randomizedImages[1][0]}
+                                    alt="Security Icon 2"
+                                    className={`security-image ${data.s_img === randomizedImages[1][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[1][1] })
+                                    }
+                                />
+                                <img
+                                    src={randomizedImages[2][0]}
+                                    alt="Security Icon 3"
+                                    className={`security-image ${data.s_img === randomizedImages[2][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[2][1] })
+                                    }
+                                />
+                                <img
+                                    src={randomizedImages[3][0]}
+                                    alt="Security Icon 4"
+                                    className={`security-image ${data.s_img === randomizedImages[3][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[3][1] })
+                                    }
+                                />
+                                <img
+                                    src={randomizedImages[4][0]}
+                                    alt="Security Icon 5"
+                                    className={`security-image ${data.s_img === randomizedImages[4][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[4][1] })
+                                    }
+                                />
+                            </div>
+                            <div className="security-images">
+                                <img
+                                    src={randomizedImages[5][0]}
+                                    alt="Security Icon 1"
+                                    className={`security-image ${data.s_img === randomizedImages[5][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[5][1] })
+                                    }
+                                />
+                                <img
+                                    src={randomizedImages[6][0]}
+                                    alt="Security Icon 2"
+                                    className={`security-image ${data.s_img === randomizedImages[6][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[6][1] })
+                                    }
+                                />
+                                <img
+                                    src={randomizedImages[7][0]}
+                                    alt="Security Icon 3"
+                                    className={`security-image ${data.s_img === randomizedImages[7][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[7][1] })
+                                    }
+                                />
+                                <img
+                                    src={randomizedImages[8][0]}
+                                    alt="Security Icon 4"
+                                    className={`security-image ${data.s_img === randomizedImages[8][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[8][1] })
+                                    }
+                                />
+                                <img
+                                    src={randomizedImages[9][0]}
+                                    alt="Security Icon 5"
+                                    className={`security-image ${data.s_img === randomizedImages[9][1] ? "selected" : ""
+                                        }`}
+                                    onClick={(e) =>
+                                        setData({ ...data, s_img: randomizedImages[9][1] })
+                                    }
+                                />
+                            </div>
                         </div>
                     )}
                     <div className="input-group">

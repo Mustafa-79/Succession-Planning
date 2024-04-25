@@ -27,7 +27,15 @@
     border-radius: 25px;
     margin: 20px;
     margin-left: 850px;
+    opacity: 0; /* Start with opacity 0 to hide the container */
+    transform: translateY(20px); /* Start slightly below and bring up */
+    transition: opacity 0.8s ease, transform 0.5s ease; /* Smooth transition */
 
+}
+
+.login-container.fade-in {
+    opacity: 1; /* Fade in the container */
+    transform: translateY(0); /* Bring up to its original position */
 }
 
 .login-box {

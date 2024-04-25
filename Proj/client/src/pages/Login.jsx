@@ -51,6 +51,18 @@ export default function Login() {
     };
 
     useEffect(() => {
+        // Add the fade-in class to the login container after a short delay
+        const timer = setTimeout(() => {
+            const loginContainer = document.querySelector(".login-container");
+            if (loginContainer) {
+                loginContainer.classList.add("fade-in");
+            }
+        }, 500); // Adjust the delay as needed
+
+        return () => clearTimeout(timer); // Cleanup function
+    }, []);
+
+    useEffect(() => {
         console.log("HRJJ")
         if (location.pathname != '' || location.pathname != '/login')
             navigate('/')
