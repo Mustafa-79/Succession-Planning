@@ -58,13 +58,14 @@ const getWorkshops = async (reqs, resp) => {
 const addEmployeeFromAdminDashboard = async (reqs, resp) => {
     try {
         // got employeeID, name, positionID, and registered_status from the request
-        const { employeeID, name, positionID, registered_status, email } = reqs.body
+        const { employeeID, name, positionID, gender, email } = reqs.body
         // Make a new object
         const newEmployee = new Employee({
             employeeID,
             name,
             positionID,
-            registered_status,
+            gender,
+            registered_status: false,
             email
         })
         // Save to DB

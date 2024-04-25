@@ -471,23 +471,24 @@ export default function Dashboard() {
                     <div className="modalContent">
                         <span className="closeModal" onClick={closeModal}>&times;</span>
                         <h2>Add Employee Form</h2>
-                        <form className="addEmployeeForm" onSubmit={handleSubmit}>
-                            <div className="formGroup">
+                        <form className="addEmployeeFormDash" onSubmit={handleSubmit}>
+                            <div className="formGroupDash">
                                 <label htmlFor="employeeID">Employee ID:</label>
                                 <input type="text" required id="employeeID" value={newEmployeeData.employeeID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, employeeID: e.target.value })} />
                             </div>
-                            <div className="formGroup">
+                            <div className="formGroupDash">
                                 <label htmlFor="name">Name:</label>
                                 <input type="text" required id="name" value={newEmployeeData.name} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, name: e.target.value })} />
                             </div>
-                            <div className="formGroup">
+                            <div className="formGroupDash">
                                 <label htmlFor="positionID">Position ID:</label>
                                 <input type="text" required id="positionID" value={newEmployeeData.positionID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, positionID: e.target.value })} />
                             </div>
-                            <div className="formGroup">
-                                <label htmlFor="registered_status">Registered Status:</label>
-                                <select id="registered_status" value={newEmployeeData.registered_status} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, registered_status: e.target.value })}>
-                                    <option value="Unregistered">Unregistered</option>
+                            <div className="formGroupDash">
+                                <label htmlFor="registered_status">Gender:</label>
+                                <select id="registered_status" value={newEmployeeData.gender} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, registered_status: e.target.value })}>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
                                 </select>
                             </div>
                             <button type="submit" id='addEmployeeButton'>Add Employee</button>

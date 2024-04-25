@@ -359,8 +359,6 @@ body {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    margin-bottom: 60px;
-    margin-top: 20px;
 }
 
 
@@ -397,31 +395,32 @@ body {
     color: #ff0000;
 }
 
-.addEmployeeForm {
+.addEmployeeFormDash {
     display: grid;
     gap: 5px;
     height: 100%;
+    width: 100%;
     font-family: 'Source Sans 3';
 }
 
-.formGroup {
+.formGroupDash {
     display: grid;
     gap: 5px;
 }
 
-.formGroup label {
+.formGroupDash label {
     font-weight: bold;
 }
 
-.formGroup input,
-.formGroup select {
+.formGroupDash input,
+.formGroupDash select {
     width: 100%;
     padding: 4px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
 
-.formGroup input[type="submit"] {
+.formGroupDash input[type="submit"] {
     background-color: #007bff;
     color: white;
     border: none;
@@ -430,7 +429,7 @@ body {
     cursor: pointer;
 }
 
-.formGroup input[type="submit"]:hover {
+.formGroupDash input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
