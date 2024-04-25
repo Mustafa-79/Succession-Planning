@@ -19,14 +19,14 @@ export default function PromotionProgress() {
     const { logout } = useLogout()
     const { authenticatedUser, no, dispatch } = useUserContext();
 
-    console.log("CHeck, ", allUserInfo)
-
+    // ChartJS setup for the bar chart
     ChartJS.register(
         BarElement,
         CategoryScale,
         LinearScale
     );
 
+    // Menu items for the sidebar navigation
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -34,6 +34,7 @@ export default function PromotionProgress() {
         { name: "Settings", icon: faGear, margin: 0, path: "/employeeSettings" }
     ];
 
+    // State variables
     const [positionTitles, setPositionTitles] = useState([]);
     const [courses, setCourses] = useState([])
     const [workshops, setWorkshops] = useState([])
@@ -47,13 +48,13 @@ export default function PromotionProgress() {
     const [noPosition, setNoPosition] = useState(false)
     const [loadEmp, setLoadEmp] = useState(10)
 
-
+    // function to get the position hierarchy level given the position ID
     const getPositionHierarchy = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.hierarchy_level : "Unknown";
     };
 
-
+    // UseEffect to set the title of the page and get the current employee
     useEffect(() => {
         document.title = 'Career Path - Promotion Progress'
         dispatch({type: 'LOGIN', payload: allUserInfo, no: 1, path: location.pathname})
@@ -68,8 +69,9 @@ export default function PromotionProgress() {
             });
     }, []);
 
+    // UseEffect to fetch all employees, positions, courses, and workshops
     useEffect(() => {
-
+        // Fetch all employees 
         axios.get('/dashboard-employees')
             .then(res => {
                 setEmployees(res.data);
@@ -81,13 +83,16 @@ export default function PromotionProgress() {
                 console.log(err);
                 toast.error('Failed to fetch employees');
             });
+
+        // Fetch all positions information
         axios.get('/dashboard-position-titles')
             .then(res => {
                 setPositions(res.data);
-                let currEmployee = allUserInfo
-
+                let currEmployee = allUserInfo;
                 let currHierarchy = getPositionHierarchy(currEmployee.positionID)
                 setHierarchy(currHierarchy);
+
+                // filter out the positions that are level -1 from the current employee's position
                 let new_positions = positions.filter(position => position.hierarchy_level === (currHierarchy - 1))
 
                 if (new_positions.length == 0) {
@@ -105,6 +110,7 @@ export default function PromotionProgress() {
                 toast.error('Failed to fetch position titles');
             });
 
+        // Fetch all courses information
         axios.get('/dashboard-course-data')
             .then(res => {
                 setCourses(res.data)
@@ -114,6 +120,7 @@ export default function PromotionProgress() {
                 toast.error('Failed to fetch courses')
             });
 
+        // Fetch all workshops information
         axios.get('/dashboard-workshop-data')
             .then(res => {
                 setWorkshops(res.data)
@@ -122,8 +129,6 @@ export default function PromotionProgress() {
                 console.log(err)
                 toast.error('Failed to fetch workshops')
             })
-
-
     }, [loadEmp]);
 
     // function to convert positionID to position title
@@ -132,27 +137,32 @@ export default function PromotionProgress() {
         return position ? position.title : "Unknown";
     };
 
+    // function to get the courses for a given position
     const getPositionalCourses = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.courses : []
     }
+
+    // function to get the workshops for a given position
     const getPositionalWorkshops = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         console.log(positionID, position)
         return position ? position.workshops : []
     }
 
+    // function to get the title of a course given the course ID
     const getCourseTitle = (courseID) => {
         const course = courses.find(course => course.courseID === courseID)
         return course ? course.title : []
     }
 
+    // function to get the title of a workshop given the workshop ID
     const getWorkshopTitle = (workshopID) => {
         const workshop = workshops.find(workshop => workshop.workshopID === workshopID)
         return workshop ? workshop.title : []
     }
 
-
+    // function to get the course completion rate for the current employee. That is, the number of courses taken by the employee divided by the total number of courses recommended for the employee's position
     const getCourseCompletion = (() => {
         const requiredCourses = getPositionalCourses(allUserInfo.positionID).map((courseID) => getCourseTitle(courseID))
         const coursesTaken = allUserInfo.courses_taken
@@ -160,7 +170,6 @@ export default function PromotionProgress() {
         if (requiredCourses.length == 0) {
             return 1
         }
-
 
         let progress = 0
         for (const course of requiredCourses) {
@@ -170,19 +179,16 @@ export default function PromotionProgress() {
         }
 
         return (progress / requiredCourses.length)
-
-
     })
 
+    // function to get the workshop completion rate for the current employee. That is, the number of workshops taken by the employee divided by the total number of workshops recommended for the employee's position
     const getWorkshopCompletion = (() => {
         const requiredWorkshops = getPositionalWorkshops(allUserInfo.positionID).map((workshopID) => getWorkshopTitle(workshopID))
         const workshopsTaken = allUserInfo.workshops_taken
 
-
         if (requiredWorkshops.length == 0) {
             return 1;
         }
-
 
         let progress = 0
         for (const workshop of requiredWorkshops) {
@@ -192,27 +198,16 @@ export default function PromotionProgress() {
         }
 
         return (progress / requiredWorkshops.length)
-
     })
 
+    // Another function to get the workshop completion rate for the current employee. 
     const getWorkshopCompletionNew = ((id) => {
-
         const requiredWorkshopsNew = getPositionalWorkshops(id.positionID).map((workshopID) => getWorkshopTitle(workshopID))
         const workshopsTakenNew = allUserInfo.workshops_taken
-
-        // if(workshopsTakenNew.length==0)
-        // {
-        //     return 0;
-        // }
-
-
-
-
 
         if (requiredWorkshopsNew.length == 0) {
             return 1;
         }
-
 
         let progressNew = 0
         for (const workshop of requiredWorkshopsNew) {
@@ -222,9 +217,9 @@ export default function PromotionProgress() {
         }
 
         return (progressNew / requiredWorkshopsNew.length)
-
     })
 
+    // Another function to get the course completion rate for the current employee.
     const getCourseCompletionNew = ((id) => {
         const requiredCourses = getPositionalCourses(id.positionID).map((courseID) => getCourseTitle(courseID))
         const coursesTaken = allUserInfo.courses_taken
@@ -235,7 +230,6 @@ export default function PromotionProgress() {
             return 1
         }
 
-
         let progress = 0
         for (const course of requiredCourses) {
             if (coursesTaken.includes(course)) {
@@ -244,10 +238,9 @@ export default function PromotionProgress() {
         }
 
         return (progress / requiredCourses.length)
-
-
     })
 
+    // function to handle the click event on the menu items in the sidebar
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: allUserInfo } });
@@ -258,6 +251,7 @@ export default function PromotionProgress() {
     };
 
 
+    // Set up the data for the bar chart
     const barChartData = {
         labels: ['Attendance Rate', 'Punctuality Score', 'Work Ethic Score', 'Task Completion Rate', 'Workshop Completion Rate', 'Course Completion Rate', 'Leadership skills', 'Collaboration skills'],
         datasets: [
@@ -273,6 +267,7 @@ export default function PromotionProgress() {
         ],
     };
 
+    // Progress bar component to display the progress of the course and workshop completion
     const ProgressBar = (props) => {
         const { bgcolor, completed } = props;
 
@@ -313,8 +308,10 @@ export default function PromotionProgress() {
         );
     };
 
+    // UseEffect to fetch the weights and calculate the performance score of the employees
     const [weights, setWeights] = useState({});
     useEffect(() => {
+        // Fetch the weights for the KPIs used to calculate the performance score
         axios.get('/weights')
             .then(res => {
                 // contains two sets of weights: ML and Admin. Set the weights to be equal to the product of the two
@@ -329,25 +326,22 @@ export default function PromotionProgress() {
 
                 // filter employees at a given hierarchy
                 let scores = {};
-
                 const levelEmployees = employees.filter((emp) => {
-
                     if (getPositionHierarchy(emp.positionID) === hierarchy) {
                         return true
                     }
                     else {
                         return false
                     }
-
-
                 })
+
                 //finf scores for all employees at this hierarchy
                 levelEmployees.forEach(employee => {
                     calculatePerformanceScore(employee) > 1 ? scores[employee.employeeID] = 1 : scores[employee.employeeID] = calculatePerformanceScore(employee);
                 });
                 setEmployeeScores(scores);
 
-
+                // find max score for all employees at this hierarchy
                 let max_score = 0;
                 for (var id in employeeScores) {
                     if (employeeScores[id] > max_score) {
@@ -357,15 +351,11 @@ export default function PromotionProgress() {
                 console.log(scores, max_score)
 
 
-                // find promotability score
+                // find promotability score by dividing the employee's score by the max score and multiplying by 100
                 let new_score = ((scores[allUserInfo.employeeID] / max_score) * 100).toFixed(2)
                 if (new_score <= 100 && new_score >= 0) {
                     setPromotabilityScore(new_score.toString())
-
                 }
-
-                // console.log("MAX, Mine, and score", max_score, scores[allUserInfo.employeeID], promotabilityScore)
-
             })
             .catch(err => {
                 console.error(err);

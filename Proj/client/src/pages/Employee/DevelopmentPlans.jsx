@@ -14,6 +14,7 @@ export default function Feedback() {
     const navigate = useNavigate();
     const { logout } = useLogout()
 
+    // Menu items for the sidebar menu for navigation
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -23,6 +24,7 @@ export default function Feedback() {
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
+    // Function to handle menu item click to navigate to the respective path
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: user } });
@@ -32,6 +34,7 @@ export default function Feedback() {
         return location.pathname === path; // Check if the current location matches the path
     };
 
+    // UseEffect to set the title of the page and dispatch the user information
     useEffect(() => {
         document.title = 'Development Plans'
         dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})

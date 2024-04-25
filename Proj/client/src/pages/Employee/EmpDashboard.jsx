@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -12,10 +12,11 @@ export default function EmployeeDashboard() {
     const navigate = useNavigate();
 
     const { logout } = useLogout()
-    
+
     const { authenticatedUser, no, dispatch } = useUserContext();
     const user = authenticatedUser;
 
+    // Menu items for the sidebar menu for navigation
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -25,6 +26,7 @@ export default function EmployeeDashboard() {
 
     const [activeMenuItem, setActiveMenuItem] = useState("");
 
+    // Function to handle the click event on the menu items to navigate to the respective path
     const handleMenuItemClick = (path, e) => {
         e.preventDefault();
         navigate(path, { state: { userInfo: user } });
@@ -34,10 +36,11 @@ export default function EmployeeDashboard() {
         return location.pathname === path; // Check if the current location matches the path
     };
 
+    // Set the title of the page and the active menu item
     useEffect(() => {
         document.title = 'Dashboard'
-        dispatch({type: 'LOGIN', payload: user, no: 1, path: location.pathname})
-        localStorage.setItem('path' ,JSON.stringify(location.pathname))
+        dispatch({ type: 'LOGIN', payload: user, no: 1, path: location.pathname })
+        localStorage.setItem('path', JSON.stringify(location.pathname))
     }, [])
 
     return (
@@ -82,13 +85,13 @@ export default function EmployeeDashboard() {
                         </button>
                     </div>
                     <div className='promotionsWrapper'>
-                        <div className='promotionItem' id='position'  onClick={(e)=>handleMenuItemClick('/employeeDashboard/positions', e)}>
+                        <div className='promotionItem' id='position' onClick={(e) => handleMenuItemClick('/employeeDashboard/positions', e)}>
                             <div >Promotional Positions Available.</div>
                         </div>
-                        <div className='promotionItem' id='skills' onClick={(e)=>handleMenuItemClick('/employeeDashboard/skills', e)}>
+                        <div className='promotionItem' id='skills' onClick={(e) => handleMenuItemClick('/employeeDashboard/skills', e)}>
                             <div >Promotion Skill Set Required.</div>
                         </div>
-                        <div className='promotionItem' id='progress' onClick={(e)=>handleMenuItemClick('/employeeDashboard/progress', e)}>
+                        <div className='promotionItem' id='progress' onClick={(e) => handleMenuItemClick('/employeeDashboard/progress', e)}>
                             <div >View Promotion Progress.</div>
                         </div>
                     </div>
