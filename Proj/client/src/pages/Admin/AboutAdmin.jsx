@@ -11,6 +11,7 @@ export default function AboutAdmin() {
 
 	const { authenticatedUser, no, path, dispatch } = useUserContext()
 
+	{/*this is the function that handles the click of the menu item and navigates to the path*/}
 	const handleMenuItemClick = (path, e) => {
 		e.preventDefault()
 		navigate(path, { state: { userInfo: user } });
@@ -23,7 +24,7 @@ export default function AboutAdmin() {
 	}, [])
 
 	return (
-		<div id='aboutWrapper'>
+		<div id='aboutWrapper'>{/*this is the wrapper for the about page*/}
 			<div className="about-container">
 				<button className='back-arrow' onClick={(e) => handleMenuItemClick(path, e)}>Go back</button>
 				<div>

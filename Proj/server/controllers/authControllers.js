@@ -431,7 +431,7 @@ const submitFeedback = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// Endpoint to submit complaints and feedbacks
 const submitComplaint = async (reqs, resp) => {
     try {
         // console.log(reqs.body)
@@ -467,7 +467,7 @@ const submitComplaint = async (reqs, resp) => {
                 error: 'Complaint is required'
             });
         }
-
+        // Fetch all complaints and sort by complaintID in descending order
         const lastComplaint = await Complaint.findOne().sort({ complaintID: -1 });
         let newComplaintID;
         if (lastComplaint && lastComplaint.complaintID.startsWith('C')) {
@@ -519,7 +519,7 @@ const submitComplaint = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// a function to return the profile of the employee
 const returnProfile = async (reqs, resp) => {
     try {
         const { name } = reqs.body;
@@ -542,7 +542,7 @@ const returnProfile = async (reqs, resp) => {
     }
 
 }
-
+// a function to upload image and return the updated profile and image
 const uploadImage = async (reqs, resp) => {
     const { empID, profileImg } = reqs.body
     console.log(profileImg)
@@ -563,7 +563,7 @@ const uploadImage = async (reqs, resp) => {
         resp.json(updatedUser)
     }
 }
-
+// a function to change password and return the updated profile
 const changePassword = async (reqs, resp) => {
     try {
         const { empID, password, samePassword } = reqs.body
@@ -598,7 +598,7 @@ const changePassword = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// a function to change security image and return the updated profile
 const changeSecurityImg = async (reqs, resp) => {
     try {
         const { empID, currentImg, newImg } = reqs.body
@@ -620,11 +620,11 @@ const changeSecurityImg = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// a function to update profile and return the updated profile
 const updateProfile = async (reqs, resp) => {
     try {
         const {_id, ...user} = reqs.body
-
+        //to remove the id from the user object
         const updatedUser = await Employee.findOneAndUpdate({ employeeID: user.employeeID }, user, { new: true, runValidators: true })
 
         console.log(user)
@@ -641,7 +641,7 @@ const updateProfile = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// a function to delete complaints and feedbacks
 const deleteComplaint = async (reqs, resp) => {
     try {
         // console.log(reqs)
@@ -662,6 +662,7 @@ const deleteComplaint = async (reqs, resp) => {
     }
 }
 
+// Endpoint to retrieve all feedbacks and complaints
 const retrieveAssessmentQuestions = async (reqs,resp) => {
     console.log(reqs.body);
     const { empID } = reqs.body
@@ -715,7 +716,7 @@ const retrieveAssessmentQuestions = async (reqs,resp) => {
 
 
 }
-
+// Endpoint to assign assessment dataa  to employee
 const assignAssessment = async (reqs, resp) => {
     try {
         const { empID ,
@@ -749,23 +750,7 @@ const assignAssessment = async (reqs, resp) => {
         console.log("the new id is: ", newAssignmentID)
         const score = '0'
         const status = 'Pending'
-        // Assign unique ID to feedback
-        // const feedbackID = new mongoose.Types.ObjectId(); // Or use ObjectId for simplicity
-        // let employeeexist = "-";
-        // let courseexist = "-";
-        // if(user)
-        // {
-        //     employeeexist = complaintAgainstID;
 
-        // }
-        // else if(courseIDs.includes(complaintAgainstID))
-        // {
-        //     courseexist = complaintAgainstID;
-        // }
-
-        // console.log("the employee against which the complaint is: ",employeeexist)
-        // console.log("the course against which the complaint is: ",courseexist)
-        // console.log("the employee that lodged the complaint is: ", complaintByID)
         // Create a new feedback record
         const newAssignment = new doAssignmentModel({
             assignmentID: newAssignmentID,
@@ -790,7 +775,7 @@ const assignAssessment = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// Endpoint to update assessment data
 const updateAssessment = async (reqs,resp) => {
     const { assessmentID, employee_answers, score, status } = reqs.body;
 
@@ -823,7 +808,7 @@ const updateAssessment = async (reqs,resp) => {
         resp.status(500).json({ message: 'Error updating assessment.' });
     }
 }
-
+// Endpoint to get mentor info and assign mentor
 const getMentorInfo = async (reqs, resp) => {
     try {
         const { mentor } = reqs.params
@@ -841,7 +826,7 @@ const getMentorInfo = async (reqs, resp) => {
     }
 }
 
-
+// Endpoint to get mentor options and assign mentor
 // axios.get(`/mentorOptions/${positionID}/${employeeID}`)
 const getMentorOptions = async (reqs, resp) => {
     try {
@@ -894,7 +879,7 @@ const getMentorOptions = async (reqs, resp) => {
 
 // Endpoint to assign mentor
 // axios.post(`/saveMentor/${mentorID}/${allUserInfo.employeeID}`)
-
+// a function to assign mentor to the employee and set the state
 const assignMentor = async (reqs, resp) => {
     try {
         const { mentorID, employeeID } = reqs.params

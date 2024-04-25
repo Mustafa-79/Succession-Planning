@@ -80,6 +80,7 @@ export default function ModelTuning() {
     const [employees, setEmployees] = useState([
         { id: 1, role: "Manager", age: 30, contact: "123-456-7890", hoursWorked: 40, status: "Active" }
     ]);
+    //to add new employee
     const [newEmployeeData, setNewEmployeeData] = useState({
         role: "",
         age: "",
@@ -92,7 +93,7 @@ export default function ModelTuning() {
         return location.pathname === path; // Check if the current location matches the path
     };
 
-
+    //to handle the form submission
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: user }}); 

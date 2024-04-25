@@ -17,7 +17,8 @@ export default function AdminProfile() {
     
     const user = JSON.parse(localStorage.getItem('user'));
     const { authenticatedUser, no, path, dispatch} = useUserContext()
-
+    
+    // menu items for the sidebar as done in other files
     const menuItems = [
         { name: "Dashboard", icon: faHouse, margin: 5, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/assess_feedback" },
@@ -31,7 +32,7 @@ export default function AdminProfile() {
         return location.pathname === path; // Check if the current location matches the path
     };
 
-
+    // Function to handle the menu item click and navigate to the path
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: user }}); 
@@ -84,7 +85,7 @@ export default function AdminProfile() {
                             Logout
                         </button>
                     </div>
-                    <div className="profile-header">
+                    <div className="profile-header">{/* Profile header for displaying the profile */}
                     <label htmlFor='profile-image' className='profile-image-label'>
                         <img src={user.profile_picture || defaultImg} alt="Profile" className='profile-image-pic'/>
                         </label>

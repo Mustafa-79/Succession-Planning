@@ -36,6 +36,7 @@ export default function CreateAssessment() {
         { name: "Settings", icon: faGear, margin: 5, path: "/admin_settings" },
 	];
 
+	//this is the function that retrieves the questions from the database
 	const retrieveQuestions = async () => {
 		try {
 			const resp = await axios.post('/retrieveAssessmentQuestions', { empID: data.empID });
@@ -54,7 +55,7 @@ export default function CreateAssessment() {
 				const questionsText = selectedQuestions.map(q => q.question).join('\n');
 				const answersText = selectedQuestions.map(q => q.answer).join('\n');
 				const questionArray = selectedQuestions.map(q => q.question);
-				const answerArray = selectedQuestions.map(q => q.answer);
+				const answerArray = selectedQuestions.map(q => q.answer);// This should be an array of the answers
 
 				console.log("the answers are: ", answerArray);
 				console.log("the questions are: ", questionArray);
@@ -91,7 +92,7 @@ export default function CreateAssessment() {
 		return location.pathname === path; // Check if the current location matches the path
 	};
 
-
+	// this function handles the click event on the menu items
 	const handleMenuItemClick = (path, e) => {
 		e.preventDefault()
 		navigate(path, { state: { userInfo: user } });
@@ -126,6 +127,7 @@ export default function CreateAssessment() {
 	// const deleteEmployee = (id) => {
 	//     setEmployees(employees.filter(employee => employee.id !== id));
 	// };
+	// a function to assign the assessment to the employee that has been selected
 	const assignAssessment = async (e) => {
 		e.preventDefault();
 		console.log("Submitting assessment with data:", data);
@@ -166,6 +168,7 @@ export default function CreateAssessment() {
 		}
 	};
 
+	////// This is the useEffect hook that runs when the page loads
 	useEffect(() => {
 		document.title = 'Create Assesment'
 		dispatch({ type: 'LOGIN', payload: user, no: 2, path: location.pathname })
@@ -192,7 +195,7 @@ export default function CreateAssessment() {
 							</div>
 						))}
 					</div>
-				</div>
+				</div>{/* End of sidebar */}
 				<div className='contentForm'>
 					<div className='header'>
 						<a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
@@ -213,7 +216,7 @@ export default function CreateAssessment() {
 							Logout
 						</button>
 					</div>
-					<div className="main-body">
+					<div className="main-body">{/* Main body */}
 						<div className="form-heading">
 							<FontAwesomeIcon
 								icon={faFileLines}
@@ -222,7 +225,7 @@ export default function CreateAssessment() {
 							/>
 							<h1>Assign Assessments</h1>
 						</div>
-						<form className="feedback-form" onSubmit={assignAssessment}>
+						<form className="feedback-form" onSubmit={assignAssessment}>{/* Feedback form */}
 							<label htmlFor="course-id" style={{ fontSize: "25px" }}>
 								Employee ID
 							</label>

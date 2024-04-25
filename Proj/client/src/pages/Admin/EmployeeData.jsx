@@ -22,6 +22,7 @@ export default function EmployeeData() {
 
     const { authenticatedUser, no, path, dispatch} = useUserContext()
 
+        //same as in other files
     const menuItems = [
         { name: "Dashboard", icon: faHouse, margin: 5, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path:'/admin_feedback' },
@@ -45,7 +46,7 @@ export default function EmployeeData() {
         e.preventDefault()
         navigate(path, { state: { userInfo: user }}); 
     };
-
+    //function to get age from date of birth
     const getAge = (dateOfBirth) => {
         if (!dateOfBirth) return "Unknown";
         const today = new Date();
@@ -57,7 +58,8 @@ export default function EmployeeData() {
         }
         return age;
     };
-
+    
+    //function to fetch the employees from backend
     const fetchEmployees = async () => {
         try {
             const resp = await axios.get('/dashboard-employees')
@@ -66,7 +68,7 @@ export default function EmployeeData() {
             console.log(err)
         }
     }
-
+    //function to update the status of the employee
     const statusUpdate = async (e, val) => {
         try {
             const resp = await axios.post('/change_status', {
@@ -78,7 +80,7 @@ export default function EmployeeData() {
             console.log(err)
         }
     }
-
+    //useEffect to fetch the employees
     useEffect(() => {
         fetchEmployees()
     },[employees])
@@ -90,6 +92,7 @@ export default function EmployeeData() {
         getPositionData()
     },[])
 
+    //function to view the profile of the employee
     const handleViewProfile = (e, val) => {
         console.log('hello')
         e.preventDefault();
@@ -98,6 +101,7 @@ export default function EmployeeData() {
         console.log(userData)
     };
 
+    //function to edit the metrics of the employee
     const handleEditMetrics = (e, val) => {
         console.log('hello')
         e.preventDefault();
@@ -106,6 +110,7 @@ export default function EmployeeData() {
         setUserData(val);
     }
 
+    //function to get the position title from the position ID
     const getPositionTitle = (positionID) => {
         const position = positions.find(position => position.positionID === positionID);
         // console.log(position, positionID)
@@ -113,6 +118,7 @@ export default function EmployeeData() {
         return position ? position.title : "Unknown";
     };
 
+    //function to get the position data from the backend
     const getPositionData = async () => {
         try {
             const resp = await axios.get('/getPositionsData')
@@ -122,6 +128,7 @@ export default function EmployeeData() {
         }
     }
 
+    //function to update the position of the employee
     const positionUpdate = async (e, employee) => {
         try {
             console.log(e.target.value)
@@ -160,7 +167,7 @@ export default function EmployeeData() {
                             <span>Admin</span>
                         </div>
                     </div>
-                    <div className="menu">
+                    <div className="menu">{/* Menu items */}
                         {menuItems.map(item => (
                                 <div key={item.name} className={isActive(item.path) ? "active" : ""}>
                                     <FontAwesomeIcon icon={item.icon} className={isActive(item.path) ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
@@ -169,7 +176,7 @@ export default function EmployeeData() {
                         ))}
                     </div>
                 </div>
-                <div className='contentData'>
+                <div className='contentData'>{/* Content of the page */}
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
@@ -189,7 +196,7 @@ export default function EmployeeData() {
                             Logout
                         </button>
                     </div>
-                    <div className='employee-data'>
+                    <div className='employee-data'> {/* Employee data */}
                         <table>
                             <thead>
                                 <tr>
@@ -222,7 +229,7 @@ export default function EmployeeData() {
                                             <td>{getAge(val.date_of_birth)}</td>
                                             <td>{val.contactNumber}</td>
                                             <td>{val.email}</td>
-                                            <td>
+                                            <td>{/*for status*/}
                                                 <select name="status" className="status-dropdown" value={!val.is_blocked ? 'active' : 'inactive'} onChange={(e) => statusUpdate(e, val)}>
                                                     <option value="active">Active</option>
                                                     <option value="inactive">Blocked</option>

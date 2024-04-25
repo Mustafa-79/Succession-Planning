@@ -19,6 +19,7 @@ export default function UserProfile() {
     // const user = authenticatedUser
     const user = JSON.parse(localStorage.getItem('user'));
 
+    // menu items for the sidebar as done in other files
     const menuItems = [
         { name: "Career Path", icon: faHouse, margin: 0, path: "/employeeDashboard" },
         { name: "Personal Development Plans", icon: faFileArrowDown, margin: 4, path: "/developmentPlans" },
@@ -29,6 +30,7 @@ export default function UserProfile() {
     const [activeMenuItem, setActiveMenuItem] = useState("");
     const [positions, setPositions] = useState([])
 
+    // Function to handle the menu item click and navigate to the path
     const handleMenuItemClick = (path, e) => {
         e.preventDefault()
         navigate(path, { state: { userInfo: user } });
@@ -38,7 +40,8 @@ export default function UserProfile() {
         const position = positions.find(position => position.positionID === positionID);
         return position ? position.title : "Unknown";
     };
-
+    
+    // Function to get the position data from the database
     const getPositionData = async () => {
         try {
             const resp = await axios.get('/getPositionsData')
@@ -67,7 +70,7 @@ export default function UserProfile() {
                             <span>Employee</span>
                         </div>
                     </div>
-                    <div className="menu">
+                    <div className="menu">{/* Sidebar menu */}
                         {menuItems.map(item => (
                             <div key={item.name} className={activeMenuItem === item.name ? "active" : ""}>
                                 <FontAwesomeIcon icon={item.icon} className={activeMenuItem === item.name ? "icon active" : "icon"} size="2x" color='rgb(196,196,202)' style={{ marginLeft: item.margin }} />
@@ -77,7 +80,7 @@ export default function UserProfile() {
                     </div>
                 </div>
                 <div className='content'>
-                    <div className='header'>
+                    <div className='header'>{/* Header of the page */}
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
@@ -97,7 +100,7 @@ export default function UserProfile() {
                         </button>
                     </div>
                     <div className="profile-header">
-                <label htmlFor='profile-image' className='profile-image-label'>
+                <label htmlFor='profile-image' className='profile-image-label'>{/* Profile image    and label*/}
                     <img src={user && user.profile_picture || defaultImg} alt="Profile" className='profile-image-pic'/>
                 </label>
             </div>

@@ -33,7 +33,7 @@ const positionIDtoName = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// Return all data about positions
 const getCourses = async (reqs, resp) => {
     try {
         const courses = await Course.find()
@@ -43,7 +43,7 @@ const getCourses = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// Return all data about positions
 const getWorkshops = async (reqs, resp) => {
     try {
         const workshops = await Workshop.find()
@@ -139,7 +139,7 @@ const deleteEmployeefromAdminDashboard = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+// Endpoint to fetch all courses
 const fetchCourses = async (reqs,resp) => {
     try {
         const courses = await Course.find()
@@ -150,7 +150,7 @@ const fetchCourses = async (reqs,resp) => {
         console.log(error)
     }
 }
-
+// Endpoint to fetch all workshops
 const fetchWorkshops = async (reqs,resp) => {
     try {
         const workshops = await Workshop.find()
@@ -162,7 +162,7 @@ const fetchWorkshops = async (reqs,resp) => {
     }
 }
 
-
+// Endpoint to return admin profile
 const returnAdminProfile = async (reqs, resp) => {
     try {
         const {name} = reqs.body;
@@ -180,7 +180,7 @@ const returnAdminProfile = async (reqs, resp) => {
         console.log(err)
     }
 }
-
+// Endpoint to get all weights
 const getWeights = async (reqs, resp) => {
     try {
         // Get all weights
@@ -190,7 +190,7 @@ const getWeights = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+//function to save weights
 const saveWeights = async (reqs, resp) => {
     try {
         // Request contains admin weights
@@ -222,7 +222,7 @@ const saveWeights = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+//function to set metrics that are used to calculate the employee score
 const setMetrics = async (reqs, resp) => {
     try {
         const {empID, metrics} = reqs.body
@@ -237,7 +237,7 @@ const setMetrics = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+//function to change the status of an employee (blocked or unblocked)
 const changeStatus = async (reqs, resp) => {
     try {
         const {empID, flag} = reqs.body
@@ -247,7 +247,7 @@ const changeStatus = async (reqs, resp) => {
         console.log(err)
     }
 }
-
+//function to update the admin profile picture and save it to the database
 const updateAdminPic = async (reqs, resp) => {
     try {
         const { adminID, profile_picture } = reqs.body
@@ -263,7 +263,7 @@ const updateAdminPic = async (reqs, resp) => {
         console.log(err)
     }
 }
-
+//function to change the admin password and save it to the database
 const changeAdminPasssword = async (reqs, resp) => {
     try {
         const { adminID, password, samePassword } = reqs.body
@@ -279,7 +279,7 @@ const changeAdminPasssword = async (reqs, resp) => {
                 error: 'you have entered invalid current password'
             })
         }
-
+        // Check if the new password is the same as the current password
         const compare = await comparePassword(samePassword, user.password)
 
         if (compare) {
@@ -287,7 +287,7 @@ const changeAdminPasssword = async (reqs, resp) => {
                 error: 'New password must be different from current'
             })
         }
-
+// Hash the new password
         const hashedPassword = await hashPassword(samePassword)
 
         // Update user
@@ -298,13 +298,14 @@ const changeAdminPasssword = async (reqs, resp) => {
         console.log(error)
     }
 }
-
+//function to change the admin security image and save it to the database after checking the current security image
 const changeAdminSecurityImg = async (reqs, resp) => {
     try {
 
         const { adminID, currentImg, newImg } = reqs.body  
         const user = await HR_Admin.findOne({ adminID: adminID })
 
+        // Check if the current security image is correct and matches the one in the database
         if (user.two_factor_answer != currentImg) {
             return resp.json({
                 error: 'Invalid current security image'
@@ -319,15 +320,15 @@ const changeAdminSecurityImg = async (reqs, resp) => {
         console.log(err)
     }
 }
-
+    //function to update the position of an employee and save it to the database
 const updatePosition = async (reqs, resp) => {
     try {
         const { employeeID, new_position } = reqs.body
         
-        const user = await Employee.findOne({ employeeID })
+        const user = await Employee.findOne({ employeeID })//to get the current position of the employee and update the position
         console.log('there', new_position, user.positionID)
         if (user) {
-            const currentPosition = await Position.findOne({ positionID: user.positionID })
+            const currentPosition = await Position.findOne({ positionID: user.positionID })//to get the current position of the employee and update the position
             if (currentPosition) {
                 const updatedOldPosition = await Position.findOneAndUpdate({ positionID: user.positionID }, { held_by: currentPosition.held_by.filter(v => v != employeeID) }, { new: true, runValidators: true })
                 if (updatedOldPosition) {

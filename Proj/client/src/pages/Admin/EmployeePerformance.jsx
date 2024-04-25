@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useLogout } from '../../hooks/useLogout';
 import { useUserContext } from '../../hooks/useUserContext';
-
+//put comments in the entire file to explain the code
 
 
 export default function EmployeePerformance() {
@@ -20,6 +20,7 @@ export default function EmployeePerformance() {
     const user = JSON.parse(localStorage.getItem('user'));
     const { authenticatedUser, no, path, dispatch} = useUserContext()
 
+    //menu items
     const menuItems = [
         { name: "Dashboard", icon: faHouse, margin: 5, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: '/admin_feedback' },
@@ -52,11 +53,11 @@ export default function EmployeePerformance() {
         e.preventDefault()
         navigate(path, { state: { userInfo: user }}); 
     };
-
+    //to add new employee
     const addEmployee = () => {
         setShowModal(true);
     };
-
+    //to close modal and clear the form
     const closeModal = () => {
         setShowModal(false);
         setNewEmployeeData({
@@ -83,12 +84,13 @@ export default function EmployeePerformance() {
         setEmployees(employees.filter(employee => employee.id !== id));
     };
 
+    //this helps to set the active menu item and also to set the path in local storage
     useEffect(() => {
         dispatch({type: 'LOGIN', payload: user, no: 2, path: '/dashboard'})
         localStorage.setItem('path' ,JSON.stringify('/dashboard'))
     }, [])
 
-
+    //this is the progress bar component for the performance indicators
     const ProgressBar = (props) => {
         const { bgcolor, completed } = props;
 
@@ -133,7 +135,7 @@ export default function EmployeePerformance() {
     const [courses, setCourses] = useState([])
     const [workshops, setWorkshops] = useState([])
 
-
+    //this is to fetch the position titles, courses and workshops
     useEffect(() => {
         document.title = 'Dashboard - View Perfomance'
         axios.get('/dashboard-position-titles')
@@ -193,7 +195,7 @@ export default function EmployeePerformance() {
         return workshop ? workshop.title : []
     }
 
-
+    // this function calculates the completion rate of the courses
     const getCourseCompletion = (()=>{
         const requiredCourses = getPositionalCourses(employeeInfo.positionID).map((courseID)=>getCourseTitle(courseID))
         const coursesTaken = employeeInfo.courses_taken
@@ -216,7 +218,7 @@ export default function EmployeePerformance() {
 
 
     })
-
+    // this function calculates the completion rate of the workshops
     const getWorkshopCompletion = (()=> {
         const requiredWorkshops = getPositionalWorkshops(employeeInfo.positionID).map((workshopID)=>getWorkshopTitle(workshopID))
         const workshopsTaken = employeeInfo.workshops_taken
@@ -239,7 +241,7 @@ export default function EmployeePerformance() {
         return (progress/requiredWorkshops.length)
 
     })
-
+        // this function calculates the age of the employee
     const getAge = (dateOfBirth) => {
         if (!dateOfBirth) return "Unknown";
         const today = new Date();
@@ -271,7 +273,7 @@ export default function EmployeePerformance() {
             <div className='wrapper'>
                 <div className='sidebar'>
                     <div className="logo">
-                        <div>
+                        <div>{/* Logo */}
                             <div className="logo-icon-container">
                                 <FontAwesomeIcon icon={faBuilding} size="4x" color='rgb(34,137,255)' />
                             </div>
@@ -288,7 +290,7 @@ export default function EmployeePerformance() {
                     </div>
                 </div>
                 <div className='contentPerf'>
-                    <div className='header'>
+                    <div className='header'>{/* Header for the page */}
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>
                         <FontAwesomeIcon icon={faUser} size='xl' color='rgb(196,196,202)' />
@@ -307,7 +309,7 @@ export default function EmployeePerformance() {
                             Logout
                         </button>
                     </div>
-                    <div className='employeeInfo'>
+                    <div className='employeeInfo'>{/* Employee Information */}
                         <div className='employeeHeading' style={{ marginBottom: "20px" }} >Employee Information</div>
                         <div>
                             <div>
@@ -338,7 +340,7 @@ export default function EmployeePerformance() {
                             </div>
                         </div>
                     </div>
-                    <div className='employeePerformance'>
+                    <div className='employeePerformance'>{/* Employee Performance */}
                         <div className='employeeHeading' style={{ marginTop: "0px" }}>Employee Performance</div>
                         <div className='kpiContainer'>
                             {performanceIndicators.map((kpi) => (

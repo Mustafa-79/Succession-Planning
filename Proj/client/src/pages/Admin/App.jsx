@@ -32,8 +32,8 @@ axios.defaults.withCredentials = true
 function App() {
     return (
         <UserContextProvider>
-            <Toaster position='bottom-right' toastOptions={{ duration: 2000 }} />
-            <Routes>
+            <Toaster position='bottom-right' toastOptions={{ duration: 2000 }} />{/*this is the toast notification that pops up when there is an error*/}
+            <Routes>{/*this is the router that routes the user to the different pages*/}
                 <Route path='/' element={<Login />} />
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/login' element={<Login />} />
