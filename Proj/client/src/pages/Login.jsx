@@ -17,6 +17,7 @@ import img10 from "./img/s_img10.png";
 import { useUserContext } from "../hooks/useUserContext";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
+//the login page
 export default function Login() {
     const navigate = useNavigate();
     const [data, setData] = useState({
@@ -25,7 +26,8 @@ export default function Login() {
         s_img: 0,
     });
     const [showPassword, setShowPassword] = useState(false)
-
+    
+    // Randomize the security images
     const imgSources = [
         [img1, 1],
         [img2, 2],
@@ -41,6 +43,7 @@ export default function Login() {
     const [randomizedImages, setRandomizedImages] = useState(imgSources);
     const { authenticatedUser, no, dispatch } = useUserContext();
 
+    // a function to shuffle the images for the security image selection
     const sequenceImg = (list) => {
         let array = [...list];
         for (let i = array.length - 1; i > 0; i--) {
@@ -50,6 +53,7 @@ export default function Login() {
         return array;
     };
 
+    // for the initial rendering of the page
     useEffect(() => {
         // Add the fade-in class to the login container after a short delay
         const timer = setTimeout(() => {
@@ -70,6 +74,7 @@ export default function Login() {
         console.log(randomizedImages);
     }, []);
 
+    // a function to handle the login of the user
     const loginUser = async (e) => {
         e.preventDefault()
         const { email, password, s_img } = data
@@ -81,11 +86,11 @@ export default function Login() {
             })
             if (data.error) {
                 toast.error(data.error)
-                setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)
+                setTimeout(() => setRandomizedImages(sequenceImg([...imgSources])), 0)// Reset the images after an error
             } else if (data.no == 1) {
                 console.log(data)
                 localStorage.setItem('user', JSON.stringify(data.user))
-                dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/employeeDashboard'})
+                dispatch({type: 'LOGIN', payload: data.user, no: data.no, path: '/employeeDashboard'})// Dispatch the user data to the context
                 setData({})
                 setShowPassword(false)
                 navigate('/employeeDashboard', { state: { name: data.user.name, userInfo: data.user } })
@@ -116,7 +121,7 @@ export default function Login() {
                         />
                     </div>
 
-                    <div className="input-group-login">
+                    <div className="input-group-login">{/*this is the input group for the password*/}
                         <input
                             type={showPassword ? "text" : "password"}
                             placeholder="Password"
@@ -128,7 +133,7 @@ export default function Login() {
                         </span>
                     </div>
 
-                    <div className="security-image-selection" style={{marginBottom:10}}>
+                    <div className="security-image-selection" style={{marginBottom:10}}>{/*this is the security image selection div*/}
                         <p>Select security image </p>
                         <div className="security-images" >
                             <img

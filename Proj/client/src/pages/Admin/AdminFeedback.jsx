@@ -16,7 +16,7 @@ export default function AdminFeedback() {
     const navigate = useNavigate();
     const allUserInfo = JSON.parse(localStorage.getItem('user'));
     const user = allUserInfo.name
-
+    // menu items for the sidebar as done in other files
     const menuItems = [
         { name: "Dashboard", icon: faHouse, margin: 5, path: "/dashboard" },
         { name: "Assess Feedback", icon: faFileArrowDown, margin: 12, path: "/admin_feedback" },
@@ -36,7 +36,7 @@ export default function AdminFeedback() {
     const isActive = (path) => {
         return location.pathname === path; // Check if the current location matches the path
     };
-
+    // to set the title of the page
     useEffect(() => {
         document.title = 'Assess Feedback'
         dispatch({ type: 'LOGIN', payload: user, no: 2, path: location.pathname })
@@ -64,7 +64,7 @@ export default function AdminFeedback() {
                         ))}
                     </div>
                 </div>
-                <div className='contentDashClient'>
+                <div className='contentDashClient'>{/*this is the main content of the page*/}
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/aboutAdmin', e)}>About</a>
                         <span>|</span>

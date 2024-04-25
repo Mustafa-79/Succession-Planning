@@ -149,7 +149,7 @@ export default function Dashboard() {
         setSpecificE(employee)
         setShowModal(true);
     };
-
+    //to close the modal
     const closeModal = () => {
         setShowModal(false);
         setNewEmployeeData({
@@ -183,7 +183,7 @@ export default function Dashboard() {
                         ))}
                     </div>
                 </div>
-                <div className='contentAdminDash'>
+                <div className='contentAdminDash'>{/* End of sidebar */}
                     <div className='header'>
                         <a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
                         <span>|</span>
@@ -205,7 +205,7 @@ export default function Dashboard() {
 
                     </div>
 
-                    <div className='feedbackHeader'>
+                    <div className='feedbackHeader'>{/* Main body */}
                         {/* <h1>Feedbacks</h1> */}
                         <div className="form-heading">
                             <FontAwesomeIcon
