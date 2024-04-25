@@ -253,7 +253,7 @@ async function init_db(conn) {
                 "security_question": "What is the name of your best friend?",
                 "security_answer": "Ahmed",
                 "two_factor_answer": "5",
-                "mentor_ID": "1008",
+                "mentor_ID": "",
                 "task_completion_rate": 0.65,
                 "attendance_rate": 0.75,
 
