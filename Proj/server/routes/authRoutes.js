@@ -45,7 +45,7 @@ const {
     updateAdminPic,
     changeAdminPasssword,
     changeAdminSecurityImg,
-    updatePosition
+    updatePosition,
 } = require("../controllers/dashboardAdmin");
 
 const { viewFeedbacks, viewComplaints, viewAssignments } = require("../controllers/feedbackControllers"); 

@@ -63,7 +63,7 @@ export default function Login() {
     }, []);
 
     useEffect(() => {
-        console.log("HRJJ")
+        document.title = 'Succession Planning Portal'
         if (location.pathname != '' || location.pathname != '/login')
             navigate('/')
         setRandomizedImages(sequenceImg([...imgSources]));

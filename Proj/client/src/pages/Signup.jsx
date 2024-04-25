@@ -59,7 +59,6 @@ export default function Signup() {
     const [step2data, setStep2Data] = useState({
         phone: "",
         dob: "2006-01-01",
-        gender: "",
         education: "",
         certifications: [""],
         awards: [""],

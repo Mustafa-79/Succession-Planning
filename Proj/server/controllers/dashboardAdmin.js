@@ -58,7 +58,7 @@ const getWorkshops = async (reqs, resp) => {
 const addEmployeeFromAdminDashboard = async (reqs, resp) => {
     try {
         // got employeeID, name, positionID, and registered_status from the request
-        const { employeeID, name, positionID, gender, email } = reqs.body
+        const { employeeID, name, positionID, gender, registered_status, email } = reqs.body
         // Make a new object
         const newEmployee = new Employee({
             employeeID,
@@ -373,7 +373,7 @@ module.exports = {
     updateAdminPic,
     changeAdminPasssword,
     changeAdminSecurityImg,
-    updatePosition
+    updatePosition,
 }
 
 
