@@ -41,9 +41,14 @@ body {
     border-radius: 25px;
     margin: 20px;
     margin-left: 850px;
-
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 
+.signup-container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
 .signup-box {
     /* display: flex; */
     align-items: center;
