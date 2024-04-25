@@ -18,8 +18,10 @@ export default function Dashboard() {
 
     const { logout } = useLogout()
     const { authenticatedUser, no, path, dispatch } = useUserContext()
+    const [newEmployeeID, setNewEmployeeID] = useState('')
 
     const user = JSON.parse(localStorage.getItem('user'));
+    const [showModal, setShowModal] = useState(false);
 
     const isAuthenticated = 1;
 
@@ -56,13 +58,16 @@ export default function Dashboard() {
                     console.log(res.data);
                     setEmployees(res.data);
                     setEmployeesToDisplay(res.data);
+                    const empID = (parseInt(res.data[res.data.length - 1].employeeID.slice(1)) + 1001).toString()
+                    setNewEmployeeID(empID)
+                    setNewEmployeeData({ ...newEmployeeData, employeeID: empID })
                 })
                 .catch(err => {
                     console.log(err);
                     toast.error('Failed to fetch employees');
                 });
         }
-    }, []);
+    }, [showModal]);
 
     // Fetching all position titles from the database
     const [positionTitles, setPositionTitles] = useState([]);
@@ -79,7 +84,6 @@ export default function Dashboard() {
                 });
         }
     }, []);
-
 
     // Fetch the weights to be used for calculating the performance score
     const [weights, setWeights] = useState({});
@@ -163,10 +167,11 @@ export default function Dashboard() {
         employeeID: "",
         name: "",
         positionID: "",
+        gender: 'Male',
         registered_status: false,
         email: "",
     });
-    const [showModal, setShowModal] = useState(false);
+
     const [showThresholdModal, setShowThresholdModal] = useState(false);
 
     const isActive = (path) => {
@@ -192,10 +197,11 @@ export default function Dashboard() {
     const closeModal = () => {
         setShowModal(false);
         setNewEmployeeData({
-            role: "",
-            age: "",
-            contact: "",
-            status: "",
+            employeeID: "",
+            name: "",
+            positionID: "",
+            gender: 'Male',
+            registered_status: false,
             email: "",
         });
     };
@@ -211,7 +217,7 @@ export default function Dashboard() {
             newEmployeeData.email = newEmployeeData.employeeID + '@lums.edu.pk';
             // setNewEmployeeData({ ...newEmployeeData, email: newEmployeeData.employeeID + '@lums.edu.pk' });
 
-            console.log(newEmployeeData);
+            console.log('here in submit:', newEmployeeData);
             const response = await axios.post('/addEmployeeFromAdminDashboard', newEmployeeData);
             console.log('Employee added:', response.data);
             // setEmployees([...employees, response.data]);
@@ -474,7 +480,7 @@ export default function Dashboard() {
                         <form className="addEmployeeFormDash" onSubmit={handleSubmit}>
                             <div className="formGroupDash">
                                 <label htmlFor="employeeID">Employee ID:</label>
-                                <input type="text" required id="employeeID" value={newEmployeeData.employeeID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, employeeID: e.target.value })} />
+                                <input type="text" required id="employeeID" value={newEmployeeID} disabled />
                             </div>
                             <div className="formGroupDash">
                                 <label htmlFor="name">Name:</label>
@@ -482,11 +488,23 @@ export default function Dashboard() {
                             </div>
                             <div className="formGroupDash">
                                 <label htmlFor="positionID">Position ID:</label>
-                                <input type="text" required id="positionID" value={newEmployeeData.positionID} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, positionID: e.target.value })} />
+                                <select id="position_id" value={newEmployeeData.positionID === '' ? 'P011' : newEmployeeData.positionID } onChange={(e) => setNewEmployeeData({ ...newEmployeeData, positionID: e.target.value })}>
+                                    <option value="P001">CEO</option>
+                                    <option value="P002">CTO</option>
+                                    <option value="P003">CFO</option>
+                                    <option value="P004">Software Development Manager</option>
+                                    <option value="P005">Senior Software Engineer</option>
+                                    <option value="P006">Senior Data Analyst</option>
+                                    <option value="P007">Senior UI/ UX Designer</option>
+                                    <option value="P008">Junior Software Developer</option>
+                                    <option value="P009">Junior Data Analyst</option>
+                                    <option value="P010">IT Support Specialist</option>
+                                    <option value="P011">Intern</option>
+                                </select>
                             </div>
                             <div className="formGroupDash">
                                 <label htmlFor="registered_status">Gender:</label>
-                                <select id="registered_status" value={newEmployeeData.gender} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, registered_status: e.target.value })}>
+                                <select id="registered_status" value={newEmployeeData.gender === '' ? 'Male' : newEmployeeData.gender} onChange={(e) => setNewEmployeeData({ ...newEmployeeData, gender: e.target.value })}>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>

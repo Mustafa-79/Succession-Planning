@@ -21,7 +21,7 @@ const jwt = require('jsonwebtoken')
 const registerUser = async (reqs, resp) => {
     try {
         // console.log(reqs.body)
-        const { name, email, password, empID, s_img, phone, dob, gender, education, certifications, awards, profilePicture, question, answer } = reqs.body;
+        const { name, email, password, empID, s_img, phone, dob, education, certifications, awards, profilePicture, question, answer } = reqs.body;
 
         // Check if name was entered
         if (!name) {
@@ -55,7 +55,8 @@ const registerUser = async (reqs, resp) => {
         const hashedPassword = await hashPassword(password)
 
         // Update user
-        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { email: email, password: hashedPassword, two_factor_answer: s_img, contactNumber: phone, date_of_birth: dob, gender: gender, education: education, certifications: certifications, awards: awards, profile_picture: profilePicture, security_question: question, security_answer: answer, registered_status: true }, { new: true, runValidators: true })
+        const user = await Employee.findOne({employeeID: empID})
+        const updatedUser = await Employee.findOneAndUpdate({ employeeID: empID }, { email: email, password: hashedPassword, two_factor_answer: s_img, gender: user.gender, contactNumber: phone, date_of_birth: dob, education: education, certifications: certifications, awards: awards, profile_picture: profilePicture, security_question: question, security_answer: answer, registered_status: true }, { new: true, runValidators: true })
 
         // Send response to the client
         return resp.json(updatedUser)

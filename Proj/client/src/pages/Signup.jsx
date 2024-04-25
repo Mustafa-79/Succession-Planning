@@ -59,7 +59,6 @@ export default function Signup() {
     const [step2data, setStep2Data] = useState({
         phone: "",
         dob: "2006-01-01",
-        gender: "",
         education: "",
         certifications: [""],
         awards: [""],
@@ -266,7 +265,7 @@ export default function Signup() {
     }
 
     return (
-        <body>
+        <body className="bodySignUp">
             <div class="signup-container">
                 <div class="signup-box">
                     <h1>Employee Registration</h1>
@@ -446,7 +445,7 @@ export default function Signup() {
 
                     {step === 2 && (
                         // Step 2: Gather additional information such as phone number, date of birth, education, certifications, and awards
-                        <form onSubmit={registerUserStep2}>
+                        <form onSubmit={registerUserStep2} className="registerStep2">
                             <div class="signup-input-group">
                                 <label>Phone:</label>
                                 <input
