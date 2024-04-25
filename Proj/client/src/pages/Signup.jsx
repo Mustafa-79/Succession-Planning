@@ -147,6 +147,27 @@ export default function Signup() {
                 toast.error("Please search for employee record first");
                 throw new Error("Please search for employee record first");
             }
+            if (!data.email || !data.password) {
+                toast.error("Please fill out all fields");
+                throw new Error("Please fill out all fields");
+            }
+            if (!data.s_img) {
+                toast.error("Please select a security image");
+                throw new Error("Please select a security image");
+            }
+            // Check if password meets criteria
+            if (
+                !passwordValidations.isLongEnough ||
+                !passwordValidations.hasUpper ||
+                !passwordValidations.hasLower ||
+                !passwordValidations.hasNumber ||
+                !passwordValidations.hasSpecial
+            ) {
+                toast.error("Password does not meet criteria");
+                throw new Error("Password does not meet criteria");
+            }
+
+
             toast.success("Step 1 Successful!");
             // go to next step
             setStep(2);
@@ -158,6 +179,31 @@ export default function Signup() {
     const registerUserStep2 = async (e) => {
         e.preventDefault();
         try {
+
+            if (!step2data.phone) {
+                toast.error("Please enter phone number");
+                throw new Error("Please enter phone number");
+            }
+            if (!step2data.dob) {
+                toast.error("Please enter date of birth");
+                throw new Error("Please enter date of birth");
+            }
+            if (!step2data.education) {
+                toast.error("Please select education");
+                throw new Error("Please select education");
+            }
+            if (step2data.certifications.includes("")) {
+                toast.error("Please fill out all certifications");
+                throw new Error("Please fill out all certifications");
+            }
+            if (step2data.awards.includes("")) {
+                toast.error("Please fill out all awards");
+                throw new Error("Please fill out all awards");
+            }
+            
+
+
+
             toast.success("Step 2 Successful!");
             // navigate('/login')
             // go to next step
@@ -406,7 +452,6 @@ export default function Signup() {
                                 <input
                                     type="text"
                                     placeholder="Phone"
-                                    required
                                     value={step2data.phone}
                                     onChange={(e) =>
                                         setStep2Data({ ...step2data, phone: e.target.value })
@@ -419,7 +464,6 @@ export default function Signup() {
                                 <input
                                     type="date"
                                     placeholder="Date of Birth"
-                                    required
                                     value={step2data.dob}
                                     onChange={(e) =>
                                         setStep2Data({ ...step2data, dob: e.target.value })
@@ -462,7 +506,6 @@ export default function Signup() {
                                     <div key={index} className="certification-input">
                                         <input
                                             type="text"
-                                            required
                                             placeholder={`Certification ${index + 1}`}
                                             value={certification}
                                             onChange={(e) => {
@@ -510,7 +553,6 @@ export default function Signup() {
                                     <div key={index} className="award-input">
                                         <input
                                             type="text"
-                                            required
                                             placeholder={`Award ${index + 1}`}
                                             value={award}
                                             onChange={(e) => {
