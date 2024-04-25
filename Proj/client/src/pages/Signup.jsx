@@ -271,12 +271,11 @@ export default function Signup() {
         <body className="signupBody">
 
             <div className="youtube-iframe">
-            <h2 className="video-heading">Sign Up Tutorial</h2>
                 <iframe
                     width="100%"
                     height="100%"
                     
-                    src="https://www.youtube.com/embed/YOUR_VIDEO_ID" // Replace YOUR_VIDEO_ID with the actual YouTube video ID
+                    src="https://www.youtube.com/embed?v=oe70Uhjc_F4&list=PL4Gr5tOAPttLOY9IrWVjJlv4CtkYI5cI_&index=5" // Replace YOUR_VIDEO_ID with the actual YouTube video ID
                     title="YouTube video player"
                     frameborder="2"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
