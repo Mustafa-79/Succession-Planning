@@ -454,11 +454,11 @@ export default function Dashboard() {
                                                 <td>{employee.name}</td>
                                                 <td>{employee.positionID}</td>
                                                 <td>{getPositionTitle(employee.positionID)}</td>
-                                                <td>{getAge(employee.date_of_birth)}</td>
+                                                <td>{getAge(employee.date_of_birth) === 'Unknown' ? '-' : getAge(employee.date_of_birth)}</td>
                                                 {/* <td>{employee.contact}</td> */}
                                                 {/* <td>{employee.hoursWorked}</td> */}
-                                                <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
-                                                <td>{employeeScores[employee.employeeID] ? employeeScores[employee.employeeID].toFixed(2) : "Unknown"}</td>
+                                                <td>{employee.registered_status ? 'Registered' : 'Unregistered'}</td>
+                                                <td>{employeeScores[employee.employeeID] ? employeeScores[employee.employeeID].toFixed(2) : "-"}</td>
                                                 <td>
                                                    {employee.registered_status &&  <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a>}
                                                    {!employee.registered_status &&  <a href="" onClick={(e) => e.preventDefault()}><FontAwesomeIcon icon={faEyeSlash} size='xl'  color='black'/></a>}
