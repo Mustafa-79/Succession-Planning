@@ -44,6 +44,7 @@ Our software comes packed with a robust set of features to enhance user experien
 - **Process Complaints**: Reviews and processes complaints submitted by employees.
 - **Update Information**: Allows admin to update personal information such as passwords and profile pictures.
 - **Add Employee**: Add an employee to the company's database assigning them an employee ID which they will use to register on the website.
+- **Fire Employee**: After firing an employee from the company, delete their record from the company's database.
 
 ### System
 
