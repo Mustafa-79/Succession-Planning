@@ -68,7 +68,7 @@ Our software comes packed with a robust set of features to enhance user experien
 ### Running the Software
 The Succession Planning Software is now live and fully operational. To access the platform, please visit our website at: [Succession Planning Software](https://succession-planning.onrender.com/).
 
-This link will direct you to the homepage where you can log in or register to explore the full capabilities of our innovative software.
+This link will direct you to the homepage where you can log in or register to explore the full capabilities of our innovative software. **Please note that the website is optimized for desktop use and may not display optimally on mobile devices. For the best experience, we recommend accessing the site on a laptop or desktop computer.**
 
 ## How It Works
 
