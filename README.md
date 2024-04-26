@@ -61,26 +61,13 @@ Our software comes packed with a robust set of features to enhance user experien
 - **Forgot Password**: Recovery options for users who have forgotten their passwords.
 - **Forgot Security Image**: Additional recovery option for enhanced security.
 
-## Installation Guide
+## How toaccess the website
 
-### Cloning the Repository
-
-1. Open your terminal in VSCode.
-2. Clone the repository with the following command: `git clone [repository URL]`
-
-### Setting Up the Environment
-
-After cloning the repository, you will find a folder named `proj` containing two subfolders: `client` and `server`.
-
-1. Open two separate terminals: one for the client and one for the server.
-2. In both terminals, run `npm i` to install all necessary Node.js modules.
-3. **Important**: Run `npm install bcrypt` to ensure encryption functionalities are properly set up.
 
 ### Running the Software
+The Succession Planning Software is now live and fully operational. To access the platform, please visit our website at: [Succession Planning Software](https://succession-planning.onrender.com/).
 
-1. On the server side, execute `npm start` to launch the server.
-2. On the client side, run `npm run dev` to load the website.
-3. Navigate to the website's login page to access the software.
+This link will direct you to the homepage where you can log in or register to explore the full capabilities of our innovative software.
 
 ## How It Works
 
