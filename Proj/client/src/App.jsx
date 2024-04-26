@@ -37,6 +37,7 @@ import { useUserContext } from './hooks/useUserContext';
 import AdminFeedback from './pages/Admin/AdminFeedback';
 import AssessComplaint from './pages/Admin/AssessComplaint';
 import ViewAssessment from './pages/Admin/ViewAssesment';
+import Group15 from './Group15';
 
 
 // axios.defaults.baseURL = 'http://localhost:8000/';
@@ -119,6 +120,7 @@ function App() {
                         <Route path='/resetPassword' element={<ResetPwd />} />
                         <Route path='/resetPasswordFinalStep' element={<ResetFinalPwd />} />
                         <Route path='/resetSecurityImage' element={<ForgetSecurityImage />} />
+                        <Route path='g15' element={<Group15 />} />
                         <Route path='*' element={<Navigate to={'/login'} />} />
                     </>
                 )}

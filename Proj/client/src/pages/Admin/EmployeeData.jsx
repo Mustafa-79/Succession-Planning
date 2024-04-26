@@ -212,7 +212,7 @@ export default function EmployeeData() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {employees && employees.map((val, ind) => {
+                                {employees && employees.filter(v => v.registered_status).map((val, ind) => {
                                     return (
                                         <tr key={ind}>
                                             <td>{val.employeeID}</td>
