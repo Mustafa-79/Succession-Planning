@@ -17,7 +17,7 @@ Our software comes packed with a robust set of features to enhance user experien
 
 ### Employee
 
-- **Sign-up Tutorial**: Acquaints first-time users with the basics of the app.
+- **Registration Tutorial**: Features a step-by-step tutorial presented in an iframe on the registration page. This tutorial assists new employees in registering effortlessly, enabling them to commence their journey with the organization in a streamlined and intuitive manner.
 - **View Dashboard**: Provides statistics and information relevant to the employee's role.
 - **View Open Positions**: Displays open positions for promotion within the department.
 - **Promotion Position Skill Set Information**: Details the skills needed for promotion roles hierarchically.
@@ -39,7 +39,7 @@ Our software comes packed with a robust set of features to enhance user experien
 - **Predict High Potential Employee**: Identifies employees likely to receive a promotion.
 - **View Employees at Risk**: Assesses which employees might need intervention or are likely to leave.
 - **Create Assessment**: Allows admin to create an assessment form for employees.
-- **Employee Feedback**: Enables the creation of new feedback forms.
+- **Employee Feedback**: Enables the admin to view employees feedback about courses.
 - **View Employee Information**: Provides all essential information of each employee.
 - **Process Complaints**: Reviews and processes complaints submitted by employees.
 - **Update Information**: Allows admin to update personal information such as passwords and profile pictures.
