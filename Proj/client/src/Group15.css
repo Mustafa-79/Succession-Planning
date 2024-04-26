@@ -46,8 +46,10 @@ article .g15-content {
     gap: 14px;
     background: linear-gradient(
         to bottom,
-        rgb(0 0 0 / 0%),
-        rgb(0 0 0 / 80%)
+        /* rgb(0 0 0 / 0%), */
+        rgb(156,207,244 / 20%),
+        rgb(156,207,244 / 80%)
+        /* rgb(0 0 0 / 80%) */
     );
     transition: 0.25s;
 }
@@ -66,8 +68,8 @@ article img {
 .overlay-g15 {
     position: fixed;
     background: linear-gradient(
-        to bottom,
-        rgb(155,202,225),
+        to top,
+        rgb(156,207,244),
         rgb(0 0 0 / 100%)
     );
     width: 100%;
@@ -99,8 +101,8 @@ article img {
     grid: 1fr 4.7fr / 1fr;
     max-height: 100vh;
     background: linear-gradient(
-        to bottom,
-        rgb(155,202,225),
+        to top,
+        rgb(156,207,244),
         rgb(0 0 0 / 100%)
     );
 }

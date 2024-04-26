@@ -5,6 +5,8 @@ import ayain from "./pages/profile/ayain.png"
 import abdullah from "./pages/profile/abdullah.png"
 import safiullah from "./pages/profile/safiullah.jpg"
 import mustafa from "./pages/profile/mustafa.jpg"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowsDownToPeople, faPeopleCarryBox } from "@fortawesome/free-solid-svg-icons"
 
 const Group15 = () => {
     const [person, setPerson] = useState(0)
@@ -47,11 +49,12 @@ const Group15 = () => {
 		<div className='overlay-g15'>
 			<div className='wrapperForm-g15'>
 				<div className='sidebar-g15'>
-                <h1>Group 15</h1>
+                    <h1></h1>
+                <span style={{fontSize: '10em', color: 'white'}}><h1 style={{color: 'rgb(156,207,244)', fontSize: '0.5em', fontStyle: 'italic', fontFamily: 'montserrat'}}>Group 15</h1><FontAwesomeIcon icon={faPeopleCarryBox} /></span>
 				</div>
 				<div className='contentForm-g15'>
 					<div className='header-g15'>
-                        <h1>Meet the Team</h1>
+                        <h1 style={{color: 'rgb(156,207,244)'}}>Meet the Team</h1>
 					</div>
 					<div className="main-body">
                     <section className="g15-accordion">
