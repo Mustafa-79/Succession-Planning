@@ -1,24 +1,60 @@
 # Succession Planning Software Project
 
-Welcome to the **Succession Planning Software Project**. This innovative software is designed to assist managers in monitoring employee performance, tracking promotions, and facilitating efficient talent development. By focusing on merit-based evaluations, our software aims to eliminate hidden biases, ensuring a fair and transparent process for all employees. The ultimate goal is to strategically fill leadership gaps based on each employee's domain expertise, thereby minimizing disruptions and maximizing organizational throughput.
+Welcome to the **Succession Planning Software Project**, a systematic and innovative platform designed to aid managers in overseeing employee performance and tracking promotions. By integrating advanced machine learning algorithms, our software precisely computes weights for performance assessments and predicts potential outcomes such as promotions or terminations. This allows for streamlined decision-making and efficient talent development, ensuring that leadership gaps are filled strategically based on each employee's domain expertise.
+
+The software is crafted to eliminate hidden biases and emphasize a culture of meritocracy by focusing on relevant performance metrics. This approach not only ensures a fair and transparent process but also minimizes disruptions and maximizes organizational throughput. With our system, managers are empowered to make timely and informed decisions, fostering an environment where talent is recognized and nurtured, ultimately enhancing the overall efficacy and growth of the organization.
 
 ## Features
 
-Our software comes packed with a robust set of features to enhance user experience and management efficiency:
+Our software comes packed with a robust set of features to enhance user experience and management efficiency. Here are the key functionalities categorized by user roles:
 
-- **User Registration**: Easy sign-up process for new users.
-- **User Login**: Secure access for returning users.
-- **Admin Dashboard**: A comprehensive overview for administrators to manage operations effectively.
-- **Employee Dashboard**: Personalized dashboard for employees to track their progress and updates.
-- **View Employee Information (Admin)**: Allows admins to view detailed profiles of employees.
-- **View feedback form (Employee)**: Allows employees to give their suggestions and opinions about the course and workshops they have taken.
-- **About the Portal**: Information about the software and its benefits.
-- **Two-Factor Authorization**: An extra layer of security for user accounts.
-- **Encryption**: Protects sensitive data through advanced encryption methods.
-- **User Authentication**: Verifies the identity of first-time users efficiently.
-- **Feedback Form for Courses and Workshops**: Enables employees to provide feedback directly through their dashboard.
-- **Role-Based Access Control**: Ensures users have access only to the features and information relevant to their role.
-- **Log out**: Ensures employees log out of their account successfully.
+### All Users
+
+- **User Registration**: Allows users to register in the system by providing necessary information.
+- **User Login**: Enables registered users to log into the system.
+- **Logout**: Allows users to securely log out of the system.
+- **About the Portal**: Information on the terms and conditions and the privacy policy.
+
+### Employee
+
+- **Sign-up Tutorial**: Acquaints first-time users with the basics of the app.
+- **View Dashboard**: Provides statistics and information relevant to the employee's role.
+- **View Open Positions**: Displays open positions for promotion within the department.
+- **Promotion Position Skill Set Information**: Details the skills needed for promotion roles hierarchically.
+- **Progress Bar**: Shows how close an employee is to achieving a promotion.
+- **Course Suggestion**: Recommends courses based on the employee's skillset.
+- **Training Program Recommendation**: Suggests training workshops based on employee interests.
+- **Mentor-Mentee Matching**: Matches employees with mentors.
+- **Personalized Tasks Completion Tracker**: Tracks performance and consistent growth/learning.
+- **Attempt Assessment**: Allows employees to attempt the assessments released by admin.
+- **Feedback Form**: Enables employees to fill out and submit feedback forms.
+- **Complaint Form**: Allows employees to register any new complaints.
+- **Update User Profile**: Enables users to update their profile information.
+
+### Admin
+
+- **View Dashboard**: Gives an overview of system analytics.
+- **View Employee Development**: Tracks each employee's advancement and progression over time.
+- **View Performance Indicators**: Displays performance levels based on various metrics.
+- **Predict High Potential Employee**: Identifies employees likely to receive a promotion.
+- **View Employees at Risk**: Assesses which employees might need intervention or are likely to leave.
+- **Create Assessment**: Allows admin to create an assessment form for employees.
+- **Employee Feedback**: Enables the creation of new feedback forms.
+- **View Employee Information**: Provides all essential information of each employee.
+- **Process Complaints**: Reviews and processes complaints submitted by employees.
+- **Update Information**: Allows admin to update personal information such as passwords and profile pictures.
+
+### System
+
+- **Data Encryption**: Ensures data is kept safe and private, both when stored and transmitted over the internet.
+- **Two-Factor Authentication**: Adds an extra layer of security ensuring only authorized access.
+- **Role-Based Access Control**: Ensures that access to sensitive information is granted only to the right people.
+- **User Authentication**: Verifies the identity of users effectively.
+
+### Special Feature: Machine Learning-Driven Performance Score Prediction
+
+- **ML-Powered Performance Assessment**: Our software integrates an advanced machine learning model that intelligently computes and adjusts weights for assessing employee performance. This feature not only evaluates current performance metrics but also predicts future potential, indicating the likelihood of promotions or terminations. By leveraging cutting-edge algorithms, the system ensures accurate, unbiased, and dynamic assessments, enabling managers to make informed decisions and strategically manage talent progression within the organization.
+
 
 ### Delighters
 
