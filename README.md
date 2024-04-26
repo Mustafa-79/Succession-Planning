@@ -61,7 +61,7 @@ Our software comes packed with a robust set of features to enhance user experien
 - **Forgot Password**: Recovery options for users who have forgotten their passwords.
 - **Forgot Security Image**: Additional recovery option for enhanced security.
 
-## How toaccess the website
+## How to access the website
 
 
 ### Running the Software
