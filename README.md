@@ -43,6 +43,7 @@ Our software comes packed with a robust set of features to enhance user experien
 - **View Employee Information**: Provides all essential information of each employee.
 - **Process Complaints**: Reviews and processes complaints submitted by employees.
 - **Update Information**: Allows admin to update personal information such as passwords and profile pictures.
+- **Add Employee**: Add an employee to the company's database assigning them an employee ID which they will use to register on the website.
 
 ### System
 
