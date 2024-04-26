@@ -605,13 +605,8 @@ async function init_db(conn) {
                 "name": "Shera",
                 "positionID": "P011",
                 "registered_status": false,
+                "email": "1021@lums.edu.pk"
             },
-            // {
-            //     "employeeID": "1004",
-            //     "name": "Shera",
-            //     "positionID": "P001",
-            //     "registered_status": false,
-            // }
 
         ];
 

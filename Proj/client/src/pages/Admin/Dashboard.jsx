@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faChartLine, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faFileArrowDown, faFileArrowUp, faStreetView, faGear, faBuilding, faChartLine, faUser, faFileLines, faTriangleExclamation, faEye, faTrash, faSearch, faFilter, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 // import filter icon
 
 import './Dashboard.css';
@@ -167,7 +167,7 @@ export default function Dashboard() {
     const [newEmployeeData, setNewEmployeeData] = useState({
         employeeID: "",
         name: "",
-        positionID: "",
+        positionID: "P011",
         gender: 'Male',
         registered_status: false,
         email: "",
@@ -201,7 +201,7 @@ export default function Dashboard() {
         setNewEmployeeData({
             employeeID: "",
             name: "",
-            positionID: "",
+            positionID: "P011",
             gender: 'Male',
             registered_status: false,
             email: "",
@@ -223,6 +223,7 @@ export default function Dashboard() {
             console.log('here in submit:', newEmployeeData);
             const response = await axios.post('/addEmployeeFromAdminDashboard', newEmployeeData);
             console.log('Employee added:', response.data);
+            toast.success('Employee added successfully')
             // setEmployees([...employees, response.data]);
 
             // Fetch all employees again to update the list
@@ -260,7 +261,6 @@ export default function Dashboard() {
                     console.log(res.data);
                     setEmployees(res.data);
                     setEmployeesToDisplay(res.data);
-
                     toast.success('Employee deleted successfully');
                 })
                 .catch(err => {
@@ -454,13 +454,14 @@ export default function Dashboard() {
                                                 <td>{employee.name}</td>
                                                 <td>{employee.positionID}</td>
                                                 <td>{getPositionTitle(employee.positionID)}</td>
-                                                <td>{getAge(employee.date_of_birth)}</td>
+                                                <td>{getAge(employee.date_of_birth) === 'Unknown' ? '-' : getAge(employee.date_of_birth)}</td>
                                                 {/* <td>{employee.contact}</td> */}
                                                 {/* <td>{employee.hoursWorked}</td> */}
-                                                <td>{employee.registered_status ? 'Registered' : 'Not registered'}</td>
-                                                <td>{employeeScores[employee.employeeID] ? employeeScores[employee.employeeID].toFixed(2) : "Unknown"}</td>
+                                                <td>{employee.registered_status ? 'Registered' : 'Unregistered'}</td>
+                                                <td>{employeeScores[employee.employeeID] ? employeeScores[employee.employeeID].toFixed(2) : "-"}</td>
                                                 <td>
-                                                    <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a>
+                                                   {employee.registered_status &&  <a href="" onClick={(e) => viewPerformance('/dashboard/performance', e, employee)}><FontAwesomeIcon icon={faEye} size='xl' /></a>}
+                                                   {!employee.registered_status &&  <a href="" onClick={(e) => e.preventDefault()}><FontAwesomeIcon icon={faEyeSlash} size='xl'  color='black'/></a>}
                                                 </td>
                                                 <td>
                                                     <button onClick={() => deleteEmployee(employee.employeeID)}>
