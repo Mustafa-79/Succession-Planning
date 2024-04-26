@@ -239,7 +239,7 @@ export default function viewAssessment() {
 						))}
 					</div>
 				</div>
-				<div className="contentAdminDash">//
+				<div className="contentAdminDash">
 					<div className="header">
 						<a href="" onClick={(e) => handleMenuItemClick('/about', e)}>About</a>
 						<span>|</span>
