@@ -90,7 +90,7 @@ export default function ForgetSecurityImage() {
             <div className="reset-box">
                 <h1>{stage === 1 ? 'Retrieve Security Question' : 'Select New Security Image'}</h1>
                 <h3>Verify your identity</h3>
-                <form onSubmit={(e) => { e.preventDefault(); stage === 1 ? verifySecurityAnswer() : navigate('/login'); }}>
+                <form onSubmit={(e) => { e.preventDefault(); stage === 1 ? verifySecurityAnswer() : selectNewSecurityImage(data.newImage); }}>
                     <div className="input-group">
                         <input
                             type="text"
