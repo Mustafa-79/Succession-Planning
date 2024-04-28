@@ -94,8 +94,8 @@ export default function ResetFinalPwd() {
                                 value={data.password}
                                 onChange={(e) => onPasswordChange(e.target.value)}
                             />
-                            {!showPassword.field1 && <FaEye onClick={() => setShowPassword({...showPassword, field1: true})} className="search-btn-k"/>}
-                            {showPassword.field1 && <FaEyeSlash onClick={() => setShowPassword({...showPassword, field1: false})} className="search-btn-k"/>}
+                            {!showPassword.field1 && <FaEye onClick={() => setShowPassword({...showPassword, field1: true})} className="search-btn-k2"/>}
+                            {showPassword.field1 && <FaEyeSlash onClick={() => setShowPassword({...showPassword, field1: false})} className="search-btn-k2"/>}
                         </div>
 
                         <div className="password-criteria">{/*this is the password criteria*/}
@@ -123,10 +123,13 @@ export default function ResetFinalPwd() {
                                 value={data.samePassword}
                                 onChange={(e) => onConfirmPasswordChange(e.target.value)}
                             />
-                            {!showPassword.field2 && <FaEye onClick={() => setShowPassword({...showPassword, field2: true})} className="search-btn-k"/>}
-                            {showPassword.field2 && <FaEyeSlash onClick={() => setShowPassword({...showPassword, field2: false})} className="search-btn-k"/>}
+                            {!showPassword.field2 && <FaEye onClick={() => setShowPassword({...showPassword, field2: true})} className="search-btn-k3"/>}
+                            {showPassword.field2 && <FaEyeSlash onClick={() => setShowPassword({...showPassword, field2: false})} className="search-btn-k3"/>}
                             {!passwordsMatch && data.samePassword && (
                                 <p className="password-mismatch-r" >Passwords do not match</p>
+                            )}
+                            {!(!passwordsMatch && data.samePassword) && (
+                                <p className="password-mismatch-r" >-    </p>
                             )}
                         </div>
 

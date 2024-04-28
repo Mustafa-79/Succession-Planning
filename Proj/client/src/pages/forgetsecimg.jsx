@@ -23,7 +23,7 @@ export default function ForgetSecurityImage() {
         password: '',
         secQ: '',
         secA: '',
-        newImage: 0
+        s_img: 0
     })
     const [stage, setStage] = useState(1) // 1 for security question, 2 for selecting image
 
@@ -90,7 +90,7 @@ export default function ForgetSecurityImage() {
             <div className="reset-box">
                 <h1>{stage === 1 ? 'Retrieve Security Question' : 'Select New Security Image'}</h1>
                 <h3>Verify your identity</h3>
-                <form onSubmit={(e) => { e.preventDefault(); stage === 1 ? verifySecurityAnswer() : selectNewSecurityImage(data.newImage); }}>
+                <form onSubmit={(e) => { e.preventDefault(); stage === 1 ? verifySecurityAnswer() : selectNewSecurityImage(data.s_img); }}>
                     <div className="input-group">
                         <input
                             type="text"

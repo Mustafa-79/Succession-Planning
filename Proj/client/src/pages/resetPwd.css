@@ -235,3 +235,19 @@ body {
     color: #27407f;
     cursor: pointer;
 }
+
+.search-btn-k2 {
+    position: absolute;
+    left: 20pc;
+    bottom: 1.1pc;
+    color: #27407f;
+    cursor: pointer;
+}
+
+.search-btn-k3 {
+    position: absolute;
+    bottom:3.2pc;
+    left: 20pc;
+    color: #27407f;
+    cursor: pointer;
+}
